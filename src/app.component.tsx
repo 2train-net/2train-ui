@@ -1,7 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-const TempComponent = () => <h1>Hello World</h1>;
+import { Button } from 'antd';
+
+import './app.css';
+
+const TempComponent = () => (
+  <>
+    <h1>Hello World</h1>
+    <Button type="primary">Button</Button>
+  </>
+);
 
 const App = () => {
   return (
