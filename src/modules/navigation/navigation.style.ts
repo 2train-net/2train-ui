@@ -5,10 +5,10 @@ export default createUseStyles({
     '& header': {
       padding: {
         right: 15,
-        left: 15,
-        '& span': {
-          fontSize: 20
-        }
+        left: 15
+      },
+      '& span': {
+        fontSize: 20
       }
     }
   }
