@@ -22,6 +22,14 @@ export default createUseStyles({
         right: 15,
         left: 15
       }
+    },
+    '& main': {
+      padding: {
+        right: 15,
+        left: 15,
+        top: 10,
+        bottom: 10
+      }
     }
   }
 });
