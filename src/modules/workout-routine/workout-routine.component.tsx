@@ -1,20 +1,16 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { Button, Timeline, Typography } from 'antd';
 
 import { ClockCircleOutlined } from '@ant-design/icons';
 
-import { WorkoutRoutineService } from './workout-routine.module';
+import { WorkoutRoutineContext } from 'modules/workout-routine/workout-routine.module';
 
 const { Item } = Timeline;
 const { Text } = Typography;
 
 const WorkoutRoutine: FC = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-
-  const handleNextStep = () => {
-    setCurrentStep(1 + currentStep);
-  };
+  const { workoutRoutine, currentStep, handleNextStep } = useContext(WorkoutRoutineContext);
 
   const getItemColor = (index: number) => {
     if (index === currentStep) {
@@ -27,20 +23,20 @@ const WorkoutRoutine: FC = () => {
   return (
     <>
       <Timeline>
-        {WorkoutRoutineService.get().map(({ muscleGroup, exercises }, index) => (
+        {workoutRoutine.map(({ muscleGroup, exercises }: any, i: number) => (
           <Item
-            color={getItemColor(index)}
-            dot={index === currentStep && <ClockCircleOutlined style={{ fontSize: '16px' }} />}
+            key={`muscle-group-${i}`}
+            color={getItemColor(i)}
+            dot={i === currentStep && <ClockCircleOutlined style={{ fontSize: '16px' }} />}
           >
             <Text strong>{muscleGroup.toUpperCase()}</Text>
             <br />
-            {exercises.map(({ name, sets, reps, seconds }) => (
-              <>
+            {exercises.map(({ name, sets, reps, seconds }: any, j: number) => (
+              <div key={`exercise-${i}-${j}`}>
                 <Text type="secondary">{`- ${name.toUpperCase()} (${sets}x${
                   reps ? `${reps} reps` : `${seconds} sec`
                 })`}</Text>
-                <br />
-              </>
+              </div>
             ))}
           </Item>
         ))}
