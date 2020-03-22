@@ -5,18 +5,23 @@ import { Layout } from 'antd';
 
 import Navbar from './components/navbar/navbar.component';
 
-const { Header, Content, Footer } = Layout;
+import useStyles from './navigation.style';
 
-const Navigation: FC = ({ children }) => (
-  <Router>
-    <Layout>
-      <Header>
-        <Navbar />
-      </Header>
-      <Content>{children}</Content>
-      <Footer>Footer</Footer>
-    </Layout>
-  </Router>
-);
+const { Header, Content } = Layout;
+
+const Navigation: FC = ({ children }) => {
+  const classes = useStyles();
+
+  return (
+    <Router>
+      <Layout className={classes.root}>
+        <Header>
+          <Navbar />
+        </Header>
+        <Content>{children}</Content>
+      </Layout>
+    </Router>
+  );
+};
 
 export default Navigation;
