@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { Layout } from 'antd';
 
@@ -12,19 +12,18 @@ const { Header, Content } = Layout;
 
 const Navigation: FC = ({ children }) => {
   const classes = useStyles();
+  const { pathname } = useLocation();
 
   return (
-    <Router>
-      <Layout className={classes.root}>
-        <Sidebar />
-        <Layout>
-          <Header>
-            <Navbar />
-          </Header>
-          <Content>{children}</Content>
-        </Layout>
+    <Layout className={classes.root}>
+      <Sidebar pathname={pathname} />
+      <Layout>
+        <Header>
+          <Navbar />
+        </Header>
+        <Content>{children}</Content>
       </Layout>
-    </Router>
+    </Layout>
   );
 };
 

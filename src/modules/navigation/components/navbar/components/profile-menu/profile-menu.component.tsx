@@ -1,16 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { Menu } from 'antd';
+
+import { LOGIN } from 'shared/routes';
 
 const { Item } = Menu;
 
 const ProfileMenu = (
   <Menu>
     <Item>
-      <a href="/">Account</a>
-    </Item>
-    <Item>
-      <a href="/">Logout</a>
+      <Link to={LOGIN}>Logout</Link>
     </Item>
   </Menu>
 );

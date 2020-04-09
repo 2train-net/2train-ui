@@ -1,11 +1,28 @@
 import {
   HomeOutlined,
+  UserOutlined,
   TeamOutlined,
   FileOutlined,
   MailOutlined,
   HeartOutlined,
-  ThunderboltOutlined
+  ThunderboltOutlined,
+  SettingOutlined
 } from '@ant-design/icons';
+
+import {
+  HOME,
+  PROFILE,
+  TEAM,
+  TEAM_CUSTOMERS,
+  TEAM_TRAINERS,
+  SUBSCRIPTIONS,
+  SUBSCRIPTIONS_CUSTOMERS,
+  SUBSCRIPTIONS_TRAINERS,
+  WORKOUT_ROUTINES,
+  BODY_MEASURES,
+  TRAINING,
+  SETTINGS
+} from 'shared/routes';
 
 interface IOption {
   route: string;
@@ -15,26 +32,28 @@ interface IOption {
 }
 
 export const OPTIONS: IOption[] = [
-  { route: 'home', title: 'Home', Icon: HomeOutlined },
+  { route: HOME, title: 'Home', Icon: HomeOutlined },
+  { route: PROFILE, title: 'Profile', Icon: UserOutlined },
   {
-    route: 'team',
+    route: TEAM,
     title: 'Team',
     Icon: TeamOutlined,
     children: [
-      { route: 'trainers', title: 'Trainers' },
-      { route: 'customers', title: 'Customers' }
+      { route: TEAM_TRAINERS, title: 'Trainers' },
+      { route: TEAM_CUSTOMERS, title: 'Customers' }
     ]
   },
   {
-    route: 'subscriptions',
+    route: SUBSCRIPTIONS,
     title: 'Subscriptions',
     Icon: MailOutlined,
     children: [
-      { route: 'trainers', title: 'Trainers' },
-      { route: 'customers', title: 'Customers' }
+      { route: SUBSCRIPTIONS_TRAINERS, title: 'Trainers' },
+      { route: SUBSCRIPTIONS_CUSTOMERS, title: 'Customers' }
     ]
   },
-  { route: 'workout-routines', title: 'Routines', Icon: FileOutlined },
-  { route: 'body-measures', title: 'Body Measures', Icon: HeartOutlined },
-  { route: 'training', title: 'Training', Icon: ThunderboltOutlined }
+  { route: WORKOUT_ROUTINES, title: 'Routines', Icon: FileOutlined },
+  { route: BODY_MEASURES, title: 'Body Measures', Icon: HeartOutlined },
+  { route: TRAINING, title: 'Training', Icon: ThunderboltOutlined },
+  { route: SETTINGS, title: 'Settings', Icon: SettingOutlined }
 ];
