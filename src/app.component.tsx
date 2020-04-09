@@ -3,14 +3,18 @@ import { Route } from 'react-router-dom';
 
 import Navigation from 'modules/navigation/navigation.module';
 import Home from 'modules/home/home.module';
+import WorkoutRoutine, { WorkoutRoutineProvider } from 'modules/workout-routine/workout-routine.module';
 
-import { ROOT } from 'shared/routes';
+import { ROOT, WORKOUT_ROUTINE } from 'shared/routes';
 
 import './app.css';
 
 const App: FC = () => (
   <Navigation>
     <Route exact path={ROOT} component={Home} />
+    <WorkoutRoutineProvider>
+      <Route exact path={WORKOUT_ROUTINE} component={WorkoutRoutine} />
+    </WorkoutRoutineProvider>
   </Navigation>
 );
 

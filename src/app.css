@@ -4,6 +4,6 @@ body,
 header,
 main,
 footer {
-  background: #ffffff !important;
   color: #141414 !important;
+  background: #ffffff !important;
 }

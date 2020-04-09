@@ -14,16 +14,18 @@ export default createUseStyles({
       justifyContent: 'flex-end',
       padding: {
         right: 15,
-        left: 15,
-        '& span': {
-          fontSize: 20
-        }
+        left: 15
+      },
+      '& span': {
+        fontSize: 20
       }
     },
     '& main': {
       padding: {
         right: 15,
-        left: 15
+        left: 15,
+        top: 10,
+        bottom: 10
       }
     }
   }
