@@ -3,10 +3,10 @@ import { Route, Redirect } from 'react-router-dom';
 
 import Navigation from 'modules/navigation/navigation.module';
 import Home from 'modules/home/home.module';
-import { Login, Register } from 'modules/auth/auth.module';
+import { Login, Register, Profile } from 'modules/auth/auth.module';
 import WorkoutRoutine, { WorkoutRoutineProvider } from 'modules/workout-routine/workout-routine.module';
 
-import { ROOT, HOME, WORKOUT_ROUTINES, LOGIN, REGISTER } from 'shared/routes';
+import { ROOT, HOME, WORKOUT_ROUTINES, LOGIN, REGISTER, PROFILE } from 'shared/routes';
 
 import './app.css';
 
@@ -22,6 +22,7 @@ const App: FC = () => {
       </WorkoutRoutineProvider>
       <Route exact path={LOGIN} component={Login} />
       <Route exact path={REGISTER} component={Register} />
+      <Route exact path={PROFILE} component={Profile} />
     </Navigation>
   );
 };
