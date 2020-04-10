@@ -30,7 +30,7 @@ export default createUseStyles({
     '& main': {
       overflow: 'initial',
       margin: {
-        top: 30,
+        top: 64,
         left: 80
       },
       padding: {
