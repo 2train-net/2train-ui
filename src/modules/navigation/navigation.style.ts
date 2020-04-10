@@ -3,13 +3,23 @@ import { createUseStyles } from 'react-jss';
 export default createUseStyles({
   root: {
     minHeight: '100vh',
-    '& .logo': {
-      height: 32,
-      background: 'orange',
-      margin: 16
+    '& aside': {
+      overflow: 'auto',
+      height: '100vh',
+      position: 'fixed',
+      left: 0,
+      '& .logo': {
+        height: 32,
+        background: 'orange',
+        margin: 16
+      },
+      zIndex: 2
     },
     '& header': {
+      zIndex: 1,
+      width: '100%',
       display: 'flex',
+      position: 'fixed',
       alignItems: 'center',
       justifyContent: 'flex-end',
       padding: {
@@ -18,6 +28,11 @@ export default createUseStyles({
       }
     },
     '& main': {
+      overflow: 'initial',
+      margin: {
+        top: 30,
+        left: 80
+      },
       padding: {
         right: 15,
         left: 15,
