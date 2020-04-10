@@ -1,3 +1,4 @@
 import Login from './login/login.component';
+import Register from './register/register.component';
 
-export default Login;
+export { Login, Register };
