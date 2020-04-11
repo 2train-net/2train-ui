@@ -9,6 +9,11 @@ export default createUseStyles({
         bottom: 40
       }
     },
+    '& .submit-button': {
+      margin: {
+        top: 60
+      }
+    },
     '& .register-link': {
       textAlign: 'center',
       margin: {

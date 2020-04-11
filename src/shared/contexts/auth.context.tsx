@@ -1,11 +1,17 @@
 import { createContext } from 'react';
 
+import { AuthCredentials, Profile } from 'shared/model';
+
 export interface IAuthContext {
-  isLogged: boolean;
+  profile?: Profile;
   isLoading: boolean;
+  isAuthenticated: boolean;
+  login: (credentials: AuthCredentials) => Promise<void>;
 }
 
 export default createContext<IAuthContext>({
-  isLogged: false,
-  isLoading: true
+  profile: undefined,
+  isLoading: true,
+  isAuthenticated: false,
+  login: () => Promise.resolve()
 });

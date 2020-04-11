@@ -14,9 +14,9 @@ const { Header, Content } = Layout;
 const Navigation: FC = ({ children }) => {
   const classes = useStyles();
   const { pathname } = useLocation();
-  const { isLogged } = useContext(AuthContext);
+  const { profile } = useContext(AuthContext);
 
-  return isLogged ? (
+  return profile ? (
     <Layout className={classes.root}>
       <Sidebar pathname={pathname} />
       <Layout>

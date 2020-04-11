@@ -11,11 +11,11 @@ enum Status {
 
 interface IPreLoader {
   isLoading: boolean;
-  isLogged: boolean;
+  isAuthenticated: boolean;
   setIsDone: (value: boolean) => void;
 }
 
-const PreLoader: FC<IPreLoader> = ({ isLoading, isLogged, setIsDone }) => {
+const PreLoader: FC<IPreLoader> = ({ isLoading, isAuthenticated, setIsDone }) => {
   const [count, setCounter] = useState<number>(0);
   const [status, setStatus] = useState<Status>();
 
@@ -29,7 +29,7 @@ const PreLoader: FC<IPreLoader> = ({ isLoading, isLogged, setIsDone }) => {
           clearInterval(intervalId);
           return counter;
         }),
-      25
+      10
     );
 
     return () => clearInterval(intervalId);
@@ -37,12 +37,12 @@ const PreLoader: FC<IPreLoader> = ({ isLoading, isLogged, setIsDone }) => {
 
   useEffect(() => {
     if (!isLoading) {
-      setStatus(isLogged ? Status.SUCCESS : Status.EXCEPTION);
+      setStatus(isAuthenticated ? Status.SUCCESS : Status.EXCEPTION);
       setInterval(() => {
         setIsDone(true);
       }, 250);
     }
-  }, [isLogged, isLoading, setIsDone]);
+  }, [isAuthenticated, isLoading, setIsDone]);
 
   return <Progress type="circle" percent={count} status={status} />;
 };
