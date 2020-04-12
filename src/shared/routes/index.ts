@@ -4,6 +4,7 @@ const TRAINERS = 'trainers';
 export const ROOT = '/';
 export const LOGIN = '/login';
 export const REGISTER = '/register';
+export const COMPLETE_PROFILE = '/complete-profile';
 
 export const HOME = '/home';
 export const PROFILE = '/profile';

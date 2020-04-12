@@ -24,7 +24,7 @@ const Sidebar: FC<ISidebar> = ({ pathname }) => {
   return (
     <Sider collapsible collapsed={collapsed} onCollapse={handleCollapse}>
       <div className="logo" />
-      <Menu theme="dark" defaultSelectedKeys={[match]} mode="inline">
+      <Menu theme="dark" selectedKeys={[match]} mode="inline">
         {OPTIONS.map(({ route, title, Icon, children }) =>
           children ? (
             <SubMenu

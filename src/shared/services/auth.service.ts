@@ -5,7 +5,7 @@ export class AuthService {
   public verifyToken = (): Promise<boolean> => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(false);
+        resolve(true);
       }, 1000);
     });
   };
