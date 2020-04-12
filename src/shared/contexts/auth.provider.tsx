@@ -51,7 +51,19 @@ const AuthProvider: FC = ({ children }) => {
     setIsLoading(false);
   };
 
-  return <AuthContext.Provider value={{ isAuthenticated, isLoading, login, profile }}>{children}</AuthContext.Provider>;
+  const logout = async () => {
+    try {
+      await AuthService.logout();
+      setIsAuthenticated(false);
+      setProfile(undefined);
+    } catch (error) {}
+  };
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, isLoading, profile, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

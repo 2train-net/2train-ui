@@ -17,6 +17,14 @@ export class AuthService {
       }, 2000);
     });
   }
+
+  public logout(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
+  }
 }
 
 const instance = new AuthService();

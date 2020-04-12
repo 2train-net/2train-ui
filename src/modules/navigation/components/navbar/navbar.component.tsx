@@ -1,14 +1,17 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
-import { Tooltip, Button, Badge, Avatar, Dropdown } from 'antd';
+import { Tooltip, Button, Badge, Avatar, Dropdown, Menu } from 'antd';
 import { BellFilled } from '@ant-design/icons';
 
-import ProfileMenu from './components/profile-menu/profile-menu.component';
+import { AuthContext } from 'shared/contexts';
 
 import useStyles from './navbar.style';
 
+const { Item } = Menu;
+
 const Navbar: FC = () => {
   const classes = useStyles();
+  const { logout } = useContext(AuthContext);
 
   return (
     <div className={classes.root}>
@@ -17,7 +20,14 @@ const Navbar: FC = () => {
           <Button shape="circle" icon={<BellFilled />} />
         </Badge>
       </Tooltip>
-      <Dropdown overlay={ProfileMenu} placement="bottomLeft">
+      <Dropdown
+        overlay={
+          <Menu>
+            <Item onClick={logout}>Logout</Item>
+          </Menu>
+        }
+        placement="bottomLeft"
+      >
         <Avatar size="default" className="nav-item">
           A
         </Avatar>
