@@ -4,7 +4,7 @@ export class UserService {
   public get(): Promise<Profile> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(new Profile({ firstName: 'Anthony', lastName: 'Soto ' }));
+        reject(new Profile({ firstName: 'Anthony', lastName: 'Soto ' }));
       }, 2000);
     });
   }

@@ -1,8 +1,11 @@
 import { createUseStyles } from 'react-jss';
 
 export default createUseStyles({
-  root: {
+  root: ({ isSidebarCollapsed }: { isSidebarCollapsed: boolean }) => ({
     minHeight: '100vh',
+    '& .ant-layout': {
+      background: '#FCFCFC'
+    },
     '& aside': {
       overflow: 'auto',
       height: '100vh',
@@ -31,7 +34,7 @@ export default createUseStyles({
       overflow: 'initial',
       margin: {
         top: 64,
-        left: 80
+        left: isSidebarCollapsed ? 80 : 200
       },
       padding: {
         right: 15,
@@ -40,5 +43,5 @@ export default createUseStyles({
         bottom: 10
       }
     }
-  }
+  })
 });

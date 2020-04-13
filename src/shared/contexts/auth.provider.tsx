@@ -5,7 +5,7 @@ import AuthContext from './auth.context';
 
 import { AuthCredentials, Profile } from 'shared/model';
 import { AuthService, UserService } from 'shared/services';
-import { PROFILE } from 'shared/routes';
+import { COMPLETE_PROFILE } from 'shared/routes';
 
 const AuthProvider: FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -24,9 +24,8 @@ const AuthProvider: FC = ({ children }) => {
         }
 
         setIsAuthenticated(isValid);
-        setIsLoading(false);
       } catch (error) {
-        history.push(PROFILE);
+        history.push(COMPLETE_PROFILE);
       }
 
       setIsLoading(false);
@@ -39,13 +38,12 @@ const AuthProvider: FC = ({ children }) => {
     try {
       setIsLoading(true);
       await AuthService.login(credentials);
-      const profile = await UserService.get();
-
-      setProfile(profile);
       setIsAuthenticated(true);
-      setIsLoading(false);
+
+      const profile = await UserService.get();
+      setProfile(profile);
     } catch (error) {
-      history.push(PROFILE);
+      history.push(COMPLETE_PROFILE);
     }
 
     setIsLoading(false);

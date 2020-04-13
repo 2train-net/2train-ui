@@ -25,7 +25,7 @@ const Login: FC = () => {
   };
 
   return (
-    <Card className={classes.root} bordered={true}>
+    <Card className={classes.root} bordered>
       <Form name="normal_login" initialValues={{ remember: true }} onFinish={onSubmit}>
         <Item className="login-form-title">
           <Title level={4}>iForce</Title>

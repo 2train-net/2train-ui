@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Layout, Menu } from 'antd';
@@ -10,19 +10,20 @@ const { SubMenu, Item } = Menu;
 
 interface ISidebar {
   pathname: string;
+  isSidebarCollapsed: boolean;
+  setIsSidebarCollapsed: (isSidebarCollapsed: boolean) => void;
 }
 
-const Sidebar: FC<ISidebar> = ({ pathname }) => {
-  const [collapsed, setCollapsed] = useState(true);
+const Sidebar: FC<ISidebar> = ({ pathname, isSidebarCollapsed, setIsSidebarCollapsed }) => {
   const [, parent, child] = pathname.split('/');
   const match = `/${parent}${child ? `/${child}` : ''}`;
 
   const handleCollapse = () => {
-    setCollapsed(!collapsed);
+    setIsSidebarCollapsed(!isSidebarCollapsed);
   };
 
   return (
-    <Sider collapsible collapsed={collapsed} onCollapse={handleCollapse}>
+    <Sider collapsible collapsed={isSidebarCollapsed} onCollapse={handleCollapse}>
       <div className="logo" />
       <Menu theme="dark" selectedKeys={[match]} mode="inline">
         {OPTIONS.map(({ route, title, Icon, children }) =>

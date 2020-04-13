@@ -1,6 +1,7 @@
 import React, { FC, useContext } from 'react';
 import { Route, RouteProps, Redirect } from 'react-router';
 
+import { HOME } from 'shared/routes';
 import { AuthContext } from 'shared/contexts';
 
 interface IPublicRoute extends RouteProps {
@@ -8,9 +9,14 @@ interface IPublicRoute extends RouteProps {
 }
 
 const PublicRoute: FC<IPublicRoute> = ({ component: Component, ...rest }) => {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, profile } = useContext(AuthContext);
 
-  return <Route {...rest} render={props => (!isAuthenticated ? <Component {...props} /> : <Redirect to="/home" />)} />;
+  return (
+    <Route
+      {...rest}
+      render={props => (!isAuthenticated || !profile ? <Component {...props} /> : <Redirect to={HOME} />)}
+    />
+  );
 };
 
 export default PublicRoute;

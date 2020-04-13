@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { Layout } from 'antd';
@@ -12,13 +12,18 @@ import { AuthContext } from 'shared/contexts';
 const { Header, Content } = Layout;
 
 const Navigation: FC = ({ children }) => {
-  const classes = useStyles();
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const classes = useStyles({ isSidebarCollapsed });
   const { pathname } = useLocation();
   const { isAuthenticated, profile } = useContext(AuthContext);
 
   return isAuthenticated && profile ? (
     <Layout className={classes.root}>
-      <Sidebar pathname={pathname} />
+      <Sidebar
+        pathname={pathname}
+        isSidebarCollapsed={isSidebarCollapsed}
+        setIsSidebarCollapsed={setIsSidebarCollapsed}
+      />
       <Layout>
         <Header>
           <Navbar />
