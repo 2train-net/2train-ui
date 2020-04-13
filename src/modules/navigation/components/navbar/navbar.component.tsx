@@ -11,7 +11,7 @@ const { Item } = Menu;
 
 const Navbar: FC = () => {
   const classes = useStyles();
-  const { logout } = useContext(AuthContext);
+  const { logout, profile } = useContext(AuthContext);
 
   return (
     <div className={classes.root}>
@@ -28,8 +28,8 @@ const Navbar: FC = () => {
         }
         placement="bottomLeft"
       >
-        <Avatar size="default" className="nav-item">
-          A
+        <Avatar size="default" className="nav-item" src={profile!.getAvatar}>
+          {profile!.getFirstName.charAt(0)}
         </Avatar>
       </Dropdown>
     </div>

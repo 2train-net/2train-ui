@@ -8,6 +8,7 @@ export interface IAuthContext {
   isAuthenticated: boolean;
   login: (credentials: AuthCredentials) => Promise<void>;
   logout: () => Promise<void>;
+  createProfile: (data: Profile) => Promise<void>;
 }
 
 export default createContext<IAuthContext>({
@@ -15,5 +16,6 @@ export default createContext<IAuthContext>({
   isLoading: true,
   isAuthenticated: false,
   login: () => Promise.resolve(),
-  logout: () => Promise.resolve()
+  logout: () => Promise.resolve(),
+  createProfile: (data: Profile) => Promise.resolve()
 });

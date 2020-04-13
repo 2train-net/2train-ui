@@ -19,8 +19,8 @@ const AuthProvider: FC = ({ children }) => {
         const isValid = await AuthService.verifyToken();
 
         if (isValid) {
-          const newProfile = await UserService.get();
-          setProfile(newProfile);
+          const response = await UserService.get();
+          setProfile(response);
         }
 
         setIsAuthenticated(isValid);
@@ -51,14 +51,27 @@ const AuthProvider: FC = ({ children }) => {
 
   const logout = async () => {
     try {
+      setIsLoading(true);
       await AuthService.logout();
       setIsAuthenticated(false);
       setProfile(undefined);
     } catch (error) {}
+
+    setIsLoading(false);
+  };
+
+  const createProfile = async (data: Profile) => {
+    try {
+      setIsLoading(true);
+      const response = await UserService.create(data);
+      setProfile(response);
+    } catch (error) {}
+
+    setIsLoading(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isLoading, profile, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, isLoading, profile, login, logout, createProfile }}>
       {children}
     </AuthContext.Provider>
   );

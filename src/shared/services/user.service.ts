@@ -8,6 +8,14 @@ export class UserService {
       }, 2000);
     });
   }
+
+  public create(data: Profile): Promise<Profile> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(data);
+      }, 2000);
+    });
+  }
 }
 
 const instance = new UserService();
