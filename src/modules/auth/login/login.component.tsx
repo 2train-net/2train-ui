@@ -1,14 +1,18 @@
 import React, { FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Form, Input, Button, Checkbox, Card, Typography } from 'antd';
+import { useFormik } from 'formik';
+import { Form, Button, Checkbox, Card, Typography } from 'antd';
 import { MailOutlined, LockOutlined, GoogleOutlined, FacebookFilled, LoadingOutlined } from '@ant-design/icons';
 
-import { REGISTER } from 'shared/routes';
+import { Field } from 'shared/modules/form';
 import { AuthCredentials } from 'shared/model';
 import { AuthContext } from 'shared/contexts';
+import { REGISTER } from 'shared/routes';
 
+import { LOGIN_FORM_SCHEMA, INITIAL_LOGIN_FORM_VALUES } from './login.util';
 import useStyles from './login.style';
+import { ICredentials } from 'shared/model/auth-credentials.model';
 
 const { Item } = Form;
 const { Title, Text } = Typography;
@@ -24,23 +28,44 @@ const Login: FC = () => {
     }
   };
 
+  const { handleSubmit, handleChange, values, errors, touched } = useFormik<ICredentials>({
+    onSubmit,
+    initialValues: INITIAL_LOGIN_FORM_VALUES,
+    validationSchema: LOGIN_FORM_SCHEMA
+  });
+
+  console.log(errors, touched);
+
   return (
     <Card className={classes.root} bordered>
-      <Form name="normal_login" initialValues={{ remember: true }} onFinish={onSubmit}>
+      <Form name="normal_login" onSubmitCapture={handleSubmit}>
         <Item className="login-form-title">
           <Title level={4}>iForce</Title>
         </Item>
-        <Item name="email" rules={[{ required: true, message: 'Please input your email!' }]}>
-          <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" disabled={isLoading} />
-        </Item>
-        <Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
-          <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder="Password"
-            disabled={isLoading}
-          />
-        </Item>
+
+        <Field
+          icon={<MailOutlined />}
+          name="email"
+          placeholder="Email"
+          value={values.email}
+          error={errors.email}
+          onChange={handleChange}
+          isDisabled={isLoading}
+          hasBeenTouched={touched.email}
+        />
+
+        <Field
+          icon={<LockOutlined />}
+          name="password"
+          type="password"
+          placeholder="Password"
+          value={values.password}
+          error={errors.password}
+          onChange={handleChange}
+          isDisabled={isLoading}
+          hasBeenTouched={touched.password}
+        />
+
         <Item>
           <Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>Remember me</Checkbox>
@@ -50,6 +75,7 @@ const Login: FC = () => {
             Forgot password
           </Link>
         </Item>
+
         <Item className="submit-button">
           <Button type="primary" htmlType="submit" block>
             {isLoading ? <LoadingOutlined /> : 'LOGIN'}
@@ -66,6 +92,7 @@ const Login: FC = () => {
             Google
           </Button>
         </Item>
+
         <Item className="register-link">
           <Link to={REGISTER}>
             <Text underline>Register now!</Text>
