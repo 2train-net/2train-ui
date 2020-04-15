@@ -1,49 +1,102 @@
-import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
+import React, { FC, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 
-import { Form, Input, Button, Card, Typography, Select } from 'antd';
-import { MailOutlined, LockOutlined } from '@ant-design/icons';
+import { useFormik } from 'formik';
+import { Form, Button, Card, Typography } from 'antd';
+import { MailOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import { LOGIN } from 'shared/routes';
+import { UserType } from 'shared/model';
+import { AuthService } from 'shared/services';
+import { Field, Select } from 'shared/modules/form';
+import { CreateAccount, ICreateAccountData } from 'modules/auth/shared/model';
 
+import { INITIAL_REGISTER_FORM_VALUES, REGISTER_FORM_SCHEMA } from './register.util';
 import userStyles from './register.style';
 
 const { Item } = Form;
-const { Option } = Select;
 const { Title, Text } = Typography;
 
 const Register: FC = () => {
   const classes = userStyles();
+  const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = async (data: ICreateAccountData) => {
+    try {
+      setIsLoading(true);
+      await AuthService.register(new CreateAccount(data));
+      setIsLoading(false);
+      history.push(LOGIN);
+    } catch (error) {}
+  };
+
+  const { handleSubmit, handleChange, setFieldValue, values, errors, touched } = useFormik<ICreateAccountData>({
+    onSubmit,
+    initialValues: INITIAL_REGISTER_FORM_VALUES,
+    validationSchema: REGISTER_FORM_SCHEMA
+  });
 
   return (
-    <Card className={classes.root} bordered={true}>
-      <Form name="normal_register" initialValues={{ remember: true }}>
+    <Card className={classes.root} bordered>
+      <Form name="normal_register" onSubmitCapture={handleSubmit}>
         <Item className="register-form-title">
           <Title level={4}>iForce</Title>
         </Item>
-        <Item name="user-type" rules={[{ required: true, message: 'Please input your user type!' }]}>
-          <Select defaultValue="customer">
-            <Option value="gym">Gym</Option>
-            <Option value="trainer">Trainer</Option>
-            <Option value="customer">Customer</Option>
-          </Select>
-        </Item>
-        <Item name="email" rules={[{ required: true, message: 'Please input your email!' }]}>
-          <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
-        </Item>
-        <Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
-          <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
-        </Item>
-        <Item name="confirm-password" rules={[{ required: true, message: 'Please confirm your password!' }]}>
-          <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder="Confirm password"
-          />
-        </Item>
+
+        <Select
+          value={values.type}
+          name="type"
+          placeholder="Type"
+          options={[
+            { label: 'Gym', value: UserType.GYM },
+            { label: 'Trainer', value: UserType.TRAINER },
+            { label: 'Customer', value: UserType.CUSTOMER }
+          ]}
+          error={errors.type}
+          isDisabled={isLoading}
+          setFieldValue={setFieldValue}
+          hasBeenTouched={touched.type}
+        />
+
+        <Field
+          icon={<MailOutlined />}
+          name="email"
+          placeholder="Email"
+          value={values.email}
+          error={errors.email}
+          onChange={handleChange}
+          isDisabled={isLoading}
+          hasBeenTouched={touched.email}
+        />
+
+        <Field
+          icon={<LockOutlined />}
+          name="password"
+          type="password"
+          placeholder="Password"
+          value={values.password}
+          error={errors.password}
+          onChange={handleChange}
+          isDisabled={isLoading}
+          hasBeenTouched={touched.password}
+        />
+
+        <Field
+          icon={<LockOutlined />}
+          name="confirmPassword"
+          type="password"
+          placeholder="Confirm password"
+          value={values.confirmPassword}
+          error={errors.confirmPassword}
+          onChange={handleChange}
+          isDisabled={isLoading}
+          hasBeenTouched={touched.confirmPassword}
+        />
+
         <Item className="submit-button">
           <Button type="primary" htmlType="submit" block>
-            REGISTER
+            {isLoading ? <LoadingOutlined /> : 'REGISTER'}
           </Button>
         </Item>
 

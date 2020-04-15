@@ -11,6 +11,7 @@ interface ISelectOption {
 }
 
 interface ISelect {
+  value?: any;
   name: string;
   options: ISelectOption[];
   error?: string;
@@ -20,7 +21,16 @@ interface ISelect {
   setFieldValue: (name: string, value: any, shouldValidate?: boolean) => void;
 }
 
-const Field: FC<ISelect> = ({ name, options, error, placeholder, isDisabled, hasBeenTouched, setFieldValue }) => {
+const Field: FC<ISelect> = ({
+  value,
+  name,
+  options,
+  error,
+  placeholder,
+  isDisabled,
+  hasBeenTouched,
+  setFieldValue
+}) => {
   const onChange = (value: any) => {
     setFieldValue(name, value);
   };
@@ -31,7 +41,7 @@ const Field: FC<ISelect> = ({ name, options, error, placeholder, isDisabled, has
       help={!!error && hasBeenTouched ? error : null}
       hasFeedback={hasBeenTouched}
     >
-      <Select placeholder={placeholder} disabled={isDisabled} onChange={onChange}>
+      <Select placeholder={placeholder} disabled={isDisabled} onChange={onChange} value={value}>
         {options.map(({ value, label }) => (
           <Option key={value} value={value}>
             {label}

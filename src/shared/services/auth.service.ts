@@ -1,3 +1,4 @@
+import { CreateAccount } from 'modules/auth/shared/model/create-account.model';
 import { AuthCredentials } from 'shared/model';
 import { ICredentials } from 'shared/model';
 
@@ -5,7 +6,7 @@ export class AuthService {
   public verifyToken = (): Promise<boolean> => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(true);
+        resolve(false);
       }, 1000);
     });
   };
@@ -19,6 +20,14 @@ export class AuthService {
   }
 
   public logout(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
+  }
+
+  public register(data: CreateAccount): Promise<void> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();
