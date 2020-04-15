@@ -28,8 +28,8 @@ const Navbar: FC = () => {
         }
         placement="bottomLeft"
       >
-        <Avatar size="default" className="nav-item" src={profile!.getAvatar}>
-          {profile!.getFirstName.charAt(0)}
+        <Avatar size="default" className="nav-item" src={profile!.avatar}>
+          {profile!.firstName.charAt(0)}
         </Avatar>
       </Dropdown>
     </div>

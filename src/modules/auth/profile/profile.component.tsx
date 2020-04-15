@@ -1,57 +1,49 @@
-import React, { FC, useState, useContext } from 'react';
+import React, { FC, useContext } from 'react';
 
-import { UploadChangeParam } from 'antd/lib/upload';
-import { Form, Input, Button, Card, Select, DatePicker, Upload } from 'antd';
+import { useFormik } from 'formik';
+import { Form, Button, Card } from 'antd';
 import { UserOutlined, PhoneOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 
-import { Profile } from 'shared/model';
-import { AuthContext } from 'shared/contexts';
+import { Field, Select, DatePicker, Upload } from 'shared/modules/form';
 
+import { AuthContext } from 'shared/contexts';
+import { CreateProfile, ICreateProfileData } from 'modules/auth/shared/model';
+
+import { INITIAL_PROFILE_FORM_VALUES, PROFILE_FORM_SCHEMA } from './profile.util';
 import userStyles from './profile.style';
 
 const { Item } = Form;
-const { Option } = Select;
 
 const Register: FC = () => {
   const classes = userStyles();
-  const [avatar, setAvatar] = useState('');
   const { createProfile, isLoading } = useContext(AuthContext);
 
-  const getBase64 = (file: Blob, callback: (avatar: string | ArrayBuffer | null) => void) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(file);
-  };
-
-  const onUpload = (info: UploadChangeParam<any>) => {
-    getBase64(info.file, image => {
-      if (image && typeof image === 'string') {
-        setAvatar(image);
-      }
-    });
-  };
-
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: ICreateProfileData) => {
     if (!isLoading) {
-      await createProfile(new Profile({ avatar, firstName: data.firstName, lastName: data.lastName }));
+      await createProfile(new CreateProfile(data));
     }
   };
 
+  const { handleSubmit, handleChange, setFieldValue, values, errors, touched } = useFormik<ICreateProfileData>({
+    onSubmit,
+    initialValues: INITIAL_PROFILE_FORM_VALUES,
+    validationSchema: PROFILE_FORM_SCHEMA
+  });
+
   return (
-    <Card className={classes.root} bordered={true}>
-      <Form name="normal_profile" initialValues={{ remember: true }} onFinish={onSubmit}>
+    <Card className={classes.root} bordered>
+      <Form name="normal_profile" onSubmitCapture={handleSubmit}>
         <Item className="profile-form-title">
           <Upload
             name="avatar"
-            listType="picture-card"
             className="avatar-uploader"
-            onChange={onUpload}
-            showUploadList={false}
-            beforeUpload={() => false}
-            disabled={isLoading}
+            error={errors.avatar}
+            setFieldValue={setFieldValue}
+            isDisabled={isLoading}
+            hasBeenTouched={touched.avatar}
           >
-            {avatar ? (
-              <img src={avatar} alt="avatar" />
+            {values.avatar ? (
+              <img src={values.avatar} alt="avatar" />
             ) : (
               <>
                 <PlusOutlined />
@@ -61,24 +53,61 @@ const Register: FC = () => {
           </Upload>
         </Item>
 
-        <Item name="firstName" rules={[{ required: true, message: 'Please input your first name!' }]}>
-          <Input prefix={<UserOutlined />} placeholder="First name" disabled={isLoading} />
-        </Item>
-        <Item name="lastName" rules={[{ required: true, message: 'Please input your last name!' }]}>
-          <Input prefix={<UserOutlined />} placeholder="Last name" disabled={isLoading} />
-        </Item>
-        <Item name="phone" rules={[{ required: true, message: 'Please input your phone number!' }]}>
-          <Input prefix={<PhoneOutlined />} placeholder="Phone number" disabled={isLoading} />
-        </Item>
-        <Item name="birthday" rules={[{ required: true, message: 'Please input your birthday!' }]}>
-          <DatePicker style={{ width: '100%' }} placeholder="Birthday" disabled={isLoading} />
-        </Item>
-        <Item name="gender" rules={[{ message: 'Please input your gender!' }]}>
-          <Select defaultValue="gender" disabled={isLoading}>
-            <Option value="gym">Male</Option>
-            <Option value="trainer">Female</Option>
-          </Select>
-        </Item>
+        <Field
+          icon={<UserOutlined />}
+          name="firstName"
+          placeholder="First name"
+          value={values.firstName}
+          error={errors.firstName}
+          onChange={handleChange}
+          isDisabled={isLoading}
+          hasBeenTouched={touched.firstName}
+        />
+
+        <Field
+          icon={<UserOutlined />}
+          name="lastName"
+          placeholder="Last name"
+          value={values.lastName}
+          error={errors.lastName}
+          onChange={handleChange}
+          isDisabled={isLoading}
+          hasBeenTouched={touched.lastName}
+        />
+
+        <Field
+          icon={<PhoneOutlined />}
+          name="phone"
+          placeholder="Phone"
+          value={values.phone}
+          error={errors.phone}
+          onChange={handleChange}
+          isDisabled={isLoading}
+          hasBeenTouched={touched.phone}
+        />
+
+        <DatePicker
+          name="birthday"
+          placeholder="Birthday"
+          error={errors.birthday}
+          isDisabled={isLoading}
+          setFieldValue={setFieldValue}
+          hasBeenTouched={touched.birthday}
+        />
+
+        <Select
+          name="gender"
+          placeholder="Gender"
+          options={[
+            { label: 'Male', value: 'MALE' },
+            { label: 'Female', value: 'FEMALE' }
+          ]}
+          error={errors.gender}
+          isDisabled={isLoading}
+          setFieldValue={setFieldValue}
+          hasBeenTouched={touched.gender}
+        />
+
         <Item className="submit-button">
           <Button type="primary" htmlType="submit" block>
             {isLoading ? <LoadingOutlined /> : 'CONTINUE'}

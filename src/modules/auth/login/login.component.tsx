@@ -6,13 +6,12 @@ import { Form, Button, Checkbox, Card, Typography } from 'antd';
 import { MailOutlined, LockOutlined, GoogleOutlined, FacebookFilled, LoadingOutlined } from '@ant-design/icons';
 
 import { Field } from 'shared/modules/form';
-import { AuthCredentials } from 'shared/model';
+import { AuthCredentials, ICredentials } from 'shared/model';
 import { AuthContext } from 'shared/contexts';
 import { REGISTER } from 'shared/routes';
 
 import { LOGIN_FORM_SCHEMA, INITIAL_LOGIN_FORM_VALUES } from './login.util';
 import useStyles from './login.style';
-import { ICredentials } from 'shared/model/auth-credentials.model';
 
 const { Item } = Form;
 const { Title, Text } = Typography;
@@ -21,7 +20,7 @@ const Login: FC = () => {
   const classes = useStyles();
   const { login, isLoading } = useContext(AuthContext);
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: ICredentials) => {
     if (!isLoading) {
       const credentials = new AuthCredentials(values);
       await login(credentials);
@@ -33,8 +32,6 @@ const Login: FC = () => {
     initialValues: INITIAL_LOGIN_FORM_VALUES,
     validationSchema: LOGIN_FORM_SCHEMA
   });
-
-  console.log(errors, touched);
 
   return (
     <Card className={classes.root} bordered>

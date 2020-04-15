@@ -1,11 +1,11 @@
 import { AuthCredentials } from 'shared/model';
-import { ICredentials } from 'shared/model/auth-credentials.model';
+import { ICredentials } from 'shared/model';
 
 export class AuthService {
   public verifyToken = (): Promise<boolean> => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(false);
+        resolve(true);
       }, 1000);
     });
   };

@@ -1,15 +1,15 @@
-import { Profile } from 'shared/model';
+import { CreateProfile } from 'modules/auth/shared/model';
 
 export class UserService {
-  public get(): Promise<Profile> {
+  public get(): Promise<CreateProfile> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        reject(new Profile({ firstName: 'Anthony', lastName: 'Soto ' }));
+        reject(new CreateProfile({ firstName: 'Anthony', lastName: 'Soto', birthday: '', phone: '' }));
       }, 2000);
     });
   }
 
-  public create(data: Profile): Promise<Profile> {
+  public create(data: CreateProfile): Promise<CreateProfile> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(data);

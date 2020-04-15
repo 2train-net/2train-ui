@@ -3,27 +3,27 @@ import { useHistory } from 'react-router-dom';
 
 import AuthContext from './auth.context';
 
-import { AuthCredentials, Profile } from 'shared/model';
+import { AuthCredentials } from 'shared/model';
 import { AuthService, UserService } from 'shared/services';
 import { COMPLETE_PROFILE } from 'shared/routes';
+import { CreateProfile } from 'modules/auth/shared/model';
 
 const AuthProvider: FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [profile, setProfile] = useState<Profile>();
+  const [profile, setProfile] = useState<CreateProfile>();
   const history = useHistory();
 
   useEffect(() => {
     const checkAuthToken = async () => {
       try {
         const isValid = await AuthService.verifyToken();
+        setIsAuthenticated(isValid);
 
         if (isValid) {
           const response = await UserService.get();
           setProfile(response);
         }
-
-        setIsAuthenticated(isValid);
       } catch (error) {
         history.push(COMPLETE_PROFILE);
       }
@@ -60,7 +60,7 @@ const AuthProvider: FC = ({ children }) => {
     setIsLoading(false);
   };
 
-  const createProfile = async (data: Profile) => {
+  const createProfile = async (data: CreateProfile) => {
     try {
       setIsLoading(true);
       const response = await UserService.create(data);
