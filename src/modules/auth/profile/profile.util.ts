@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import { ICreateProfileData } from 'modules/auth/shared/model';
+import { Gender, ICreateProfileData } from 'modules/auth/shared/model';
 
 import { PHONE_REGEX } from 'shared/constants';
 
@@ -12,7 +12,9 @@ export const PROFILE_FORM_SCHEMA = Yup.object().shape<ICreateProfileData>({
     .matches(PHONE_REGEX, 'Phone number is not valid')
     .required('Required'),
   birthday: Yup.string().required('Required'),
-  gender: Yup.string().required('Required') as any
+  gender: Yup.mixed<Gender>()
+    .oneOf([Gender.MALE, Gender.FEMALE])
+    .required('Required')
 });
 
 export const INITIAL_PROFILE_FORM_VALUES: ICreateProfileData = {

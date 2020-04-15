@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import moment from 'moment';
+
 import { Form, DatePicker as AntDesignDatePicker } from 'antd';
 
 const { Item } = Form;
@@ -10,12 +12,20 @@ interface IDatePicker {
   placeholder?: string;
   isDisabled?: boolean;
   hasBeenTouched?: boolean;
+  disabledDate?: (date: moment.Moment) => boolean;
   setFieldValue: (name: string, value: any, shouldValidate?: boolean) => void;
 }
 
-const DatePicker: FC<IDatePicker> = ({ name, error, placeholder, isDisabled, hasBeenTouched, setFieldValue }) => {
+const DatePicker: FC<IDatePicker> = ({
+  name,
+  error,
+  placeholder,
+  isDisabled,
+  hasBeenTouched,
+  disabledDate,
+  setFieldValue
+}) => {
   const onChange = (value: any) => {
-    console.log(value);
     setFieldValue(name, value);
   };
 
@@ -30,6 +40,7 @@ const DatePicker: FC<IDatePicker> = ({ name, error, placeholder, isDisabled, has
         placeholder={placeholder}
         disabled={isDisabled}
         onChange={onChange}
+        disabledDate={disabledDate}
       />
     </Item>
   );

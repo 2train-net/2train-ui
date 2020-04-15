@@ -1,5 +1,6 @@
 import React, { FC, useContext } from 'react';
 
+import moment from 'moment';
 import { useFormik } from 'formik';
 import { Form, Button, Card } from 'antd';
 import { UserOutlined, PhoneOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -7,7 +8,7 @@ import { UserOutlined, PhoneOutlined, PlusOutlined, LoadingOutlined } from '@ant
 import { Field, Select, DatePicker, Upload } from 'shared/modules/form';
 
 import { AuthContext } from 'shared/contexts';
-import { CreateProfile, ICreateProfileData } from 'modules/auth/shared/model';
+import { CreateProfile, ICreateProfileData, Gender } from 'modules/auth/shared/model';
 
 import { INITIAL_PROFILE_FORM_VALUES, PROFILE_FORM_SCHEMA } from './profile.util';
 import userStyles from './profile.style';
@@ -93,14 +94,15 @@ const Register: FC = () => {
           isDisabled={isLoading}
           setFieldValue={setFieldValue}
           hasBeenTouched={touched.birthday}
+          disabledDate={date => !date || date.isAfter(moment())}
         />
 
         <Select
           name="gender"
           placeholder="Gender"
           options={[
-            { label: 'Male', value: 'MALE' },
-            { label: 'Female', value: 'FEMALE' }
+            { label: 'Male', value: Gender.MALE },
+            { label: 'Female', value: Gender.FEMALE }
           ]}
           error={errors.gender}
           isDisabled={isLoading}

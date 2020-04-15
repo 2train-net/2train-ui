@@ -1,4 +1,4 @@
-type Gender = 'MALE' | 'FEMALE';
+import { Gender } from 'modules/auth/shared/model';
 
 export interface ICreateProfileData {
   avatar?: string;
