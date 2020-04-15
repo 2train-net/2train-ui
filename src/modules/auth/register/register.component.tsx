@@ -24,10 +24,12 @@ const Register: FC = () => {
 
   const onSubmit = async (data: ICreateAccountData) => {
     try {
-      setIsLoading(true);
-      await AuthService.register(new CreateAccount(data));
-      setIsLoading(false);
-      history.push(LOGIN);
+      if (!isLoading) {
+        setIsLoading(true);
+        await AuthService.register(new CreateAccount(data));
+        setIsLoading(false);
+        history.push(LOGIN);
+      }
     } catch (error) {}
   };
 
@@ -39,7 +41,7 @@ const Register: FC = () => {
 
   return (
     <Card className={classes.root} bordered>
-      <Form name="normal_register" onSubmitCapture={handleSubmit}>
+      <Form onSubmitCapture={handleSubmit}>
         <Item className="register-form-title">
           <Title level={4}>iForce</Title>
         </Item>

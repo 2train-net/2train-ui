@@ -34,6 +34,14 @@ export class AuthService {
       }, 1000);
     });
   }
+
+  public resetPassword(email: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
+  }
 }
 
 const instance = new AuthService();

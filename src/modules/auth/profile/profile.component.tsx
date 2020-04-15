@@ -33,7 +33,7 @@ const Register: FC = () => {
 
   return (
     <Card className={classes.root} bordered>
-      <Form name="normal_profile" onSubmitCapture={handleSubmit}>
+      <Form onSubmitCapture={handleSubmit}>
         <Item className="profile-form-title">
           <Upload
             name="avatar"

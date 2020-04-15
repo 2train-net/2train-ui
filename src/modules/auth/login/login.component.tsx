@@ -8,7 +8,7 @@ import { MailOutlined, LockOutlined, GoogleOutlined, FacebookFilled, LoadingOutl
 import { Field } from 'shared/modules/form';
 import { AuthCredentials, ICredentials } from 'shared/model';
 import { AuthContext } from 'shared/contexts';
-import { REGISTER } from 'shared/routes';
+import { REGISTER, FORGOT_PASSWORD } from 'shared/routes';
 
 import { LOGIN_FORM_SCHEMA, INITIAL_LOGIN_FORM_VALUES } from './login.util';
 import useStyles from './login.style';
@@ -35,7 +35,7 @@ const Login: FC = () => {
 
   return (
     <Card className={classes.root} bordered>
-      <Form name="normal_login" onSubmitCapture={handleSubmit}>
+      <Form onSubmitCapture={handleSubmit}>
         <Item className="login-form-title">
           <Title level={4}>iForce</Title>
         </Item>
@@ -64,11 +64,11 @@ const Login: FC = () => {
         />
 
         <Item>
-          <Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
+          <Item name="remember" noStyle>
+            <Checkbox checked>Remember me</Checkbox>
           </Item>
 
-          <Link to="/forgot-password" className="forgot-password">
+          <Link to={FORGOT_PASSWORD} className="forgot-password">
             Forgot password
           </Link>
         </Item>
