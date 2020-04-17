@@ -4,7 +4,7 @@ import { AuthCredentials } from 'shared/model';
 import { CreateProfile } from 'modules/auth/shared/model';
 
 export interface IAuthContext {
-  profile?: CreateProfile;
+  profile?: CreateProfile | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (credentials: AuthCredentials) => Promise<void>;

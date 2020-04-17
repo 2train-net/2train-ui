@@ -11,22 +11,25 @@ import { CreateProfile } from 'modules/auth/shared/model';
 const AuthProvider: FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [profile, setProfile] = useState<CreateProfile>();
+  const [profile, setProfile] = useState<CreateProfile | null>();
   const history = useHistory();
 
   useEffect(() => {
     const checkAuthToken = async () => {
       try {
-        const isValid = await AuthService.verifyToken();
-        setIsAuthenticated(isValid);
+        const { isVerified } = await AuthService.getCognitoUser();
+        setIsAuthenticated(true);
 
-        if (isValid) {
-          const response = await UserService.get();
-          setProfile(response);
+        if (isVerified) {
+          const profile = await UserService.get();
+
+          if (!profile) {
+            history.push(COMPLETE_PROFILE);
+          }
+
+          setProfile(profile);
         }
-      } catch (error) {
-        history.push(COMPLETE_PROFILE);
-      }
+      } catch (error) {}
 
       setIsLoading(false);
     };
@@ -41,10 +44,13 @@ const AuthProvider: FC = ({ children }) => {
       setIsAuthenticated(true);
 
       const profile = await UserService.get();
+
+      if (!profile) {
+        history.push(COMPLETE_PROFILE);
+      }
+
       setProfile(profile);
-    } catch (error) {
-      history.push(COMPLETE_PROFILE);
-    }
+    } catch (error) {}
 
     setIsLoading(false);
   };

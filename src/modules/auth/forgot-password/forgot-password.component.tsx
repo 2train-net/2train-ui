@@ -24,7 +24,7 @@ const ForgotPassword: FC = () => {
     try {
       if (!isLoading) {
         setIsLoading(true);
-        await AuthService.resetPassword(email);
+        await AuthService.forgotPassword(email);
         setIsLoading(false);
         history.push(LOGIN);
       }

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
+import 'shared/config';
+
 import App from './app.component';
 
 import * as serviceWorker from './service-worker';
