@@ -27,10 +27,11 @@ const Register: FC = () => {
       if (!isLoading) {
         setIsLoading(true);
         await AuthService.register(new CreateAccount(data));
-        setIsLoading(false);
         history.push(LOGIN);
       }
     } catch (error) {}
+
+    setIsLoading(false);
   };
 
   const { handleSubmit, handleChange, setFieldValue, values, errors, touched } = useFormik<ICreateAccountData>({

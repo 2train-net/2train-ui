@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { Form, Button, Card, Typography } from 'antd';
 import { MailOutlined, LoadingOutlined } from '@ant-design/icons';
 
-import { LOGIN } from 'shared/routes';
+import { RESET_PASSWORD } from 'shared/routes';
 import { AuthService } from 'shared/services';
 import { Field } from 'shared/modules/form';
 
@@ -25,10 +25,11 @@ const ForgotPassword: FC = () => {
       if (!isLoading) {
         setIsLoading(true);
         await AuthService.forgotPassword(email);
-        setIsLoading(false);
-        history.push(LOGIN);
+        history.push(RESET_PASSWORD, { email });
       }
     } catch (error) {}
+
+    setIsLoading(false);
   };
 
   const { handleSubmit, handleChange, values, errors, touched } = useFormik<{ email: string }>({
