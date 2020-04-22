@@ -4,8 +4,8 @@ export class UserService {
   public get(): Promise<CreateProfile | null> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        // resolve(new CreateProfile({ firstName: 'Anthony', lastName: 'Soto', birthday: '', phone: '' }));
-        resolve(null);
+        resolve(new CreateProfile({ firstName: 'Anthony', lastName: 'Soto', birthday: '', phone: '' }));
+        // resolve(null);
       }, 2000);
     });
   }

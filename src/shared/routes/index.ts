@@ -20,6 +20,13 @@ export const SUBSCRIPTIONS_TRAINERS = `${SUBSCRIPTIONS}/${TRAINERS}`;
 export const SUBSCRIPTIONS_CUSTOMERS = `${SUBSCRIPTIONS}/${CUSTOMERS}`;
 
 export const TRAINING = '/training';
+
 export const SETTINGS = '/settings';
+
 export const BODY_MEASURES = '/body-measures';
+export const BODY_MEASURE = `${BODY_MEASURES}/:id`;
+export const BODY_MEASURE_ADD = `${BODY_MEASURES}/add`;
+export const BODY_MEASURE_EDIT = `${BODY_MEASURES}/:id/edit`;
+
 export const WORKOUT_ROUTINES = '/workout-routines';
+export const WORKOUT_ROUTINE = `${WORKOUT_ROUTINES}/:id`;
