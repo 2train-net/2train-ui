@@ -4,11 +4,12 @@ import { Input, Form } from 'antd';
 
 const { Item } = Form;
 
-type FieldType = 'password';
+type FieldType = 'password' | 'number';
 
 interface IField {
   value: any;
   name: string;
+  label?: string;
   error?: string;
   type?: FieldType;
   icon?: ReactElement;
@@ -18,9 +19,21 @@ interface IField {
   onChange: (eventOrPath: string | React.ChangeEvent<any>) => void;
 }
 
-const Field: FC<IField> = ({ value, name, type, error, icon, placeholder, isDisabled, hasBeenTouched, onChange }) => {
+const Field: FC<IField> = ({
+  value,
+  name,
+  type,
+  label,
+  error,
+  icon,
+  placeholder,
+  isDisabled,
+  hasBeenTouched,
+  onChange
+}) => {
   return (
     <Item
+      label={label}
       validateStatus={!!error && hasBeenTouched ? 'error' : 'success'}
       help={!!error && hasBeenTouched ? error : null}
       hasFeedback={hasBeenTouched}

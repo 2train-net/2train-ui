@@ -12,7 +12,7 @@ export default createUseStyles({
     '& .avatar-uploader': {
       display: 'flex',
       justifyContent: 'center',
-      '& div:first-child , img': {
+      '& div:last-child , img': {
         borderRadius: 50
       },
       '& img': {

@@ -4,7 +4,16 @@ import BodyMeasureDetail from './body-measure-detail/body-measure-detail.compone
 import BodyPictures from './body-measure-detail/components/body-pictures/body-pictures.component';
 import BodyMeasureDetailInformation from './body-measure-detail/components/body-measure-detail-information/body-measure-detail-information.component';
 
-import BodyMeasureHeader from './shared/components/body-measure-header/body-measure-header.component';
+import { BodyMeasureHeader, BodyMeasureForm, UploadBodyPictures } from './shared/components';
 
-export { BodyMeasureAdd, BodyMeasureDetail, BodyMeasureHeader, BodyPictures, BodyMeasureDetailInformation };
+export {
+  BodyMeasureAdd,
+  BodyMeasureDetail,
+  BodyMeasureHeader,
+  BodyMeasureForm,
+  BodyPictures,
+  UploadBodyPictures,
+  BodyMeasureDetailInformation
+};
+
 export default BodyMeasure;

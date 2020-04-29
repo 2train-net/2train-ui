@@ -12,7 +12,7 @@ import { Field } from 'shared/modules/form';
 import {
   INITIAL_RESET_PASSWORD_FORM_VALUES,
   RESET_PASSWORD_FORM_SCHEMA,
-  ISubmitResetPassword
+  ISubmitResetPasswordData
 } from './reset-password.util';
 import userStyles from './reset-password.style';
 
@@ -33,7 +33,7 @@ const ResetPassword: FC = () => {
     }
   }, [location]);
 
-  const onSubmit = async ({ email, code, password }: ISubmitResetPassword) => {
+  const onSubmit = async ({ email, code, password }: ISubmitResetPasswordData) => {
     try {
       if (!isLoading) {
         setIsLoading(true);
@@ -45,7 +45,7 @@ const ResetPassword: FC = () => {
     setIsLoading(false);
   };
 
-  const { handleSubmit, handleChange, values, errors, touched } = useFormik<ISubmitResetPassword>({
+  const { handleSubmit, handleChange, values, errors, touched } = useFormik<ISubmitResetPasswordData>({
     onSubmit,
     enableReinitialize: true,
     initialValues: { ...INITIAL_RESET_PASSWORD_FORM_VALUES, email },
