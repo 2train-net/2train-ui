@@ -50,6 +50,7 @@ const ForgotPassword: FC = () => {
           icon={<MailOutlined />}
           name="email"
           placeholder="Email"
+          autoComplete="username"
           value={values.email}
           error={errors.email}
           onChange={handleChange}

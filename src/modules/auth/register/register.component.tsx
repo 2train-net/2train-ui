@@ -2,14 +2,14 @@ import React, { FC, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import { useFormik } from 'formik';
-import { Form, Button, Card, Typography } from 'antd';
-import { MailOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Form, Button, Card, Typography, Divider } from 'antd';
+import { UserOutlined, PhoneOutlined, MailOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import { LOGIN } from 'shared/routes';
-import { UserType } from 'shared/model';
 import { AuthService } from 'shared/services';
 import { Field, Select } from 'shared/modules/form';
 import { CreateAccount, ICreateAccountData } from 'modules/auth/shared/model';
+import { UserTypes, useCreateUserMutation } from 'shared/generated/graphql-schema';
 
 import { INITIAL_REGISTER_FORM_VALUES, REGISTER_FORM_SCHEMA } from './register.util';
 import userStyles from './register.style';
@@ -21,12 +21,15 @@ const Register: FC = () => {
   const classes = userStyles();
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
+  const [createUser] = useCreateUserMutation();
 
   const onSubmit = async (data: ICreateAccountData) => {
     try {
       if (!isLoading) {
         setIsLoading(true);
-        await AuthService.register(new CreateAccount(data));
+        const account = new CreateAccount(data);
+        await AuthService.register(account);
+        await createUser({ variables: { data: account.create } });
         history.push(LOGIN);
       }
     } catch (error) {}
@@ -47,14 +50,47 @@ const Register: FC = () => {
           <Title level={4}>iForce</Title>
         </Item>
 
+        <Field
+          icon={<UserOutlined />}
+          name="firstName"
+          placeholder="First name"
+          value={values.firstName}
+          error={errors.firstName}
+          onChange={handleChange}
+          isDisabled={isLoading}
+          hasBeenTouched={touched.firstName}
+        />
+
+        <Field
+          icon={<UserOutlined />}
+          name="lastName"
+          placeholder="Last name"
+          value={values.lastName}
+          error={errors.lastName}
+          onChange={handleChange}
+          isDisabled={isLoading}
+          hasBeenTouched={touched.lastName}
+        />
+
+        <Field
+          icon={<PhoneOutlined />}
+          name="phone"
+          placeholder="Phone"
+          value={values.phone}
+          error={errors.phone}
+          onChange={handleChange}
+          isDisabled={isLoading}
+          hasBeenTouched={touched.phone}
+        />
+
         <Select
           value={values.type}
           name="type"
           placeholder="Type"
           options={[
-            { label: 'Gym', value: UserType.GYM },
-            { label: 'Trainer', value: UserType.TRAINER },
-            { label: 'Customer', value: UserType.CUSTOMER }
+            { label: 'Gym', value: UserTypes.Gym },
+            { label: 'Trainer', value: UserTypes.Trainer },
+            { label: 'Customer', value: UserTypes.Customer }
           ]}
           error={errors.type}
           isDisabled={isLoading}
@@ -62,10 +98,13 @@ const Register: FC = () => {
           hasBeenTouched={touched.type}
         />
 
+        <Divider />
+
         <Field
           icon={<MailOutlined />}
           name="email"
           placeholder="Email"
+          autoComplete="username"
           value={values.email}
           error={errors.email}
           onChange={handleChange}
@@ -78,6 +117,7 @@ const Register: FC = () => {
           name="password"
           type="password"
           placeholder="Password"
+          autoComplete="new-password"
           value={values.password}
           error={errors.password}
           onChange={handleChange}
@@ -90,6 +130,7 @@ const Register: FC = () => {
           name="confirmPassword"
           type="password"
           placeholder="Confirm password"
+          autoComplete="new-password"
           value={values.confirmPassword}
           error={errors.confirmPassword}
           onChange={handleChange}

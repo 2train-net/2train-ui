@@ -14,6 +14,7 @@ interface IField {
   type?: FieldType;
   icon?: ReactElement;
   placeholder?: string;
+  autoComplete?: string;
   isDisabled?: boolean;
   hasBeenTouched?: boolean;
   onChange: (eventOrPath: string | React.ChangeEvent<any>) => void;
@@ -27,6 +28,7 @@ const Field: FC<IField> = ({
   error,
   icon,
   placeholder,
+  autoComplete,
   isDisabled,
   hasBeenTouched,
   onChange
@@ -46,6 +48,7 @@ const Field: FC<IField> = ({
         disabled={isDisabled}
         onChange={onChange}
         value={value}
+        autoComplete={autoComplete}
       />
     </Item>
   );

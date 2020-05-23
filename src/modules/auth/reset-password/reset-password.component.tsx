@@ -64,6 +64,7 @@ const ResetPassword: FC = () => {
           icon={<MailOutlined />}
           name="email"
           placeholder="Email"
+          autoComplete="username"
           value={values.email}
           error={errors.email}
           onChange={handleChange}
@@ -87,6 +88,7 @@ const ResetPassword: FC = () => {
           name="password"
           type="password"
           placeholder="Password"
+          autoComplete="new-password"
           value={values.password}
           error={errors.password}
           onChange={handleChange}
@@ -99,6 +101,7 @@ const ResetPassword: FC = () => {
           name="confirmPassword"
           type="password"
           placeholder="Confirm password"
+          autoComplete="new-password"
           value={values.confirmPassword}
           error={errors.confirmPassword}
           onChange={handleChange}

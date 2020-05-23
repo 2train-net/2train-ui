@@ -8,7 +8,8 @@ import { UserOutlined, PhoneOutlined, PlusOutlined, LoadingOutlined } from '@ant
 import { Field, Select, DatePicker, Upload } from 'shared/modules/form';
 
 import { AuthContext } from 'shared/contexts';
-import { CreateProfile, ICreateProfileData, Gender } from 'modules/auth/shared/model';
+import { CreateProfile, ICreateProfileData } from 'modules/auth/shared/model';
+import { Gender } from 'shared/generated/graphql-schema';
 
 import { INITIAL_PROFILE_FORM_VALUES, PROFILE_FORM_SCHEMA } from './profile.util';
 import userStyles from './profile.style';
@@ -101,8 +102,8 @@ const Register: FC = () => {
           name="gender"
           placeholder="Gender"
           options={[
-            { label: 'Male', value: Gender.MALE },
-            { label: 'Female', value: Gender.FEMALE }
+            { label: 'Male', value: Gender.Male },
+            { label: 'Female', value: Gender.Female }
           ]}
           error={errors.gender}
           isDisabled={isLoading}

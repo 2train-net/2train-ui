@@ -1,4 +1,4 @@
-import { Gender } from 'modules/auth/shared/model';
+import { Gender } from 'shared/generated/graphql-schema';
 
 export interface ICreateProfileData {
   avatar?: string;

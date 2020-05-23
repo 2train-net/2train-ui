@@ -44,6 +44,7 @@ const Login: FC = () => {
           icon={<MailOutlined />}
           name="email"
           placeholder="Email"
+          autoComplete="username"
           value={values.email}
           error={errors.email}
           onChange={handleChange}
@@ -56,6 +57,7 @@ const Login: FC = () => {
           name="password"
           type="password"
           placeholder="Password"
+          autoComplete="new-password"
           value={values.password}
           error={errors.password}
           onChange={handleChange}

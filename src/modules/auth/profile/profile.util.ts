@@ -1,8 +1,9 @@
 import * as Yup from 'yup';
 
-import { Gender, ICreateProfileData } from 'modules/auth/shared/model';
+import { ICreateProfileData } from 'modules/auth/shared/model';
 
 import { PHONE_REGEX } from 'shared/constants';
+import { Gender } from 'shared/generated/graphql-schema';
 
 export const PROFILE_FORM_SCHEMA = Yup.object().shape<ICreateProfileData>({
   avatar: Yup.string(),
@@ -13,7 +14,7 @@ export const PROFILE_FORM_SCHEMA = Yup.object().shape<ICreateProfileData>({
     .required('Required'),
   birthday: Yup.string().required('Required'),
   gender: Yup.mixed<Gender>()
-    .oneOf([Gender.MALE, Gender.FEMALE])
+    .oneOf([Gender.Male, Gender.Female])
     .required('Required')
 });
 
