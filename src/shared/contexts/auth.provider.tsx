@@ -4,30 +4,28 @@ import { useHistory } from 'react-router-dom';
 import AuthContext from './auth.context';
 
 import { AuthCredentials } from 'shared/model';
-import { AuthService, UserService } from 'shared/services';
+import { AuthService } from 'shared/services';
 import { COMPLETE_PROFILE } from 'shared/routes';
-import { CreateProfile } from 'modules/auth/shared/model';
+import { useUserLazyQuery } from 'shared/generated/graphql-schema';
 
 const AuthProvider: FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [profile, setProfile] = useState<CreateProfile | null>();
+  const [getUser, { data }] = useUserLazyQuery();
   const history = useHistory();
 
   useEffect(() => {
     const checkAuthToken = async () => {
       try {
-        const { isVerified } = await AuthService.getCognitoUser();
+        const { email, isVerified } = await AuthService.getCognitoUser();
         setIsAuthenticated(true);
 
         if (isVerified) {
-          const profile = await UserService.get();
+          getUser({ variables: { where: { email } } });
 
-          if (!profile) {
+          if (!data!.user) {
             history.push(COMPLETE_PROFILE);
           }
-
-          setProfile(profile);
         }
       } catch (error) {}
 
@@ -35,21 +33,13 @@ const AuthProvider: FC = ({ children }) => {
     };
 
     checkAuthToken();
-  }, [history]);
+  }, [history, isAuthenticated, data, getUser]);
 
   const login = async (credentials: AuthCredentials) => {
     try {
       setIsLoading(true);
       await AuthService.login(credentials);
       setIsAuthenticated(true);
-
-      const profile = await UserService.get();
-
-      if (!profile) {
-        history.push(COMPLETE_PROFILE);
-      }
-
-      setProfile(profile);
     } catch (error) {}
 
     setIsLoading(false);
@@ -60,24 +50,13 @@ const AuthProvider: FC = ({ children }) => {
       setIsLoading(true);
       await AuthService.logout();
       setIsAuthenticated(false);
-      setProfile(undefined);
-    } catch (error) {}
-
-    setIsLoading(false);
-  };
-
-  const createProfile = async (data: CreateProfile) => {
-    try {
-      setIsLoading(true);
-      const response = await UserService.create(data);
-      setProfile(response);
     } catch (error) {}
 
     setIsLoading(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isLoading, profile, login, logout, createProfile }}>
+    <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout, user: data && data.user }}>
       {children}
     </AuthContext.Provider>
   );

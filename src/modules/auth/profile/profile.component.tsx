@@ -8,7 +8,7 @@ import { UserOutlined, PhoneOutlined, PlusOutlined, LoadingOutlined } from '@ant
 import { Field, Select, DatePicker, Upload } from 'shared/modules/form';
 
 import { AuthContext } from 'shared/contexts';
-import { CreateProfile, ICreateProfileData } from 'modules/auth/shared/model';
+import { ICreateProfileData } from 'modules/auth/shared/model';
 import { Gender } from 'shared/generated/graphql-schema';
 
 import { INITIAL_PROFILE_FORM_VALUES, PROFILE_FORM_SCHEMA } from './profile.util';
@@ -18,11 +18,11 @@ const { Item } = Form;
 
 const Register: FC = () => {
   const classes = userStyles();
-  const { createProfile, isLoading } = useContext(AuthContext);
+  const { isLoading } = useContext(AuthContext);
 
   const onSubmit = async (data: ICreateProfileData) => {
     if (!isLoading) {
-      await createProfile(new CreateProfile(data));
+      console.log(data);
     }
   };
 

@@ -9,12 +9,12 @@ interface IPublicRoute extends RouteProps {
 }
 
 const PublicRoute: FC<IPublicRoute> = ({ component: Component, ...rest }) => {
-  const { isAuthenticated, profile } = useContext(AuthContext);
+  const { isAuthenticated, user } = useContext(AuthContext);
 
   return (
     <Route
       {...rest}
-      render={props => (!isAuthenticated || !profile ? <Component {...props} /> : <Redirect to={HOME} />)}
+      render={props => (!isAuthenticated || !user ? <Component {...props} /> : <Redirect to={HOME} />)}
     />
   );
 };

@@ -9,12 +9,12 @@ interface IPrivateRoute extends RouteProps {
 }
 
 const PrivateRoute: FC<IPrivateRoute> = ({ component: Component, ...rest }) => {
-  const { isAuthenticated, profile } = useContext(AuthContext);
+  const { isAuthenticated, user } = useContext(AuthContext);
 
   return (
     <Route
       {...rest}
-      render={props => (isAuthenticated && !profile ? <Component {...props} /> : <Redirect to={LOGIN} />)}
+      render={props => (isAuthenticated && !user ? <Component {...props} /> : <Redirect to={LOGIN} />)}
     />
   );
 };
