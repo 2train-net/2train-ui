@@ -8,6 +8,12 @@
 /.pnp
 .pnp.js
 
+# codegen graphql 
+
+graphql-schema.tsx
+graphql.schema.json
+
+
 # testing
 /coverage
 

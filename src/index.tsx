@@ -2,18 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import 'shared/config';
+import { ApolloProvider } from '@apollo/react-hooks';
 
 import App from './app.component';
+
+import { client } from 'shared/config';
 
 import * as serviceWorker from './service-worker';
 
 import './index.css';
 
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+  <ApolloProvider client={client}>
+    <Router>
+      <App />
+    </Router>
+  </ApolloProvider>,
   document.getElementById('root')
 );
 

@@ -1,0 +1,11 @@
+query gymBranches {
+  gymBranches {
+    id
+    gym {
+      id
+    }
+    address {
+      id
+    }
+  }
+}
