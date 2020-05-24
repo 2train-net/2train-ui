@@ -1,3 +1,4 @@
+import { Breakpoint } from './breakpoint.interface';
 export interface ITheme {
   palette: {
     primary: {
@@ -48,4 +49,5 @@ export interface ITheme {
     };
   };
   spacing: (n: number) => number;
+  breakpoints: { up: (breakpoint: Breakpoint) => string; down: (breakpoint: Breakpoint) => string };
 }
