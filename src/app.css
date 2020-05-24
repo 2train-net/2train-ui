@@ -1,9 +1,1 @@
 @import '~antd/dist/antd.css';
-
-body,
-header,
-main,
-footer {
-  color: #141414 !important;
-  background: #fcfcfc !important;
-}

@@ -1,22 +1,13 @@
 import { createUseStyles } from 'react-jss';
 
-export default createUseStyles({
+import { ITheme } from 'shared/theme';
+
+export default createUseStyles(({ palette }: ITheme) => ({
   root: ({ isSidebarCollapsed }: { isSidebarCollapsed: boolean }) => ({
     minHeight: '100vh',
-    '& .ant-layout': {
-      background: '#FCFCFC'
-    },
-    '& aside': {
-      overflow: 'auto',
-      height: '100vh',
-      position: 'fixed',
-      left: 0,
-      '& .logo': {
-        height: 32,
-        background: 'orange',
-        margin: 16
-      },
-      zIndex: 2
+    '& .ant-layout, header': {
+      background: palette.background.main,
+      color: '#141414 !important'
     },
     '& header': {
       zIndex: 1,
@@ -44,4 +35,4 @@ export default createUseStyles({
       }
     }
   })
-});
+}));
