@@ -2,12 +2,19 @@ import { createUseStyles } from 'react-jss';
 
 import { ITheme } from 'shared/theme';
 
-export default createUseStyles(({ palette }: ITheme) => ({
+export default createUseStyles(({ palette, breakpoints }: ITheme) => ({
   root: {
     '& aside, .ant-layout-sider-trigger, .ant-menu-dark, .ant-menu-dark .ant-menu-item > a': {
       color: 'black',
-      background: '#FFFFFF'
+      background: 'white'
     },
+
+    [breakpoints.down('sm')]: {
+      '& .ant-layout-sider-trigger': {
+        display: 'none'
+      }
+    },
+
     '& aside': {
       overflow: 'auto',
       height: '100vh',
@@ -18,13 +25,7 @@ export default createUseStyles(({ palette }: ITheme) => ({
       '& .ant-menu-item-selected, .ant-menu-item-selected > a, .ant-menu-submenu .ant-menu-submenu-selected': {
         backgroundColor: `${palette.primary.main} !important`,
         '& a, svg, span': {
-          color: '#FFFFFF !important'
-        }
-      },
-      '& .ant-menu-item .ant-menu-item-only-child .ant-menu-item-selected': {
-        '& a, svg, span': {
-          backgroundColor: `${palette.primary.main} !important`,
-          color: '#FFFFFF !important'
+          color: 'white !important'
         }
       },
 
@@ -32,7 +33,7 @@ export default createUseStyles(({ palette }: ITheme) => ({
         backgroundColor: palette.secondary.light,
         '& a': {
           backgroundColor: palette.secondary.light,
-          color: '#FFFFFF'
+          color: 'white'
         }
       },
 

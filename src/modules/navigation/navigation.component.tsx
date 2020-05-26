@@ -1,7 +1,7 @@
 import React, { FC, useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { Layout } from 'antd';
+import { Layout, Drawer } from 'antd';
 
 import Navbar from './components/navbar/navbar.component';
 import Sidebar from './components/sidebar/sidebar.component';
@@ -17,6 +17,11 @@ const Navigation: FC = ({ children }) => {
   const classes = useStyles({ isSidebarCollapsed });
   const { pathname } = useLocation();
   const { user, isAuthenticated } = useContext(AuthContext);
+  const [isDrawerOpened, setIsDrawerOpened] = useState(false);
+
+  const handleToggleDrawer = () => {
+    setIsDrawerOpened(!isDrawerOpened);
+  };
 
   return isAuthenticated && user ? (
     <Layout className={classes.root}>
@@ -25,9 +30,22 @@ const Navigation: FC = ({ children }) => {
         isSidebarCollapsed={isSidebarCollapsed}
         setIsSidebarCollapsed={setIsSidebarCollapsed}
       />
+      <Drawer
+        placement="left"
+        closable={false}
+        onClose={handleToggleDrawer}
+        visible={isDrawerOpened}
+        className={classes.drawer}
+      >
+        <Sidebar
+          pathname={pathname}
+          isSidebarCollapsed={isSidebarCollapsed}
+          setIsSidebarCollapsed={setIsSidebarCollapsed}
+        />
+      </Drawer>
       <Layout>
         <Header>
-          <Navbar />
+          <Navbar handleOpenDrawer={handleToggleDrawer} />
         </Header>
         <Content>{children}</Content>
       </Layout>

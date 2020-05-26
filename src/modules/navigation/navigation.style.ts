@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { ITheme } from 'shared/theme';
 
-export default createUseStyles(({ palette }: ITheme) => ({
+export default createUseStyles(({ palette, breakpoints, spacing }: ITheme) => ({
   root: ({ isSidebarCollapsed }: { isSidebarCollapsed: boolean }) => ({
     minHeight: '100vh',
     '& .ant-layout, header': {
@@ -17,8 +17,8 @@ export default createUseStyles(({ palette }: ITheme) => ({
       alignItems: 'center',
       justifyContent: 'flex-end',
       padding: {
-        right: 15,
-        left: 15
+        right: spacing(2),
+        left: spacing(2)
       }
     },
     '& main': {
@@ -28,11 +28,30 @@ export default createUseStyles(({ palette }: ITheme) => ({
         left: isSidebarCollapsed ? 80 : 200
       },
       padding: {
-        right: 15,
-        left: 15,
-        top: 10,
-        bottom: 10
+        right: spacing(2),
+        left: spacing(2),
+        top: spacing(1),
+        bottom: spacing(1)
+      }
+    },
+    [breakpoints.down('sm')]: {
+      '& main': {
+        margin: {
+          top: spacing(10),
+          left: '0px !important'
+        }
+      },
+      '& aside': {
+        display: 'none'
+      },
+      '& header': {
+        background: `${palette.primary.main} !important`
       }
     }
-  })
+  }),
+  drawer: {
+    '& .ant-drawer-content-wrapper': {
+      width: '200px !important'
+    }
+  }
 }));

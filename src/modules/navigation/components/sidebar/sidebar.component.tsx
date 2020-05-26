@@ -29,7 +29,7 @@ const Sidebar: FC<ISidebar> = ({ pathname, isSidebarCollapsed, setIsSidebarColla
     <div className={classes.root}>
       <Sider collapsible collapsed={isSidebarCollapsed} onCollapse={handleCollapse}>
         <div className="logo">
-          <span>{isSidebarCollapsed ? 'G' : 'Gainer'}</span>
+          <span>{isSidebarCollapsed ? '2' : '2TRAIN'}</span>
         </div>
         <Menu theme="dark" selectedKeys={match} mode="inline">
           {OPTIONS.map(({ route, title, Icon, children }) =>
