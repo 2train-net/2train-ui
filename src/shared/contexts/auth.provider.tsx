@@ -6,12 +6,12 @@ import AuthContext from './auth.context';
 import { AuthCredentials } from 'shared/model';
 import { AuthService } from 'shared/services';
 import { COMPLETE_PROFILE } from 'shared/routes';
-import { useUserLazyQuery } from 'shared/generated/graphql-schema';
+import { useUserProfileLazyQuery } from 'shared/generated/graphql-schema';
 
 const AuthProvider: FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [getUser, { data }] = useUserLazyQuery();
+  const [getUser, { data }] = useUserProfileLazyQuery();
   const history = useHistory();
 
   useEffect(() => {

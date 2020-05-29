@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { ITheme } from 'shared/theme';
 
-export default createUseStyles(({ palette, breakpoints }: ITheme) => ({
+export default createUseStyles(({ palette, spacing, breakpoints }: ITheme) => ({
   root: {
     '& aside, .ant-layout-sider-trigger, .ant-menu-dark, .ant-menu-dark .ant-menu-item > a': {
       color: 'black',
@@ -54,16 +54,17 @@ export default createUseStyles(({ palette, breakpoints }: ITheme) => ({
       },
 
       '& .logo': {
-        height: 32,
+        height: spacing(4),
         color: palette.primary.main,
         display: 'flex',
         margin: {
-          bottom: 20
+          top: spacing(1),
+          bottom: spacing(3)
         },
         '& span': {
           margin: 'auto',
           fontWeight: 'bold',
-          fontSize: 24
+          fontSize: spacing(3)
         }
       }
     }

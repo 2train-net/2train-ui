@@ -6,6 +6,7 @@ import { ThemeProvider } from 'react-jss';
 import Navigation from 'modules/navigation/navigation.module';
 import Home from 'modules/home/home.module';
 import Auth from 'modules/auth/auth.module';
+import Profile from 'modules/profile/profile.module';
 import BodyMeasure from 'modules/body-measure/body-measure.module';
 import WorkoutRoutine from 'modules/workout-routine/workout-routine.module';
 
@@ -13,7 +14,7 @@ import { NotFoundErrorPage } from 'shared/modules/error-page/error-page.module';
 
 import { AuthProvider } from 'shared/contexts';
 import { LIGHT_THEME } from 'shared/theme';
-import { ROOT, HOME, WORKOUT_ROUTINES, BODY_MEASURES } from 'shared/routes';
+import { ROOT, HOME, PROFILE, WORKOUT_ROUTINES, BODY_MEASURES } from 'shared/routes';
 
 import './app.css';
 
@@ -27,6 +28,7 @@ const App: FC = () => {
         <Navigation>
           <Switch>
             <Route exact path={HOME} component={Home} />
+            <Route exact path={PROFILE} component={Profile} />
             <Route exact path={WORKOUT_ROUTINES} component={WorkoutRoutine} />
             <Route path={BODY_MEASURES} component={BodyMeasure} />
 

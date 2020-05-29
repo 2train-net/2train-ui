@@ -1,9 +1,18 @@
 import { createContext } from 'react';
 
 import { AuthCredentials } from 'shared/model';
+import { UserStatus, UserTypes } from 'shared/generated/graphql-schema';
+
+interface IUserProfile {
+  uuid: string;
+  email: string;
+  avatar?: string | null;
+  status: UserStatus;
+  type: { id: UserTypes };
+}
 
 export interface IAuthContext {
-  user?: any;
+  user?: IUserProfile;
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (credentials: AuthCredentials) => Promise<void>;

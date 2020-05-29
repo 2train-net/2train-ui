@@ -1,0 +1,24 @@
+query gymProfile($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    email
+    avatar
+    status
+    person {
+      firstName
+      lastName
+      phone
+      gender
+      birthday
+    }
+    gym {
+      uuid
+      name
+      branches {
+        uuid
+        address {
+          country
+        }
+      }
+    }
+  }
+}

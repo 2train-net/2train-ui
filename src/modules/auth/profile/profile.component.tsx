@@ -16,7 +16,7 @@ import userStyles from './profile.style';
 
 const { Item } = Form;
 
-const Register: FC = () => {
+const Profile: FC = () => {
   const classes = userStyles();
   const { isLoading } = useContext(AuthContext);
 
@@ -121,4 +121,4 @@ const Register: FC = () => {
   );
 };
 
-export default Register;
+export default Profile;

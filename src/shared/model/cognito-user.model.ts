@@ -10,7 +10,7 @@ export class CognitoUser implements ICognitoUser {
   public readonly isVerified: boolean;
 
   constructor(payload: any) {
-    this.email = payload.username;
+    this.email = payload.attributes.email;
     this.roles = payload.signInUserSession.accessToken.payload['cognito:groups'];
     this.isVerified = payload.attributes.email_verified;
   }

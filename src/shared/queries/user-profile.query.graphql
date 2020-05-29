@@ -1,0 +1,11 @@
+query userProfile($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    uuid
+    email
+    avatar
+    status
+    type {
+      id
+    }
+  }
+}
