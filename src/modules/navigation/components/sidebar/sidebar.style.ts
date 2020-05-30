@@ -61,10 +61,15 @@ export default createUseStyles(({ palette, spacing, breakpoints }: ITheme) => ({
           top: spacing(1),
           bottom: spacing(3)
         },
-        '& span': {
-          margin: 'auto',
-          fontWeight: 'bold',
-          fontSize: spacing(3)
+        '& .logomark': {
+          width: spacing(19),
+          height: spacing(6),
+          margin: 'auto'
+        },
+        '& .symbol': {
+          width: spacing(4),
+          height: spacing(4),
+          margin: 'auto'
         }
       }
     }
