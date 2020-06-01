@@ -1,12 +1,14 @@
 import * as Yup from 'yup';
 
-import { ICreateProfileData } from 'modules/auth/shared/model';
+import { IGymProfileForm } from 'modules/profile/shared/model/gym-profile.model';
+import { EMAIL_FORM_SCHEMA } from 'modules/auth/shared/util';
 
 import { PHONE_REGEX } from 'shared/constants';
 import { Gender } from 'shared/generated/graphql-schema';
 
-export const PROFILE_FORM_SCHEMA = Yup.object().shape<ICreateProfileData>({
-  avatar: Yup.string(),
+export const PROFILE_FORM_SCHEMA = Yup.object().shape<IGymProfileForm>({
+  ...EMAIL_FORM_SCHEMA,
+  avatarBase64: Yup.string(),
   firstName: Yup.string().required('Required'),
   lastName: Yup.string().required('Required'),
   phone: Yup.string()
@@ -17,12 +19,3 @@ export const PROFILE_FORM_SCHEMA = Yup.object().shape<ICreateProfileData>({
     .oneOf([Gender.Male, Gender.Female])
     .required('Required')
 });
-
-export const INITIAL_PROFILE_FORM_VALUES: ICreateProfileData = {
-  avatar: '',
-  firstName: '',
-  lastName: '',
-  phone: '',
-  birthday: '',
-  gender: undefined
-};

@@ -6,9 +6,8 @@ export interface IGymProfileForm {
   firstName: string;
   lastName: string;
   phone: string;
-  birthday: string;
+  birthday?: string;
   gender?: Gender;
-  company: string;
 }
 
 export interface IGymProfileQuery {
@@ -51,39 +50,23 @@ export class GymProfile {
     lastName: string;
     phone: string;
     gender?: Gender;
-    birthday: string;
+    birthday?: string;
   };
 
   constructor(data?: IGymProfileQuery) {
-    if (data && data.gym) {
-      this.uuid = data.gym!.uuid;
-      this.email = data.email;
-      this.name = data.gym!.name;
-      this.avatar = data.avatar || '';
-      this.status = data.status;
-      this.branches = data.gym!.branches || [];
-      this.owner = {
-        firstName: data.person!.firstName,
-        lastName: data.person!.lastName,
-        phone: data.person!.phone,
-        gender: data.person!.gender || undefined,
-        birthday: data.person!.birthday || ''
-      };
-    } else {
-      this.uuid = '';
-      this.email = '';
-      this.name = '';
-      this.avatar = '';
-      this.status = UserStatus.Canceled;
-      this.branches = [];
-      this.owner = {
-        firstName: '',
-        lastName: '',
-        phone: '',
-        gender: undefined,
-        birthday: ''
-      };
-    }
+    this.uuid = data && data.gym ? data.gym.uuid : '';
+    this.email = data ? data.email : '';
+    this.name = data && data.gym ? data.gym.name : '';
+    this.avatar = (data && data.avatar) || '';
+    this.status = data ? data.status : UserStatus.Canceled;
+    this.branches = data && data.gym && data.gym.branches ? data.gym.branches : [];
+    this.owner = {
+      firstName: data && data.person ? data.person.firstName : '',
+      lastName: data && data.person ? data.person.lastName : '',
+      phone: data && data.person ? data.person.phone : '',
+      gender: data && data.person && data.person.gender ? data.person.gender : undefined,
+      birthday: data && data.person ? data.person.birthday : ''
+    };
   }
 
   public get form(): IGymProfileForm {
@@ -94,8 +77,7 @@ export class GymProfile {
       lastName: this.owner.lastName,
       phone: this.owner.phone,
       birthday: this.owner.birthday,
-      gender: this.owner.gender,
-      company: this.name
+      gender: this.owner.gender
     };
   }
 }

@@ -1,10 +1,10 @@
 import React, { FC, useContext, useState } from 'react';
 import { Redirect, useLocation, Switch } from 'react-router-dom';
 
-import { Login, Register, Profile, ForgotPassword, PreLoader, ResetPassword } from './auth.module';
+import { Login, Register, ForgotPassword, PreLoader, ResetPassword } from './auth.module';
 
-import { LOGIN, REGISTER, COMPLETE_PROFILE, FORGOT_PASSWORD, RESET_PASSWORD } from 'shared/routes';
-import { PublicRoute, PrivateRoute } from 'shared/modules/route';
+import { LOGIN, REGISTER, FORGOT_PASSWORD, RESET_PASSWORD } from 'shared/routes';
+import { PublicRoute } from 'shared/modules/route';
 import { AuthContext } from 'shared/contexts';
 
 import useStyles from './auth.style';
@@ -27,7 +27,6 @@ const Auth: FC = () => {
             <PublicRoute exact path={REGISTER} component={Register} />
             <PublicRoute exact path={FORGOT_PASSWORD} component={ForgotPassword} />
             <PublicRoute exact path={RESET_PASSWORD} component={ResetPassword} />
-            <PrivateRoute exact path={COMPLETE_PROFILE} component={Profile} />
           </Switch>
           {!isLoading && !isAuthenticated && (
             <Redirect

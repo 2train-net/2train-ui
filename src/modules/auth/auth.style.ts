@@ -12,7 +12,6 @@ export default createUseStyles({
     justifyContent: 'space-around',
     '& .auth-form:first-child': {
       width: 370,
-      height: 532,
       minWidth: 320
     }
   }

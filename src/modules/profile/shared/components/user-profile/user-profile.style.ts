@@ -1,12 +1,14 @@
 import { createUseStyles } from 'react-jss';
 
-export default createUseStyles({
+import { ITheme } from 'shared/theme';
+
+export default createUseStyles(({ breakpoints }: ITheme) => ({
   root: {
     '& .profile-form-title': {
       textAlign: 'center',
       margin: {
-        top: 20,
-        bottom: 40
+        top: 16,
+        bottom: 16
       }
     },
     '& .avatar-uploader': {
@@ -18,6 +20,11 @@ export default createUseStyles({
       '& img': {
         width: '100%'
       }
+    },
+    '& .submit-button': {
+      [breakpoints.down('md')]: {
+        textAlign: 'center'
+      }
     }
   }
-});
+}));

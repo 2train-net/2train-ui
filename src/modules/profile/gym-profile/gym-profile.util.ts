@@ -17,6 +17,5 @@ export const PROFILE_FORM_SCHEMA = Yup.object().shape<IGymProfileForm>({
   birthday: Yup.string().required('Required'),
   gender: Yup.mixed<Gender>()
     .oneOf([Gender.Male, Gender.Female])
-    .required('Required'),
-  company: Yup.string().required('Required')
+    .required('Required')
 });

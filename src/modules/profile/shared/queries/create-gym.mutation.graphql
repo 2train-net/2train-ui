@@ -1,0 +1,5 @@
+mutation createGym($data: GymCreateInput!) {
+  createGym(data: $data) {
+    id
+  }
+}

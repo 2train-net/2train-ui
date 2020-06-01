@@ -7,5 +7,12 @@ query userProfile($where: UserWhereUniqueInput!) {
     type {
       id
     }
+    person {
+      firstName
+      lastName
+      phone
+      gender
+      birthday
+    }
   }
 }
