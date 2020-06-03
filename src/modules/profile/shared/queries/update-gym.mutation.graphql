@@ -1,0 +1,5 @@
+mutation updateGym($data: GymUpdateInput!, $where: GymWhereUniqueInput!) {
+  updateGym(data: $data, where: $where) {
+    id
+  }
+}

@@ -3,6 +3,8 @@ query gymProfile($where: UserWhereUniqueInput!) {
     gym {
       uuid
       name
+      phone
+      avatar
       branches {
         uuid
         address {
