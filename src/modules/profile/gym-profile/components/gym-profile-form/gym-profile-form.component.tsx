@@ -9,6 +9,7 @@ import { GymProfile as GymProfileModel, IGymProfileForm as IGymProfileFormModel 
 import Button from 'shared/modules/button/button.component';
 import { AuthContext } from 'shared/contexts';
 import { Field, Upload } from 'shared/modules/form';
+import { objectDifferences } from 'shared/util/object-differences';
 import { useCreateGymMutation } from 'shared/generated/graphql-schema';
 
 import { GYM_PROFILE_FORM_SCHEMA } from './gym-profile-form.util';
@@ -41,6 +42,8 @@ const GymProfileForm: FC<IGymProfileForm> = ({ gymProfile }) => {
     validationSchema: GYM_PROFILE_FORM_SCHEMA,
     enableReinitialize: true
   });
+
+  const haveValuesChanged = !Object.keys(objectDifferences(gymProfile.gymProfileForm, values)).length;
 
   return (
     <Card title="Información de compañia" className={classes.root} bordered>
@@ -97,7 +100,7 @@ const GymProfileForm: FC<IGymProfileForm> = ({ gymProfile }) => {
         </Row>
 
         <Item className="submit-button">
-          <Button type="submit" color="secondary">
+          <Button type="submit" color="secondary" disabled={haveValuesChanged && !!gymProfile.uuid}>
             {gymProfile.uuid ? 'GUARDAR' : 'CREAR'}
           </Button>
         </Item>

@@ -11,6 +11,7 @@ import { Field, Select, DatePicker, Upload } from 'shared/modules/form';
 import Button from 'shared/modules/button/button.component';
 
 import { AuthContext } from 'shared/contexts';
+import { objectDifferences } from 'shared/util/object-differences';
 import { Gender, useUpdateUserMutation } from 'shared/generated/graphql-schema';
 
 import { PROFILE_FORM_SCHEMA } from './user-profile.util';
@@ -51,6 +52,8 @@ const UserProfile: FC = () => {
     validationSchema: PROFILE_FORM_SCHEMA,
     enableReinitialize: true
   });
+
+  const haveValuesChanged = !Object.keys(objectDifferences(userProfile.userProfileForm, values)).length;
 
   return (
     <Card title="Información personal" className={classes.root} bordered>
@@ -145,7 +148,9 @@ const UserProfile: FC = () => {
         </Row>
 
         <Item className="submit-button">
-          <Button type="submit">GUARDAR</Button>
+          <Button type="submit" disabled={haveValuesChanged}>
+            GUARDAR
+          </Button>
         </Item>
       </Form>
     </Card>
