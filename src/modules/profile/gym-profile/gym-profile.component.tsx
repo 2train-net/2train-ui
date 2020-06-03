@@ -3,13 +3,13 @@ import React, { FC, useContext } from 'react';
 import { Card, Row, Col, Collapse } from 'antd';
 import { TeamOutlined } from '@ant-design/icons';
 
+import GymProfileForm from './components/gym-profile-form/gym-profile-form.component';
 import { GymProfile as GymProfileModel } from 'modules/profile/shared/model/gym-profile.model';
 
 import { AuthContext } from 'shared/contexts';
 import { useGymProfileQuery } from 'shared/generated/graphql-schema';
 
 import userStyles from './gym-profile.style';
-import UserProfile from 'modules/profile/shared/components/user-profile/user-profile.component';
 
 const GymProfile: FC = () => {
   const classes = userStyles();
@@ -18,11 +18,11 @@ const GymProfile: FC = () => {
     variables: { where: { uuid: user ? user.uuid : undefined } }
   });
 
-  const gymProfile = new GymProfileModel(data && data.user);
+  const gymProfile = new GymProfileModel(data && data.user.gym);
 
   return (
     <div className={classes.root}>
-      <UserProfile />
+      <GymProfileForm gymProfile={gymProfile} />
       <Row style={{ marginTop: 16, marginBottom: 16 }}>
         <Col>
           <Collapse defaultActiveKey={['1']} onChange={console.log}>

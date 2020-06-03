@@ -14,16 +14,16 @@ import { AuthContext } from 'shared/contexts';
 import { Gender, useUpdateUserMutation } from 'shared/generated/graphql-schema';
 
 import { PROFILE_FORM_SCHEMA } from './user-profile.util';
-import userStyles from './user-profile.style';
+import useStyles from './user-profile.style';
 
 const { Item } = Form;
 
 const UserProfile: FC = () => {
-  const classes = userStyles();
+  const classes = useStyles();
   const { user } = useContext(AuthContext);
   const [updateUser] = useUpdateUserMutation();
 
-  const gymProfile = new UserProfileModel(user);
+  const userProfile = new UserProfileModel(user);
 
   const onSubmit = async ({ avatarBase64, ...data }: IUserProfileForm) => {
     await updateUser({
@@ -47,13 +47,13 @@ const UserProfile: FC = () => {
 
   const { handleSubmit, handleChange, setFieldValue, values, errors, touched } = useFormik<IUserProfileForm>({
     onSubmit,
-    initialValues: gymProfile.userProfileForm,
+    initialValues: userProfile.userProfileForm,
     validationSchema: PROFILE_FORM_SCHEMA,
     enableReinitialize: true
   });
 
   return (
-    <Card title="Personal Information" className={classes.root} bordered>
+    <Card title="Información personal" className={classes.root} bordered>
       <Form onSubmitCapture={handleSubmit}>
         <Row gutter={24}>
           <Col xs={24} md={4}>
@@ -70,7 +70,7 @@ const UserProfile: FC = () => {
                 ) : (
                   <>
                     <PlusOutlined />
-                    <p>Logo</p>
+                    <p>Perfil</p>
                   </>
                 )}
               </Upload>
@@ -98,7 +98,7 @@ const UserProfile: FC = () => {
             />
 
             <DatePicker
-              value={moment()}
+              value={moment(values.birthday)}
               name="birthday"
               placeholder="Fecha de cumpleaños"
               error={errors.birthday}

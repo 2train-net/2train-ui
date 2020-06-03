@@ -12,6 +12,7 @@ interface IButton {
   color?: ButtonColor;
   variant?: ButtonVariant;
   fullWidth?: boolean;
+  disabled?: boolean;
   type?: 'submit' | 'button' | 'reset' | undefined;
   onClick?: () => any;
 }
@@ -22,12 +23,13 @@ const Button: FC<IButton> = ({
   color = 'primary',
   variant = 'contained',
   fullWidth = false,
+  disabled = false,
   onClick
 }) => {
   const classes = useStyles({ color, variant });
 
   return (
-    <ADButton onClick={onClick} htmlType={type} className={classes.root} block={fullWidth}>
+    <ADButton onClick={onClick} htmlType={type} className={classes.root} block={fullWidth} disabled={disabled}>
       {children}
     </ADButton>
   );

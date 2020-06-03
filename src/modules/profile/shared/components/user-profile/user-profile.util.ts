@@ -1,12 +1,12 @@
 import * as Yup from 'yup';
 
-import { IGymProfileForm } from 'modules/profile/shared/model/gym-profile.model';
+import { IUserProfileForm } from 'modules/profile/shared/model/user-profile.model';
 import { EMAIL_FORM_SCHEMA } from 'modules/auth/shared/util';
 
 import { PHONE_REGEX } from 'shared/constants';
 import { Gender } from 'shared/generated/graphql-schema';
 
-export const PROFILE_FORM_SCHEMA = Yup.object().shape<IGymProfileForm>({
+export const PROFILE_FORM_SCHEMA = Yup.object().shape<IUserProfileForm>({
   ...EMAIL_FORM_SCHEMA,
   avatarBase64: Yup.string(),
   firstName: Yup.string().required('Required'),
