@@ -1,0 +1,5 @@
+mutation createTrainer($data: TrainerCreateInput!) {
+  createTrainer(data: $data) {
+    id
+  }
+}

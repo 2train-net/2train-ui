@@ -9,7 +9,12 @@ import { LOGIN } from 'shared/routes';
 import { AuthService } from 'shared/services';
 import { Field, Select } from 'shared/modules/form';
 import { CreateAccount, ICreateAccountData } from 'modules/auth/shared/model';
-import { UserTypes, useCreateUserMutation } from 'shared/generated/graphql-schema';
+import {
+  UserTypes,
+  useCreateUserMutation,
+  useCreateTrainerMutation,
+  useCreateCustomerMutation
+} from 'shared/generated/graphql-schema';
 
 import { INITIAL_REGISTER_FORM_VALUES, REGISTER_FORM_SCHEMA } from './register.util';
 import userStyles from './register.style';
@@ -22,6 +27,8 @@ const Register: FC = () => {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   const [createUser] = useCreateUserMutation();
+  const [createTrainer] = useCreateTrainerMutation();
+  const [createCustomer] = useCreateCustomerMutation();
 
   const onSubmit = async (data: ICreateAccountData) => {
     try {
@@ -29,7 +36,15 @@ const Register: FC = () => {
         setIsLoading(true);
         const account = new CreateAccount(data);
         await AuthService.register(account);
-        await createUser({ variables: { data: account.create } });
+
+        if (data.type === UserTypes.Gym) {
+          await createUser({ variables: { data: account.create } });
+        } else if (data.type === UserTypes.Trainer) {
+          await createTrainer({ variables: { data: { user: { create: account.create } } } });
+        } else {
+          await createCustomer({ variables: { data: { user: { create: account.create } } } });
+        }
+
         history.push(LOGIN);
       }
     } catch (error) {}
