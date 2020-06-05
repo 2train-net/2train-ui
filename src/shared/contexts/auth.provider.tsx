@@ -33,7 +33,7 @@ const AuthProvider: FC = ({ children }) => {
     };
 
     checkAuthToken();
-  }, [history, isAuthenticated, data, getUser]);
+  }, [isAuthenticated, data, getUser]);
 
   const login = async (credentials: AuthCredentials) => {
     try {

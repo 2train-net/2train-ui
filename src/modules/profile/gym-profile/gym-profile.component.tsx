@@ -1,6 +1,6 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useMemo, useEffect } from 'react';
 
-import { Card, Row, Col, Collapse } from 'antd';
+import { Card, Row, Col, Collapse, message } from 'antd';
 import { TeamOutlined } from '@ant-design/icons';
 
 import GymProfileForm from './components/gym-profile-form/gym-profile-form.component';
@@ -14,11 +14,17 @@ import userStyles from './gym-profile.style';
 const GymProfile: FC = () => {
   const classes = userStyles();
   const { user } = useContext(AuthContext);
-  const { data } = useGymProfileQuery({
+  const { data, loading } = useGymProfileQuery({
     variables: { where: { uuid: user ? user.uuid : undefined } }
   });
 
-  const gymProfile = new GymProfileModel(data && data.user.gym);
+  useEffect(() => {
+    message.loading('Cargando datos del perfil...');
+  }, []);
+
+  const gymProfile = useMemo(() => {
+    return new GymProfileModel(data && data.user.gym);
+  }, [data && data.user.gym]);
 
   return (
     <div className={classes.root}>

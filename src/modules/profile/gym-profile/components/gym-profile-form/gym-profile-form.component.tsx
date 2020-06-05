@@ -29,8 +29,7 @@ const GymProfileForm: FC<IGymProfileForm> = ({ gymProfile }) => {
 
   const onSubmit = async (data: IGymProfileFormModel) => {
     if (gymProfile.uuid) {
-      const response = await updateGym({ variables: { data, where: { uuid: gymProfile.uuid } } });
-      console.log(response);
+      await updateGym({ variables: { data, where: { uuid: gymProfile.uuid } } });
     } else {
       await createGym({
         variables: { data: { name: data.name, phone: data.phone, owner: { connect: { email: user && user.email } } } }
