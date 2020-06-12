@@ -10,6 +10,15 @@ export default createUseStyles<ITheme>(({ palette, spacing, breakpoints }) => ({
         top: spacing(2.5),
         bottom: spacing(2.5)
       }
+    },
+    '& .login-link': {
+      textAlign: 'center',
+      margin: {
+        top: 60
+      },
+      '& a': {
+        color: 'gray'
+      }
     }
   }
 }));

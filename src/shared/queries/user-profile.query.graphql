@@ -14,5 +14,14 @@ query userProfile($where: UserWhereUniqueInput!) {
       gender
       birthday
     }
+    gym {
+      id
+    }
+    trainer {
+      id
+    }
+    customer {
+      id
+    }
   }
 }

@@ -33,8 +33,8 @@ const Navbar: FC<INavbar> = ({ handleOpenDrawer }) => {
         }
         placement="bottomLeft"
       >
-        <Avatar size="default" className="nav-item" src={user!.avatar || ''}>
-          {user!.email.charAt(0)}
+        <Avatar size="default" className="nav-item" src={user?.avatar || ''}>
+          {user?.email.charAt(0)}
         </Avatar>
       </Dropdown>
     </div>

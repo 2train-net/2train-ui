@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, useContext } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Link } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 import { Form, Button, Card, Typography } from 'antd';
@@ -89,6 +89,12 @@ const ConfirmAccount: FC = () => {
           <Button type="primary" htmlType="submit" block>
             {isLoading ? <LoadingOutlined /> : 'ENVIAR'}
           </Button>
+        </Item>
+
+        <Item className="login-link">
+          <Link to={LOGIN}>
+            <Text underline>Volver al inicio de sesión</Text>
+          </Link>
         </Item>
       </Form>
     </Card>

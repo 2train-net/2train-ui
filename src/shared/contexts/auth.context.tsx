@@ -9,6 +9,9 @@ interface IUserProfile {
   avatar?: string | null;
   status: UserStatus;
   type: { id: UserTypes };
+  gym?: { id: number } | null;
+  trainer?: { id: number } | null;
+  customer?: { id: number } | null;
 }
 
 export interface IAuthContext {
