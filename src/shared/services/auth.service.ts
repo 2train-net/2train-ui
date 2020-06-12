@@ -22,7 +22,8 @@ export class AuthService {
       await Auth.signIn({ username: email, password });
     } catch (error) {
       console.error(error);
-      throw new AuthError();
+
+      throw new AuthError(error.name);
     }
   }
 

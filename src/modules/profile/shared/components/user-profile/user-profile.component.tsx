@@ -101,7 +101,7 @@ const UserProfile: FC = () => {
             />
 
             <DatePicker
-              value={moment(values.birthday)}
+              value={values.birthday && moment(values.birthday)}
               name="birthday"
               placeholder="Fecha de cumpleaños"
               error={errors.birthday}
@@ -115,7 +115,7 @@ const UserProfile: FC = () => {
               isDisabled={true}
               icon={<MailOutlined />}
               name="email"
-              placeholder="Email"
+              placeholder="Correo Electrónico"
               value={values.email}
               error={errors.email}
               onChange={handleChange}

@@ -5,7 +5,7 @@ import AuthContext from './auth.context';
 
 import { AuthCredentials } from 'shared/model';
 import { AuthService } from 'shared/services';
-import { COMPLETE_PROFILE } from 'shared/routes';
+import { COMPLETE_PROFILE, CONFIRM_ACCOUNT } from 'shared/routes';
 import { useUserProfileLazyQuery } from 'shared/generated/graphql-schema';
 
 const AuthProvider: FC = ({ children }) => {
@@ -40,7 +40,12 @@ const AuthProvider: FC = ({ children }) => {
       setIsLoading(true);
       await AuthService.login(credentials);
       setIsAuthenticated(true);
-    } catch (error) {}
+    } catch (error) {
+      if (error.name === 'UserNotConfirmedException') {
+        console.log('hey');
+        history.push(CONFIRM_ACCOUNT, { ...credentials });
+      }
+    }
 
     setIsLoading(false);
   };

@@ -1,9 +1,9 @@
 import React, { FC, useContext, useState } from 'react';
 import { Redirect, useLocation, Switch } from 'react-router-dom';
 
-import { Login, Register, ForgotPassword, PreLoader, ResetPassword } from './auth.module';
+import { Login, Register, ForgotPassword, PreLoader, ResetPassword, ConfirmAccount } from './auth.module';
 
-import { LOGIN, REGISTER, FORGOT_PASSWORD, RESET_PASSWORD } from 'shared/routes';
+import { LOGIN, REGISTER, FORGOT_PASSWORD, RESET_PASSWORD, CONFIRM_ACCOUNT } from 'shared/routes';
 import { PublicRoute } from 'shared/modules/route';
 import { AuthContext } from 'shared/contexts';
 
@@ -27,11 +27,15 @@ const Auth: FC = () => {
             <PublicRoute exact path={REGISTER} component={Register} />
             <PublicRoute exact path={FORGOT_PASSWORD} component={ForgotPassword} />
             <PublicRoute exact path={RESET_PASSWORD} component={ResetPassword} />
+            <PublicRoute exact path={CONFIRM_ACCOUNT} component={ConfirmAccount} />
           </Switch>
           {!isLoading && !isAuthenticated && (
             <Redirect
               to={
-                COMING_ROUTE === REGISTER || COMING_ROUTE === FORGOT_PASSWORD || COMING_ROUTE === RESET_PASSWORD
+                COMING_ROUTE === REGISTER ||
+                COMING_ROUTE === FORGOT_PASSWORD ||
+                COMING_ROUTE === RESET_PASSWORD ||
+                COMING_ROUTE === CONFIRM_ACCOUNT
                   ? COMING_ROUTE
                   : LOGIN
               }
