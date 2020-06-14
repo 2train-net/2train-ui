@@ -14,7 +14,7 @@ import userStyles from './gym-profile.style';
 const GymProfile: FC = () => {
   const classes = userStyles();
   const { user } = useContext(AuthContext);
-  const { data, loading } = useGymProfileQuery({
+  const { data, loading, refetch } = useGymProfileQuery({
     variables: { where: { uuid: user ? user.uuid : undefined } }
   });
 
@@ -28,7 +28,7 @@ const GymProfile: FC = () => {
 
   return (
     <div className={classes.root}>
-      <GymProfileForm gymProfile={gymProfile} />
+      <GymProfileForm gymProfile={gymProfile} refreshGym={refetch} />
       <Row style={{ marginTop: 16, marginBottom: 16 }}>
         <Col>
           <Collapse defaultActiveKey={['1']} onChange={console.log}>

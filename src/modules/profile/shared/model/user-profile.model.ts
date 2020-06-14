@@ -10,6 +10,16 @@ export interface IUserProfileForm {
   gender?: Gender | null;
 }
 
+export interface IUpdateUserProfileForm {
+  avatarBase64?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  birthday?: string;
+  gender?: Gender | null;
+}
+
 export interface IPerson {
   firstName: string;
   lastName: string;

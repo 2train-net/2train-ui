@@ -4,6 +4,12 @@ export interface IGymProfileForm {
   phone: string;
 }
 
+export interface IUpdateGymProfileForm {
+  avatarBase64?: string;
+  name?: string;
+  phone?: string;
+}
+
 export interface IGymProfileQuery {
   uuid: string;
   name: string;

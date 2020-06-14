@@ -1,13 +1,20 @@
 import { createContext } from 'react';
 
 import { AuthCredentials } from 'shared/model';
-import { UserStatus, UserTypes } from 'shared/generated/graphql-schema';
+import { UserStatus, UserTypes, Gender } from 'shared/generated/graphql-schema';
 
-interface IUserProfile {
+export interface IUserProfile {
   uuid: string;
   email: string;
   avatar?: string | null;
   status: UserStatus;
+  person?: {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    gender?: Gender | null | undefined;
+    birthday?: string;
+  };
   type: { id: UserTypes };
   gym?: { id: number } | null;
   trainer?: { id: number } | null;
@@ -20,6 +27,7 @@ export interface IAuthContext {
   isAuthenticated: boolean;
   login: (credentials: AuthCredentials) => Promise<void>;
   logout: () => Promise<void>;
+  refreshUser: (data?: IUserProfile) => void;
 }
 
 export default createContext<IAuthContext>({
@@ -27,5 +35,6 @@ export default createContext<IAuthContext>({
   isLoading: true,
   isAuthenticated: false,
   login: () => Promise.resolve(),
-  logout: () => Promise.resolve()
+  logout: () => Promise.resolve(),
+  refreshUser: () => {}
 });

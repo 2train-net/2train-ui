@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import AuthContext from './auth.context';
+import AuthContext, { IUserProfile } from './auth.context';
 
 import { AuthCredentials } from 'shared/model';
 import { AuthService } from 'shared/services';
@@ -11,7 +11,7 @@ import { useUserProfileLazyQuery } from 'shared/generated/graphql-schema';
 const AuthProvider: FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [getUser, { data }] = useUserProfileLazyQuery();
+  const [getUser, { data, updateQuery, refetch }] = useUserProfileLazyQuery();
   const history = useHistory();
 
   useEffect(() => {
@@ -42,7 +42,6 @@ const AuthProvider: FC = ({ children }) => {
       setIsAuthenticated(true);
     } catch (error) {
       if (error.name === 'UserNotConfirmedException') {
-        console.log('hey');
         history.push(CONFIRM_ACCOUNT, { ...credentials });
       }
     }
@@ -60,8 +59,21 @@ const AuthProvider: FC = ({ children }) => {
     setIsLoading(false);
   };
 
+  const refreshUser = (data?: IUserProfile) => {
+    if (data) {
+      updateQuery(({ user }) => ({
+        user: {
+          ...user,
+          ...data
+        }
+      }));
+    } else {
+      refetch();
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout, user: data && data.user }}>
+    <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout, user: data && data.user, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

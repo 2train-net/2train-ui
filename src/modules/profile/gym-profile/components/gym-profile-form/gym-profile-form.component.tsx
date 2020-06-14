@@ -4,7 +4,11 @@ import { useFormik } from 'formik';
 import { Form, Card, Row, Col } from 'antd';
 import { ShopOutlined, PhoneOutlined, PlusOutlined } from '@ant-design/icons';
 
-import { GymProfile as GymProfileModel, IGymProfileForm as IGymProfileFormModel } from 'modules/profile/shared/model';
+import {
+  GymProfile as GymProfileModel,
+  IGymProfileForm as IGymProfileFormModel,
+  IUpdateGymProfileForm
+} from 'modules/profile/shared/model';
 
 import Button from 'shared/modules/button/button.component';
 import { AuthContext } from 'shared/contexts';
@@ -19,9 +23,10 @@ const { Item } = Form;
 
 interface IGymProfileForm {
   gymProfile: GymProfileModel;
+  refreshGym: () => Promise<any>;
 }
 
-const GymProfileForm: FC<IGymProfileForm> = ({ gymProfile }) => {
+const GymProfileForm: FC<IGymProfileForm> = ({ gymProfile, refreshGym }) => {
   const classes = useStyles();
   const { user } = useContext(AuthContext);
   const [createGym] = useCreateGymMutation();
@@ -29,12 +34,29 @@ const GymProfileForm: FC<IGymProfileForm> = ({ gymProfile }) => {
 
   const onSubmit = async (data: IGymProfileFormModel) => {
     if (gymProfile.uuid) {
-      await updateGym({ variables: { data, where: { uuid: gymProfile.uuid } } });
+      const values: IUpdateGymProfileForm = objectDifferences(data, gymProfile.gymProfileForm);
+
+      await updateGym({
+        variables: {
+          data: {
+            avatarBase64: values?.avatarBase64,
+            name: values?.name,
+            phone: values?.phone
+          },
+          where: { uuid: gymProfile.uuid }
+        }
+      });
     } else {
       await createGym({
-        variables: { data: { name: data.name, phone: data.phone, owner: { connect: { email: user && user.email } } } }
+        variables: {
+          data: {
+            ...data,
+            owner: { connect: { email: user && user.email } }
+          }
+        }
       });
     }
+    refreshGym();
   };
 
   const { handleSubmit, handleChange, setFieldValue, values, errors, touched } = useFormik<IGymProfileFormModel>({

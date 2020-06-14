@@ -5,7 +5,11 @@ import { useFormik } from 'formik';
 import { Form, Card, Row, Col } from 'antd';
 import { UserOutlined, PhoneOutlined, PlusOutlined, MailOutlined } from '@ant-design/icons';
 
-import { UserProfile as UserProfileModel, IUserProfileForm } from 'modules/profile/shared/model';
+import {
+  UserProfile as UserProfileModel,
+  IUserProfileForm,
+  IUpdateUserProfileForm
+} from 'modules/profile/shared/model';
 
 import { Field, Select, DatePicker, Upload } from 'shared/modules/form';
 import Button from 'shared/modules/button/button.component';
@@ -21,29 +25,33 @@ const { Item } = Form;
 
 const UserProfile: FC = () => {
   const classes = useStyles();
-  const { user } = useContext(AuthContext);
+  const { user, refreshUser } = useContext(AuthContext);
   const [updateUser] = useUpdateUserMutation();
 
   const userProfile = new UserProfileModel(user);
 
-  const onSubmit = async ({ avatarBase64, ...data }: IUserProfileForm) => {
+  const onSubmit = async (data: IUserProfileForm) => {
+    const values: IUpdateUserProfileForm = objectDifferences(data, userProfile.userProfileForm);
+
     await updateUser({
       variables: {
         data: {
-          avatarBase64,
+          avatarBase64: values?.avatarBase64,
           person: {
             update: {
-              firstName: data.firstName,
-              lastName: data.lastName,
-              phone: data.phone,
-              birthday: data.birthday,
-              gender: data.gender
+              firstName: values?.firstName,
+              lastName: values?.lastName,
+              phone: values?.phone,
+              birthday: values?.birthday,
+              gender: values?.gender
             }
           }
         },
         where: { email: user && user.email }
       }
     });
+
+    refreshUser();
   };
 
   const { handleSubmit, handleChange, setFieldValue, values, errors, touched } = useFormik<IUserProfileForm>({
