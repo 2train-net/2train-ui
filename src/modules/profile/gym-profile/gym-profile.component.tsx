@@ -19,7 +19,9 @@ const GymProfile: FC = () => {
   });
 
   useEffect(() => {
-    message.loading('Cargando datos del perfil...');
+    if (loading) {
+      message.loading('Cargando datos del perfil...');
+    }
   }, []);
 
   const gymProfile = useMemo(() => {

@@ -15,6 +15,7 @@ import {
   TEAM,
   TEAM_CUSTOMERS,
   TEAM_TRAINERS,
+  TEAM_GYM_BRANCHES,
   SUBSCRIPTIONS,
   SUBSCRIPTIONS_CUSTOMERS,
   SUBSCRIPTIONS_TRAINERS,
@@ -39,6 +40,7 @@ export const OPTIONS: IOption[] = [
     title: 'Team',
     Icon: TeamOutlined,
     children: [
+      { route: TEAM_GYM_BRANCHES, title: 'Gym Branches' },
       { route: TEAM_TRAINERS, title: 'Trainers' },
       { route: TEAM_CUSTOMERS, title: 'Customers' }
     ]

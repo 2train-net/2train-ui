@@ -1,5 +1,6 @@
-const CUSTOMERS = 'customers';
 const TRAINERS = 'trainers';
+const CUSTOMERS = 'customers';
+const GYM_BRANCHES = 'gym-branches';
 
 export const ROOT = '/';
 export const LOGIN = '/login';
@@ -15,6 +16,7 @@ export const PROFILE = '/profile';
 export const TEAM = '/team';
 export const TEAM_TRAINERS = `${TEAM}/${TRAINERS}`;
 export const TEAM_CUSTOMERS = `${TEAM}/${CUSTOMERS}`;
+export const TEAM_GYM_BRANCHES = `${TEAM}/${GYM_BRANCHES}`;
 
 export const SUBSCRIPTIONS = '/subscriptions';
 export const SUBSCRIPTIONS_TRAINERS = `${SUBSCRIPTIONS}/${TRAINERS}`;
