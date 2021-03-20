@@ -9,12 +9,7 @@ import { LOGIN } from 'shared/routes';
 import { AuthService } from 'shared/services';
 import { Field, Select } from 'shared/modules/form';
 import { CreateAccount, ICreateAccountData } from 'modules/auth/shared/model';
-import {
-  UserTypes,
-  useCreateUserMutation,
-  useCreateTrainerMutation,
-  useCreateCustomerMutation
-} from 'shared/generated/graphql-schema';
+import { UserType, useCreateUserMutation } from 'shared/generated/graphql-schema';
 
 import { INITIAL_REGISTER_FORM_VALUES, REGISTER_FORM_SCHEMA } from './register.util';
 import userStyles from './register.style';
@@ -27,8 +22,6 @@ const Register: FC = () => {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   const [createUser] = useCreateUserMutation();
-  const [createTrainer] = useCreateTrainerMutation();
-  const [createCustomer] = useCreateCustomerMutation();
 
   const onSubmit = async (data: ICreateAccountData) => {
     try {
@@ -36,14 +29,6 @@ const Register: FC = () => {
         setIsLoading(true);
         const account = new CreateAccount(data);
         await AuthService.register(account);
-
-        if (data.type === UserTypes.Gym) {
-          await createUser({ variables: { data: account.create } });
-        } else if (data.type === UserTypes.Trainer) {
-          await createTrainer({ variables: { data: { user: { create: account.create } } } });
-        } else {
-          await createCustomer({ variables: { data: { user: { create: account.create } } } });
-        }
 
         history.push(LOGIN);
       }
@@ -103,9 +88,8 @@ const Register: FC = () => {
           name="type"
           placeholder="Type"
           options={[
-            { label: 'Gym', value: UserTypes.Gym },
-            { label: 'Trainer', value: UserTypes.Trainer },
-            { label: 'Customer', value: UserTypes.Customer }
+            { label: 'Trainer', value: UserType.PersonalTrainer },
+            { label: 'Customer', value: UserType.Customer }
           ]}
           error={errors.type}
           isDisabled={isLoading}

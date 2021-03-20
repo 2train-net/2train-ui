@@ -5,25 +5,22 @@ import { GymProfile } from './profile.module';
 import UserProfile from './shared/components/user-profile/user-profile.component';
 
 import { AuthContext } from 'shared/contexts';
-import { UserTypes } from 'shared/generated/graphql-schema';
+import { UserType } from 'shared/generated/graphql-schema';
 
-const { Admin, Gym, Trainer, Customer } = UserTypes;
+const { Customer } = UserType;
 
 const Profile: FC = () => {
   const { user } = useContext(AuthContext);
 
   const USER_PROFILES = {
-    [Admin]: null,
-    [Gym]: <GymProfile />,
-    [Trainer]: null,
-    [Customer]: null
+    [Customer]: <GymProfile />
   };
 
   return (
     <>
       <UserProfile />
 
-      {user && USER_PROFILES[user.type.id]}
+      {user && USER_PROFILES['CUSTOMER']}
     </>
   );
 };

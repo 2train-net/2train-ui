@@ -1,8 +1,8 @@
 import { ICredentials } from 'shared/model';
-import { UserTypes, UserCreateInput, UserStatus } from 'shared/generated/graphql-schema';
+import { UserType, UserCreateInput, UserStatus } from 'shared/generated/graphql-schema';
 
 export interface ICreateAccountData extends ICredentials {
-  type: UserTypes;
+  type: UserType;
   firstName: string;
   lastName: string;
   phone: string;
@@ -12,11 +12,11 @@ export interface ICreateAccountData extends ICredentials {
 interface ICreateProfile {
   get: ICreateAccountData;
   create: UserCreateInput;
-  credentials: { email: string; password: string; type: UserTypes };
+  credentials: { email: string; password: string; type: UserType };
 }
 
 export class CreateAccount implements ICreateProfile {
-  public readonly type: UserTypes;
+  public readonly type: UserType;
   public readonly firstName: string;
   public readonly lastName: string;
   public readonly phone: string;
@@ -46,7 +46,7 @@ export class CreateAccount implements ICreateProfile {
     };
   }
 
-  get create() {
+  get create(): any {
     return {
       email: this.email,
       status: UserStatus.Confirmed,

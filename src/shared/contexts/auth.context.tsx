@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 import { AuthCredentials } from 'shared/model';
-import { UserStatus, UserTypes, Gender } from 'shared/generated/graphql-schema';
+import { UserStatus, UserType, Gender } from 'shared/generated/graphql-schema';
 
 export interface IUserProfile {
   uuid: string;
@@ -15,7 +15,7 @@ export interface IUserProfile {
     gender?: Gender | null | undefined;
     birthday?: string;
   };
-  type: { id: UserTypes };
+  type: { id: UserType };
   gym?: { id: number } | null;
   trainer?: { id: number } | null;
   customer?: { id: number } | null;

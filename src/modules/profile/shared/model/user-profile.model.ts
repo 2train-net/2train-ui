@@ -44,7 +44,7 @@ export class UserProfile {
   constructor(data?: IUserProfileQuery) {
     this.email = data ? data.email : '';
     this.avatar = (data && data.avatar) || '';
-    this.status = data ? data.status : UserStatus.Canceled;
+    this.status = data ? data.status : UserStatus.Confirmed;
     this.person = {
       firstName: data && data.person ? data.person.firstName : '',
       lastName: data && data.person ? data.person.lastName : '',

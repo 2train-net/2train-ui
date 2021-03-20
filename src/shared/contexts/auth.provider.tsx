@@ -73,7 +73,9 @@ const AuthProvider: FC = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout, user: data && data.user, refreshUser }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, isLoading, login, logout, user: data && (data.user as any), refreshUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

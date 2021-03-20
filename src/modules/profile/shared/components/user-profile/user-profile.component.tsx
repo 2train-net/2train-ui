@@ -16,7 +16,7 @@ import Button from 'shared/modules/button/button.component';
 
 import { AuthContext } from 'shared/contexts';
 import { objectDifferences } from 'shared/util/object-differences';
-import { Gender, useUpdateUserMutation } from 'shared/generated/graphql-schema';
+import { Gender } from 'shared/generated/graphql-schema';
 
 import { PROFILE_FORM_SCHEMA } from './user-profile.util';
 import useStyles from './user-profile.style';
@@ -26,30 +26,11 @@ const { Item } = Form;
 const UserProfile: FC = () => {
   const classes = useStyles();
   const { user, refreshUser } = useContext(AuthContext);
-  const [updateUser] = useUpdateUserMutation();
 
   const userProfile = new UserProfileModel(user);
 
   const onSubmit = async (data: IUserProfileForm) => {
     const values: IUpdateUserProfileForm = objectDifferences(data, userProfile.userProfileForm);
-
-    await updateUser({
-      variables: {
-        data: {
-          avatarBase64: values?.avatarBase64,
-          person: {
-            update: {
-              firstName: values?.firstName,
-              lastName: values?.lastName,
-              phone: values?.phone,
-              birthday: values?.birthday,
-              gender: values?.gender
-            }
-          }
-        },
-        where: { email: user && user.email }
-      }
-    });
 
     refreshUser();
   };

@@ -14,7 +14,6 @@ import Button from 'shared/modules/button/button.component';
 import { AuthContext } from 'shared/contexts';
 import { Field, Upload } from 'shared/modules/form';
 import { objectDifferences } from 'shared/util/object-differences';
-import { useCreateGymMutation, useUpdateGymMutation } from 'shared/generated/graphql-schema';
 
 import { GYM_PROFILE_FORM_SCHEMA } from './gym-profile-form.util';
 import useStyles from './gym-profile-form.style';
@@ -29,32 +28,11 @@ interface IGymProfileForm {
 const GymProfileForm: FC<IGymProfileForm> = ({ gymProfile, refreshGym }) => {
   const classes = useStyles();
   const { user } = useContext(AuthContext);
-  const [createGym] = useCreateGymMutation();
-  const [updateGym] = useUpdateGymMutation();
 
   const onSubmit = async (data: IGymProfileFormModel) => {
     if (gymProfile.uuid) {
       const values: IUpdateGymProfileForm = objectDifferences(data, gymProfile.gymProfileForm);
-
-      await updateGym({
-        variables: {
-          data: {
-            avatarBase64: values?.avatarBase64,
-            name: values?.name,
-            phone: values?.phone
-          },
-          where: { uuid: gymProfile.uuid }
-        }
-      });
     } else {
-      await createGym({
-        variables: {
-          data: {
-            ...data,
-            owner: { connect: { email: user && user.email } }
-          }
-        }
-      });
     }
     refreshGym();
   };

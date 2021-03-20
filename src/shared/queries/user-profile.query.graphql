@@ -4,24 +4,5 @@ query userProfile($where: UserWhereUniqueInput!) {
     email
     avatar
     status
-    type {
-      id
-    }
-    person {
-      firstName
-      lastName
-      phone
-      gender
-      birthday
-    }
-    gym {
-      id
-    }
-    trainer {
-      id
-    }
-    customer {
-      id
-    }
   }
 }
