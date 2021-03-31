@@ -8,7 +8,7 @@ import { UserOutlined, PhoneOutlined, MailOutlined, LockOutlined, LoadingOutline
 import { LOGIN } from 'shared/routes';
 import { AuthService } from 'shared/services';
 import { Field, Select } from 'shared/modules/form';
-import { CreateAccount, ICreateAccountData } from 'modules/auth/shared/model';
+import { CreateAccount, ICreateAccountFormValues } from 'modules/auth/shared/model';
 import { UserType, useCreateUserMutation } from 'shared/generated/graphql-schema';
 
 import { INITIAL_REGISTER_FORM_VALUES, REGISTER_FORM_SCHEMA } from './register.util';
@@ -23,21 +23,31 @@ const Register: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [createUser] = useCreateUserMutation();
 
-  const onSubmit = async (data: ICreateAccountData) => {
+  const onSubmit = async (data: ICreateAccountFormValues) => {
     try {
       if (!isLoading) {
         setIsLoading(true);
-        const account = new CreateAccount(data);
-        await AuthService.register(account);
+        // TODO WE SHOULD CHECK FOR THE USERNAMES ON THE APP, JUST TO DOUBLE CHECK USERNAME DOES EXIST
+        const profile = new CreateAccount(data);
+        const { email, password } = profile.credentials;
+
+        await AuthService.register(email, password);
+        await createUser({
+          variables: {
+            data: profile.data
+          }
+        });
 
         history.push(LOGIN);
       }
-    } catch (error) {}
+    } catch (error) {
+      // TODO WE SHOULD DO SOME ERROR HANDLER TO NOTIFY USER SOMETHING WENT WRONG
+    }
 
     setIsLoading(false);
   };
 
-  const { handleSubmit, handleChange, setFieldValue, values, errors, touched } = useFormik<ICreateAccountData>({
+  const { handleSubmit, handleChange, setFieldValue, values, errors, touched } = useFormik<ICreateAccountFormValues>({
     onSubmit,
     initialValues: INITIAL_REGISTER_FORM_VALUES,
     validationSchema: REGISTER_FORM_SCHEMA
@@ -47,8 +57,19 @@ const Register: FC = () => {
     <Card className={classes.root} bordered>
       <Form onSubmitCapture={handleSubmit}>
         <Item className="register-form-title">
-          <Title level={4}>iForce</Title>
+          <Title level={4}>2Train</Title>
         </Item>
+
+        <Field
+          icon={<UserOutlined />}
+          name="username"
+          placeholder="Username"
+          value={values.username}
+          error={errors.username}
+          onChange={handleChange}
+          isDisabled={isLoading}
+          hasBeenTouched={touched.username}
+        />
 
         <Field
           icon={<UserOutlined />}

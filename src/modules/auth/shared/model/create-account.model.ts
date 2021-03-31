@@ -1,73 +1,59 @@
-import { ICredentials } from 'shared/model';
-import { UserType, UserCreateInput, UserStatus } from 'shared/generated/graphql-schema';
+import { UserType } from 'shared/generated/graphql-schema';
 
-export interface ICreateAccountData extends ICredentials {
-  type: UserType;
+export interface ICreateAccountFormValues {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  username: string;
   firstName: string;
   lastName: string;
   phone: string;
-  confirmPassword: string;
+  type: UserType;
 }
 
-interface ICreateProfile {
-  get: ICreateAccountData;
-  create: UserCreateInput;
-  credentials: { email: string; password: string; type: UserType };
+export interface ICreateAccountData {
+  email: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  type: UserType;
 }
 
-export class CreateAccount implements ICreateProfile {
-  public readonly type: UserType;
+interface ICreateAccount {
+  data: ICreateAccountData;
+}
+
+export class CreateAccount implements ICreateAccount {
+  public readonly email: string;
+  public readonly password: string;
+  public readonly username: string;
   public readonly firstName: string;
   public readonly lastName: string;
   public readonly phone: string;
-  public readonly email: string;
-  public readonly password: string;
-  public readonly confirmPassword: string;
+  public readonly type: UserType;
 
-  constructor(data: ICreateAccountData) {
-    this.type = data.type;
+  constructor(data: ICreateAccountFormValues) {
+    this.email = data.email;
+    this.password = data.password;
+    this.username = data.username;
     this.firstName = data.firstName;
     this.lastName = data.lastName;
     this.phone = data.phone;
-    this.email = data.email;
-    this.password = data.password;
-    this.confirmPassword = data.confirmPassword;
+    this.type = data.type;
   }
 
-  get get() {
+  get data() {
     return {
-      type: this.type,
+      email: this.email,
+      username: this.username,
       firstName: this.firstName,
       lastName: this.lastName,
-      phone: this.phone,
-      email: this.email,
-      password: this.password,
-      confirmPassword: this.confirmPassword
-    };
-  }
-
-  get create(): any {
-    return {
-      email: this.email,
-      status: UserStatus.Confirmed,
-      type: {
-        connect: {
-          id: this.type
-        }
-      },
-      person: {
-        create: {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          phone: this.phone
-        }
-      }
+      type: this.type
     };
   }
 
   get credentials() {
     return {
-      type: this.type,
       email: this.email,
       password: this.password
     };

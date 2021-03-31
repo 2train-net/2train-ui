@@ -37,7 +37,7 @@ const Login: FC = () => {
     <Card className={classes.root} bordered>
       <Form onSubmitCapture={handleSubmit}>
         <Item className="login-form-title">
-          <Title level={4}>iForce</Title>
+          <Title level={4}>2Train</Title>
         </Item>
 
         <Field

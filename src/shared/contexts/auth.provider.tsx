@@ -1,11 +1,11 @@
 import React, { FC, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import AuthContext, { IUserProfile } from './auth.context';
+import AuthContext from './auth.context';
 
-import { AuthCredentials } from 'shared/model';
+import { AuthCredentials, IUserProfile } from 'shared/model';
 import { AuthService } from 'shared/services';
-import { COMPLETE_PROFILE, CONFIRM_ACCOUNT } from 'shared/routes';
+import { CONFIRM_ACCOUNT } from 'shared/routes';
 import { useUserProfileLazyQuery } from 'shared/generated/graphql-schema';
 
 const AuthProvider: FC = ({ children }) => {
@@ -14,31 +14,36 @@ const AuthProvider: FC = ({ children }) => {
   const [getUser, { data, updateQuery, refetch }] = useUserProfileLazyQuery();
   const history = useHistory();
 
+  const user = data && (data.user as IUserProfile);
+
   useEffect(() => {
-    const checkAuthToken = async () => {
-      try {
-        const { email, isVerified } = await AuthService.getCognitoUser();
-        setIsAuthenticated(true);
-
-        if (isVerified) {
-          getUser({ variables: { where: { email } } });
-
-          if (!data!.user) {
-            history.push(COMPLETE_PROFILE);
-          }
-        }
-      } catch (error) {}
-
-      setIsLoading(false);
-    };
-
     checkAuthToken();
-  }, [isAuthenticated, data, getUser]);
+  }, [isAuthenticated, user, getUser]);
 
-  const login = async (credentials: AuthCredentials) => {
+  const checkAuthToken = async () => {
     try {
+      const { email, isVerified } = await AuthService.getCognitoUser();
+
+      setIsAuthenticated(true);
+
+      if (isVerified) {
+        getUser({ variables: { where: { email } } });
+      } else {
+        history.push(CONFIRM_ACCOUNT, { email });
+      }
+    } catch (error) {}
+
+    setIsLoading(false);
+  };
+
+  const login = async ({ credentials }: AuthCredentials) => {
+    try {
+      const { email, password } = credentials;
+
       setIsLoading(true);
-      await AuthService.login(credentials);
+
+      await AuthService.login(email, password);
+
       setIsAuthenticated(true);
     } catch (error) {
       if (error.name === 'UserNotConfirmedException') {
@@ -52,7 +57,9 @@ const AuthProvider: FC = ({ children }) => {
   const logout = async () => {
     try {
       setIsLoading(true);
+
       await AuthService.logout();
+
       setIsAuthenticated(false);
     } catch (error) {}
 
@@ -72,10 +79,22 @@ const AuthProvider: FC = ({ children }) => {
     }
   };
 
+  const verifyAccount = async (code: string, email: string, password?: string) => {
+    try {
+      await AuthService.confirmSignUp(email, code);
+
+      if (password) {
+        const credentials = new AuthCredentials({ email, password });
+
+        await login(credentials);
+      } else {
+        checkAuthToken();
+      }
+    } catch (error) {}
+  };
+
   return (
-    <AuthContext.Provider
-      value={{ isAuthenticated, isLoading, login, logout, user: data && (data.user as any), refreshUser }}
-    >
+    <AuthContext.Provider value={{ isAuthenticated, isLoading, user, login, logout, refreshUser, verifyAccount }}>
       {children}
     </AuthContext.Provider>
   );

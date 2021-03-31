@@ -3,7 +3,7 @@ import { Auth } from 'aws-amplify';
 import { CreateAccount } from 'modules/auth/shared/model/create-account.model';
 
 import { AuthError } from 'shared/errors';
-import { AuthCredentials, CognitoUser } from 'shared/model';
+import { CognitoUser } from 'shared/model';
 
 export class AuthService {
   public async getCognitoUser(): Promise<CognitoUser> {
@@ -17,9 +17,9 @@ export class AuthService {
     }
   }
 
-  public async login({ credentials: { email, password } }: AuthCredentials): Promise<void> {
+  public async login(email: string, password: string): Promise<any> {
     try {
-      await Auth.signIn({ username: email, password });
+      return Auth.signIn({ username: email, password });
     } catch (error) {
       console.error(error);
 
@@ -35,7 +35,7 @@ export class AuthService {
     }
   }
 
-  public async register({ email, password, type }: CreateAccount): Promise<void> {
+  public async register(email: string, password: string): Promise<void> {
     try {
       await Auth.signUp({
         username: email,
@@ -53,6 +53,7 @@ export class AuthService {
     try {
       await Auth.confirmSignUp(email, code);
     } catch (error) {
+      console.log(error);
       throw new AuthError();
     }
   }
@@ -79,6 +80,14 @@ export class AuthService {
       return clientToken ? clientToken.getJwtToken() : null;
     } catch (error) {
       return null;
+    }
+  }
+
+  public async resendVerificationCode(email: string) {
+    try {
+      await Auth.resendSignUp(email);
+    } catch (error) {
+      throw new AuthError();
     }
   }
 

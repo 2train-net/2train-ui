@@ -7,7 +7,6 @@ export const LOGIN = '/login';
 export const REGISTER = '/register';
 export const FORGOT_PASSWORD = '/forgot-password';
 export const RESET_PASSWORD = '/reset-password';
-export const COMPLETE_PROFILE = '/complete-profile';
 export const CONFIRM_ACCOUNT = '/confirm-account';
 
 export const HOME = '/home';
