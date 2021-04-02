@@ -1,13 +1,16 @@
-import { UserStatus, Gender } from 'shared/generated/graphql-schema';
+import { IUserProfile } from 'shared/model';
+import { UserStatus, Gender, Scope } from 'shared/generated/graphql-schema';
 
 export interface IUserProfileForm {
   avatarBase64: string;
   email: string;
+  username: string;
   firstName: string;
   lastName: string;
   phone: string;
   birthday?: string;
   gender?: Gender | null;
+  scope: Scope;
 }
 
 export interface IUpdateUserProfileForm {
@@ -18,51 +21,57 @@ export interface IUpdateUserProfileForm {
   phone?: string;
   birthday?: string;
   gender?: Gender | null;
-}
-
-export interface IPerson {
-  firstName: string;
-  lastName: string;
-  phone: string;
-  gender?: Gender | null;
-  birthday?: string;
+  scope?: Scope;
 }
 
 export interface IUserProfileQuery {
   email: string;
-  avatar?: string | null;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  scope: Scope;
   status: UserStatus;
-  person?: IPerson;
+  birthday?: string;
+  gender?: Gender | null;
+  avatar?: string | null;
 }
 
 export class UserProfile {
   public readonly email: string;
   public readonly avatar: string;
+  public readonly username: string;
+  public readonly firstName: string;
+  public readonly lastName: string;
+  public readonly phone: string;
+  public readonly gender?: Gender | null;
+  public readonly birthday?: string;
   public readonly status: UserStatus;
-  public readonly person: IPerson;
+  public readonly scope: Scope;
 
-  constructor(data?: IUserProfileQuery) {
+  constructor(data?: IUserProfile) {
     this.email = data ? data.email : '';
+    this.username = data ? data.username : '';
     this.avatar = (data && data.avatar) || '';
     this.status = data ? data.status : UserStatus.Confirmed;
-    this.person = {
-      firstName: data && data.person ? data.person.firstName : '',
-      lastName: data && data.person ? data.person.lastName : '',
-      phone: data && data.person ? data.person.phone : '',
-      gender: data && data.person && data.person.gender ? data.person.gender : undefined,
-      birthday: data && data.person ? data.person.birthday : ''
-    };
+    this.firstName = data ? data.firstName : '';
+    this.lastName = data ? data.lastName : '';
+    this.phone = data ? data.phone : '';
+    this.gender = data ? data.gender : undefined;
+    this.birthday = data ? data.birthday : '';
+    this.scope = data ? data.scope : Scope.Private;
   }
 
   public get userProfileForm(): IUserProfileForm {
     return {
       avatarBase64: this.avatar,
+      username: this.username,
       email: this.email,
-      firstName: this.person.firstName,
-      lastName: this.person.lastName,
-      phone: this.person.phone,
-      birthday: this.person.birthday,
-      gender: this.person.gender
+      firstName: this.firstName,
+      lastName: this.lastName,
+      phone: this.phone,
+      birthday: this.birthday,
+      gender: this.gender,
+      scope: this.scope
     };
   }
 }

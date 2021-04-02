@@ -1,12 +1,15 @@
-import { EMAIL_FORM_SCHEMA } from 'modules/auth/shared/util';
 import * as Yup from 'yup';
 
-import { PHONE_REGEX } from 'shared/constants';
-import { Gender } from 'shared/generated/graphql-schema';
+import { IUserProfileForm } from 'modules/profile/shared/model/user-profile.model';
+import { EMAIL_FORM_SCHEMA } from 'modules/auth/shared/util';
 
-export const PROFILE_FORM_SCHEMA = Yup.object().shape<any>({
+import { PHONE_REGEX } from 'shared/constants';
+import { Gender, Scope } from 'shared/generated/graphql-schema';
+
+export const PROFILE_FORM_SCHEMA = Yup.object().shape<IUserProfileForm>({
   ...EMAIL_FORM_SCHEMA,
-  avatar: Yup.string(),
+  avatarBase64: Yup.string(),
+  username: Yup.string().required('Required'),
   firstName: Yup.string().required('Required'),
   lastName: Yup.string().required('Required'),
   phone: Yup.string()
@@ -15,15 +18,8 @@ export const PROFILE_FORM_SCHEMA = Yup.object().shape<any>({
   birthday: Yup.string().required('Required'),
   gender: Yup.mixed<Gender>()
     .oneOf([Gender.Male, Gender.Female])
+    .required('Required'),
+  scope: Yup.mixed<Scope>()
+    .oneOf([Scope.Private, Scope.Public])
     .required('Required')
 });
-
-export const INITIAL_PROFILE_FORM_VALUES: any = {
-  avatar: '',
-  email: '',
-  firstName: '',
-  lastName: '',
-  phone: '',
-  birthday: '',
-  gender: undefined
-};

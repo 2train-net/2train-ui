@@ -1,7 +1,5 @@
 import { Auth } from 'aws-amplify';
 
-import { CreateAccount } from 'modules/auth/shared/model/create-account.model';
-
 import { AuthError } from 'shared/errors';
 import { CognitoUser } from 'shared/model';
 

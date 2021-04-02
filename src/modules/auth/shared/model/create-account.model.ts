@@ -48,6 +48,7 @@ export class CreateAccount implements ICreateAccount {
       username: this.username,
       firstName: this.firstName,
       lastName: this.lastName,
+      phone: this.phone,
       type: this.type
     };
   }

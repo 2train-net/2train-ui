@@ -1,7 +1,12 @@
 import { createUseStyles } from 'react-jss';
 
-export default createUseStyles({
+import { ITheme } from 'shared/theme';
+
+export default createUseStyles(({ breakpoints, spacing }: ITheme) => ({
   root: {
+    margin: {
+      bottom: spacing(2)
+    },
     '& .profile-form-title': {
       textAlign: 'center',
       margin: {
@@ -18,6 +23,11 @@ export default createUseStyles({
       '& img': {
         width: '100%'
       }
+    },
+    '& .submit-button': {
+      [breakpoints.down('md')]: {
+        textAlign: 'center'
+      }
     }
   }
-});
+}));

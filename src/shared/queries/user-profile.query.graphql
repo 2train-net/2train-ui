@@ -2,7 +2,14 @@ query userProfile($where: UserWhereUniqueInput!) {
   user(where: $where) {
     uuid
     email
+    username
+    firstName
+    lastName
+    phone
+    gender
     avatar
     status
+    scope
+    birthday
   }
 }

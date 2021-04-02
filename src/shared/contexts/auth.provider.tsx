@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import AuthContext from './auth.context';
@@ -16,11 +16,7 @@ const AuthProvider: FC = ({ children }) => {
 
   const user = data && (data.user as IUserProfile);
 
-  useEffect(() => {
-    checkAuthToken();
-  }, [isAuthenticated, user, getUser]);
-
-  const checkAuthToken = async () => {
+  const checkAuthToken = useCallback(async () => {
     try {
       const { email, isVerified } = await AuthService.getCognitoUser();
 
@@ -34,7 +30,7 @@ const AuthProvider: FC = ({ children }) => {
     } catch (error) {}
 
     setIsLoading(false);
-  };
+  }, [history, getUser]);
 
   const login = async ({ credentials }: AuthCredentials) => {
     try {
@@ -92,6 +88,10 @@ const AuthProvider: FC = ({ children }) => {
       }
     } catch (error) {}
   };
+
+  useEffect(() => {
+    checkAuthToken();
+  }, [isAuthenticated, user, checkAuthToken]);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, isLoading, user, login, logout, refreshUser, verifyAccount }}>
