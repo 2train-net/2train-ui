@@ -1,7 +1,6 @@
 import React, { FC, ReactElement } from 'react';
 
 import { Form, Upload as AntDesignUpload } from 'antd';
-import { UploadChangeParam } from 'antd/lib/upload';
 
 const { Item } = Form;
 
@@ -16,18 +15,24 @@ interface IUpload {
 }
 
 const Upload: FC<IUpload> = ({ children, name, error, className, isDisabled, hasBeenTouched, setFieldValue }) => {
-  const getBase64 = (file: Blob, callback: (avatar: string | ArrayBuffer | null) => void) => {
+  const getBase64 = (file: Blob, callback: (image: string | ArrayBuffer | null) => void) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(file);
+    try {
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const onUpload = (info: UploadChangeParam<any>) => {
-    getBase64(info.file, image => {
+  const onUpload = (file: Blob) => {
+    getBase64(file, image => {
       if (image && typeof image === 'string') {
         setFieldValue(name, image);
       }
     });
+
+    return false;
   };
 
   return (
@@ -38,12 +43,11 @@ const Upload: FC<IUpload> = ({ children, name, error, className, isDisabled, has
     >
       <AntDesignUpload
         name={name}
-        listType="picture-card"
         className={className}
-        onChange={onUpload}
-        showUploadList={false}
-        beforeUpload={() => false}
         disabled={isDisabled}
+        showUploadList={false}
+        listType="picture-card"
+        beforeUpload={onUpload}
       >
         {children}
       </AntDesignUpload>
