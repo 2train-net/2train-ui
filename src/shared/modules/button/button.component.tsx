@@ -6,6 +6,8 @@ import useStyles from './button.style';
 
 export type ButtonColor = 'primary' | 'secondary';
 export type ButtonVariant = 'contained' | 'outlined';
+export type ButtonSize = 'large' | 'medium' | 'small';
+export type ButtonType = 'submit' | 'button' | 'reset';
 
 interface IButton {
   children: any;
@@ -13,7 +15,8 @@ interface IButton {
   variant?: ButtonVariant;
   fullWidth?: boolean;
   disabled?: boolean;
-  type?: 'submit' | 'button' | 'reset' | undefined;
+  type?: ButtonType;
+  size?: ButtonSize;
   onClick?: () => any;
 }
 
@@ -22,11 +25,12 @@ const Button: FC<IButton> = ({
   type = 'submit',
   color = 'primary',
   variant = 'contained',
+  size = 'large',
   fullWidth = false,
   disabled = false,
   onClick
 }) => {
-  const classes = useStyles({ color, variant });
+  const classes = useStyles({ color, variant, size });
 
   return (
     <ADButton onClick={onClick} htmlType={type} className={classes.root} block={fullWidth} disabled={disabled}>
