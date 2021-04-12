@@ -25,6 +25,11 @@ export const TRAINING = '/training';
 
 export const SETTINGS = '/settings';
 
+export const PLANS = '/plans';
+export const PLAN_ADD = `${PLANS}/add`;
+export const PLAN_EDIT = `${PLANS}/edit/:id`;
+export const PLAN_DETAIL = `${PLANS}/detail/:id`;
+
 export const BODY_MEASURES = '/body-measures';
 export const BODY_MEASURE_ADD = `${BODY_MEASURES}/add`;
 export const BODY_MEASURE_EDIT = `${BODY_MEASURES}/edit/:id`;

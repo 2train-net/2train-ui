@@ -6,12 +6,14 @@ import {
   MailOutlined,
   HeartOutlined,
   ThunderboltOutlined,
-  SettingOutlined
+  SettingOutlined,
+  BookOutlined
 } from '@ant-design/icons';
 
 import {
   HOME,
   PROFILE,
+  PLANS,
   TEAM,
   TEAM_CUSTOMERS,
   TEAM_TRAINERS,
@@ -35,6 +37,7 @@ interface IOption {
 export const OPTIONS: IOption[] = [
   { route: HOME, title: 'Home', Icon: HomeOutlined },
   { route: PROFILE, title: 'Profile', Icon: UserOutlined },
+  { route: PLANS, title: 'Plans', Icon: BookOutlined },
   {
     route: TEAM,
     title: 'Team',

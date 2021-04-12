@@ -15,6 +15,7 @@ interface IButton {
   variant?: ButtonVariant;
   fullWidth?: boolean;
   disabled?: boolean;
+  loading?: boolean;
   type?: ButtonType;
   size?: ButtonSize;
   onClick?: () => any;
@@ -28,12 +29,20 @@ const Button: FC<IButton> = ({
   size = 'large',
   fullWidth = false,
   disabled = false,
+  loading = false,
   onClick
 }) => {
   const classes = useStyles({ color, variant, size });
 
   return (
-    <ADButton onClick={onClick} htmlType={type} className={classes.root} block={fullWidth} disabled={disabled}>
+    <ADButton
+      onClick={onClick}
+      htmlType={type}
+      className={classes.root}
+      block={fullWidth}
+      disabled={disabled}
+      loading={loading}
+    >
       {children}
     </ADButton>
   );
