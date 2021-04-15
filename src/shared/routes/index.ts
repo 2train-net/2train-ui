@@ -1,8 +1,5 @@
-const TRAINERS = 'trainers';
-const CUSTOMERS = 'customers';
-const GYM_BRANCHES = 'gym-branches';
-
 export const ROOT = '/';
+
 export const LOGIN = '/login';
 export const REGISTER = '/register';
 export const FORGOT_PASSWORD = '/forgot-password';
@@ -10,11 +7,10 @@ export const RESET_PASSWORD = '/reset-password';
 export const CONFIRM_ACCOUNT = '/confirm-account';
 
 export const HOME = '/home';
+
 export const PROFILE = '/profile';
 
-export const SUBSCRIPTIONS = '/subscriptions';
-export const SUBSCRIPTIONS_TRAINERS = `${SUBSCRIPTIONS}/${TRAINERS}`;
-export const SUBSCRIPTIONS_CUSTOMERS = `${SUBSCRIPTIONS}/${CUSTOMERS}`;
+export const INVITATIONS = '/invitations';
 
 export const TRAINING = '/training';
 
