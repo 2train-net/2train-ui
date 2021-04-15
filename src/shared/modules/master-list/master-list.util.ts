@@ -23,6 +23,7 @@ export interface QueryVariables {
 export interface IMasterList<T> {
   take?: number;
   fetchPolicy?: WatchQueryFetchPolicy;
+  title: string;
   render: FC<IMasterComponent<T>>;
   useQuery: (
     options: ApolloReactHooks.QueryHookOptions<QueryPayload<T>, QueryVariables>

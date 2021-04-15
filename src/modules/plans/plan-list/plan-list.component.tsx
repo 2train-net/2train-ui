@@ -9,7 +9,7 @@ import { IPlanPayload } from 'modules/plans/shared/model';
 import { useGetPlansQuery } from 'shared/generated/graphql-schema';
 
 const PlanList: FC = () => {
-  return <MasterList<IPlanPayload> render={PlanCard} useQuery={useGetPlansQuery} />;
+  return <MasterList<IPlanPayload> title="Plans" render={PlanCard} useQuery={useGetPlansQuery} />;
 };
 
 export default PlanList;

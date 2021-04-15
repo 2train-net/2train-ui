@@ -1,6 +1,8 @@
 import React, { PropsWithChildren, useState } from 'react';
 
-import { Row, Col } from 'antd';
+import { Link } from 'react-router-dom';
+
+import { Row, Col, PageHeader } from 'antd';
 
 import Button from 'shared/modules/button/button.component';
 
@@ -11,6 +13,7 @@ import useStyles from './master-list.style';
 const MasterList = <T,>({
   take = 10,
   fetchPolicy = 'cache-and-network',
+  title,
   render: Component,
   useQuery
 }: PropsWithChildren<IMasterList<T>>) => {
@@ -45,10 +48,22 @@ const MasterList = <T,>({
 
   return (
     <div className={`master-list ${classes.root}`}>
+      <PageHeader
+        ghost={false}
+        title={`${data.payload.length} ${title}`}
+        extra={[
+          <Link key="create-link" to={location => `${location.pathname}/add`}>
+            <Button type="button" color="primary" size="small">
+              Create
+            </Button>
+          </Link>
+        ]}
+      />
+
       <Row className="master-list-content" gutter={[24, 24]}>
         {data.payload.map((data: Entity<T>) => (
-          <Col sm={{ order: 24 }} md={{ order: 12 }} lg={{ order: 6 }}>
-            <Component data={data} key={data.uuid} />
+          <Col key={data.uuid} sm={{ order: 24 }} md={{ order: 12 }} lg={{ order: 6 }}>
+            <Component data={data} />
           </Col>
         ))}
       </Row>

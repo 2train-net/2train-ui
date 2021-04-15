@@ -5,7 +5,10 @@ import { ITheme } from 'shared/theme';
 export default createUseStyles<ITheme>(({ spacing }) => ({
   root: {
     '& .master-list-content': {
-      justifyContent: 'center'
+      justifyContent: 'center',
+      margin: {
+        top: spacing(4)
+      }
     },
     '& .master-list-loading': {
       textAlign: 'center',
