@@ -1,7 +1,6 @@
 import {
   HomeOutlined,
   UserOutlined,
-  TeamOutlined,
   FileOutlined,
   MailOutlined,
   HeartOutlined,
@@ -14,10 +13,6 @@ import {
   HOME,
   PROFILE,
   PLANS,
-  TEAM,
-  TEAM_CUSTOMERS,
-  TEAM_TRAINERS,
-  TEAM_GYM_BRANCHES,
   SUBSCRIPTIONS,
   SUBSCRIPTIONS_CUSTOMERS,
   SUBSCRIPTIONS_TRAINERS,
@@ -38,16 +33,6 @@ export const OPTIONS: IOption[] = [
   { route: HOME, title: 'Home', Icon: HomeOutlined },
   { route: PROFILE, title: 'Profile', Icon: UserOutlined },
   { route: PLANS, title: 'Plans', Icon: BookOutlined },
-  {
-    route: TEAM,
-    title: 'Team',
-    Icon: TeamOutlined,
-    children: [
-      { route: TEAM_GYM_BRANCHES, title: 'Gym Branches' },
-      { route: TEAM_TRAINERS, title: 'Trainers' },
-      { route: TEAM_CUSTOMERS, title: 'Customers' }
-    ]
-  },
   {
     route: SUBSCRIPTIONS,
     title: 'Subscriptions',

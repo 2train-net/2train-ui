@@ -12,11 +12,6 @@ export const CONFIRM_ACCOUNT = '/confirm-account';
 export const HOME = '/home';
 export const PROFILE = '/profile';
 
-export const TEAM = '/team';
-export const TEAM_TRAINERS = `${TEAM}/${TRAINERS}`;
-export const TEAM_CUSTOMERS = `${TEAM}/${CUSTOMERS}`;
-export const TEAM_GYM_BRANCHES = `${TEAM}/${GYM_BRANCHES}`;
-
 export const SUBSCRIPTIONS = '/subscriptions';
 export const SUBSCRIPTIONS_TRAINERS = `${SUBSCRIPTIONS}/${TRAINERS}`;
 export const SUBSCRIPTIONS_CUSTOMERS = `${SUBSCRIPTIONS}/${CUSTOMERS}`;
