@@ -1,7 +1,0 @@
-query getExercises($skip: Int!, $take: Int!) {
-  payload: exercises(skip: $skip, take: $take, orderBy: { createdAt: DESC }) {
-    uuid
-    name
-    description
-  }
-}

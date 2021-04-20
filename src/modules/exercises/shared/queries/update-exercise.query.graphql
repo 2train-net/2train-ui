@@ -1,5 +1,0 @@
-mutation updateExercise($where: ExerciseWhereUniqueInput!, $data: ExerciseUpdateInput!) {
-  updateExercise(where: $where, data: $data) {
-    uuid
-  }
-}

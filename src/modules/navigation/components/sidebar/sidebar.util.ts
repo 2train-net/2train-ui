@@ -9,17 +9,7 @@ import {
   BookOutlined
 } from '@ant-design/icons';
 
-import {
-  HOME,
-  PROFILE,
-  PLANS,
-  INVITATIONS,
-  WORKOUT_ROUTINES,
-  BODY_MEASURES,
-  TRAINING,
-  SETTINGS,
-  EXERCISES
-} from 'shared/routes';
+import { HOME, PROFILE, PLANS, INVITATIONS, WORKOUT_ROUTINES, BODY_MEASURES, TRAINING, SETTINGS } from 'shared/routes';
 
 interface IOption {
   route: string;
@@ -35,7 +25,6 @@ export const OPTIONS: IOption[] = [
   { route: INVITATIONS, title: 'Invitations', Icon: MailOutlined },
   { route: WORKOUT_ROUTINES, title: 'Routines', Icon: FileOutlined },
   { route: BODY_MEASURES, title: 'Body Measures', Icon: HeartOutlined },
-  { route: EXERCISES, title: 'Exercises', Icon: HeartOutlined },
   { route: TRAINING, title: 'Training', Icon: ThunderboltOutlined },
   { route: SETTINGS, title: 'Settings', Icon: SettingOutlined }
 ];

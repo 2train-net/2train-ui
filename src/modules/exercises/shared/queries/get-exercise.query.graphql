@@ -1,7 +1,0 @@
-query getExercise($where: ExerciseWhereUniqueInput!) {
-  exercise(where: $where) {
-    uuid
-    name
-    description
-  }
-}
