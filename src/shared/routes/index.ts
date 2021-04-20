@@ -21,6 +21,10 @@ export const PLAN_ADD = `${PLANS}/add`;
 export const PLAN_EDIT = `${PLANS}/edit/:id`;
 export const PLAN_DETAIL = `${PLANS}/detail/:id`;
 
+export const EXERCISES = '/exercises';
+export const EXERCISE_ADD = `${EXERCISES}/add`;
+export const EXERCISE_EDIT = `${EXERCISES}/edit/:uuid`;
+
 export const BODY_MEASURES = '/body-measures';
 export const BODY_MEASURE_ADD = `${BODY_MEASURES}/add`;
 export const BODY_MEASURE_EDIT = `${BODY_MEASURES}/edit/:id`;
