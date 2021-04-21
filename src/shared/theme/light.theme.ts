@@ -13,6 +13,13 @@ export const LIGHT_THEME: ITheme = {
       main: '#343756',
       light: '#616377'
     },
+    danger: {
+      main: '#ff4444',
+      dark: '#CC0000'
+    },
+    default: {
+      main: '#c8c8c8'
+    },
     accent: {
       main: '#ff8f33',
       light: '#ffbc85'
@@ -24,18 +31,18 @@ export const LIGHT_THEME: ITheme = {
     },
     success: {
       light: '#81c784',
-      main: '#4caf50',
-      dark: '#388e3c'
+      main: '#00C851',
+      dark: '#007E33'
     },
     info: {
       light: '#64b5f6',
-      main: '#2196f3',
-      dark: '#1976d2'
+      main: '#33b5e5',
+      dark: '#0099CC'
     },
     warning: {
       light: '#ffb74d',
-      main: '#ff9800',
-      dark: '#f57c00'
+      main: '#ffbb33',
+      dark: '#FF8800'
     },
     error: {
       light: '#e57373',
