@@ -13,6 +13,18 @@ export interface ITheme {
       dark?: string;
       contrastText?: string;
     };
+    danger: {
+      light?: string;
+      main: string;
+      dark?: string;
+      contrastText?: string;
+    };
+    default: {
+      light?: string;
+      main: string;
+      dark?: string;
+      contrastText?: string;
+    };
     accent: {
       light?: string;
       main: string;
