@@ -4,7 +4,7 @@ import { Button as ADButton } from 'antd';
 
 import useStyles from './button.style';
 
-export type ButtonColor = 'primary' | 'secondary';
+export type ButtonColor = 'primary' | 'secondary' | 'danger' | 'warning' | 'success' | 'info' | 'default';
 export type ButtonVariant = 'contained' | 'outlined';
 export type ButtonSize = 'large' | 'medium' | 'small';
 export type ButtonType = 'submit' | 'button' | 'reset';
