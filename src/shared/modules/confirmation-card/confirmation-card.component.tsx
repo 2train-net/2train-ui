@@ -11,13 +11,22 @@ const { Title, Text } = Typography;
 interface IConfirmationCard {
   title: string;
   message?: string;
-  Icon: FC;
+  iconRender: FC;
   onConfirm: () => unknown;
-  onCancel?: () => unknown;
+  onCancel: () => unknown;
   color?: ButtonColor;
+  isCancelButtonAvailable?: boolean;
 }
 
-const ConfirmationCard: FC<IConfirmationCard> = ({ title, Icon, message, onConfirm, onCancel, color = 'default' }) => {
+const ConfirmationCard: FC<IConfirmationCard> = ({
+  title,
+  iconRender: Icon,
+  message,
+  onConfirm,
+  onCancel,
+  color = 'default',
+  isCancelButtonAvailable = true
+}) => {
   const classes = useStyles({ color });
 
   return (
@@ -44,16 +53,16 @@ const ConfirmationCard: FC<IConfirmationCard> = ({ title, Icon, message, onConfi
         </Col>
       </Row>
       <Row>
-        {onCancel && (
+        {isCancelButtonAvailable && (
           <Col span={12}>
             <Button onClick={onCancel} color="default" size="medium">
-              Cancel
+              Cancelar
             </Button>
           </Col>
         )}
-        <Col span={onCancel ? 12 : 24}>
+        <Col span={isCancelButtonAvailable ? 12 : 24}>
           <Button onClick={onConfirm} color={color} size="medium">
-            Continue
+            Continuar
           </Button>
         </Col>
       </Row>
