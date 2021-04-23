@@ -8,7 +8,7 @@ import { IPlanFormValues, INITIAL_PLAN_FORM_VALUES, PLAN_FORM_SCHEMA } from './p
 import Button from 'shared/modules/button/button.component';
 
 import { Field, FieldGroup, Select } from 'shared/modules/form';
-import { Currency, IntervalPlan, PlanStatus } from 'shared/generated/graphql-schema';
+import { Currency, IntervalPlan, PlanStatus } from 'shared/generated';
 import { objectDifferences } from 'shared/util/object-differences';
 
 interface IPlanForm {

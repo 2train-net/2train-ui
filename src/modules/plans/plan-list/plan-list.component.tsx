@@ -8,7 +8,7 @@ import { IPlanPayload } from 'modules/plans/shared/model';
 import MasterList from 'shared/modules/master-list/master-list.component';
 import { ModalContext } from 'shared/contexts';
 import { DELETE_MODAL } from 'shared/constants';
-import { useGetPlansQuery } from 'shared/generated/graphql-schema';
+import { useGetPlansQuery } from 'shared/generated';
 
 const PlanList: FC = () => {
   const history = useHistory();

@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import { UserType } from 'shared/generated/graphql-schema';
+import { UserType } from 'shared/generated';
 import { ICreateAccountFormValues } from 'modules/auth/shared/model';
 import { EMAIL_FORM_SCHEMA, CONFIRM_PASSWORD_FORM_SCHEMA } from 'modules/auth/shared/util';
 

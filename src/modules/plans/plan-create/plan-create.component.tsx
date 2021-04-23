@@ -8,7 +8,7 @@ import { IPlanFormValues } from 'modules/plans/shared/components/plan-form/plan-
 
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
-import { useCreatePlanMutation } from 'shared/generated/graphql-schema';
+import { useCreatePlanMutation } from 'shared/generated';
 
 const PlanCreate: FC = () => {
   const [createPlan] = useCreatePlanMutation();

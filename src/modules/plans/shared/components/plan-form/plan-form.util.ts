@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import { Currency, IntervalPlan, PlanStatus } from 'shared/generated/graphql-schema';
+import { Currency, IntervalPlan, PlanStatus } from 'shared/generated';
 
 export interface IPlanFormValues {
   name: string;

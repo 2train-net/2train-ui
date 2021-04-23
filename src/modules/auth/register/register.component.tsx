@@ -9,7 +9,7 @@ import { LOGIN } from 'shared/routes';
 import { AuthService } from 'shared/services';
 import { Field, Select } from 'shared/modules/form';
 import { CreateAccount, ICreateAccountFormValues } from 'modules/auth/shared/model';
-import { UserType, useCreateUserMutation } from 'shared/generated/graphql-schema';
+import { UserType, useCreateUserMutation } from 'shared/generated';
 
 import { INITIAL_REGISTER_FORM_VALUES, REGISTER_FORM_SCHEMA } from './register.util';
 import userStyles from './register.style';

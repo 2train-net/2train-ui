@@ -16,7 +16,7 @@ import Button from 'shared/modules/button/button.component';
 
 import { AuthContext } from 'shared/contexts';
 import { objectDifferences } from 'shared/util/object-differences';
-import { Gender, Scope, useUpdateUserMutation } from 'shared/generated/graphql-schema';
+import { Gender, Scope, useUpdateUserMutation } from 'shared/generated';
 
 import { PROFILE_FORM_SCHEMA } from './profile.util';
 import useStyles from './profile.style';

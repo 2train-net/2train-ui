@@ -4,7 +4,7 @@ import { IUserProfileForm } from 'modules/profile/shared/model/user-profile.mode
 import { EMAIL_FORM_SCHEMA } from 'modules/auth/shared/util';
 
 import { PHONE_REGEX } from 'shared/constants';
-import { Gender, Scope } from 'shared/generated/graphql-schema';
+import { Gender, Scope } from 'shared/generated';
 
 export const PROFILE_FORM_SCHEMA = Yup.object().shape<IUserProfileForm>({
   ...EMAIL_FORM_SCHEMA,

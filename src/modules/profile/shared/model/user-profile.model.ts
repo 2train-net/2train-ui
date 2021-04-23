@@ -1,5 +1,5 @@
 import { IUserProfile } from 'shared/model';
-import { UserStatus, Gender, Scope } from 'shared/generated/graphql-schema';
+import { UserStatus, Gender, Scope } from 'shared/generated';
 
 export interface IUserProfileForm {
   avatarBase64: string;

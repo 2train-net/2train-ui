@@ -6,7 +6,7 @@ import AuthContext from './auth.context';
 import { AuthCredentials, IUserProfile } from 'shared/model';
 import { AuthService } from 'shared/services';
 import { CONFIRM_ACCOUNT } from 'shared/routes';
-import { useUserProfileLazyQuery } from 'shared/generated/graphql-schema';
+import { useUserProfileLazyQuery } from 'shared/generated';
 
 const AuthProvider: FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);

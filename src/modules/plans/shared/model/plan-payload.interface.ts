@@ -1,4 +1,4 @@
-import { Currency, IntervalPlan, PlanStatus } from 'shared/generated/graphql-schema';
+import { Currency, IntervalPlan, PlanStatus } from 'shared/generated';
 
 export interface IPlanPayload {
   uuid: string;

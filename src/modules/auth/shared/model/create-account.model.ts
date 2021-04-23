@@ -1,4 +1,4 @@
-import { UserType } from 'shared/generated/graphql-schema';
+import { UserType } from 'shared/generated';
 
 export interface ICreateAccountFormValues {
   email: string;

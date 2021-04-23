@@ -1,4 +1,4 @@
-import { Gender, Scope, UserStatus } from 'shared/generated/graphql-schema';
+import { Gender, Scope, UserStatus } from 'shared/generated';
 
 export interface IUserProfile {
   uuid: string;
