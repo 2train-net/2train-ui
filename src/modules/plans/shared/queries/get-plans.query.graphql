@@ -1,12 +1,11 @@
 query getPlans($take: Int!, $skip: Int!) {
   payload: plans(take: $take, skip: $skip) {
     uuid
+    name
     price
     currency
-    description
     intervalCount
     intervalPlan
     status
-    scope
   }
 }

@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import { PlanList } from './plans.module';
+import { PlanList, PlanCreate } from './plans.module';
 
-import { PLANS } from 'shared/routes';
+import { PLANS, PLAN_ADD, PLAN_DELETE } from 'shared/routes';
 import { NotFoundErrorPage } from 'shared/modules/error-page/error-page.module';
 
-const Plans = () => (
+const Plans: FC = () => (
   <Switch>
-    <Route exact path={PLANS} component={PlanList} />
+    <Route path={[PLANS, PLAN_DELETE]} component={PlanList} />
+    <Route exact path={PLAN_ADD} component={PlanCreate} />
 
     <Route component={NotFoundErrorPage} />
   </Switch>
