@@ -13,7 +13,7 @@ import WorkoutRoutine from 'modules/workout-routine/workout-routine.module';
 
 import { NotFoundErrorPage } from 'shared/modules/error-page/error-page.module';
 
-import { AuthProvider } from 'shared/contexts';
+import { AuthProvider, ModalProvider } from 'shared/contexts';
 import { LIGHT_THEME } from 'shared/theme';
 import { ROOT, HOME, PROFILE, PLANS, WORKOUT_ROUTINES, BODY_MEASURES } from 'shared/routes';
 
@@ -25,19 +25,21 @@ const App: FC = () => {
   return (
     <AuthProvider>
       <ThemeProvider theme={LIGHT_THEME}>
-        <Route path={ROOT} component={Auth} />
-        <Navigation>
-          <Switch>
-            <Route exact path={HOME} component={Home} />
-            <Route exact path={PROFILE} component={Profile} />
-            <Route exact path={PLANS} component={Plans} />
-            <Route exact path={WORKOUT_ROUTINES} component={WorkoutRoutine} />
-            <Route path={BODY_MEASURES} component={BodyMeasure} />
+        <ModalProvider>
+          <Route path={ROOT} component={Auth} />
+          <Navigation>
+            <Switch>
+              <Route exact path={HOME} component={Home} />
+              <Route exact path={PROFILE} component={Profile} />
+              <Route exact path={WORKOUT_ROUTINES} component={WorkoutRoutine} />
+              <Route path={PLANS} component={Plans} />
+              <Route path={BODY_MEASURES} component={BodyMeasure} />
 
-            <Route component={NotFoundErrorPage} />
-            <Redirect to={pathname} />
-          </Switch>
-        </Navigation>
+              <Route component={NotFoundErrorPage} />
+              <Redirect to={pathname} />
+            </Switch>
+          </Navigation>
+        </ModalProvider>
       </ThemeProvider>
     </AuthProvider>
   );
