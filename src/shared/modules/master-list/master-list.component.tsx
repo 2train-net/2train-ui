@@ -67,6 +67,7 @@ const MasterList = <T,>({
           </Col>
         ))}
       </Row>
+
       <Row className="master-list-loading">
         <Button type="button" onClick={loadMore} loading={loading}>
           {loading ? '' : 'Load more'}
