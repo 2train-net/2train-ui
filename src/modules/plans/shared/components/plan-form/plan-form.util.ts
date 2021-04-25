@@ -4,12 +4,12 @@ import { Currency, IntervalPlan, PlanStatus } from 'shared/generated';
 
 export interface IPlanFormValues {
   name: string;
-  description: string;
   price: number;
+  status: PlanStatus;
   currency: Currency;
   intervalCount: number;
   intervalPlan: IntervalPlan;
-  status: PlanStatus;
+  description?: string | null;
 }
 
 export const PLAN_FORM_SCHEMA = Yup.object().shape({

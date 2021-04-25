@@ -1,0 +1,11 @@
+query getPlan($where: PlanWhereUniqueInput!) {
+  payload: plan(where: $where) {
+    name
+    price
+    currency
+    intervalCount
+    intervalPlan
+    status
+    description
+  }
+}

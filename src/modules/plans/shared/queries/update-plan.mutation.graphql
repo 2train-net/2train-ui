@@ -1,0 +1,11 @@
+mutation updatePlan($data: PlanUpdateInput!, $where: PlanWhereUniqueInput!) {
+  payload: updatePlan(data: $data, where: $where) {
+    name
+    price
+    currency
+    intervalCount
+    intervalPlan
+    status
+    description
+  }
+}
