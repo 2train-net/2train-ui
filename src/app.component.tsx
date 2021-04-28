@@ -9,13 +9,14 @@ import Auth from 'modules/auth/auth.module';
 import Profile from 'modules/profile/profile.module';
 import Plans from 'modules/plans/plans.module';
 import BodyMeasure from 'modules/body-measure/body-measure.module';
+import Exercises from 'modules/exercises/exercises.module';
 import WorkoutRoutine from 'modules/workout-routine/workout-routine.module';
 
 import { NotFoundErrorPage } from 'shared/modules/error-page/error-page.module';
 
 import { AuthProvider, ModalProvider } from 'shared/contexts';
 import { LIGHT_THEME } from 'shared/theme';
-import { ROOT, HOME, PROFILE, PLANS, WORKOUT_ROUTINES, BODY_MEASURES } from 'shared/routes';
+import { ROOT, HOME, PROFILE, PLANS, WORKOUT_ROUTINES, BODY_MEASURES, EXERCISES } from 'shared/routes';
 
 import './app.css';
 
@@ -33,6 +34,7 @@ const App: FC = () => {
               <Route exact path={PROFILE} component={Profile} />
               <Route exact path={WORKOUT_ROUTINES} component={WorkoutRoutine} />
               <Route path={PLANS} component={Plans} />
+              <Route path={EXERCISES} component={Exercises} />
               <Route path={BODY_MEASURES} component={BodyMeasure} />
 
               <Route component={NotFoundErrorPage} />
