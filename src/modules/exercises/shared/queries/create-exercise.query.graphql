@@ -1,0 +1,5 @@
+mutation createExercise($data: ExerciseCreateInput!) {
+  createExercise(data: $data) {
+    uuid
+  }
+}

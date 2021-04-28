@@ -24,6 +24,12 @@ export const PLAN_EDIT = `${PLANS}/edit/:id`;
 export const PLAN_DETAIL = `${PLANS}/detail/:id`;
 export const PLAN_DELETE = `${PLANS}/delete/:id`;
 
+export const EXERCISES = '/exercises';
+export const EXERCISE_ADD = `${EXERCISES}/add`;
+export const EXERCISE_EDIT = `${EXERCISES}/edit/:id`;
+export const EXERCISE_DELETE = `${EXERCISES}/delete/:id`;
+export const EXERCISE_DETAIL = `${EXERCISES}/detail/:id`;
+
 export const BODY_MEASURES = '/body-measures';
 export const BODY_MEASURE_ADD = `${BODY_MEASURES}/add`;
 export const BODY_MEASURE_EDIT = `${BODY_MEASURES}/edit/:id`;
