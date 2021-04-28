@@ -1,0 +1,6 @@
+query getExercise($where: ExerciseWhereUniqueInput!) {
+  payload: exercise(where: $where) {
+    name
+    description
+  }
+}
