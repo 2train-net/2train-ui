@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, ReactElement } from 'react';
 
-import { Card, Typography, Row, Col } from 'antd';
+import { Card, Typography, Row, Col, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 import Button, { ButtonColor } from 'shared/modules/button/button.component';
 
@@ -10,22 +11,30 @@ const { Title, Text } = Typography;
 
 interface IConfirmationCard {
   title: string;
-  message?: string;
   iconRender: FC;
+  message?: string;
+  color?: ButtonColor;
+  confirmText?: string;
+  cancelText?: string;
+  contentRender?: ReactElement;
+  isCancelButtonAvailable?: boolean;
+  isLoading?: boolean;
   onConfirm: () => unknown;
   onCancel: () => unknown;
-  color?: ButtonColor;
-  isCancelButtonAvailable?: boolean;
 }
 
 const ConfirmationCard: FC<IConfirmationCard> = ({
   title,
   iconRender: Icon,
   message,
-  onConfirm,
-  onCancel,
   color = 'default',
-  isCancelButtonAvailable = true
+  isCancelButtonAvailable = true,
+  isLoading = false,
+  confirmText,
+  cancelText,
+  contentRender,
+  onConfirm,
+  onCancel
 }) => {
   const classes = useStyles({ color });
 
@@ -34,7 +43,7 @@ const ConfirmationCard: FC<IConfirmationCard> = ({
       <Row>
         <Col span={24}>
           <div className="icon">
-            <Icon />
+            {isLoading ? <Spin indicator={<LoadingOutlined className="loading-spinner" spin />} /> : <Icon />}
           </div>
         </Col>
       </Row>
@@ -45,24 +54,30 @@ const ConfirmationCard: FC<IConfirmationCard> = ({
           </Title>
         </Col>
       </Row>
-      <Row>
-        <Col span={24}>
-          <Text strong type="secondary">
-            {message}
-          </Text>
-        </Col>
-      </Row>
+      {(contentRender || message) && (
+        <Row>
+          <Col span={24}>
+            {contentRender ? (
+              <>{contentRender}</>
+            ) : (
+              <Text strong type="secondary">
+                {message}
+              </Text>
+            )}
+          </Col>
+        </Row>
+      )}
       <Row>
         {isCancelButtonAvailable && (
           <Col span={12}>
-            <Button onClick={onCancel} color="default" size="medium">
-              Cancelar
+            <Button onClick={onCancel} color="default" size="medium" disabled={isLoading}>
+              {cancelText || 'Cancelar'}
             </Button>
           </Col>
         )}
         <Col span={isCancelButtonAvailable ? 12 : 24}>
-          <Button onClick={onConfirm} color={color} size="medium">
-            Continuar
+          <Button onClick={onConfirm} color={color} size="medium" disabled={isLoading}>
+            {confirmText || 'Continuar'}
           </Button>
         </Col>
       </Row>

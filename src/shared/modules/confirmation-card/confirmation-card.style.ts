@@ -5,6 +5,7 @@ import { ButtonColor } from 'shared/modules/button/button.component';
 
 export default createUseStyles<ITheme>(({ palette, spacing }) => ({
   root: ({ color }: { color: ButtonColor }) => ({
+    pointerEvents: 'auto',
     margin: 'auto',
     display: 'flow',
     textAlign: 'center',
@@ -21,7 +22,13 @@ export default createUseStyles<ITheme>(({ palette, spacing }) => ({
       borderRadius: '50%',
       display: 'inline-block',
       fontSize: spacing(7),
-      backgroundColor: palette[color].main
+      backgroundColor: palette[color].main,
+
+      '& .loading-spinner': {
+        color: 'white',
+        fontSize: 56,
+        margin: -12
+      }
     },
     '& .title': {
       marginTop: spacing(4),

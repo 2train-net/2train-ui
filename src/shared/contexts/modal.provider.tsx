@@ -32,6 +32,10 @@ const ModalProvider: FC = ({ children }) => {
         title={modal.title}
         message={modal.message}
         iconRender={modal.iconRender}
+        confirmText={modal.confirmText}
+        cancelText={modal.cancelText}
+        contentRender={modal.contentRender}
+        isLoading={modal.isLoading}
         onConfirm={modal.onConfirm}
         onCancel={() => {
           modal.onCancel && modal.onCancel();

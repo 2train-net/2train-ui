@@ -1,4 +1,4 @@
-import { createContext, FC } from 'react';
+import { FC, ReactElement, createContext } from 'react';
 
 import { ConfirmModalType } from 'shared/modules/confirm-modal/confirm-modal.component';
 
@@ -7,6 +7,10 @@ export interface IModal {
   message?: string;
   type: ConfirmModalType;
   iconRender: FC;
+  confirmText?: string;
+  cancelText?: string;
+  contentRender?: ReactElement;
+  isLoading?: boolean;
   onConfirm: () => any;
   onCancel?: () => any;
 }
