@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { Row, Col, PageHeader } from 'antd';
 
+import { ADD } from 'shared/routes';
 import Button from 'shared/modules/button/button.component';
 
 import { IMasterList, Entity } from './master-list.util';
@@ -52,7 +53,7 @@ const MasterList = <T,>({
         ghost={false}
         title={`${data.payload.length} ${title}`}
         extra={[
-          <Link key="create-link" to={location => `${location.pathname}/add`}>
+          <Link key="create-link" to={location => `${location.pathname}/${ADD}`}>
             <Button type="button" color="primary" size="small">
               Create
             </Button>
