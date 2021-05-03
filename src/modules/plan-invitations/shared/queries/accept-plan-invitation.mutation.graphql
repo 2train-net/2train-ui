@@ -1,0 +1,5 @@
+mutation acceptPlanInvitation($data: PlanInvitationAcceptInput!) {
+  payload: acceptPlanInvitation(data: $data) {
+    link
+  }
+}

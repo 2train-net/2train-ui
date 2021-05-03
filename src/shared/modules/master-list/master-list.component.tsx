@@ -1,10 +1,11 @@
-import React, { PropsWithChildren, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
 import { Row, Col, PageHeader } from 'antd';
 
 import { ADD } from 'shared/routes';
+import { Message } from 'shared/modules';
 import Button from 'shared/modules/button/button.component';
 
 import { IMasterList, Entity } from './master-list.util';
@@ -16,6 +17,7 @@ const MasterList = <T,>({
   fetchPolicy = 'cache-and-network',
   title,
   render: Component,
+  isCreateButtonAvailable = true,
   useQuery
 }: PropsWithChildren<IMasterList<T>>) => {
   const classes = useStyles();
@@ -47,19 +49,27 @@ const MasterList = <T,>({
     setSkip(nextSkip);
   };
 
+  const pageHeaderActions = [];
+
+  if (isCreateButtonAvailable) {
+    pageHeaderActions.push(
+      <Link key="create-link" to={location => `${location.pathname}/${ADD}`}>
+        <Button type="button" color="primary" size="small">
+          Create
+        </Button>
+      </Link>
+    );
+  }
+
+  useEffect(() => {
+    if (error) {
+      Message.error(error.graphQLErrors[0].message);
+    }
+  }, [error]);
+
   return (
     <div className={`master-list ${classes.root}`}>
-      <PageHeader
-        ghost={false}
-        title={`${data.payload.length} ${title}`}
-        extra={[
-          <Link key="create-link" to={location => `${location.pathname}/${ADD}`}>
-            <Button type="button" color="primary" size="small">
-              Create
-            </Button>
-          </Link>
-        ]}
-      />
+      <PageHeader ghost={false} title={`${data.payload.length} ${title}`} extra={pageHeaderActions} />
 
       <Row className="master-list-content" gutter={[24, 24]}>
         {data.payload.map((data: Entity<T>) => (

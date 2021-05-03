@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import { Card } from 'antd';
 
 import ExerciseForm from 'modules/exercises/shared/components/exercise-form/exercise-form.component';
@@ -9,16 +11,27 @@ import { IExerciseFormValues } from 'modules/exercises/shared/components/exercis
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
 import { useCreateExerciseMutation } from 'shared/generated/graphql-schema';
+import { EXERCISES } from 'shared/routes';
 
 const ExerciseCreate: FC = () => {
+  const history = useHistory();
+
   const [createExercise] = useCreateExerciseMutation();
 
+  const redirectToExercises = () => {
+    history.push(EXERCISES);
+  };
+
   const onSubmit = async (data: IExerciseFormValues) => {
-    await createExercise({
-      variables: {
-        data
-      }
-    });
+    try {
+      await createExercise({
+        variables: {
+          data
+        }
+      });
+
+      redirectToExercises();
+    } catch (error) {}
   };
 
   return (

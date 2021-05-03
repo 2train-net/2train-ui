@@ -1,21 +1,12 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC } from 'react';
 
 import { Modal } from 'antd';
 
 import ConfirmationCard from 'shared/modules/confirmation-card/confirmation-card.component';
+import { IModal } from 'shared/model';
 
-export type ConfirmModalType = 'success' | 'danger' | 'warning' | 'info';
-
-interface IConfirmModal {
-  title: string;
-  type: ConfirmModalType;
-  message?: string;
+interface IConfirmModal extends IModal {
   isOpen: boolean;
-  iconRender: FC;
-  contentRender?: ReactElement;
-  confirmText?: string;
-  cancelText?: string;
-  isLoading?: boolean;
   onConfirm: () => any;
   onCancel: () => any;
 }
@@ -32,6 +23,7 @@ const ConfirmModal: FC<IConfirmModal> = ({
   confirmText,
   cancelText,
   contentRender,
+  isCancelButtonAvailable,
   onConfirm,
   onCancel
 }) => {
@@ -52,6 +44,7 @@ const ConfirmModal: FC<IConfirmModal> = ({
             iconRender={iconRender}
             contentRender={contentRender}
             isLoading={isLoading}
+            isCancelButtonAvailable={isCancelButtonAvailable}
           />
         );
       }}

@@ -1,5 +1,9 @@
 import React, { FC } from 'react';
 
+import { useHistory, useLocation } from 'react-router-dom';
+
+import { ShareAltOutlined } from '@ant-design/icons';
+
 import { IPlanPayload } from 'modules/plans/shared/model';
 
 import Status from 'shared/modules/status/status.component';
@@ -11,6 +15,12 @@ interface IPlanCard extends IMasterComponent<IPlanPayload> {
 }
 
 const PlanCard: FC<IPlanCard> = ({ data }) => {
+  const location = useLocation();
+  const history = useHistory();
+
+  const redirect = history.push;
+  const { pathname } = location;
+
   return (
     <ListCard
       uuid={data.uuid}
@@ -21,6 +31,7 @@ const PlanCard: FC<IPlanCard> = ({ data }) => {
         </>
       }
       description={`${data.currency} ${data.price} | ${data.intervalCount} ${data.intervalPlan}`}
+      actions={[<ShareAltOutlined key="share" onClick={() => redirect(`${pathname}/invite/${data.uuid}`)} />]}
     />
   );
 };

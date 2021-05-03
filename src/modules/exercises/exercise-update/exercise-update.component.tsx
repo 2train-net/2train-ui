@@ -1,23 +1,22 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
-import { Redirect, useLocation } from 'react-router';
+import { Redirect } from 'react-router';
+import { useRouteMatch } from 'react-router-dom';
 
 import { Card } from 'antd';
 
-import ExerciseForm from 'modules/exercises/shared/components/exercise-form/exercise-form.component';
-
-import { IExerciseFormValues } from 'modules/exercises/shared/components/exercise-form/exercise-form.util';
+import { ExerciseForm, IExerciseFormValues } from 'modules/exercises/exercises.module';
 
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
-import { GetExerciseDocument, useUpdateExerciseMutation, useGetExerciseQuery } from 'shared/generated/graphql-schema';
-
+import { Message } from 'shared/modules';
 import { NOT_FOUND } from 'shared/routes';
+import { GetExerciseDocument, useUpdateExerciseMutation, useGetExerciseQuery } from 'shared/generated';
 
 const ExerciseUpdate: FC = () => {
-  const location = useLocation();
-
-  const [uuid] = location.pathname.split('/').reverse();
+  const {
+    params: { uuid }
+  } = useRouteMatch<{ uuid: string }>();
 
   const where = { uuid };
 
@@ -28,6 +27,7 @@ const ExerciseUpdate: FC = () => {
       where
     }
   });
+
   const notFound = !data?.payload && !loading;
 
   const onSubmit = async (data: IExerciseFormValues) => {
@@ -47,6 +47,12 @@ const ExerciseUpdate: FC = () => {
       }
     });
   };
+
+  useEffect(() => {
+    if (error) {
+      Message.error(error.graphQLErrors[0].message);
+    }
+  }, [error]);
 
   return notFound ? (
     <Redirect to={NOT_FOUND} />

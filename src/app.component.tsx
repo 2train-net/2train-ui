@@ -11,12 +11,22 @@ import Plans from 'modules/plans/plans.module';
 import BodyMeasure from 'modules/body-measure/body-measure.module';
 import Exercises from 'modules/exercises/exercises.module';
 import WorkoutRoutine from 'modules/workout-routine/workout-routine.module';
+import PlanInvitations from 'modules/plan-invitations/plan-invitations.module';
 
-import { NotFoundErrorPage } from 'shared/modules/error-page/error-page.module';
+import { NotFoundErrorPage } from 'shared/modules';
 
 import { AuthProvider, ModalProvider } from 'shared/contexts';
 import { LIGHT_THEME } from 'shared/theme';
-import { ROOT, HOME, PROFILE, PLANS, WORKOUT_ROUTINES, BODY_MEASURES, EXERCISES } from 'shared/routes';
+import {
+  ROOT,
+  HOME,
+  PROFILE,
+  PLANS,
+  WORKOUT_ROUTINES,
+  BODY_MEASURES,
+  EXERCISES,
+  PLAN_INVITATIONS
+} from 'shared/routes';
 
 import './app.css';
 
@@ -34,6 +44,7 @@ const App: FC = () => {
               <Route exact path={PROFILE} component={Profile} />
               <Route exact path={WORKOUT_ROUTINES} component={WorkoutRoutine} />
               <Route path={PLANS} component={Plans} />
+              <Route path={PLAN_INVITATIONS} component={PlanInvitations} />
               <Route path={EXERCISES} component={Exercises} />
               <Route path={BODY_MEASURES} component={BodyMeasure} />
 

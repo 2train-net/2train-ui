@@ -2,13 +2,13 @@ import React, { FC, useContext, useEffect } from 'react';
 
 import { useHistory, useLocation } from 'react-router';
 
-import ExerciseCard from 'modules/exercises/shared/components/exercise-card/exercise-card.component';
-import { IExercisePayload } from '../shared/model';
+import { ExerciseCard, IExercisePayload } from 'modules/exercises/exercises.module';
 
-import MasterList from 'shared/modules/master-list/master-list.component';
+import { MasterList } from 'shared/modules';
 import { ModalContext } from 'shared/contexts';
 import { DELETE_MODAL } from 'shared/constants';
-import { useGetExercisesQuery } from 'shared/generated/graphql-schema';
+import { EXERCISES, DELETE } from 'shared/routes';
+import { useGetExercisesQuery } from 'shared/generated';
 
 const ExerciseList: FC = () => {
   const history = useHistory();
@@ -16,7 +16,7 @@ const ExerciseList: FC = () => {
   const modalProvider = useContext(ModalContext);
 
   const redirectToExercises = () => {
-    history.push('/exercises');
+    history.push(EXERCISES);
   };
 
   const deleteExercise = () => {};
@@ -30,7 +30,7 @@ const ExerciseList: FC = () => {
   };
 
   useEffect(() => {
-    if (location.pathname.match('delete')) {
+    if (location.pathname.match(DELETE)) {
       displayDeleteConfirmation();
     }
   }, [location]);

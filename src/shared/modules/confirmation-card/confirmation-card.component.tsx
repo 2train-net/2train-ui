@@ -67,7 +67,7 @@ const ConfirmationCard: FC<IConfirmationCard> = ({
           </Col>
         </Row>
       )}
-      <Row>
+      <Row className="confirmation-card-actions">
         {isCancelButtonAvailable && (
           <Col span={12}>
             <Button onClick={onCancel} color="default" size="medium" disabled={isLoading}>
@@ -76,7 +76,13 @@ const ConfirmationCard: FC<IConfirmationCard> = ({
           </Col>
         )}
         <Col span={isCancelButtonAvailable ? 12 : 24}>
-          <Button onClick={onConfirm} color={color} size="medium" disabled={isLoading}>
+          <Button
+            onClick={onConfirm}
+            color={color}
+            size="medium"
+            disabled={isLoading}
+            fullWidth={!isCancelButtonAvailable}
+          >
             {confirmText || 'Continuar'}
           </Button>
         </Col>

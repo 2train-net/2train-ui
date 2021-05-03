@@ -1,0 +1,5 @@
+mutation createPlanInvitation($data: PlanInvitationCreateInput!) {
+  payload: createPlanInvitation(data: $data) {
+    uuid
+  }
+}

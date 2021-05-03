@@ -1,0 +1,12 @@
+query getPlanInvitation($where: PlanInvitationWhereUniqueInput!) {
+  payload: planInvitation(where: $where) {
+    link
+    plan {
+      name
+      price
+      currency
+      intervalCount
+      intervalPlan
+    }
+  }
+}

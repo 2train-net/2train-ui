@@ -1,0 +1,13 @@
+query getPlanInvitations($skip: Int!, $take: Int!) {
+  payload: planInvitations(skip: $skip, take: $take) {
+    uuid
+    link
+    plan {
+      name
+      price
+      currency
+      intervalCount
+      intervalPlan
+    }
+  }
+}

@@ -25,6 +25,7 @@ export interface IMasterList<T> {
   fetchPolicy?: WatchQueryFetchPolicy;
   title: string;
   render: FC<IMasterComponent<T>>;
+  isCreateButtonAvailable?: boolean;
   useQuery: (
     options: ApolloReactHooks.QueryHookOptions<QueryPayload<T>, QueryVariables>
   ) => ApolloReactCommon.QueryResult<QueryPayload<T>, QueryVariables>;

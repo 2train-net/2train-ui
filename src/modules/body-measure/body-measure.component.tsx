@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { BodyMeasureAdd, BodyMeasureDetail } from './body-measure.module';
 
 import { BODY_MEASURES, BODY_MEASURE_DETAIL, BODY_MEASURE_ADD } from 'shared/routes';
-import { NotFoundErrorPage } from 'shared/modules/error-page/error-page.module';
+import { NotFoundErrorPage } from 'shared/modules';
 
 const BodyMeasure: FC = () => (
   <Switch>

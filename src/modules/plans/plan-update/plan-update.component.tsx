@@ -1,23 +1,22 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
-import { Redirect, useLocation } from 'react-router';
+import { Redirect } from 'react-router';
+import { useRouteMatch } from 'react-router-dom';
 
 import { Card } from 'antd';
 
-import PlanForm from 'modules/plans/shared/components/plan-form/plan-form.component';
-
-import { IPlanFormValues } from 'modules/plans/shared/components/plan-form/plan-form.util';
+import { PlanForm, IPlanFormValues } from 'modules/plans/plans.module';
 
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
+import { Message } from 'shared/modules';
+import { NOT_FOUND } from 'shared/routes';
 import { GetPlanDocument, useGetPlanQuery, useUpdatePlanMutation } from 'shared/generated';
 
-import { NOT_FOUND } from 'shared/routes';
-
 const PlanUpdate: FC = () => {
-  const location = useLocation();
-
-  const [uuid] = location.pathname.split('/').reverse();
+  const {
+    params: { uuid }
+  } = useRouteMatch<{ uuid: string }>();
 
   const where = { uuid };
 
@@ -48,6 +47,12 @@ const PlanUpdate: FC = () => {
       }
     });
   };
+
+  useEffect(() => {
+    if (error) {
+      Message.error(error.graphQLErrors[0].message);
+    }
+  }, [error]);
 
   return notFound ? (
     <Redirect to={NOT_FOUND} />

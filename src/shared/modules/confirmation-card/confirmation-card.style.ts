@@ -31,11 +31,16 @@ export default createUseStyles<ITheme>(({ palette, spacing }) => ({
       }
     },
     '& .title': {
-      marginTop: spacing(4),
-      color: '#877c7c'
+      margin: {
+        top: spacing(4),
+        bottom: spacing(4)
+      },
+      color: '#877c7c' // TODO REPLACE THIS WITH A REAL COLOR ON THE PALLETTE
     },
-    '& button': {
-      margin: spacing(1)
+    '& .confirmation-card-actions': {
+      margin: {
+        top: spacing(4)
+      }
     }
   })
 }));

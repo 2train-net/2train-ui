@@ -2,11 +2,11 @@ import React, { FC, useState } from 'react';
 
 import { InfoOutlined } from '@ant-design/icons';
 
-import ModalContext, { IModal } from './modal.context';
+import ModalContext, { Modal, RefreshModal } from './modal.context';
 
 import ConfirmModal from 'shared/modules/confirm-modal/confirm-modal.component';
 
-const DEFAULT_EMPTY_MODAL: IModal = {
+const DEFAULT_EMPTY_MODAL: Modal = {
   title: '',
   type: 'info',
   iconRender: InfoOutlined,
@@ -16,27 +16,35 @@ const DEFAULT_EMPTY_MODAL: IModal = {
 
 const ModalProvider: FC = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [modal, setModal] = useState<IModal>(DEFAULT_EMPTY_MODAL);
+  const [modal, setModal] = useState<Modal>(DEFAULT_EMPTY_MODAL);
 
-  const show = (modal: IModal) => {
+  const show = (modal: Modal) => {
     setModal(modal);
     setIsOpen(true);
   };
 
+  const close = () => {
+    setIsOpen(false);
+    setModal(DEFAULT_EMPTY_MODAL);
+  };
+
+  const refresh = (newModal: RefreshModal) => {
+    setModal(modal => ({ ...modal, ...newModal }));
+  };
+
   return (
-    <ModalContext.Provider value={{ show }}>
+    <ModalContext.Provider value={{ show, refresh, close }}>
       {children}
       <ConfirmModal
+        {...modal}
         isOpen={isOpen}
-        type={modal.type}
-        title={modal.title}
-        message={modal.message}
-        iconRender={modal.iconRender}
-        confirmText={modal.confirmText}
-        cancelText={modal.cancelText}
-        contentRender={modal.contentRender}
-        isLoading={modal.isLoading}
-        onConfirm={modal.onConfirm}
+        onConfirm={() => {
+          modal.onConfirm && modal.onConfirm();
+          if (modal.closeOnConfirm) {
+            setIsOpen(false);
+            setModal(DEFAULT_EMPTY_MODAL);
+          }
+        }}
         onCancel={() => {
           modal.onCancel && modal.onCancel();
           setIsOpen(false);

@@ -1,24 +1,23 @@
-import { FC, ReactElement, createContext } from 'react';
+import { createContext } from 'react';
 
-import { ConfirmModalType } from 'shared/modules/confirm-modal/confirm-modal.component';
+import { IModal, IRefreshModal } from 'shared/model';
 
-export interface IModal {
-  title: string;
-  message?: string;
-  type: ConfirmModalType;
-  iconRender: FC;
-  confirmText?: string;
-  cancelText?: string;
-  contentRender?: ReactElement;
-  isLoading?: boolean;
-  onConfirm: () => any;
-  onCancel?: () => any;
+export interface Modal extends IModal {
+  closeOnConfirm?: boolean;
+}
+
+export interface RefreshModal extends IRefreshModal {
+  closeOnConfirm?: boolean;
 }
 
 export interface IModalContext {
-  show: (data: IModal) => any;
+  show: (data: Modal) => any;
+  refresh: (data: RefreshModal) => any;
+  close: () => any;
 }
 
 export default createContext<IModalContext>({
-  show: () => {}
+  show: () => {},
+  refresh: () => {},
+  close: () => {}
 });
