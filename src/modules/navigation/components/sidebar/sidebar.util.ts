@@ -7,7 +7,10 @@ import {
   ThunderboltOutlined,
   SettingOutlined,
   BookOutlined,
-  RiseOutlined
+  RiseOutlined,
+  TeamOutlined,
+  DollarCircleOutlined,
+  ShoppingCartOutlined
 } from '@ant-design/icons';
 
 import {
@@ -19,7 +22,10 @@ import {
   BODY_MEASURES,
   TRAINING,
   SETTINGS,
-  EXERCISES
+  EXERCISES,
+  CLIENTS,
+  TRANSACTIONS,
+  SUPPLIES
 } from 'shared/routes';
 
 interface IOption {
@@ -30,13 +36,16 @@ interface IOption {
 }
 
 export const OPTIONS: IOption[] = [
-  { route: HOME, title: 'Home', Icon: HomeOutlined },
-  { route: PROFILE, title: 'Profile', Icon: UserOutlined },
-  { route: PLANS, title: 'Plans', Icon: BookOutlined },
-  { route: PLAN_INVITATIONS, title: 'Invitations', Icon: MailOutlined },
-  { route: WORKOUT_ROUTINES, title: 'Routines', Icon: FileOutlined },
-  { route: BODY_MEASURES, title: 'Body Measures', Icon: HeartOutlined },
-  { route: EXERCISES, title: 'Exercises', Icon: RiseOutlined },
-  { route: TRAINING, title: 'Training', Icon: ThunderboltOutlined },
-  { route: SETTINGS, title: 'Settings', Icon: SettingOutlined }
+  { route: HOME, title: 'Inicio', Icon: HomeOutlined },
+  { route: PROFILE, title: 'Perfil', Icon: UserOutlined },
+  { route: PLANS, title: 'Planes', Icon: BookOutlined },
+  { route: CLIENTS, title: 'Clientes', Icon: TeamOutlined },
+  { route: TRANSACTIONS, title: 'Transaciones', Icon: DollarCircleOutlined },
+  { route: PLAN_INVITATIONS, title: 'Invitaciones', Icon: MailOutlined },
+  { route: WORKOUT_ROUTINES, title: 'Rutinas', Icon: FileOutlined },
+  { route: BODY_MEASURES, title: 'Mediciones', Icon: HeartOutlined },
+  { route: EXERCISES, title: 'Ejercicios', Icon: RiseOutlined },
+  { route: TRAINING, title: 'Entrenamiento', Icon: ThunderboltOutlined },
+  { route: SUPPLIES, title: 'Suplementos', Icon: ShoppingCartOutlined },
+  { route: SETTINGS, title: 'Configuración', Icon: SettingOutlined }
 ];

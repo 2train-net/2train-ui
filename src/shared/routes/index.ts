@@ -23,6 +23,13 @@ export const TRAINING = '/training';
 
 export const SETTINGS = '/settings';
 
+export const CLIENTS = '/clients';
+export const CLIENT_DETAIL = `${CLIENTS}/${DETAIL}/:${UUID}`;
+
+export const TRANSACTIONS = '/transactions';
+
+export const SUPPLIES = '/supplies';
+
 export const PLANS = '/plans';
 export const PLAN_ADD = `${PLANS}/${ADD}`;
 export const PLAN_EDIT = `${PLANS}/${EDIT}/:${UUID}`;

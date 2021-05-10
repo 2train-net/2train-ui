@@ -1,8 +1,9 @@
 import React, { FC, useContext } from 'react';
 
-import { Tooltip, Button, Badge, Avatar, Dropdown, Menu } from 'antd';
+import { Tooltip, Button, Badge, Dropdown, Menu } from 'antd';
 import { BellFilled, MenuOutlined } from '@ant-design/icons';
 
+import { Avatar } from 'shared/modules';
 import { AuthContext } from 'shared/contexts';
 
 import useStyles from './navbar.style';
@@ -33,9 +34,7 @@ const Navbar: FC<INavbar> = ({ handleOpenDrawer }) => {
         }
         placement="bottomLeft"
       >
-        <Avatar size="default" className="nav-item" src={user?.avatar || ''}>
-          {user?.email.charAt(0)}
-        </Avatar>
+        <Avatar url={user?.avatar} letter={user?.firstName.charAt(0).toUpperCase()} className="nav-item" />
       </Dropdown>
     </div>
   );
