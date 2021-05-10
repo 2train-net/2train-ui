@@ -5,7 +5,7 @@ import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 
 import useStyles from './list-item.style';
 
-interface IListItem {
+export interface IListItem {
   title: string;
   description: string;
   onEdit?: () => any;

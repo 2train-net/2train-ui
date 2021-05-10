@@ -5,12 +5,18 @@ import { UserOutlined } from '@ant-design/icons';
 
 import useStyles from './profile-detail.style';
 
+export interface IItemList<T> {
+  label: string;
+  key: Extract<keyof T, string>;
+  formatter?: (value: any) => string;
+}
+
 interface IProfileDetail<T> {
   data?: T;
   title?: string;
   description?: string;
   avatar?: string | null;
-  itemList?: { label: string; key: Extract<keyof T, string> }[];
+  itemList?: IItemList<T>[];
 }
 
 const { Title, Text } = Typography;
@@ -45,12 +51,12 @@ const ProfileDetail = <T,>({
       <div className="profile-info">
         <Text strong>{'Información'}</Text>
         <div className="profile-detail-content">
-          {itemList.map(({ label, key }) => (
+          {itemList.map(({ label, key, formatter }) => (
             <div className="profile-detail-item" key={key}>
               <Text strong type="secondary">
                 {label}
               </Text>
-              <Text>{data?.[key]}</Text>
+              <Text>{data ? (formatter ? formatter(data[key]) : data[key]) : ''}</Text>
             </div>
           ))}
         </div>
