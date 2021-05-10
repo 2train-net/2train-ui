@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { ITheme } from 'shared/theme';
 
-export default createUseStyles(({ breakpoints, spacing }: ITheme) => ({
+export default createUseStyles(({ spacing }: ITheme) => ({
   root: {
     margin: {
       bottom: spacing(2)
@@ -25,9 +25,7 @@ export default createUseStyles(({ breakpoints, spacing }: ITheme) => ({
       }
     },
     '& .submit-button': {
-      [breakpoints.down('md')]: {
-        textAlign: 'center'
-      }
+      textAlign: 'center'
     }
   }
 }));

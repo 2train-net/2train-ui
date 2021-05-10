@@ -18,7 +18,9 @@ export const LIGHT_THEME: ITheme = {
       dark: '#CC0000'
     },
     default: {
-      main: '#c8c8c8'
+      light: '#D9D9D9',
+      main: '#C8C8C8',
+      dark: '#909090'
     },
     accent: {
       main: '#ff8f33',
