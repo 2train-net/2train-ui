@@ -12,6 +12,7 @@ import BodyMeasure from 'modules/body-measure/body-measure.module';
 import Exercises from 'modules/exercises/exercises.module';
 import WorkoutRoutine from 'modules/workout-routine/workout-routine.module';
 import PlanInvitations from 'modules/plan-invitations/plan-invitations.module';
+import Clients from 'modules/clients/clients.module';
 
 import { NotFoundErrorPage } from 'shared/modules';
 
@@ -25,7 +26,8 @@ import {
   WORKOUT_ROUTINES,
   BODY_MEASURES,
   EXERCISES,
-  PLAN_INVITATIONS
+  PLAN_INVITATIONS,
+  CLIENTS
 } from 'shared/routes';
 
 import './app.css';
@@ -47,6 +49,7 @@ const App: FC = () => {
               <Route path={PLAN_INVITATIONS} component={PlanInvitations} />
               <Route path={EXERCISES} component={Exercises} />
               <Route path={BODY_MEASURES} component={BodyMeasure} />
+              <Route path={CLIENTS} component={Clients} />
 
               <Route component={NotFoundErrorPage} />
               <Redirect to={pathname} />

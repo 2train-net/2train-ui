@@ -1,0 +1,10 @@
+query getClients($skip: Int!, $take: Int!) {
+  payload: clients(skip: $skip, take: $take) {
+    uuid
+    firstName
+    lastName
+    email
+    phone
+    avatar
+  }
+}
