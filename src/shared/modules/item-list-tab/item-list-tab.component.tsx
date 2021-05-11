@@ -16,7 +16,7 @@ interface IItemListTab {
   itemList?: IItemList[];
   tabBarStyle?: React.CSSProperties;
 }
-
+// TODO ADD EMPTY SECTION WHEN itemList.length === 0
 const ItemListTab: FC<IItemListTab> = ({ tabs, itemList = [], tabBarStyle, onChange }) => {
   return (
     <Tabs defaultActiveKey={tabs[0]} onChange={onChange} tabBarStyle={tabBarStyle}>

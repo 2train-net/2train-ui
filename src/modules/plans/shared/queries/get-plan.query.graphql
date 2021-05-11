@@ -7,5 +7,7 @@ query getPlan($where: PlanWhereUniqueInput!) {
     intervalPlan
     status
     description
+    isDietPlanEnabled
+    isExercisesPlanEnabled
   }
 }

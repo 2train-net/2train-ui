@@ -3,11 +3,11 @@ import React, { FC } from 'react';
 import { useFormik } from 'formik';
 import { Col, Form, Row } from 'antd';
 
-import { IPlanFormValues, INITIAL_PLAN_FORM_VALUES, PLAN_FORM_SCHEMA } from './plan-form.util';
+import { IPlanFormValues, INITIAL_PLAN_FORM_VALUES, PLAN_FORM_SCHEMA, PlanFocus } from './plan-form.util';
 
 import Button from 'shared/modules/button/button.component';
 
-import { Field, FieldGroup, Select } from 'shared/modules/form';
+import { Field, FieldGroup, Select, RadioGroup } from 'shared/modules/form';
 import { Currency, IntervalPlan, PlanStatus } from 'shared/generated';
 import { objectDifferences } from 'shared/util/object-differences';
 
@@ -113,6 +113,21 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
             setFieldValue={setFieldValue}
             hasBeenTouched={touched.status}
           />
+
+          <RadioGroup
+            value={values.focus}
+            name="focus"
+            options={[
+              { label: 'Ejercicios', value: PlanFocus.EXERCISES },
+              { label: 'Ambos', value: PlanFocus.BOTH },
+              { label: 'Nutricional', value: PlanFocus.NUTRITIONAL }
+            ]}
+            error={errors.focus}
+            setFieldValue={setFieldValue}
+            hasBeenTouched={touched.focus}
+          />
+          <br />
+          <br />
 
           <Form.Item className="submit-button" style={{ textAlign: 'center' }}>
             <Button type="submit" disabled={haveValuesChanged}>

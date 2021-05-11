@@ -6,7 +6,7 @@ import { Card } from 'antd';
 
 import { PlanForm } from 'modules/plans/plans.module';
 
-import { IPlanFormValues } from 'modules/plans/shared/components/plan-form/plan-form.util';
+import { IPlanFormValues, parsePlanFocusToFlags } from 'modules/plans/shared/components/plan-form/plan-form.util';
 
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
@@ -22,11 +22,14 @@ const PlanCreate: FC = () => {
     history.push(PLANS);
   };
 
-  const onSubmit = async (data: IPlanFormValues) => {
+  const onSubmit = async ({ focus, ...data }: IPlanFormValues) => {
     try {
       await createPlan({
         variables: {
-          data
+          data: {
+            ...data,
+            ...parsePlanFocusToFlags[focus]
+          }
         }
       });
 

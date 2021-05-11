@@ -5,7 +5,7 @@ import { useRouteMatch } from 'react-router-dom';
 
 import { Card } from 'antd';
 
-import { PlanForm, IPlanFormValues } from 'modules/plans/plans.module';
+import { PlanForm, IPlanFormValues, parseFlagsToPlanFocus, parsePlanFocusToFlags } from 'modules/plans/plans.module';
 
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
@@ -28,13 +28,27 @@ const PlanUpdate: FC = () => {
 
   const notFound = !data?.payload && !loading;
 
+  const { isExercisesPlanEnabled, isDietPlanEnabled } = data?.payload || {};
+
+  const initialValues =
+    data?.payload && typeof isExercisesPlanEnabled === 'boolean' && typeof isDietPlanEnabled === 'boolean'
+      ? {
+          ...data.payload,
+          focus: parseFlagsToPlanFocus(isExercisesPlanEnabled, isDietPlanEnabled)
+        }
+      : undefined;
+
   const [updatePlan] = useUpdatePlanMutation();
 
-  const onSubmit = async (data: IPlanFormValues) => {
+  const onSubmit = async ({ focus, ...data }: IPlanFormValues) => {
+    // TODO Add the objectDifferences method to only update what really changed
     await updatePlan({
       variables: {
-        data,
-        where
+        where,
+        data: {
+          ...data,
+          ...parsePlanFocusToFlags[focus]
+        }
       },
       update: (cache, { data }) => {
         cache.writeQuery({
@@ -61,7 +75,7 @@ const PlanUpdate: FC = () => {
       <FormHeader title="Update Plan" />
       <br />
       <Card>
-        <PlanForm onSubmit={onSubmit} initialValues={data?.payload} />
+        <PlanForm onSubmit={onSubmit} initialValues={initialValues} />
       </Card>
     </>
   );

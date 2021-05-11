@@ -7,5 +7,7 @@ mutation updatePlan($data: PlanUpdateInput!, $where: PlanWhereUniqueInput!) {
     intervalPlan
     status
     description
+    isDietPlanEnabled
+    isExercisesPlanEnabled
   }
 }
