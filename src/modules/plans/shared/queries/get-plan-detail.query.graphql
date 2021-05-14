@@ -1,0 +1,38 @@
+query getPlanDetail($where: PlanWhereUniqueInput!) {
+  payload: plan(where: $where) {
+    uuid
+    name
+    price
+    currency
+    intervalCount
+    intervalPlan
+    status
+    scope
+    description
+    isDietPlanEnabled
+    isExercisesPlanEnabled
+    createdAt
+    finishedAt
+    owner {
+      uuid
+      avatar
+      firstName
+      lastName
+    }
+    dietPlan {
+      uuid
+    }
+    workoutRoutine {
+      uuid
+    }
+    planAssociations {
+      association
+      user {
+        uuid
+        firstName
+        lastName
+        avatar
+      }
+    }
+  }
+}

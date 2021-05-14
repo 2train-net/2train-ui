@@ -7,6 +7,7 @@ import { Avatar } from 'shared/modules';
 import { AuthContext } from 'shared/contexts';
 
 import useStyles from './navbar.style';
+import { UserService } from 'shared/services';
 
 const { Item } = Menu;
 
@@ -34,7 +35,11 @@ const Navbar: FC<INavbar> = ({ handleOpenDrawer }) => {
         }
         placement="bottomLeft"
       >
-        <Avatar url={user?.avatar} letter={user?.firstName.charAt(0).toUpperCase()} className="nav-item" />
+        <Avatar
+          url={user?.avatar}
+          letter={user && UserService.getAvatarLetters(user.firstName, user.lastName)}
+          className="nav-item"
+        />
       </Dropdown>
     </div>
   );

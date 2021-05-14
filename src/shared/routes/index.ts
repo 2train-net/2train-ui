@@ -52,4 +52,7 @@ export const BODY_MEASURE_EDIT = `${BODY_MEASURES}/${EDIT}/:${UUID}`;
 export const BODY_MEASURE_DETAIL = `${BODY_MEASURES}/${DETAIL}/:${UUID}`;
 
 export const WORKOUT_ROUTINES = '/workout-routines';
-export const WORKOUT_ROUTINE = `${WORKOUT_ROUTINES}/:${UUID}`;
+export const WORKOUT_ROUTINE = `${WORKOUT_ROUTINES}/${DETAIL}/:${UUID}`;
+
+export const DIETS = '/diet';
+export const DIET = `${DIETS}/${DETAIL}/:${UUID}`;

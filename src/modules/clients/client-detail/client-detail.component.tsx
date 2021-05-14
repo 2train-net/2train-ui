@@ -36,8 +36,8 @@ const ClientDetail: FC = () => {
           <ProfileDetail
             data={client}
             avatar={client?.avatar}
-            title={`${client?.firstName} ${client?.lastName}`}
-            description={`@${client?.username}`}
+            title={client ? `${client.firstName} ${client.lastName}` : ''}
+            description={client ? `@${client.username}` : ''}
             itemList={[
               { key: 'email', label: 'Correo eléctronico' },
               { key: 'phone', label: 'Numero telefónico' },
@@ -62,8 +62,8 @@ const ClientDetail: FC = () => {
                 key: uuid,
                 title: name,
                 description: `
-                ${DateService.format(createdAt, 'DD-MM-YYYY')} -
-                ${DateService.format(finishedAt, 'DD-MM-YYYY')}
+                ${DateService.format(createdAt)} -
+                ${DateService.format(finishedAt)}
               `,
                 onDetail: () => redirect(`${PLANS}/${DETAIL}/${uuid}`)
               }))}

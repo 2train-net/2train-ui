@@ -13,7 +13,7 @@ interface IAvatar {
   className?: string;
 }
 
-const Avatar: FC<IAvatar> = ({ url, letter, className, size = 'default', ...props }) => {
+const Avatar: FC<IAvatar> = ({ url, letter, className = 'avatar', size = 'default', ...props }) => {
   const classes = useStyles();
 
   return (

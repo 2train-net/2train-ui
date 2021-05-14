@@ -6,6 +6,7 @@ import { Avatar } from 'shared/modules';
 import ListCard from 'shared/modules/list-card/list-card.component';
 
 import { IMasterComponent } from 'shared/modules/master-list/master-list.util';
+import { UserService } from 'shared/services';
 
 interface IClientCard extends IMasterComponent<IClientPayload> {
   data: IClientPayload;
@@ -20,7 +21,9 @@ const ClientCard: FC<IClientCard> = ({ data }) => {
         ${data.email}
         ${data.phone}
       `}
-      leftContent={<Avatar size="large" url={data.avatar} letter={data.firstName.charAt(0).toUpperCase()} />}
+      leftContent={
+        <Avatar size="large" url={data.avatar} letter={UserService.getAvatarLetters(data.firstName, data.lastName)} />
+      }
       isEditActionEnabled={false}
       isDeleteActionEnabled={false}
     />
