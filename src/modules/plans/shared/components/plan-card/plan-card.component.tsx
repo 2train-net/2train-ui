@@ -31,6 +31,7 @@ const PlanCard: FC<IPlanCard> = ({ data }) => {
         </>
       }
       description={`${data.currency} ${data.price} | ${data.intervalCount} ${data.intervalPlan}`}
+      isViewActionEnabled={false}
       actions={[<ShareAltOutlined key="share" onClick={() => redirect(`${pathname}/invite/${data.uuid}`)} />]}
     />
   );

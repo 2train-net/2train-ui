@@ -62,8 +62,8 @@ const ClientDetail: FC = () => {
                 key: uuid,
                 title: name,
                 description: `
-                ${DateService.format(createdAt, 'DD-MM-YYYY')} -
-                ${DateService.format(finishedAt, 'DD-MM-YYYY')}
+                ${DateService.format(createdAt)} -
+                ${DateService.format(finishedAt)}
               `,
                 onDetail: () => redirect(`${PLANS}/${DETAIL}/${uuid}`)
               }))}
