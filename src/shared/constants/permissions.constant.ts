@@ -1,0 +1,22 @@
+import { UserType } from 'shared/generated';
+
+const { PersonalTrainer, Customer } = UserType;
+
+const PUBLIC = [PersonalTrainer, Customer];
+const ONLY_PERSONAL_TRAINERS = [PersonalTrainer];
+const ONLY_CUSTOMERS = [Customer];
+
+export const PERMISSIONS = {
+  HOME: PUBLIC,
+  PROFILE: PUBLIC,
+  PLANS: PUBLIC,
+  CLIENTS: ONLY_PERSONAL_TRAINERS,
+  TRANSACTIONS: PUBLIC,
+  PLAN_INVITATIONS: PUBLIC,
+  TRAINING: ONLY_CUSTOMERS,
+  WORKOUT_ROUTINES: ONLY_PERSONAL_TRAINERS,
+  BODY_MEASURES: PUBLIC,
+  EXERCISES: PUBLIC,
+  SUPPLIES: PUBLIC,
+  SETTINGS: PUBLIC
+};

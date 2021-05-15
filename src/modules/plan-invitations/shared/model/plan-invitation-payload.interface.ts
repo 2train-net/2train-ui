@@ -9,5 +9,17 @@ export interface IPlanInvitationPayload {
     currency: Currency;
     intervalCount: number;
     intervalPlan: IntervalPlan;
+    owner: {
+      uuid: string;
+      avatar?: string | null;
+      firstName: string;
+      lastName: string;
+    };
+  };
+  user: {
+    uuid: string;
+    avatar?: string | null;
+    firstName: string;
+    lastName: string;
   };
 }

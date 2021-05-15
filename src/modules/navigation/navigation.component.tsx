@@ -23,13 +23,18 @@ const Navigation: FC = ({ children }) => {
     setIsDrawerOpened(!isDrawerOpened);
   };
 
+  const sidebar = (
+    <Sidebar
+      role={user?.type}
+      pathname={pathname}
+      isSidebarCollapsed={isSidebarCollapsed}
+      setIsSidebarCollapsed={setIsSidebarCollapsed}
+    />
+  );
+
   return isAuthenticated && user ? (
     <Layout className={classes.root}>
-      <Sidebar
-        pathname={pathname}
-        isSidebarCollapsed={isSidebarCollapsed}
-        setIsSidebarCollapsed={setIsSidebarCollapsed}
-      />
+      {sidebar}
       <Drawer
         placement="left"
         closable={false}
@@ -37,11 +42,7 @@ const Navigation: FC = ({ children }) => {
         visible={isDrawerOpened}
         className={classes.drawer}
       >
-        <Sidebar
-          pathname={pathname}
-          isSidebarCollapsed={isSidebarCollapsed}
-          setIsSidebarCollapsed={setIsSidebarCollapsed}
-        />
+        {sidebar}
       </Drawer>
       <Layout>
         <Header>

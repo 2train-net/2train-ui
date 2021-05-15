@@ -8,6 +8,18 @@ query getPlanInvitations($skip: Int!, $take: Int!) {
       currency
       intervalCount
       intervalPlan
+      owner {
+        uuid
+        avatar
+        firstName
+        lastName
+      }
+    }
+    user {
+      uuid
+      avatar
+      firstName
+      lastName
     }
   }
 }

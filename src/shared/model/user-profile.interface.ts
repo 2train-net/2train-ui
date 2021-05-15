@@ -1,4 +1,4 @@
-import { Gender, Scope, UserStatus } from 'shared/generated';
+import { Gender, Scope, UserStatus, UserType } from 'shared/generated';
 
 export interface IUserProfile {
   uuid: string;
@@ -12,4 +12,5 @@ export interface IUserProfile {
   gender?: Gender | null;
   status: UserStatus;
   scope: Scope;
+  type: UserType;
 }

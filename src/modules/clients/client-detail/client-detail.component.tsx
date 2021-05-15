@@ -36,8 +36,8 @@ const ClientDetail: FC = () => {
           <ProfileDetail
             data={client}
             avatar={client?.avatar}
-            title={`${client?.firstName} ${client?.lastName}`}
-            description={`@${client?.username}`}
+            title={client ? `${client.firstName} ${client.lastName}` : ''}
+            description={client ? `@${client.username}` : ''}
             itemList={[
               { key: 'email', label: 'Correo eléctronico' },
               { key: 'phone', label: 'Numero telefónico' },
