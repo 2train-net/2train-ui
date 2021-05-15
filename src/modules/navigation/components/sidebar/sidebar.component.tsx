@@ -8,21 +8,26 @@ import { OPTIONS } from './sidebar.util';
 import LOGO from 'shared/assets/images/logo/logo-horizontal-full-color.png';
 import SYMBOL from 'shared/assets/images/symbol/symbol-full-color.png';
 
+import { UserType } from 'shared/generated';
+
 import useStyles from './sidebar.style';
 
 const { Sider } = Layout;
 const { SubMenu, Item } = Menu;
 
 interface ISidebar {
+  role?: UserType;
   pathname: string;
   isSidebarCollapsed: boolean;
   setIsSidebarCollapsed: (isSidebarCollapsed: boolean) => void;
 }
 
-const Sidebar: FC<ISidebar> = ({ pathname, isSidebarCollapsed, setIsSidebarCollapsed }) => {
+const Sidebar: FC<ISidebar> = ({ role, pathname, isSidebarCollapsed, setIsSidebarCollapsed }) => {
   const classes = useStyles();
   const [, parent, child] = pathname.split('/');
   const match = [`/${parent}`, `/${parent}${child ? `/${child}` : ''}`];
+
+  const options = role ? OPTIONS.filter(({ roles }) => !!roles.find(match => match === role)) : [];
 
   const handleCollapse = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
@@ -39,7 +44,7 @@ const Sidebar: FC<ISidebar> = ({ pathname, isSidebarCollapsed, setIsSidebarColla
           )}
         </div>
         <Menu theme="dark" selectedKeys={match} mode="inline">
-          {OPTIONS.map(({ route, title, Icon, children }) =>
+          {options.map(({ route, title, Icon, children }) =>
             children ? (
               <SubMenu
                 key={route}

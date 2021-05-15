@@ -11,5 +11,6 @@ query userProfile($where: UserWhereUniqueInput!) {
     status
     scope
     birthday
+    type
   }
 }
