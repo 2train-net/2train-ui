@@ -7,5 +7,6 @@ import ListItem from './list-item/list-item.component';
 import ItemListTab from './item-list-tab/item-list-tab.component';
 import IconCard from './icon-card/icon-card.component';
 import InfoItem from './info-item/info-item.component';
+import ListCard from './list-card/list-card.component';
 
-export { MasterList, Avatar, Button, Message, ListItem, IconCard, InfoItem, ItemListTab, NotFoundErrorPage };
+export { MasterList, Avatar, Button, Message, ListItem, IconCard, InfoItem, ItemListTab, NotFoundErrorPage, ListCard };

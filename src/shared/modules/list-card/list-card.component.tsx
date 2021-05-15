@@ -59,7 +59,7 @@ const ListCard: FC<IListCard> = ({
     <>
       <Card style={{ width: 300 }} actions={cardActions}>
         <div style={{ display: 'flex' }}>
-          {leftContent && <div style={{ margin: 'auto', marginRight: 16 }}>{leftContent}</div>}
+          {leftContent && <div style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: 16 }}>{leftContent}</div>}
           <Meta title={title} description={description} />
         </div>
       </Card>
