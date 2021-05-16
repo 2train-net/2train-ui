@@ -1,12 +1,8 @@
 import React, { FC } from 'react';
 
-import { Button } from 'antd';
+import { Redirect } from 'react-router';
+import { PROFILE } from 'shared/routes';
 
-const Home: FC = () => (
-  <>
-    <h1>Hello World</h1>
-    <Button type="primary">Button</Button>
-  </>
-);
+const Home: FC = () => <Redirect to={PROFILE} />;
 
 export default Home;
