@@ -11,8 +11,8 @@ import {
   IUpdateUserProfileForm
 } from 'modules/profile/shared/model';
 
+import { Button } from 'shared/modules';
 import { Field, Select, DatePicker, Upload } from 'shared/modules/form';
-import Button from 'shared/modules/button/button.component';
 
 import { AuthContext } from 'shared/contexts';
 import { objectDifferences } from 'shared/util/object-differences';
@@ -25,7 +25,7 @@ const { Item } = Form;
 
 const Profile: FC = () => {
   const classes = useStyles();
-  const { user, refreshUser } = useContext(AuthContext);
+  const { user, refreshUser, logout } = useContext(AuthContext);
   const [updateProfile] = useUpdateUserMutation();
 
   const userProfile = new UserProfileModel(user);
@@ -76,6 +76,9 @@ const Profile: FC = () => {
                   </>
                 )}
               </Upload>
+              <Button size="small" onClick={logout}>
+                Desconectar
+              </Button>
             </Item>
           </Col>
           <Col xs={24} md={8}>

@@ -15,9 +15,12 @@ interface IListCard {
   emptyActions?: boolean;
   actions?: ReactNode[];
   leftContent?: ReactNode;
-  isViewActionEnabled?: boolean;
+  isDetailActionEnabled?: boolean;
   isEditActionEnabled?: boolean;
   isDeleteActionEnabled?: boolean;
+  onEdit?: () => any;
+  onDetail?: () => any;
+  onDelete?: () => any;
 }
 
 const { Meta } = Card;
@@ -27,11 +30,14 @@ const ListCard: FC<IListCard> = ({
   title,
   description,
   emptyActions = false,
-  isViewActionEnabled = true,
+  isDetailActionEnabled = true,
   isEditActionEnabled = true,
   isDeleteActionEnabled = true,
   actions = [],
-  leftContent
+  leftContent,
+  onEdit,
+  onDetail,
+  onDelete
 }) => {
   const location = useLocation();
   const history = useHistory();
@@ -43,15 +49,21 @@ const ListCard: FC<IListCard> = ({
 
   if (!emptyActions) {
     if (isDeleteActionEnabled) {
-      cardActions.push(<DeleteOutlined key="delete" onClick={() => redirect(`${pathname}/${DELETE}/${uuid}`)} />);
+      cardActions.push(
+        <DeleteOutlined key="delete" onClick={onDelete ? onDelete : () => redirect(`${pathname}/${DELETE}/${uuid}`)} />
+      );
     }
 
     if (isEditActionEnabled) {
-      cardActions.push(<EditOutlined key="edit" onClick={() => redirect(`${pathname}/${EDIT}/${uuid}`)} />);
+      cardActions.push(
+        <EditOutlined key="edit" onClick={onEdit ? onEdit : () => redirect(`${pathname}/${EDIT}/${uuid}`)} />
+      );
     }
 
-    if (isViewActionEnabled) {
-      cardActions.push(<EyeOutlined key="detail" onClick={() => redirect(`${pathname}/${DETAIL}/${uuid}`)} />);
+    if (isDetailActionEnabled) {
+      cardActions.push(
+        <EyeOutlined key="detail" onClick={onDetail ? onDetail : () => redirect(`${pathname}/${DETAIL}/${uuid}`)} />
+      );
     }
   }
 

@@ -30,7 +30,7 @@ const Navbar: FC<INavbar> = ({ handleOpenDrawer }) => {
       <Dropdown
         overlay={
           <Menu>
-            <Item onClick={logout}>Logout</Item>
+            <Item onClick={logout}>Salir</Item>
           </Menu>
         }
         placement="bottomLeft"

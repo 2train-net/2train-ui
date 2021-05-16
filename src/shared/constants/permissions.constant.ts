@@ -2,21 +2,22 @@ import { UserType } from 'shared/generated';
 
 const { PersonalTrainer, Customer } = UserType;
 
-const PUBLIC = [PersonalTrainer, Customer];
-const ONLY_PERSONAL_TRAINERS = [PersonalTrainer];
-const ONLY_CUSTOMERS = [Customer];
+const NONE: UserType[] = [];
+const PUBLIC: UserType[] = [PersonalTrainer, Customer];
+const ONLY_PERSONAL_TRAINERS: UserType[] = [PersonalTrainer];
+const ONLY_CUSTOMERS: UserType[] = [Customer];
 
 export const PERMISSIONS = {
-  HOME: PUBLIC,
+  HOME: NONE,
   PROFILE: PUBLIC,
   PLANS: PUBLIC,
   CLIENTS: ONLY_PERSONAL_TRAINERS,
-  TRANSACTIONS: PUBLIC,
+  TRANSACTIONS: NONE,
   PLAN_INVITATIONS: PUBLIC,
   TRAINING: ONLY_CUSTOMERS,
-  WORKOUT_ROUTINES: ONLY_PERSONAL_TRAINERS,
-  BODY_MEASURES: PUBLIC,
+  WORKOUT_ROUTINES: ONLY_PERSONAL_TRAINERS, // TODO ALLOW WHEN CUSTOMER WANT TO SEE THE ROUTINE
+  BODY_MEASURES: NONE,
   EXERCISES: PUBLIC,
-  SUPPLIES: PUBLIC,
+  SUPPLIES: NONE,
   SETTINGS: PUBLIC
 };

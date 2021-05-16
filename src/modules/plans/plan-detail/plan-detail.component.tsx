@@ -1,14 +1,15 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 
 import { Redirect } from 'react-router';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import { Col, PageHeader, Row } from 'antd';
 
-import { CLIENTS, DETAIL, NOT_FOUND } from 'shared/routes';
 import { Avatar, IconCard, InfoItem, Message } from 'shared/modules';
+import { CLIENTS, DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
 import { UserService } from 'shared/services';
-import { useGetPlanDetailQuery } from 'shared/generated';
+import { AuthContext } from 'shared/contexts';
+import { useGetPlanDetailQuery, UserType } from 'shared/generated';
 
 import { format } from './plan-detail.util';
 
@@ -21,6 +22,7 @@ const PlanDetail: FC = () => {
     params: { uuid }
   } = useRouteMatch<{ uuid: string }>();
   const history = useHistory();
+  const { user } = useContext(AuthContext);
 
   const where = { uuid };
   const redirect = history.push;
@@ -36,22 +38,25 @@ const PlanDetail: FC = () => {
 
   const { info, owner, members, iconCards } = format(plan);
 
+  const onBackUrl =
+    owner && user?.type === UserType.PersonalTrainer ? `${CLIENTS}/${DETAIL}/${owner.uuid}` : `${PLANS}`;
+
   useEffect(() => {
     if (error) {
       Message.error(error.graphQLErrors[0].message);
     }
   }, [error]);
 
-  // TODO ADD THE SECTION TAG TO ALL OTHER MAIN MODULES LIKE WE ARE DOING IN HERE
   return notFound || plan?.scope === 'PUBLIC' ? (
     <Redirect to={NOT_FOUND} />
   ) : (
-    <section className={classes.root}>
+    <div className={classes.root}>
       <PageHeader
         ghost={false}
-        onBack={owner ? () => redirect(`${CLIENTS}/${DETAIL}/${owner.uuid}`) : undefined}
+        onBack={owner ? () => redirect(onBackUrl) : undefined}
         title={owner ? `${owner.firstName} ${owner.lastName}` : ''}
         subTitle={plan?.name || ''}
+        extra={[]}
       >
         <Row gutter={16}>
           <Col xs={24} md={9}>
@@ -86,11 +91,11 @@ const PlanDetail: FC = () => {
       <Row gutter={24} justify="center" align="middle">
         {iconCards.map(({ url, ...iconCard }, index) => (
           <Col className="icon-card-col" key={`icon-card-col-${index}`} xs={24} sm={12} md={8} lg={6}>
-            <IconCard {...iconCard} onClick={plan ? () => redirect(url || NOT_FOUND) : undefined} isDisabled={!url} />
+            <IconCard {...iconCard} onClick={plan ? () => redirect(url || NOT_FOUND) : undefined} />
           </Col>
         ))}
       </Row>
-    </section>
+    </div>
   );
 };
 

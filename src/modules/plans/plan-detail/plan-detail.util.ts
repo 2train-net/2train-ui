@@ -92,22 +92,24 @@ export const format = (plan?: IPlanDetail) => {
   const iconCards: IPlanIconCard[] = [
     {
       title: 'Ejercicios',
-      buttonText: plan?.workoutRoutine ? 'Ver' : 'Crear',
+      buttonText: 'Ver',
       url: plan?.workoutRoutine
         ? `${WORKOUT_ROUTINES}/${DETAIL}/${plan.workoutRoutine.uuid}`
         : `${WORKOUT_ROUTINES}/${ADD}`,
-      iconRender: ReconciliationOutlined
+      iconRender: ReconciliationOutlined,
+      isDisabled: !plan?.workoutRoutine
     },
     {
       title: 'Alimentación',
-      buttonText: plan?.dietPlan ? 'Ver' : 'Crear',
+      buttonText: 'Ver',
       url: plan?.dietPlan ? `${DIETS}/${DETAIL}/${plan.dietPlan.uuid}` : `${DIETS}/${ADD}`,
-      iconRender: ReadOutlined
+      iconRender: ReadOutlined,
+      isDisabled: !plan?.dietPlan
     },
-    { iconRender: HeartOutlined, title: 'Mediciones', buttonText: 'Ver' },
-    { iconRender: ThunderboltOutlined, title: 'Entrenamiento', buttonText: 'Ver' },
-    { iconRender: LineChartOutlined, title: 'Estadisticas', buttonText: 'Ver' },
-    { iconRender: MessageOutlined, title: 'Chat', buttonText: 'Ver' }
+    { iconRender: HeartOutlined, title: 'Mediciones', buttonText: 'Ver', isDisabled: true },
+    { iconRender: ThunderboltOutlined, title: 'Entrenamiento', buttonText: 'Ver', isDisabled: true },
+    { iconRender: LineChartOutlined, title: 'Estadisticas', buttonText: 'Ver', isDisabled: true },
+    { iconRender: MessageOutlined, title: 'Chat', buttonText: 'Ver', isDisabled: true }
   ];
 
   return {

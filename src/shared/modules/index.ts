@@ -8,5 +8,18 @@ import ItemListTab from './item-list-tab/item-list-tab.component';
 import IconCard from './icon-card/icon-card.component';
 import InfoItem from './info-item/info-item.component';
 import ListCard from './list-card/list-card.component';
+import Status from './status/status.component';
 
-export { MasterList, Avatar, Button, Message, ListItem, IconCard, InfoItem, ItemListTab, NotFoundErrorPage, ListCard };
+export {
+  MasterList,
+  Avatar,
+  Button,
+  Message,
+  ListItem,
+  IconCard,
+  InfoItem,
+  ItemListTab,
+  NotFoundErrorPage,
+  ListCard,
+  Status
+};
