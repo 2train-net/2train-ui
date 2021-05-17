@@ -10,7 +10,7 @@ import {
 import { IIconCard } from 'shared/modules/icon-card/icon-card.component';
 
 import { DateService, PlanService } from 'shared/services';
-import { ADD, DETAIL, DIETS, WORKOUT_ROUTINES } from 'shared/routes';
+import { ADD, DIETS, EDIT, WORKOUT_ROUTINES } from 'shared/routes';
 import { Currency, PlanStatus, Scope } from 'shared/generated';
 
 interface IPlanDetail {
@@ -94,7 +94,7 @@ export const format = (plan?: IPlanDetail) => {
       title: 'Ejercicios',
       buttonText: 'Ver',
       url: plan?.workoutRoutine
-        ? `${WORKOUT_ROUTINES}/${DETAIL}/${plan.workoutRoutine.uuid}`
+        ? `${WORKOUT_ROUTINES}/${EDIT}/${plan.workoutRoutine.uuid}`
         : `${WORKOUT_ROUTINES}/${ADD}`,
       iconRender: ReconciliationOutlined,
       isDisabled: !plan?.workoutRoutine
@@ -102,7 +102,7 @@ export const format = (plan?: IPlanDetail) => {
     {
       title: 'Alimentación',
       buttonText: 'Ver',
-      url: plan?.dietPlan ? `${DIETS}/${DETAIL}/${plan.dietPlan.uuid}` : `${DIETS}/${ADD}`,
+      url: plan?.dietPlan ? `${DIETS}/${EDIT}/${plan.dietPlan.uuid}` : `${DIETS}/${ADD}`,
       iconRender: ReadOutlined,
       isDisabled: !plan?.dietPlan
     },

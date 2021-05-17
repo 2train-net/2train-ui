@@ -3,7 +3,7 @@ import { useHistory, Link } from 'react-router-dom';
 
 import { PageHeader, Row, Col, Button, Descriptions, Tabs, Statistic } from 'antd';
 
-import { BODY_MEASURES, BODY_MEASURE_EDIT, WORKOUT_ROUTINE } from 'shared/routes';
+import { BODY_MEASURES, BODY_MEASURE_EDIT, HOME } from 'shared/routes';
 import { BodyMeasureTabs } from 'modules/body-measure/shared/model';
 
 interface IBodyMeasureHeader {
@@ -59,7 +59,7 @@ const BodyMeasureHeader: FC<IBodyMeasureHeader> = ({
       title={`${firstName} ${lastName}`}
       subTitle={`ID: ${id.toUpperCase()}`}
       extra={[
-        <Link key="action-header-1" to={WORKOUT_ROUTINE}>
+        <Link key="action-header-1" to={HOME}>
           <Button>Check Routine</Button>
         </Link>,
         <Link key="action-header-2" to={BODY_MEASURE_EDIT}>

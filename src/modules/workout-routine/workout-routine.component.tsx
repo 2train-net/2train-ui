@@ -1,51 +1,17 @@
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
+import { Route, Switch } from 'react-router-dom';
 
-import { Button, Timeline, Typography } from 'antd';
+import { WorkoutRoutineUpdate } from 'modules/workout-routine/workout-routine.module';
 
-import { ClockCircleOutlined } from '@ant-design/icons';
+import { WORKOUT_ROUTINE_EDIT } from 'shared/routes';
+import { NotFoundErrorPage } from 'shared/modules';
 
-import { WorkoutRoutineContext } from 'modules/workout-routine/workout-routine.module';
+const WorkoutRoutine: FC = () => (
+  <Switch>
+    <Route exact path={WORKOUT_ROUTINE_EDIT} component={WorkoutRoutineUpdate} />
 
-const { Item } = Timeline;
-const { Text } = Typography;
-
-const WorkoutRoutine: FC = () => {
-  const { workoutRoutine, currentStep, handleNextStep } = useContext(WorkoutRoutineContext);
-
-  const getItemColor = (index: number) => {
-    if (index === currentStep) {
-      return 'blue';
-    }
-
-    return index < currentStep ? 'green' : 'gray';
-  };
-
-  return (
-    <>
-      <Timeline>
-        {workoutRoutine.map(({ muscleGroup, exercises }: any, i: number) => (
-          <Item
-            key={`muscle-group-${i}`}
-            color={getItemColor(i)}
-            dot={i === currentStep && <ClockCircleOutlined style={{ fontSize: '16px' }} />}
-          >
-            <Text strong>{muscleGroup.toUpperCase()}</Text>
-            <br />
-            {exercises.map(({ name, sets, reps, seconds }: any, j: number) => (
-              <div key={`exercise-${i}-${j}`}>
-                <Text type="secondary">{`- ${name.toUpperCase()} (${sets}x${
-                  reps ? `${reps} reps` : `${seconds} sec`
-                })`}</Text>
-              </div>
-            ))}
-          </Item>
-        ))}
-      </Timeline>
-      <Button type="primary" block onClick={handleNextStep}>
-        Next
-      </Button>
-    </>
-  );
-};
+    <Route component={NotFoundErrorPage} />
+  </Switch>
+);
 
 export default WorkoutRoutine;

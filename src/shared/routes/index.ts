@@ -6,6 +6,7 @@ export const EDIT = 'edit';
 export const DELETE = 'delete';
 export const DETAIL = 'detail';
 export const INVITE = 'invite';
+export const ACTION = 'action';
 
 export const NOT_FOUND = '/not-found';
 
@@ -52,7 +53,7 @@ export const BODY_MEASURE_EDIT = `${BODY_MEASURES}/${EDIT}/:${UUID}`;
 export const BODY_MEASURE_DETAIL = `${BODY_MEASURES}/${DETAIL}/:${UUID}`;
 
 export const WORKOUT_ROUTINES = '/workout-routines';
-export const WORKOUT_ROUTINE = `${WORKOUT_ROUTINES}/${DETAIL}/:${UUID}`;
+export const WORKOUT_ROUTINE_EDIT = `${WORKOUT_ROUTINES}/${EDIT}/:${UUID}`;
 
 export const DIETS = '/diet';
-export const DIET = `${DIETS}/${DETAIL}/:${UUID}`;
+export const DIET_EDIT = `${DIETS}/${EDIT}/:${UUID}`;
