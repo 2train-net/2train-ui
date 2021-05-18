@@ -39,6 +39,7 @@ const Field: FC<IField> = ({
       validateStatus={!!error && hasBeenTouched ? 'error' : 'success'}
       help={!!error && hasBeenTouched ? error : null}
       hasFeedback={hasBeenTouched}
+      className="field-item"
     >
       <Input
         type={type}

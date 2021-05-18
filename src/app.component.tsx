@@ -44,7 +44,7 @@ const App: FC = () => {
             <Switch>
               <Route exact path={HOME} component={Home} />
               <Route exact path={PROFILE} component={Profile} />
-              <Route exact path={WORKOUT_ROUTINES} component={WorkoutRoutine} />
+              <Route path={WORKOUT_ROUTINES} component={WorkoutRoutine} />
               <Route path={PLANS} component={Plans} />
               <Route path={PLAN_INVITATIONS} component={PlanInvitations} />
               <Route path={EXERCISES} component={Exercises} />

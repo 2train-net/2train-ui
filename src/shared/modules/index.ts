@@ -9,6 +9,7 @@ import IconCard from './icon-card/icon-card.component';
 import InfoItem from './info-item/info-item.component';
 import ListCard from './list-card/list-card.component';
 import Status from './status/status.component';
+import DragAndDropRoutine from './drag-and-drop-routine/drag-and-drop-routine.component';
 
 export {
   MasterList,
@@ -21,5 +22,6 @@ export {
   ItemListTab,
   NotFoundErrorPage,
   ListCard,
-  Status
+  Status,
+  DragAndDropRoutine
 };

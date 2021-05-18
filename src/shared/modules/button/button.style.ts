@@ -11,9 +11,9 @@ const BUTTON_HEIGHT = {
 };
 
 const BUTTON_WIDTH = {
-  large: 25,
-  medium: 15,
-  small: 5
+  large: 24,
+  medium: 16,
+  small: 12
 };
 
 export default createUseStyles<ITheme>(({ palette, spacing }) => ({
