@@ -1,0 +1,7 @@
+query getAllExercises {
+  payload: exercises(orderBy: { createdAt: DESC }) {
+    uuid
+    name
+    description
+  }
+}

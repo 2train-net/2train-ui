@@ -18,6 +18,7 @@ interface ISelect {
   placeholder?: string;
   isDisabled?: boolean;
   hasBeenTouched?: boolean;
+  defaultValue?: number;
   setFieldValue: (name: string, value: any, shouldValidate?: boolean) => void;
 }
 
@@ -29,6 +30,7 @@ const Field: FC<ISelect> = ({
   placeholder,
   isDisabled,
   hasBeenTouched,
+  defaultValue,
   setFieldValue
 }) => {
   const onChange = (value: any) => {
@@ -40,8 +42,15 @@ const Field: FC<ISelect> = ({
       validateStatus={!!error && hasBeenTouched ? 'error' : 'success'}
       help={!!error && hasBeenTouched ? error : null}
       hasFeedback={hasBeenTouched}
+      className="select-item"
     >
-      <Select placeholder={placeholder} disabled={isDisabled} onChange={onChange} value={value}>
+      <Select
+        placeholder={placeholder}
+        disabled={isDisabled}
+        onChange={onChange}
+        value={value}
+        defaultValue={defaultValue}
+      >
         {options.map(({ value, label }) => (
           <Option key={value} value={value}>
             {label}

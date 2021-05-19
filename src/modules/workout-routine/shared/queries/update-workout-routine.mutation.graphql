@@ -1,0 +1,8 @@
+mutation updateWorkoutRoutine($data: WorkoutRoutineUpdateInput!, $where: WorkoutRoutineWhereUniqueInput!) {
+  payload: updateWorkoutRoutine(data: $data, where: $where) {
+    uuid
+    plan {
+      uuid
+    }
+  }
+}
