@@ -5,7 +5,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import { Col, PageHeader, Row } from 'antd';
 
-import { Avatar, IconCard, InfoItem, Message } from 'shared/modules';
+import { Avatar, Button, IconCard, InfoItem, Message } from 'shared/modules';
 import { CLIENTS, DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
 import { UserService } from 'shared/services';
 import { AuthContext } from 'shared/contexts';
@@ -38,6 +38,18 @@ const PlanDetail: FC = () => {
 
   const { info, owner, members, iconCards } = format(plan);
 
+  const planActions = [];
+  const isRenovateButtonEnabled = true;
+  // TODO IF CUSTOMER, IF PLAN ACTIVE AND 5 DAYS BEFORE FINISH
+
+  if (isRenovateButtonEnabled) {
+    planActions.push(
+      <Button key="renovate" size="small">
+        Renovar
+      </Button>
+    );
+  }
+
   const onBackUrl =
     owner && user?.type === UserType.PersonalTrainer ? `${CLIENTS}/${DETAIL}/${owner.uuid}` : `${PLANS}`;
 
@@ -56,7 +68,7 @@ const PlanDetail: FC = () => {
         onBack={owner ? () => redirect(onBackUrl) : undefined}
         title={owner ? `${owner.firstName} ${owner.lastName}` : ''}
         subTitle={plan?.name || ''}
-        extra={[]}
+        extra={planActions}
       >
         <Row gutter={16}>
           <Col xs={24} md={9}>

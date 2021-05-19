@@ -1,14 +1,16 @@
-import React, { FC, useContext, useEffect } from 'react';
+import React, { FC, useContext, useEffect, useRef } from 'react';
 
 import { useHistory, useRouteMatch } from 'react-router';
 
 import {
+  PlanAcceptInviteForm,
+  IPlanAcceptInviteFormValues,
   PLAN_INVITATION_ACCEPT_MODAL,
   PLAN_INVITATION_ACCEPTED_SUCCESSFULLY
 } from 'modules/plan-invitations/plan-invitations.module';
 
 import { Message } from 'shared/modules';
-import { ModalContext } from 'shared/contexts';
+import { AuthContext, ModalContext } from 'shared/contexts';
 import { DETAIL, PLANS, PLAN_INVITATIONS } from 'shared/routes';
 import { useAcceptPlanInvitationMutation, useGetPlanInvitationQuery } from 'shared/generated';
 
@@ -18,6 +20,9 @@ const PlanInvitationList: FC = () => {
     params: { uuid }
   } = useRouteMatch<{ uuid: string }>();
 
+  const inviteFormRef = useRef<HTMLFormElement>(null);
+
+  const { user } = useContext(AuthContext);
   const modalProvider = useContext(ModalContext);
 
   const { data, loading, error } = useGetPlanInvitationQuery({
@@ -43,12 +48,13 @@ const PlanInvitationList: FC = () => {
     history.push(PLAN_INVITATIONS);
   };
 
-  const confirmPlanInvitation = async () => {
+  const onSubmit = async ({ startAt }: IPlanAcceptInviteFormValues) => {
     try {
       const planInvitation = await acceptPlanInvitation({
         variables: {
           data: {
-            uuid
+            uuid,
+            startAt
           }
         }
       });
@@ -59,6 +65,10 @@ const PlanInvitationList: FC = () => {
 
       redirectToPlan(planInvitation?.data?.payload.link);
     } catch (error) {}
+  };
+
+  const confirmPlanInvitation = async () => {
+    inviteFormRef?.current?.dispatchEvent(new Event('submit'));
   };
 
   useEffect(() => {
@@ -74,6 +84,13 @@ const PlanInvitationList: FC = () => {
       modalProvider.refresh({
         isLoading: false,
         title: planInvitation.plan.name,
+        contentRender: (
+          <PlanAcceptInviteForm
+            onSubmit={onSubmit}
+            formRef={inviteFormRef}
+            currentActivePlan={user?.currentActivePlan}
+          />
+        ),
         message: `
           ${planInvitation.plan.currency} ${planInvitation.plan.price} |
           ${planInvitation.plan.intervalCount} ${planInvitation.plan.intervalPlan}

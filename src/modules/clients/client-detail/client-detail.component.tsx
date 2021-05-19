@@ -44,7 +44,7 @@ const ClientDetail: FC = () => {
               {
                 key: 'birthday',
                 label: 'Fecha de nacimiento',
-                formatter: date => DateService.format(date, 'DD-MM-YYYY')
+                formatter: date => DateService.format(date)
               },
               {
                 key: 'gender',

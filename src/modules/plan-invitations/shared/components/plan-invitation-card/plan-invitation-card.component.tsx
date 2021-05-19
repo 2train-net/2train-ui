@@ -16,8 +16,6 @@ import { DETAIL, INVITE, PLANS, PLAN_INVITATIONS } from 'shared/routes';
 import { IMasterComponent } from 'shared/modules/master-list/master-list.util';
 import { UserType } from 'shared/generated';
 
-const { Text } = Typography;
-
 interface IPlanInvitationCard extends IMasterComponent<IPlanInvitationPayload> {
   data: IPlanInvitationPayload;
 }

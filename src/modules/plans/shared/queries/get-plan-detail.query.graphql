@@ -13,6 +13,8 @@ query getPlanDetail($where: PlanWhereUniqueInput!) {
     isExercisesPlanEnabled
     createdAt
     finishedAt
+    startAt
+    expireAt
     owner {
       uuid
       avatar

@@ -1,19 +1,24 @@
 import React, { FC } from 'react';
 
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 
 import { Form, DatePicker as AntDesignDatePicker } from 'antd';
+import { DEFAULT_DATE_FORMAT } from 'shared/constants';
 
 const { Item } = Form;
 
 interface IDatePicker {
-  value?: any;
+  value?: string;
   name: string;
   error?: string;
   placeholder?: string;
   isDisabled?: boolean;
   hasBeenTouched?: boolean;
-  disabledDate?: (date: moment.Moment) => boolean;
+  format?: string;
+  disabledDate?: {
+    date?: string | 'today';
+    condition: 'isBefore' | 'isAfter';
+  };
   setFieldValue: (name: string, value: any, shouldValidate?: boolean) => void;
 }
 
@@ -25,10 +30,19 @@ const DatePicker: FC<IDatePicker> = ({
   isDisabled,
   hasBeenTouched,
   disabledDate,
+  format = DEFAULT_DATE_FORMAT,
   setFieldValue
 }) => {
   const onChange = (value: any) => {
-    setFieldValue(name, value);
+    const date: Moment = value;
+
+    setFieldValue(name, date ? date.format(format) : '');
+  };
+
+  const handleDisableDate = (date: Moment) => {
+    const matchDate = disabledDate?.date === 'today' ? moment(new Date(), format) : moment(disabledDate?.date, format);
+
+    return !date || date[disabledDate?.condition!](matchDate);
   };
 
   return (
@@ -38,12 +52,13 @@ const DatePicker: FC<IDatePicker> = ({
       hasFeedback={hasBeenTouched}
     >
       <AntDesignDatePicker
-        value={value}
+        format={format}
+        value={value ? moment(value, format) : undefined}
         style={{ width: '100%' }}
         placeholder={placeholder}
         disabled={isDisabled}
         onChange={onChange}
-        disabledDate={disabledDate}
+        disabledDate={disabledDate ? handleDisableDate : undefined}
       />
     </Item>
   );

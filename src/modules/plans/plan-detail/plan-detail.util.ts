@@ -27,6 +27,8 @@ interface IPlanDetail {
   isExercisesPlanEnabled: boolean;
   createdAt: Date;
   finishedAt?: Date | null;
+  startAt?: Date | null;
+  expireAt?: Date | null;
   owner: {
     uuid: string;
     avatar?: string | null;
@@ -66,13 +68,13 @@ export const format = (plan?: IPlanDetail) => {
       : '?';
 
   const info =
-    plan && plan.finishedAt
+    plan && plan.startAt && plan.expireAt
       ? [
           {
             col: { xs: 24, md: 9 },
             items: [
-              { label: 'Desde', value: DateService.format(plan.createdAt) },
-              { label: 'Hasta', value: DateService.format(plan.finishedAt) }
+              { label: 'Desde', value: DateService.format(plan.startAt) },
+              { label: 'Hasta', value: DateService.format(plan.expireAt) }
             ]
           },
           {
