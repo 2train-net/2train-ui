@@ -17,7 +17,11 @@ interface IPlanInviteForm {
   formRef: RefObject<HTMLFormElement>;
 }
 
-const PlanForm: FC<IPlanInviteForm> = ({ initialValues = INITIAL_PLAN_INVITE_FORM_VALUES, onSubmit, formRef }) => {
+const PlanInviteForm: FC<IPlanInviteForm> = ({
+  initialValues = INITIAL_PLAN_INVITE_FORM_VALUES,
+  onSubmit,
+  formRef
+}) => {
   const { handleSubmit, handleChange, values, errors, touched } = useFormik<IPlanInviteFormValues>({
     onSubmit,
     initialValues,
@@ -43,4 +47,4 @@ const PlanForm: FC<IPlanInviteForm> = ({ initialValues = INITIAL_PLAN_INVITE_FOR
   );
 };
 
-export default PlanForm;
+export default PlanInviteForm;

@@ -12,5 +12,9 @@ query userProfile($where: UserWhereUniqueInput!) {
     scope
     birthday
     type
+    currentActivePlan {
+      uuid
+      expireAt
+    }
   }
 }

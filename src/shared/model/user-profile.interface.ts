@@ -1,5 +1,10 @@
 import { Gender, Scope, UserStatus, UserType } from 'shared/generated';
 
+export interface ICurrentActivePlan {
+  uuid: string;
+  expireAt: string;
+}
+
 export interface IUserProfile {
   uuid: string;
   email: string;
@@ -13,4 +18,5 @@ export interface IUserProfile {
   status: UserStatus;
   scope: Scope;
   type: UserType;
+  currentActivePlan?: ICurrentActivePlan;
 }

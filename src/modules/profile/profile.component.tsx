@@ -1,6 +1,5 @@
 import React, { FC, useContext } from 'react';
 
-import moment from 'moment';
 import { useFormik } from 'formik';
 import { Form, Card, Row, Col } from 'antd';
 import { UserOutlined, PhoneOutlined, PlusOutlined, MailOutlined, CrownOutlined } from '@ant-design/icons';
@@ -20,6 +19,7 @@ import { Gender, Scope, useUpdateUserMutation } from 'shared/generated';
 
 import { PROFILE_FORM_SCHEMA } from './profile.util';
 import useStyles from './profile.style';
+import { DateService } from 'shared/services';
 
 const { Item } = Form;
 
@@ -149,13 +149,20 @@ const Profile: FC = () => {
             />
 
             <DatePicker
-              value={values.birthday && moment(values.birthday)}
+              value={values.birthday}
               name="birthday"
               placeholder="Fecha de cumpleaños"
               error={errors.birthday}
               setFieldValue={setFieldValue}
               hasBeenTouched={touched.birthday}
-              disabledDate={date => !date || date.isAfter(moment())}
+              disabledDate={
+                values.birthday
+                  ? {
+                      date: 'today',
+                      condition: 'isAfter'
+                    }
+                  : undefined
+              }
             />
 
             <Select
