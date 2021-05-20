@@ -88,6 +88,7 @@ const PlanInvitationList: FC = () => {
           <PlanAcceptInviteForm
             onSubmit={onSubmit}
             formRef={inviteFormRef}
+            planInvitation={data.payload.plan}
             currentActivePlan={user?.currentActivePlan}
           />
         ),

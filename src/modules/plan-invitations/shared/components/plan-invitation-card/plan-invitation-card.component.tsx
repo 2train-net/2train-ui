@@ -2,7 +2,6 @@ import React, { FC, useContext } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Typography } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 
 import { IPlanInvitationPayload } from 'modules/plan-invitations/plan-invitations.module';

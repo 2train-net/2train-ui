@@ -19,7 +19,6 @@ import { Gender, Scope, useUpdateUserMutation } from 'shared/generated';
 
 import { PROFILE_FORM_SCHEMA } from './profile.util';
 import useStyles from './profile.style';
-import { DateService } from 'shared/services';
 
 const { Item } = Form;
 
