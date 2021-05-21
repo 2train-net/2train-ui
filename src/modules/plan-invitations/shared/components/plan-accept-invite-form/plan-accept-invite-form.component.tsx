@@ -11,6 +11,7 @@ import { DateService } from 'shared/services';
 import { Currency, IntervalPlan } from 'shared/generated';
 
 import useStyles from './plan-accept-invite-form.style';
+import { DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT } from 'shared/constants';
 
 interface IPlanInviteForm {
   onSubmit: (values: IPlanAcceptInviteFormValues) => any;
@@ -31,11 +32,18 @@ const PlanForm: FC<IPlanInviteForm> = ({ onSubmit, formRef, planInvitation, curr
   const classes = useStyles();
 
   const { price, currency, intervalPlan, intervalCount } = planInvitation;
-
+  console.log('NORMAL: ', currentActivePlan?.expireAt);
+  console.log(
+    'PARSED: ',
+    currentActivePlan &&
+      DateService.format(currentActivePlan?.expireAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)
+  );
   const validStartDate = currentActivePlan
-    ? DateService.format(currentActivePlan?.expireAt)
+    ? DateService.format(currentActivePlan?.expireAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)
     : DateService.format(new Date());
-  const validStartDateFormatted = DateService.add(validStartDate, currentActivePlan ? 1 : 0, 'days');
+
+  // TODO FIX THE DATETIME ISSUE BASED ON THE TIME ZONE, FOR NOW WE WILL INCREASE DAY IN 2
+  const validStartDateFormatted = DateService.add(validStartDate, currentActivePlan ? 2 : 0, 'days');
 
   const { handleSubmit, setFieldValue, values, errors, touched } = useFormik<IPlanAcceptInviteFormValues>({
     onSubmit,
@@ -74,7 +82,8 @@ const PlanForm: FC<IPlanInviteForm> = ({ onSubmit, formRef, planInvitation, curr
         <div className="expiration-message">
           <Title level={5}>Ya tienes un plan activo</Title>
           <Text type="danger" strong>
-            El cuál expira el: {DateService.format(currentActivePlan.expireAt)}
+            El cuál expira el:{' '}
+            {DateService.format(currentActivePlan.expireAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)}
           </Text>
         </div>
       )}
