@@ -57,14 +57,19 @@ interface IPlanIconCard extends IIconCard {
 }
 
 export const format = (plan?: IPlanDetail) => {
+  const today = new Date();
   const owner = plan?.owner;
   const members = owner ? [owner] : [];
 
-  const totalDays = plan && plan.finishedAt ? DateService.difference(plan.finishedAt, plan.createdAt, 'days') : '?';
+  const totalDays =
+    plan && plan.startAt && plan.expireAt ? DateService.difference(plan.expireAt, plan.startAt, 'days') : '?';
+  const pendingDays = plan?.expireAt && DateService.difference(plan.expireAt, today, 'days');
 
   const currentDays =
-    plan && typeof totalDays === 'number' && plan.finishedAt
-      ? totalDays - DateService.difference(plan.finishedAt, new Date(), 'days')
+    typeof totalDays === 'number' && pendingDays
+      ? pendingDays > totalDays
+        ? totalDays
+        : totalDays - pendingDays
       : '?';
 
   const info =
@@ -81,7 +86,7 @@ export const format = (plan?: IPlanDetail) => {
             col: { xs: 24, md: 6 },
             items: [
               { label: 'Estado', value: PlanService.parseStatus(plan.status) },
-              { label: 'Días', value: `${currentDays > totalDays ? totalDays : currentDays} / ${totalDays}` }
+              { label: 'Días', value: `${currentDays} / ${totalDays}` }
             ]
           }
         ]
