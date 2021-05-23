@@ -62,7 +62,7 @@ export const format = (plan?: IPlanDetail) => {
   const members = owner ? [owner] : [];
 
   const totalDays =
-    plan && plan.startAt && plan.expireAt ? DateService.difference(plan.expireAt, plan.startAt, 'days') : '?';
+    plan && plan.startAt && plan.expireAt ? DateService.difference(plan.expireAt, plan.startAt, 'days') : undefined;
   const pendingDays = plan?.expireAt && DateService.difference(plan.expireAt, today, 'days');
 
   const currentDays =
@@ -70,27 +70,24 @@ export const format = (plan?: IPlanDetail) => {
       ? pendingDays > totalDays
         ? totalDays
         : totalDays - pendingDays
-      : '?';
+      : undefined;
 
-  const info =
-    plan && plan.startAt && plan.expireAt
-      ? [
-          {
-            col: { xs: 24, md: 9 },
-            items: [
-              { label: 'Desde', value: DateService.format(plan.startAt) },
-              { label: 'Hasta', value: DateService.format(plan.expireAt) }
-            ]
-          },
-          {
-            col: { xs: 24, md: 6 },
-            items: [
-              { label: 'Estado', value: PlanService.parseStatus(plan.status) },
-              { label: 'Días', value: `${currentDays} / ${totalDays}` }
-            ]
-          }
-        ]
-      : [];
+  const info = [
+    {
+      col: { xs: 24, md: 9 },
+      items: [
+        { label: 'Desde', value: plan?.startAt ? DateService.format(plan.startAt) : undefined },
+        { label: 'Hasta', value: plan?.expireAt ? DateService.format(plan.expireAt) : undefined }
+      ]
+    },
+    {
+      col: { xs: 24, md: 6 },
+      items: [
+        { label: 'Estado', value: plan?.status ? PlanService.parseStatus(plan.status) : undefined },
+        { label: 'Días', value: currentDays && totalDays ? `${currentDays} / ${totalDays}` : undefined }
+      ]
+    }
+  ];
 
   if (plan?.planAssociations?.length) {
     members.push(...plan.planAssociations.map(({ user }) => user));

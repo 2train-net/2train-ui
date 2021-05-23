@@ -4,13 +4,13 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
-import { Col, PageHeader, Row, Skeleton, Typography } from 'antd';
+import { Col, PageHeader, Row, Typography } from 'antd';
 
 import _ from 'lodash';
 
 import Droppable from 'shared/modules/droppable/droppable.component';
 
-import { Button } from 'shared/modules';
+import { Button, Skeleton } from 'shared/modules';
 import { Select, Field } from 'shared/modules/form';
 
 import { ModalContext } from 'shared/contexts';
@@ -276,7 +276,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
         <Row style={{ marginBottom: 16, marginTop: 16 }}>
           <Col span={24}>
             {isLoading && <Title level={5}>Días</Title>}
-            <Skeleton loading={isLoading} active>
+            <Skeleton isLoading={isLoading}>
               <Row gutter={16} justify="center" align="middle">
                 {columns
                   ? columns.map((items, columnIndex) => (
@@ -304,7 +304,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
         </Row>
 
         <Title level={5}>Ejercicios</Title>
-        <Skeleton loading={isLoading} active>
+        <Skeleton isLoading={isLoading}>
           <Droppable
             id="OPTIONS"
             direction="horizontal"
