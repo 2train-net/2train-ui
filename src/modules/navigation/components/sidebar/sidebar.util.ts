@@ -20,7 +20,7 @@ import {
   PLAN_INVITATIONS,
   WORKOUT_ROUTINES,
   BODY_MEASURES,
-  TRAINING,
+  WORKOUTS,
   SETTINGS,
   EXERCISES,
   CLIENTS,
@@ -48,7 +48,7 @@ export const OPTIONS: IOption[] = [
   { route: WORKOUT_ROUTINES, title: 'Rutinas', Icon: FileOutlined, roles: PERMISSIONS.WORKOUT_ROUTINES },
   { route: BODY_MEASURES, title: 'Mediciones', Icon: HeartOutlined, roles: PERMISSIONS.BODY_MEASURES },
   { route: EXERCISES, title: 'Ejercicios', Icon: RiseOutlined, roles: PERMISSIONS.EXERCISES },
-  { route: TRAINING, title: 'Entrenamiento', Icon: ThunderboltOutlined, roles: PERMISSIONS.TRAINING },
+  { route: WORKOUTS, title: 'Entrenamientos', Icon: ThunderboltOutlined, roles: PERMISSIONS.WORKOUTS },
   { route: SUPPLIES, title: 'Suplementos', Icon: ShoppingCartOutlined, roles: PERMISSIONS.SUPPLIES },
   { route: SETTINGS, title: 'Configuración', Icon: SettingOutlined, roles: PERMISSIONS.SETTINGS }
 ];
