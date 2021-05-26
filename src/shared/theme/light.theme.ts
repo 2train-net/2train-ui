@@ -1,5 +1,6 @@
-import { Breakpoint } from './breakpoint.interface';
+import { spacing } from './theme';
 import { ITheme } from './theme.interface';
+import { Breakpoint } from './breakpoint.interface';
 
 export const LIGHT_THEME: ITheme = {
   palette: {
@@ -52,7 +53,7 @@ export const LIGHT_THEME: ITheme = {
       dark: '#d32f2f'
     }
   },
-  spacing: n => n * 8,
+  spacing,
   breakpoints: {
     up: (breakpoint: Breakpoint) =>
       ({

@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col, PageHeader } from 'antd';
 
 import { ADD } from 'shared/routes';
-import { Message } from 'shared/modules';
-import Button from 'shared/modules/button/button.component';
+import { Button, Message, Skeleton } from 'shared/modules';
 
 import { IMasterList, Entity } from './master-list.util';
 
@@ -72,11 +71,13 @@ const MasterList = <T,>({
       <PageHeader ghost={false} title={`${data.payload.length} ${title}`} extra={pageHeaderActions} />
 
       <Row className="master-list-content" gutter={[24, 24]}>
-        {data.payload.map((data: Entity<T>) => (
-          <Col key={data.uuid} sm={{ order: 24 }} md={{ order: 12 }} lg={{ order: 6 }}>
-            <Component data={data} />
-          </Col>
-        ))}
+        <Skeleton isLoading={loading} multiple={3} type="card" spaceBetween={3}>
+          {data.payload.map((data: Entity<T>) => (
+            <Col key={data.uuid} sm={{ order: 24 }} md={{ order: 12 }} lg={{ order: 6 }}>
+              <Component data={data} />
+            </Col>
+          ))}
+        </Skeleton>
       </Row>
 
       <Row className="master-list-loading">

@@ -83,7 +83,7 @@ const PlanDetail: FC = () => {
             <InfoItem
               label="Paticipantes"
               valueRender={() => (
-                <Skeleton isLoading={loading} type="avatar">
+                <Skeleton isLoading={loading} type="avatar" multiple={3}>
                   {members &&
                     members.map(({ uuid, avatar, firstName, lastName }) => (
                       <Avatar
