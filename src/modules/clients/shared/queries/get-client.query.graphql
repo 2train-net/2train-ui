@@ -17,8 +17,8 @@ query getClient($where: ClientWhereUniqueInput!) {
       intervalCount
       intervalPlan
       status
-      createdAt
-      finishedAt
+      startAt
+      expireAt
     }
   }
 }

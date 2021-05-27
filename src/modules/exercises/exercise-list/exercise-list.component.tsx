@@ -2,7 +2,12 @@ import React, { FC, useContext, useEffect } from 'react';
 
 import { useHistory, useLocation } from 'react-router';
 
-import { ExerciseCard, IExercisePayload } from 'modules/exercises/exercises.module';
+import {
+  ExerciseCard,
+  IExercisePayload,
+  SINGULAR_EXERCISES_TITLE,
+  PLURAL_EXERCISES_TITLE
+} from 'modules/exercises/exercises.module';
 
 import { MasterList } from 'shared/modules';
 import { ModalContext } from 'shared/contexts';
@@ -35,7 +40,13 @@ const ExerciseList: FC = () => {
     }
   }, [location]);
 
-  return <MasterList<IExercisePayload> title="Exercises" render={ExerciseCard} useQuery={useGetExercisesQuery} />;
+  return (
+    <MasterList<IExercisePayload>
+      title={[SINGULAR_EXERCISES_TITLE, PLURAL_EXERCISES_TITLE]}
+      render={ExerciseCard}
+      useQuery={useGetExercisesQuery}
+    />
+  );
 };
 
 export default ExerciseList;

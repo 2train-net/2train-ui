@@ -10,7 +10,7 @@ import _ from 'lodash';
 
 import Droppable from 'shared/modules/droppable/droppable.component';
 
-import { Button } from 'shared/modules';
+import { Button, Skeleton } from 'shared/modules';
 import { Select, Field } from 'shared/modules/form';
 
 import { ModalContext } from 'shared/contexts';
@@ -39,6 +39,7 @@ interface IDragAndDropRoutineValues {
   renderForm: FC<FormData>;
   formModal: Modal;
   isEditModeEnabled?: boolean;
+  isLoading?: boolean;
   onSubmit: (data: any) => any;
 }
 
@@ -52,6 +53,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   renderForm: Form,
   formModal,
   isEditModeEnabled = true,
+  isLoading = true,
   onSubmit
 }) => {
   const classes = useStyles({});
@@ -271,37 +273,46 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
       />
 
       <DragDropContext onDragEnd={isEditModeEnabled ? result => onDragEnd(result) : () => {}}>
-        <Row gutter={16} justify="center" align="middle" style={{ marginBottom: 16 }}>
-          {columns
-            ? columns.map((items, columnIndex) => (
-                <Col
-                  key={columnIndex}
-                  xs={24}
-                  sm={12}
-                  lg={columns?.length >= 4 ? 6 : 24 / columns?.length}
-                  style={{ marginTop: 16 }}
-                >
-                  <Title level={5}>{`Día ${columnIndex + 1}`}</Title>
-                  <Droppable
-                    id={columnIndex.toString()}
-                    direction="vertical"
-                    items={items}
-                    renderCard={ColumnCard}
-                    isDropDisabled={!isEditModeEnabled}
-                  />
-                </Col>
-              ))
-            : []}
+        <Row style={{ marginBottom: 16, marginTop: 16 }}>
+          <Col span={24}>
+            {isLoading && <Title level={5}>Días</Title>}
+            <Skeleton isLoading={isLoading}>
+              <Row gutter={16} justify="center" align="middle">
+                {columns
+                  ? columns.map((items, columnIndex) => (
+                      <Col
+                        key={columnIndex}
+                        xs={24}
+                        sm={12}
+                        lg={columns?.length >= 4 ? 6 : 24 / columns?.length}
+                        style={{ marginTop: 16 }}
+                      >
+                        <Title level={5}>{`Día ${columnIndex + 1}`}</Title>
+                        <Droppable
+                          id={columnIndex.toString()}
+                          direction="vertical"
+                          items={items}
+                          renderCard={ColumnCard}
+                          isDropDisabled={!isEditModeEnabled}
+                        />
+                      </Col>
+                    ))
+                  : []}
+              </Row>
+            </Skeleton>
+          </Col>
         </Row>
 
         <Title level={5}>Ejercicios</Title>
-        <Droppable
-          id="OPTIONS"
-          direction="horizontal"
-          items={filterOptions || []}
-          renderCard={OptionCard}
-          isDropDisabled
-        />
+        <Skeleton isLoading={isLoading}>
+          <Droppable
+            id="OPTIONS"
+            direction="horizontal"
+            items={filterOptions || []}
+            renderCard={OptionCard}
+            isDropDisabled
+          />
+        </Skeleton>
       </DragDropContext>
     </div>
   );

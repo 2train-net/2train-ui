@@ -2,9 +2,6 @@ import React, { FC, useContext } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Typography } from 'antd';
-import { EyeOutlined } from '@ant-design/icons';
-
 import { IPlanInvitationPayload } from 'modules/plan-invitations/plan-invitations.module';
 
 import { Avatar } from 'shared/modules';
@@ -28,13 +25,14 @@ const PlanInvitationCard: FC<IPlanInvitationCard> = ({ data }) => {
 
   const url = data.link ? `${PLANS}/${DETAIL}/${data.link}` : `${PLAN_INVITATIONS}/${INVITE}/${data.uuid}`;
 
-  const profile = user?.type === UserType.Customer ? data.plan.owner : data.user;
+  const isCustomer = user?.type === UserType.Customer;
+
+  const profile = isCustomer ? data.plan.owner : data.user;
 
   const status = data.link ? 'Aceptada' : 'Pendiente';
 
   return (
     <ListCard
-      emptyActions
       uuid={data.uuid}
       title={`${profile.firstName} ${profile.lastName}`}
       description={`${data.plan.name} (${status})`}
@@ -45,7 +43,10 @@ const PlanInvitationCard: FC<IPlanInvitationCard> = ({ data }) => {
           letter={UserService.getAvatarLetters(profile.firstName, profile.lastName)}
         />
       }
-      actions={[<EyeOutlined key="detail" onClick={() => redirect(url)} />]}
+      isDeleteActionEnabled={false}
+      isEditActionEnabled={false}
+      isDetailActionEnabled={isCustomer}
+      onDetail={() => redirect(url)}
     />
   );
 };

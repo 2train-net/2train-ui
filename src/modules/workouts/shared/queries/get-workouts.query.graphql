@@ -1,0 +1,27 @@
+query getWorkouts($skip: Int!, $take: Int!) {
+  payload: workouts(skip: $skip, take: $take, orderBy: { createdAt: DESC }) {
+    uuid
+    workoutRoutine {
+      uuid
+      plan {
+        name
+        planAssociations {
+          user {
+            avatar
+            firstName
+            lastName
+          }
+        }
+        owner {
+          avatar
+          firstName
+          lastName
+        }
+      }
+    }
+    workoutExercises {
+      uuid
+    }
+    createdAt
+  }
+}

@@ -8,6 +8,7 @@ import ExerciseCard from './shared/components/exercise-card/exercise-card.compon
 import ExerciseForm from './shared/components/exercise-form/exercise-form.component';
 
 export * from './shared/model';
+export * from './shared/constants';
 export * from './shared/components/exercise-form/exercise-form.util';
 
 export { ExerciseList, ExerciseCreate, ExerciseUpdate, ExerciseForm, ExerciseCard };

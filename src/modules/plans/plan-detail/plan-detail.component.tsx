@@ -5,11 +5,11 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import { Col, PageHeader, Row } from 'antd';
 
-import { Avatar, Button, IconCard, InfoItem, Message } from 'shared/modules';
+import { Avatar, Button, IconCard, InfoItem, Message, Skeleton } from 'shared/modules';
 import { CLIENTS, DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
-import { UserService } from 'shared/services';
+import { DateService, UserService } from 'shared/services';
 import { AuthContext } from 'shared/contexts';
-import { useGetPlanDetailQuery, UserType } from 'shared/generated';
+import { PlanStatus, useGetPlanDetailQuery, UserType } from 'shared/generated';
 
 import { format } from './plan-detail.util';
 
@@ -39,8 +39,16 @@ const PlanDetail: FC = () => {
   const { info, owner, members, iconCards } = format(plan);
 
   const planActions = [];
-  const isRenovateButtonEnabled = true;
-  // TODO IF CUSTOMER, IF PLAN ACTIVE AND 5 DAYS BEFORE FINISH
+  const today = new Date();
+  const isActivePlan = plan?.status === PlanStatus.Active;
+  const pendingDays = plan && isActivePlan && DateService.difference(plan.expireAt, today, 'days');
+  const isRenovateButtonEnabled = pendingDays ? pendingDays <= 5 : false;
+
+  const ownerFullName = (
+    <Skeleton isLoading={loading} type="input" size="small">
+      {`${owner?.firstName} ${owner?.lastName}`}
+    </Skeleton>
+  );
 
   if (isRenovateButtonEnabled) {
     planActions.push(
@@ -66,16 +74,16 @@ const PlanDetail: FC = () => {
       <PageHeader
         ghost={false}
         onBack={owner ? () => redirect(onBackUrl) : undefined}
-        title={owner ? `${owner.firstName} ${owner.lastName}` : ''}
-        subTitle={plan?.name || ''}
+        title={ownerFullName}
+        subTitle={plan?.name}
         extra={planActions}
       >
         <Row gutter={16}>
           <Col xs={24} md={9}>
             <InfoItem
-              label={plan ? 'Paticipantes' : ''}
+              label="Paticipantes"
               valueRender={() => (
-                <>
+                <Skeleton isLoading={loading} type="avatar" multiple={3}>
                   {members &&
                     members.map(({ uuid, avatar, firstName, lastName }) => (
                       <Avatar
@@ -85,7 +93,7 @@ const PlanDetail: FC = () => {
                         letter={UserService.getAvatarLetters(firstName, lastName)}
                       />
                     ))}
-                </>
+                </Skeleton>
               )}
             />
           </Col>
@@ -93,7 +101,7 @@ const PlanDetail: FC = () => {
           {info.map(({ col, items }, i) => (
             <Col key={`info-col-${i}`} className="info-col" {...col}>
               {items.map((info, j) => (
-                <InfoItem key={`info-item-${i}-${j}`} {...info} />
+                <InfoItem key={`info-item-${i}-${j}`} {...info} isLoading={loading} />
               ))}
             </Col>
           ))}

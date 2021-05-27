@@ -9,6 +9,7 @@ import IconCard from './icon-card/icon-card.component';
 import InfoItem from './info-item/info-item.component';
 import ListCard from './list-card/list-card.component';
 import Status from './status/status.component';
+import Skeleton from './skeleton/skeleton.component';
 import DragAndDropRoutine from './drag-and-drop-routine/drag-and-drop-routine.component';
 
 export {
@@ -23,5 +24,6 @@ export {
   NotFoundErrorPage,
   ListCard,
   Status,
+  Skeleton,
   DragAndDropRoutine
 };

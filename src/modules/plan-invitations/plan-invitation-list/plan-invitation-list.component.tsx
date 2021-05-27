@@ -2,7 +2,12 @@ import React, { FC, useContext, useEffect } from 'react';
 
 import { useHistory, useLocation } from 'react-router';
 
-import { PlanInvitationCard, IPlanInvitationPayload } from 'modules/plan-invitations/plan-invitations.module';
+import {
+  PlanInvitationCard,
+  IPlanInvitationPayload,
+  SINGULAR_PLAN_INVITATIONS_TITLE,
+  PLURAL_PLAN_INVITATIONS_TITLE
+} from 'modules/plan-invitations/plan-invitations.module';
 
 import { MasterList } from 'shared/modules';
 import { ModalContext } from 'shared/contexts';
@@ -37,7 +42,7 @@ const PlanInvitationList: FC = () => {
 
   return (
     <MasterList<IPlanInvitationPayload>
-      title="Plan Invitations"
+      title={[SINGULAR_PLAN_INVITATIONS_TITLE, PLURAL_PLAN_INVITATIONS_TITLE]}
       render={PlanInvitationCard}
       isCreateButtonAvailable={false}
       useQuery={useGetPlanInvitationsQuery}

@@ -2,15 +2,16 @@ import React, { PropsWithChildren, useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { Row, Col, PageHeader } from 'antd';
+import { Row, Col, PageHeader, Typography, Empty } from 'antd';
 
 import { ADD } from 'shared/routes';
-import { Message } from 'shared/modules';
-import Button from 'shared/modules/button/button.component';
+import { Button, Message, Skeleton } from 'shared/modules';
 
 import { IMasterList, Entity } from './master-list.util';
 
 import useStyles from './master-list.style';
+
+const { Text } = Typography;
 
 const MasterList = <T,>({
   take = 10,
@@ -24,10 +25,14 @@ const MasterList = <T,>({
 
   const [skip, setSkip] = useState(0);
 
-  const { data = { payload: [] }, loading, error, fetchMore } = useQuery({
+  const { data = { payload: [] }, loading, error, fetchMore, refetch } = useQuery({
     fetchPolicy,
     variables: { take, skip: 0 }
   });
+
+  const isEmpty = !data.payload.length && !loading;
+
+  const headerName = typeof title === 'string' ? title : data.payload.length === 1 ? title[0] : title[1];
 
   const loadMore = async () => {
     const nextSkip = skip + take;
@@ -47,6 +52,10 @@ const MasterList = <T,>({
     });
 
     setSkip(nextSkip);
+  };
+
+  const reload = () => {
+    refetch({ take, skip: 0 });
   };
 
   const pageHeaderActions = [];
@@ -69,21 +78,38 @@ const MasterList = <T,>({
 
   return (
     <div className={`master-list ${classes.root}`}>
-      <PageHeader ghost={false} title={`${data.payload.length} ${title}`} extra={pageHeaderActions} />
+      <PageHeader ghost={false} title={`${data.payload.length} ${headerName}`} extra={pageHeaderActions} />
 
       <Row className="master-list-content" gutter={[24, 24]}>
-        {data.payload.map((data: Entity<T>) => (
-          <Col key={data.uuid} sm={{ order: 24 }} md={{ order: 12 }} lg={{ order: 6 }}>
-            <Component data={data} />
-          </Col>
-        ))}
+        <Skeleton isLoading={loading} multiple={3} type="card" spaceBetween={3}>
+          {!isEmpty ? (
+            data.payload.map((data: Entity<T>) => (
+              <Col key={data.uuid} sm={{ order: 24 }} md={{ order: 12 }} lg={{ order: 6 }}>
+                <Component data={data} />
+              </Col>
+            ))
+          ) : (
+            <Empty
+              description={
+                <Text type="secondary" strong>
+                  Sin datos
+                </Text>
+              }
+              imageStyle={{ fill: 'white' }}
+            >
+              <Button onClick={reload}>Recargar</Button>
+            </Empty>
+          )}
+        </Skeleton>
       </Row>
 
-      <Row className="master-list-loading">
-        <Button type="button" onClick={loadMore} loading={loading}>
-          {loading ? '' : 'Load more'}
-        </Button>
-      </Row>
+      {!isEmpty && (
+        <Row className="master-list-loading">
+          <Button type="button" onClick={loadMore} loading={loading}>
+            {loading ? '' : 'Load more'}
+          </Button>
+        </Row>
+      )}
     </div>
   );
 };

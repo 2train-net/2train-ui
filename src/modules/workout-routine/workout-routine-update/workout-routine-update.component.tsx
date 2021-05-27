@@ -86,6 +86,7 @@ const WorkoutRoutineUpdate: FC = () => {
       formModal={WORKOUT_EXERCISE_MODAL}
       onSubmit={onSubmit}
       isEditModeEnabled={isEditModeEnabled}
+      isLoading={workoutRoutine.loading || updateWorkoutRoutinePayload.loading}
     />
   );
 };

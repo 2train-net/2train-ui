@@ -20,8 +20,6 @@ export const HOME = '/home';
 
 export const PROFILE = '/profile';
 
-export const TRAINING = '/training';
-
 export const SETTINGS = '/settings';
 
 export const CLIENTS = '/clients';
@@ -51,6 +49,8 @@ export const BODY_MEASURES = '/body-measures';
 export const BODY_MEASURE_ADD = `${BODY_MEASURES}/${ADD}`;
 export const BODY_MEASURE_EDIT = `${BODY_MEASURES}/${EDIT}/:${UUID}`;
 export const BODY_MEASURE_DETAIL = `${BODY_MEASURES}/${DETAIL}/:${UUID}`;
+
+export const WORKOUTS = '/workouts';
 
 export const WORKOUT_ROUTINES = '/workout-routines';
 export const WORKOUT_ROUTINE_EDIT = `${WORKOUT_ROUTINES}/${EDIT}/:${UUID}`;

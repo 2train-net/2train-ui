@@ -14,7 +14,9 @@ interface IDatePicker {
   placeholder?: string;
   isDisabled?: boolean;
   hasBeenTouched?: boolean;
+  hasFeedback?: boolean;
   format?: string;
+  feedback?: string;
   disabledDate?: {
     date?: string | 'today';
     condition: 'isBefore' | 'isAfter';
@@ -26,10 +28,12 @@ const DatePicker: FC<IDatePicker> = ({
   value,
   name,
   error,
+  feedback,
   placeholder,
   isDisabled,
-  hasBeenTouched,
   disabledDate,
+  hasBeenTouched,
+  hasFeedback,
   format = DEFAULT_DATE_FORMAT,
   setFieldValue
 }) => {
@@ -48,8 +52,8 @@ const DatePicker: FC<IDatePicker> = ({
   return (
     <Item
       validateStatus={!!error && hasBeenTouched ? 'error' : 'success'}
-      help={!!error && hasBeenTouched ? error : null}
-      hasFeedback={hasBeenTouched}
+      help={!!error && hasBeenTouched ? error : feedback}
+      hasFeedback={hasFeedback || hasBeenTouched}
     >
       <AntDesignDatePicker
         format={format}

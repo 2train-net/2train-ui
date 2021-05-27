@@ -5,3 +5,4 @@ export const YYYY_MM_DD = 'YYYY-MM-DD';
 export const ISO = 'YYYY-MM-DDTHH:mm:ssZ';
 
 export const DEFAULT_DATE_FORMAT = DD_MM_YYYY;
+export const DEFAULT_SERVER_DATE_FORMAT = ISO;
