@@ -7,8 +7,10 @@ import {
   PlanInviteForm,
   IPlanPayload,
   IPlanInviteFormValues,
-  PLAN_INVITATION_LINK_MODAL,
   PLAN_INVITATION_MODAL,
+  SINGULAR_PLANS_TITLE,
+  PLURAL_PLANS_TITLE,
+  PLAN_INVITATION_LINK_MODAL,
   COPY_ON_CLIPBOARD_SUCCESSFULLY
 } from 'modules/plans/plans.module';
 
@@ -96,7 +98,13 @@ const PlanList: FC = () => {
     modalProvider.refresh({ isLoading: planInvitationPayload.loading });
   }, [planInvitationPayload]);
 
-  return <MasterList<IPlanPayload> title="Plans" render={PlanCard} useQuery={useGetPlansQuery} />;
+  return (
+    <MasterList<IPlanPayload>
+      title={[SINGULAR_PLANS_TITLE, PLURAL_PLANS_TITLE]}
+      render={PlanCard}
+      useQuery={useGetPlansQuery}
+    />
+  );
 };
 
 export default PlanList;

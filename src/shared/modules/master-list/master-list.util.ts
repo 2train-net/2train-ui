@@ -23,7 +23,7 @@ export interface QueryVariables {
 export interface IMasterList<T> {
   take?: number;
   fetchPolicy?: WatchQueryFetchPolicy;
-  title: string;
+  title: string | string[];
   render: FC<IMasterComponent<T>>;
   isCreateButtonAvailable?: boolean;
   useQuery: (

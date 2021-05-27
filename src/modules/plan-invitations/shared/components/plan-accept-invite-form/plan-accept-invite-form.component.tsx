@@ -32,12 +32,7 @@ const PlanForm: FC<IPlanInviteForm> = ({ onSubmit, formRef, planInvitation, curr
   const classes = useStyles();
 
   const { price, currency, intervalPlan, intervalCount } = planInvitation;
-  console.log('NORMAL: ', currentActivePlan?.expireAt);
-  console.log(
-    'PARSED: ',
-    currentActivePlan &&
-      DateService.format(currentActivePlan?.expireAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)
-  );
+
   const validStartDate = currentActivePlan
     ? DateService.format(currentActivePlan?.expireAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)
     : DateService.format(new Date());

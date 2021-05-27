@@ -12,6 +12,11 @@ query getWorkouts($skip: Int!, $take: Int!) {
             lastName
           }
         }
+        owner {
+          avatar
+          firstName
+          lastName
+        }
       }
     }
     workoutExercises {

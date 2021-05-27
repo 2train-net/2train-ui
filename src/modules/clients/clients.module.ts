@@ -6,6 +6,7 @@ import ClientDetail from './client-detail/client-detail.component';
 import ClientCard from './shared/components/client-card/client-card.component';
 
 export * from './shared/model';
+export * from './shared/constants';
 
 export { ClientList, ClientDetail, ClientCard };
 

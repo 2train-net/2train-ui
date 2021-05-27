@@ -11,6 +11,11 @@ export interface IWorkoutPayload {
           lastName: string;
         };
       }[];
+      owner: {
+        avatar?: string | null;
+        firstName: string;
+        lastName: string;
+      };
     };
   };
   workoutExercises: {
