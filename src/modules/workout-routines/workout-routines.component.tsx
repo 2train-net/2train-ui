@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import { WorkoutRoutineUpdate } from 'modules/workout-routine/workout-routine.module';
+import { WorkoutRoutineUpdate } from 'modules/workout-routines/workout-routines.module';
 
 import { WORKOUT_ROUTINE_EDIT } from 'shared/routes';
 import { NotFoundErrorPage } from 'shared/modules';
 
-const WorkoutRoutine: FC = () => (
+const WorkoutRoutines: FC = () => (
   <Switch>
     <Route exact path={WORKOUT_ROUTINE_EDIT} component={WorkoutRoutineUpdate} />
 
@@ -14,4 +14,4 @@ const WorkoutRoutine: FC = () => (
   </Switch>
 );
 
-export default WorkoutRoutine;
+export default WorkoutRoutines;

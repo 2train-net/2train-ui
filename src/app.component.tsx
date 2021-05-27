@@ -10,7 +10,7 @@ import Profile from 'modules/profile/profile.module';
 import Plans from 'modules/plans/plans.module';
 import BodyMeasure from 'modules/body-measure/body-measure.module';
 import Exercises from 'modules/exercises/exercises.module';
-import WorkoutRoutine from 'modules/workout-routine/workout-routine.module';
+import WorkoutRoutines from 'modules/workout-routines/workout-routines.module';
 import PlanInvitations from 'modules/plan-invitations/plan-invitations.module';
 import Clients from 'modules/clients/clients.module';
 import Workouts from 'modules/workouts/workouts.module';
@@ -46,7 +46,7 @@ const App: FC = () => {
             <Switch>
               <Route exact path={HOME} component={Home} />
               <Route exact path={PROFILE} component={Profile} />
-              <Route path={WORKOUT_ROUTINES} component={WorkoutRoutine} />
+              <Route path={WORKOUT_ROUTINES} component={WorkoutRoutines} />
               <Route path={PLANS} component={Plans} />
               <Route path={PLAN_INVITATIONS} component={PlanInvitations} />
               <Route path={EXERCISES} component={Exercises} />
