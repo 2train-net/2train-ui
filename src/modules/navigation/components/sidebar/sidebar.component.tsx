@@ -8,6 +8,7 @@ import { OPTIONS } from './sidebar.util';
 import LOGO from 'shared/assets/images/logo/logo-horizontal-full-color.png';
 import SYMBOL from 'shared/assets/images/symbol/symbol-full-color.png';
 
+import { PERMISSIONS } from 'shared/routes';
 import { UserType } from 'shared/generated';
 
 import useStyles from './sidebar.style';
@@ -27,7 +28,7 @@ const Sidebar: FC<ISidebar> = ({ role, pathname, isSidebarCollapsed, setIsSideba
   const [, parent, child] = pathname.split('/');
   const match = [`/${parent}`, `/${parent}${child ? `/${child}` : ''}`];
 
-  const options = role ? OPTIONS.filter(({ roles }) => !!roles.find(match => match === role)) : [];
+  const options = role ? OPTIONS.filter(({ route }) => !!PERMISSIONS[route].some(match => match === role)) : [];
 
   const handleCollapse = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);

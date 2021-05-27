@@ -1,15 +1,14 @@
-import React, { FC } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { ComponentType, FC, useContext } from 'react';
+import { Redirect, Route } from 'react-router-dom';
 
-import { NOT_FOUND } from 'shared/routes';
+import { NOT_FOUND, PERMISSIONS } from 'shared/routes';
 import { UserType } from 'shared/generated';
-import { IUserProfile } from 'shared/model';
-
-type Role = 'PERSONAL_TRAINER' | 'CUSTOMER';
+import { AuthContext } from 'shared/contexts';
 
 interface IPrivateRoute {
-  user?: IUserProfile;
-  roles: Role[];
+  path: string;
+  exact?: boolean;
+  component?: ComponentType<any>;
 }
 
 const ROLE_BY_USER_TYPE = {
@@ -17,9 +16,14 @@ const ROLE_BY_USER_TYPE = {
   CUSTOMER: UserType.Customer
 };
 
-const PrivateRoute: FC<IPrivateRoute> = ({ user, roles, children }) => {
-  return user && roles.find(role => ROLE_BY_USER_TYPE[role] === user.type) ? (
-    <>{children}</>
+const PrivateRoute: FC<IPrivateRoute> = ({ children, component, path, exact }) => {
+  const { user } = useContext(AuthContext);
+
+  const isValid = user && PERMISSIONS[path].find(role => ROLE_BY_USER_TYPE[role] === user.type);
+  const isRouteComponent = component && path;
+
+  return isValid ? (
+    <>{isRouteComponent ? <Route exact={exact} path={path} component={component} /> : children}</>
   ) : (
     <Redirect to={NOT_FOUND} />
   );

@@ -1,16 +1,17 @@
 import React, { FC } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { WorkoutList } from 'modules/workouts/workouts.module';
 
-import { WORKOUTS } from 'shared/routes';
-import { NotFoundErrorPage } from 'shared/modules';
+import { NOT_FOUND, WORKOUTS } from 'shared/routes';
+import { PrivateRoute } from 'shared/modules/route';
 
 const Workouts: FC = () => (
   <Switch>
+    <PrivateRoute exact path={WORKOUTS} component={WorkoutList} />
     <Route exact path={WORKOUTS} component={WorkoutList} />
 
-    <Route component={NotFoundErrorPage} />
+    <Redirect to={NOT_FOUND} />
   </Switch>
 );
 
