@@ -1,4 +1,4 @@
-import { IWorkoutExercisePayload } from 'modules/workout-routine/workout-routine.module';
+import { IWorkoutExercisePayload } from 'modules/workout-routines/workout-routines.module';
 
 import { ColumnItem } from 'shared/modules/drag-and-drop-routine/column-items.interface';
 
