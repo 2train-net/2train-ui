@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Result, Button } from 'antd';
+import { Result } from 'antd';
+
+import { Button } from 'shared/modules';
 import { HOME } from 'shared/routes';
 
 const NotFoundErrorPage: FC = () => {
@@ -9,10 +11,12 @@ const NotFoundErrorPage: FC = () => {
     <Result
       status="404"
       title="404"
-      subTitle="Sorry, the page you visited does not exist."
+      subTitle="Lo lamento, la página que intentas visitar no existe"
       extra={
         <Link to={HOME}>
-          <Button type="primary">Back Home</Button>
+          <Button size="small" color="secondary">
+            Volver al inicio
+          </Button>
         </Link>
       }
     />

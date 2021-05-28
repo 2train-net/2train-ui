@@ -1,7 +1,7 @@
 import React, { FC, useContext } from 'react';
 
-import { Tooltip, Button, Badge, Dropdown, Menu } from 'antd';
-import { BellFilled, MenuOutlined } from '@ant-design/icons';
+import { Dropdown, Menu } from 'antd';
+import { MenuOutlined } from '@ant-design/icons';
 
 import { Avatar } from 'shared/modules';
 import { AuthContext } from 'shared/contexts';
@@ -22,11 +22,6 @@ const Navbar: FC<INavbar> = ({ handleOpenDrawer }) => {
   return (
     <div className={classes.root}>
       <MenuOutlined className="menu-icon" onClick={handleOpenDrawer} />
-      <Tooltip title="Notifications" className="nav-item">
-        <Badge count={5}>
-          <Button shape="circle" icon={<BellFilled />} />
-        </Badge>
-      </Tooltip>
       <Dropdown
         overlay={
           <Menu>
