@@ -1,0 +1,5 @@
+mutation deletePlan($where: PlanWhereUniqueInput!) {
+  payload: deletePlan(where: $where) {
+    uuid
+  }
+}

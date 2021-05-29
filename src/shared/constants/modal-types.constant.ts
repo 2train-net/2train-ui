@@ -7,5 +7,6 @@ export const DELETE_MODAL: Modal = {
   title: 'Eliminar',
   message: '¿Seguro de que deseas remover este elemento?',
   iconRender: DeleteFilled,
+  closeOnConfirm: true,
   onConfirm: () => {}
 };

@@ -16,13 +16,13 @@ import {
 
 import { MasterList, Message } from 'shared/modules';
 import { ModalContext } from 'shared/contexts';
-import { DELETE_MODAL } from 'shared/constants';
-import { PLANS, INVITE, PLAN_INVITATIONS, DELETE } from 'shared/routes';
-import { useCreatePlanInvitationMutation, useGetPlansQuery } from 'shared/generated';
+import { PLANS, INVITE, PLAN_INVITATIONS } from 'shared/routes';
+import { useCreatePlanInvitationMutation, useDeletePlanMutation, useGetPlansQuery } from 'shared/generated';
 
 const PlanList: FC = () => {
   const history = useHistory();
   const location = useLocation();
+
   const {
     params: { uuid }
   } = useRouteMatch<{ uuid: string }>();
@@ -36,8 +36,6 @@ const PlanList: FC = () => {
   const redirectToPlans = () => {
     history.push(PLANS);
   };
-
-  const deletePlan = () => {};
 
   const sendPlanInvitation = async ({ email }: IPlanInviteFormValues) => {
     try {
@@ -61,14 +59,6 @@ const PlanList: FC = () => {
     } catch (error) {}
   };
 
-  const displayDeleteConfirmation = () => {
-    modalProvider.show({
-      ...DELETE_MODAL,
-      onConfirm: deletePlan,
-      onCancel: redirectToPlans
-    });
-  };
-
   const displayInviteModal = () => {
     modalProvider.show({
       ...PLAN_INVITATION_MODAL,
@@ -83,19 +73,20 @@ const PlanList: FC = () => {
   useEffect(() => {
     const { pathname } = location;
 
-    if (pathname.match(DELETE)) {
-      displayDeleteConfirmation();
-    } else if (pathname.match(INVITE)) {
+    if (pathname.match(INVITE)) {
       displayInviteModal();
     }
   }, [location]);
 
   useEffect(() => {
-    if (planInvitationPayload.error) {
-      Message.error(planInvitationPayload.error.graphQLErrors[0].message);
+    const error = planInvitationPayload.error;
+    const isLoading = planInvitationPayload.loading;
+
+    if (error) {
+      Message.error(error.graphQLErrors[0].message);
     }
 
-    modalProvider.refresh({ isLoading: planInvitationPayload.loading });
+    modalProvider.refresh({ isLoading });
   }, [planInvitationPayload]);
 
   return (
@@ -103,6 +94,7 @@ const PlanList: FC = () => {
       title={[SINGULAR_PLANS_TITLE, PLURAL_PLANS_TITLE]}
       render={PlanCard}
       useQuery={useGetPlansQuery}
+      useDeleteMutation={useDeletePlanMutation}
     />
   );
 };

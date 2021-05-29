@@ -1,10 +1,12 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useContext, useEffect, useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 
 import { Row, Col, PageHeader, Typography, Empty } from 'antd';
 
-import { ADD } from 'shared/routes';
+import { ADD, DELETE } from 'shared/routes';
+import { ModalContext } from 'shared/contexts';
+import { DELETE_MODAL } from 'shared/constants';
 import { Button, Message, Skeleton } from 'shared/modules';
 
 import { IMasterList, Entity } from './master-list.util';
@@ -19,17 +21,29 @@ const MasterList = <T,>({
   title,
   render: Component,
   isCreateButtonAvailable = true,
-  useQuery
+  useQuery,
+  useDeleteMutation = () => [] as any
 }: PropsWithChildren<IMasterList<T>>) => {
   const classes = useStyles();
+  const history = useHistory();
+  const location = useLocation();
+
+  const {
+    params: { uuid }
+  } = useRouteMatch<{ uuid: string }>();
+
+  const modalProvider = useContext(ModalContext);
 
   const [skip, setSkip] = useState(0);
 
-  const { data = { payload: [] }, loading, error, fetchMore, refetch } = useQuery({
+  const [deleteEntity, deleteEntityPayload] = useDeleteMutation();
+
+  const { data = { payload: [] }, loading, error: queryError, fetchMore, refetch } = useQuery({
     fetchPolicy,
     variables: { take, skip: 0 }
   });
 
+  const error = queryError || deleteEntityPayload.error;
   const isEmpty = !data.payload.length && !loading;
 
   const headerName = typeof title === 'string' ? title : data.payload.length === 1 ? title[0] : title[1];
@@ -58,17 +72,45 @@ const MasterList = <T,>({
     refetch({ take, skip: 0 });
   };
 
+  const displayDeleteConfirmation = () => {
+    if (deleteEntity) {
+      modalProvider.show({
+        ...DELETE_MODAL,
+        onCancel: history.goBack,
+        onConfirm: async () => {
+          await deleteEntity({
+            variables: {
+              where: { uuid }
+            }
+          });
+
+          reload();
+
+          history.goBack();
+        }
+      });
+    }
+  };
+
   const pageHeaderActions = [];
 
   if (isCreateButtonAvailable) {
     pageHeaderActions.push(
       <Link key="create-link" to={location => `${location.pathname}/${ADD}`}>
         <Button type="button" color="primary" size="small">
-          Create
+          Crear
         </Button>
       </Link>
     );
   }
+
+  useEffect(() => {
+    const { pathname } = location;
+
+    if (pathname.match(DELETE)) {
+      displayDeleteConfirmation();
+    }
+  }, [location]);
 
   useEffect(() => {
     if (error) {
@@ -106,7 +148,7 @@ const MasterList = <T,>({
       {!isEmpty && (
         <Row className="master-list-loading">
           <Button type="button" onClick={loadMore} loading={loading}>
-            {loading ? '' : 'Load more'}
+            {loading ? '' : 'Cargar más'}
           </Button>
         </Row>
       )}

@@ -15,6 +15,19 @@ export interface QueryPayload<T> {
   payload: Entity<T>[];
 }
 
+export interface MutationDeletePayload {
+  payload: { uuid: string };
+}
+
+export interface EntityWhereUniqueInput {
+  id?: number | null;
+  uuid?: string | null;
+}
+
+export interface MutationDeleteVariables {
+  where: EntityWhereUniqueInput;
+}
+
 export interface QueryVariables {
   take: number;
   skip: number;
@@ -29,4 +42,7 @@ export interface IMasterList<T> {
   useQuery: (
     options: ApolloReactHooks.QueryHookOptions<QueryPayload<T>, QueryVariables>
   ) => ApolloReactCommon.QueryResult<QueryPayload<T>, QueryVariables>;
+  useDeleteMutation?: (
+    baseOptions?: ApolloReactHooks.MutationHookOptions<MutationDeletePayload, MutationDeleteVariables>
+  ) => ApolloReactHooks.MutationTuple<MutationDeletePayload, MutationDeleteVariables>;
 }
