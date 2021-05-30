@@ -12,6 +12,7 @@ import { PERMISSIONS } from 'shared/routes';
 import { UserType } from 'shared/generated';
 
 import useStyles from './sidebar.style';
+import { Icon } from 'shared/modules';
 
 const { Sider } = Layout;
 const { SubMenu, Item } = Menu;
@@ -45,13 +46,13 @@ const Sidebar: FC<ISidebar> = ({ role, pathname, isSidebarCollapsed, setIsSideba
           )}
         </div>
         <Menu theme="dark" selectedKeys={match} mode="inline">
-          {options.map(({ route, title, Icon, children }) =>
+          {options.map(({ route, title, icon, children }) =>
             children ? (
               <SubMenu
                 key={route}
                 title={
                   <span>
-                    <Icon />
+                    {icon && <Icon type={icon} />}
                     <span>{title}</span>
                   </span>
                 }
@@ -62,7 +63,7 @@ const Sidebar: FC<ISidebar> = ({ role, pathname, isSidebarCollapsed, setIsSideba
             ) : (
               <Item key={route}>
                 <Link to={route}>
-                  <Icon />
+                  {icon && <Icon type={icon} />}
                   <span>{title}</span>
                 </Link>
               </Item>

@@ -1,9 +1,8 @@
 import React, { FC, useContext } from 'react';
 
 import { Dropdown, Menu } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
 
-import { Avatar } from 'shared/modules';
+import { Avatar, Icon } from 'shared/modules';
 import { AuthContext } from 'shared/contexts';
 
 import useStyles from './navbar.style';
@@ -21,7 +20,7 @@ const Navbar: FC<INavbar> = ({ handleOpenDrawer }) => {
 
   return (
     <div className={classes.root}>
-      <MenuOutlined className="menu-icon" onClick={handleOpenDrawer} />
+      <Icon type="menu" className="menu-icon" onClick={handleOpenDrawer} />
       <Dropdown
         overlay={
           <Menu>

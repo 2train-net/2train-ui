@@ -4,8 +4,8 @@ import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
 import { Card } from 'antd';
-import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 
+import { Icon } from 'shared/modules';
 import { EDIT, DETAIL, DELETE } from 'shared/routes';
 
 interface IListCard {
@@ -50,19 +50,17 @@ const ListCard: FC<IListCard> = ({
   if (!emptyActions) {
     if (isDeleteActionEnabled) {
       cardActions.push(
-        <DeleteOutlined key="delete" onClick={onDelete ? onDelete : () => redirect(`${pathname}/${DELETE}/${uuid}`)} />
+        <Icon type="delete" onClick={onDelete ? onDelete : () => redirect(`${pathname}/${DELETE}/${uuid}`)} />
       );
     }
 
     if (isEditActionEnabled) {
-      cardActions.push(
-        <EditOutlined key="edit" onClick={onEdit ? onEdit : () => redirect(`${pathname}/${EDIT}/${uuid}`)} />
-      );
+      cardActions.push(<Icon type="edit" onClick={onEdit ? onEdit : () => redirect(`${pathname}/${EDIT}/${uuid}`)} />);
     }
 
     if (isDetailActionEnabled) {
       cardActions.push(
-        <EyeOutlined key="detail" onClick={onDetail ? onDetail : () => redirect(`${pathname}/${DETAIL}/${uuid}`)} />
+        <Icon type="view" onClick={onDetail ? onDetail : () => redirect(`${pathname}/${DETAIL}/${uuid}`)} />
       );
     }
   }

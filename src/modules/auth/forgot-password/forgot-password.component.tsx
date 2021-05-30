@@ -3,11 +3,11 @@ import { useHistory } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 import { Form, Button, Card, Typography } from 'antd';
-import { MailOutlined, LoadingOutlined } from '@ant-design/icons';
 
-import { RESET_PASSWORD } from 'shared/routes';
-import { AuthService } from 'shared/services';
+import { Icon } from 'shared/modules';
 import { Field } from 'shared/modules/form';
+import { AuthService } from 'shared/services';
+import { RESET_PASSWORD } from 'shared/routes';
 
 import { INITIAL_FORGOT_PASSWORD_FORM_VALUES, FORGOT_PASSWORD_FORM_SCHEMA } from './forgot-password.util';
 import userStyles from './forgot-password.style';
@@ -47,7 +47,7 @@ const ForgotPassword: FC = () => {
         </Item>
 
         <Field
-          icon={<MailOutlined />}
+          icon={<Icon type="mail" />}
           name="email"
           placeholder="Email"
           autoComplete="username"
@@ -60,7 +60,7 @@ const ForgotPassword: FC = () => {
 
         <Item className="submit-button">
           <Button type="primary" htmlType="submit" block>
-            {isLoading ? <LoadingOutlined /> : 'SEND'}
+            {isLoading ? <Icon type="loading" /> : 'SEND'}
           </Button>
         </Item>
       </Form>

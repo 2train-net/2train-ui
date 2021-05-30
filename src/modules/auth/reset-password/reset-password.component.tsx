@@ -3,11 +3,11 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 import { Form, Button, Card, Typography } from 'antd';
-import { MailOutlined, LockOutlined, SafetyCertificateOutlined, LoadingOutlined } from '@ant-design/icons';
 
+import { Icon } from 'shared/modules';
 import { LOGIN } from 'shared/routes';
-import { AuthService } from 'shared/services';
 import { Field } from 'shared/modules/form';
+import { AuthService } from 'shared/services';
 
 import {
   INITIAL_RESET_PASSWORD_FORM_VALUES,
@@ -61,7 +61,7 @@ const ResetPassword: FC = () => {
         </Item>
 
         <Field
-          icon={<MailOutlined />}
+          icon={<Icon type="mail" />}
           name="email"
           placeholder="Email"
           autoComplete="username"
@@ -73,7 +73,7 @@ const ResetPassword: FC = () => {
         />
 
         <Field
-          icon={<SafetyCertificateOutlined />}
+          icon={<Icon type="safetyCertificate" />}
           name="code"
           placeholder="Code"
           value={values.code}
@@ -84,7 +84,7 @@ const ResetPassword: FC = () => {
         />
 
         <Field
-          icon={<LockOutlined />}
+          icon={<Icon type="lock" />}
           name="password"
           type="password"
           placeholder="Password"
@@ -97,7 +97,7 @@ const ResetPassword: FC = () => {
         />
 
         <Field
-          icon={<LockOutlined />}
+          icon={<Icon type="lock" />}
           name="confirmPassword"
           type="password"
           placeholder="Confirm password"
@@ -111,7 +111,7 @@ const ResetPassword: FC = () => {
 
         <Item className="submit-button">
           <Button type="primary" htmlType="submit" block>
-            {isLoading ? <LoadingOutlined /> : 'SEND'}
+            {isLoading ? <Icon type="loading" /> : 'SEND'}
           </Button>
         </Item>
       </Form>

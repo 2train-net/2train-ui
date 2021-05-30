@@ -3,8 +3,8 @@ import { useLocation, Link } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 import { Form, Button, Card, Typography } from 'antd';
-import { SafetyCertificateOutlined, LoadingOutlined, MailOutlined } from '@ant-design/icons';
 
+import { Icon } from 'shared/modules';
 import { Field } from 'shared/modules/form';
 import { ICredentials } from 'shared/model';
 import { AuthContext } from 'shared/contexts';
@@ -73,7 +73,7 @@ const ConfirmAccount: FC = () => {
         </Item>
 
         <Field
-          icon={<MailOutlined />}
+          icon={<Icon type="mail" />}
           name="email"
           placeholder="Correo Electrónico"
           value={values.email}
@@ -85,7 +85,7 @@ const ConfirmAccount: FC = () => {
 
         {isEmailValid && (
           <Field
-            icon={<SafetyCertificateOutlined />}
+            icon={<Icon type="safetyCertificate" />}
             name="code"
             placeholder="Código de verificación"
             value={values.code}
@@ -98,7 +98,7 @@ const ConfirmAccount: FC = () => {
 
         <Item className="submit-button">
           <Button type="primary" htmlType="submit" disabled={!isEmailValid} block>
-            {isLoading ? <LoadingOutlined /> : 'ENVIAR'}
+            {isLoading ? <Icon type="loading" /> : 'ENVIAR'}
           </Button>
         </Item>
 

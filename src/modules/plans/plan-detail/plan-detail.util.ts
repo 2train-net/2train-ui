@@ -1,12 +1,3 @@
-import {
-  HeartOutlined,
-  ThunderboltOutlined,
-  LineChartOutlined,
-  MessageOutlined,
-  ReadOutlined,
-  ReconciliationOutlined
-} from '@ant-design/icons';
-
 import { IIconCard } from 'shared/modules/icon-card/icon-card.component';
 
 import { DateService, PlanService } from 'shared/services';
@@ -100,20 +91,20 @@ export const format = (plan?: IPlanDetail) => {
       url: plan?.workoutRoutine
         ? `${WORKOUT_ROUTINES}/${EDIT}/${plan.workoutRoutine.uuid}`
         : `${WORKOUT_ROUTINES}/${ADD}`,
-      iconRender: ReconciliationOutlined,
+      icon: 'reconciliation',
       isDisabled: !plan?.workoutRoutine
     },
     {
       title: 'Alimentación',
       buttonText: 'Ver',
       url: plan?.dietPlan ? `${DIETS}/${EDIT}/${plan.dietPlan.uuid}` : `${DIETS}/${ADD}`,
-      iconRender: ReadOutlined,
+      icon: 'read',
       isDisabled: !plan?.dietPlan
     },
-    { iconRender: HeartOutlined, title: 'Mediciones', buttonText: 'Ver', isDisabled: true },
-    { iconRender: ThunderboltOutlined, title: 'Entrenamiento', buttonText: 'Ver', isDisabled: true },
-    { iconRender: LineChartOutlined, title: 'Estadisticas', buttonText: 'Ver', isDisabled: true },
-    { iconRender: MessageOutlined, title: 'Chat', buttonText: 'Ver', isDisabled: true }
+    { icon: 'heart', title: 'Mediciones', buttonText: 'Ver', isDisabled: true },
+    { icon: 'thunderbolt', title: 'Entrenamiento', buttonText: 'Ver', isDisabled: true },
+    { icon: 'lineChart', title: 'Estadisticas', buttonText: 'Ver', isDisabled: true },
+    { icon: 'chat', title: 'Chat', buttonText: 'Ver', isDisabled: true }
   ];
 
   return {

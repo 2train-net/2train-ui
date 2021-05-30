@@ -43,7 +43,7 @@ const MasterList = <T,>({
     variables: { take, skip: 0 }
   });
 
-  const error = queryError || deleteEntityPayload.error;
+  const error = queryError || deleteEntityPayload?.error;
   const isEmpty = !data.payload.length && !loading;
 
   const headerName = typeof title === 'string' ? title : data.payload.length === 1 ? title[0] : title[1];

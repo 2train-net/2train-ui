@@ -2,7 +2,6 @@ import React, { FC, useContext } from 'react';
 
 import { useFormik } from 'formik';
 import { Form, Card, Row, Col } from 'antd';
-import { UserOutlined, PhoneOutlined, PlusOutlined, MailOutlined, CrownOutlined } from '@ant-design/icons';
 
 import {
   UserProfile as UserProfileModel,
@@ -10,7 +9,7 @@ import {
   IUpdateUserProfileForm
 } from 'modules/profile/shared/model';
 
-import { Button } from 'shared/modules';
+import { Button, Icon } from 'shared/modules';
 import { Field, Select, DatePicker, Upload } from 'shared/modules/form';
 
 import { AuthContext } from 'shared/contexts';
@@ -70,7 +69,7 @@ const Profile: FC = () => {
                   <img src={values.avatarBase64} alt="Avatar" />
                 ) : (
                   <>
-                    <PlusOutlined />
+                    <Icon type="plus" />
                     <p>Perfil</p>
                   </>
                 )}
@@ -83,7 +82,7 @@ const Profile: FC = () => {
           <Col xs={24} md={8}>
             <Field
               isDisabled={true}
-              icon={<CrownOutlined />}
+              icon={<Icon type="crown" />}
               name="username"
               placeholder="Username"
               value={values.username}
@@ -94,7 +93,7 @@ const Profile: FC = () => {
 
             <Field
               isDisabled={true}
-              icon={<MailOutlined />}
+              icon={<Icon type="mail" />}
               name="email"
               placeholder="Correo Electrónico"
               value={values.email}
@@ -104,7 +103,7 @@ const Profile: FC = () => {
             />
 
             <Field
-              icon={<PhoneOutlined />}
+              icon={<Icon type="phone" />}
               name="phone"
               placeholder="Número de télefono"
               value={values.phone}
@@ -128,7 +127,7 @@ const Profile: FC = () => {
           </Col>
           <Col xs={24} md={8}>
             <Field
-              icon={<UserOutlined />}
+              icon={<Icon type="user" />}
               name="firstName"
               placeholder="Nombre"
               value={values.firstName}
@@ -138,7 +137,7 @@ const Profile: FC = () => {
             />
 
             <Field
-              icon={<UserOutlined />}
+              icon={<Icon type="user" />}
               name="lastName"
               placeholder="Apellido"
               value={values.lastName}

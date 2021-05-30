@@ -2,14 +2,13 @@ import React, { FC, useContext } from 'react';
 
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { ShareAltOutlined } from '@ant-design/icons';
-
 import { IPlanPayload } from 'modules/plans/shared/model';
 
-import { Status, ListCard } from 'shared/modules';
-import { IMasterComponent } from 'shared/modules/master-list/master-list.util';
+import { Icon, Status, ListCard } from 'shared/modules';
 import { AuthContext } from 'shared/contexts';
 import { UserType } from 'shared/generated';
+
+import { IMasterComponent } from 'shared/modules/master-list/master-list.util';
 
 interface IPlanCard extends IMasterComponent<IPlanPayload> {
   data: IPlanPayload;
@@ -25,7 +24,7 @@ const PlanCard: FC<IPlanCard> = ({ data }) => {
 
   const actions =
     user?.type === UserType.PersonalTrainer
-      ? [<ShareAltOutlined key="share" onClick={() => redirect(`${pathname}/invite/${data.uuid}`)} />]
+      ? [<Icon type="share" onClick={() => redirect(`${pathname}/invite/${data.uuid}`)} />]
       : [];
 
   return (

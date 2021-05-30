@@ -1,7 +1,5 @@
 import React, { FC, useState } from 'react';
 
-import { InfoOutlined } from '@ant-design/icons';
-
 import ModalContext, { Modal, RefreshModal } from './modal.context';
 
 import ConfirmModal from 'shared/modules/confirm-modal/confirm-modal.component';
@@ -9,7 +7,7 @@ import ConfirmModal from 'shared/modules/confirm-modal/confirm-modal.component';
 const DEFAULT_EMPTY_MODAL: Modal = {
   title: '',
   type: 'info',
-  iconRender: InfoOutlined,
+  icon: 'info',
   onConfirm: () => {},
   onCancel: () => {}
 };

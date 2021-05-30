@@ -14,12 +14,12 @@ interface IConfirmModal extends IModal {
 const doNothing = () => {};
 
 const ConfirmModal: FC<IConfirmModal> = ({
+  icon,
   type,
   title,
   message,
   isOpen,
   isLoading,
-  iconRender,
   confirmText,
   cancelText,
   contentRender,
@@ -41,7 +41,7 @@ const ConfirmModal: FC<IConfirmModal> = ({
             cancelText={cancelText}
             onCancel={!isLoading ? onCancel : doNothing}
             onConfirm={!isLoading ? onConfirm : doNothing}
-            iconRender={iconRender}
+            icon={icon}
             contentRender={contentRender}
             isLoading={isLoading}
             isCancelButtonAvailable={isCancelButtonAvailable}

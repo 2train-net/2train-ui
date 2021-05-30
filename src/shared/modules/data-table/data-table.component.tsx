@@ -1,7 +1,8 @@
 import React, { FC, useState } from 'react';
 
 import { Table, Button } from 'antd';
-import { ReloadOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+
+import { Icon } from 'shared/modules';
 
 import useStyles from './data-table.style';
 
@@ -53,19 +54,19 @@ const DataTable: FC<IDataTable> = ({
       <div className="data-table-actions">
         <div>
           <Button type="default" onClick={handleRefresh} disabled={!selectedAmount || loading}>
-            <ReloadOutlined />
+            <Icon type="reload" />
           </Button>
           {!!selectedAmount && <span>{`Selected ${selectedAmount} items`}</span>}
         </div>
         <div>
           <Button type="default" onClick={handleEditItem} disabled={selectedAmount !== 1 || loading}>
-            <EditOutlined />
+            <Icon type="edit" />
           </Button>
           <Button type="default" onClick={handleDeleteItems} disabled={!selectedAmount || loading}>
-            <DeleteOutlined />
+            <Icon type="delete" />
           </Button>
           <Button type="default" onClick={handleAddItem} disabled={loading}>
-            <PlusOutlined />
+            <Icon type="plus" />
           </Button>
         </div>
       </div>

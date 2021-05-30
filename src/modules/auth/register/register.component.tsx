@@ -3,8 +3,8 @@ import { Link, useHistory } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 import { Form, Button, Card, Typography, Divider } from 'antd';
-import { UserOutlined, PhoneOutlined, MailOutlined, LockOutlined, LoadingOutlined } from '@ant-design/icons';
 
+import { Icon } from 'shared/modules';
 import { LOGIN } from 'shared/routes';
 import { AuthService } from 'shared/services';
 import { Field, Select } from 'shared/modules/form';
@@ -12,6 +12,7 @@ import { CreateAccount, ICreateAccountFormValues } from 'modules/auth/shared/mod
 import { UserType, useCreateUserMutation } from 'shared/generated';
 
 import { INITIAL_REGISTER_FORM_VALUES, REGISTER_FORM_SCHEMA } from './register.util';
+
 import userStyles from './register.style';
 
 const { Item } = Form;
@@ -61,7 +62,7 @@ const Register: FC = () => {
         </Item>
 
         <Field
-          icon={<UserOutlined />}
+          icon={<Icon type="user" />}
           name="username"
           placeholder="Username"
           value={values.username}
@@ -72,7 +73,7 @@ const Register: FC = () => {
         />
 
         <Field
-          icon={<UserOutlined />}
+          icon={<Icon type="user" />}
           name="firstName"
           placeholder="First name"
           value={values.firstName}
@@ -83,7 +84,7 @@ const Register: FC = () => {
         />
 
         <Field
-          icon={<UserOutlined />}
+          icon={<Icon type="user" />}
           name="lastName"
           placeholder="Last name"
           value={values.lastName}
@@ -94,7 +95,7 @@ const Register: FC = () => {
         />
 
         <Field
-          icon={<PhoneOutlined />}
+          icon={<Icon type="phone" />}
           name="phone"
           placeholder="Phone"
           value={values.phone}
@@ -121,7 +122,7 @@ const Register: FC = () => {
         <Divider />
 
         <Field
-          icon={<MailOutlined />}
+          icon={<Icon type="mail" />}
           name="email"
           placeholder="Email"
           autoComplete="username"
@@ -133,7 +134,7 @@ const Register: FC = () => {
         />
 
         <Field
-          icon={<LockOutlined />}
+          icon={<Icon type="lock" />}
           name="password"
           type="password"
           placeholder="Password"
@@ -146,7 +147,7 @@ const Register: FC = () => {
         />
 
         <Field
-          icon={<LockOutlined />}
+          icon={<Icon type="loading" />}
           name="confirmPassword"
           type="password"
           placeholder="Confirm password"
@@ -160,7 +161,7 @@ const Register: FC = () => {
 
         <Item className="submit-button">
           <Button type="primary" htmlType="submit" block>
-            {isLoading ? <LoadingOutlined /> : 'REGISTER'}
+            {isLoading ? <Icon type="loading" /> : 'REGISTER'}
           </Button>
         </Item>
 

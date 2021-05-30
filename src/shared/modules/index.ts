@@ -1,3 +1,4 @@
+import Icon from './icon/icon.component';
 import Avatar from './avatar/avatar.component';
 import Button from './button/button.component';
 import MasterList from './master-list/master-list.component';
@@ -15,6 +16,7 @@ import { NotFoundErrorPage } from './error-page';
 
 export {
   MasterList,
+  Icon,
   Avatar,
   Button,
   Message,

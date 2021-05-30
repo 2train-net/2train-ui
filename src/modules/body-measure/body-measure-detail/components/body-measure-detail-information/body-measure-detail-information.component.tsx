@@ -1,7 +1,8 @@
 import React, { FC, ReactElement } from 'react';
 
 import { Row, Col, Descriptions, Card, Badge, Popover, Progress, Typography } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
+
+import { Icon } from 'shared/modules';
 
 const { Item } = Descriptions;
 
@@ -44,7 +45,7 @@ const SectionTitle: FC<{ title: string; description: string }> = ({ title, descr
   <>
     {`${title} `}
     <SectionDescription description={description}>
-      <InfoCircleOutlined />
+      <Icon type="infoCircle" />
     </SectionDescription>
   </>
 );

@@ -3,12 +3,13 @@ import React, { FC } from 'react';
 import { Card, Typography } from 'antd';
 
 import { Button } from 'shared/modules';
+import Icon, { IconType } from 'shared/modules/icon/icon.component';
 
 import useStyles from './icon-card.style';
 
 export interface IIconCard {
   title: string;
-  iconRender: any;
+  icon: IconType;
   buttonText: string;
   style?: React.CSSProperties;
   isDisabled?: boolean;
@@ -17,13 +18,13 @@ export interface IIconCard {
 
 const { Title } = Typography;
 
-const IconCard: FC<IIconCard> = ({ title, iconRender: Icon, buttonText, isDisabled = false, style, onClick }) => {
+const IconCard: FC<IIconCard> = ({ title, icon, buttonText, isDisabled = false, style, onClick }) => {
   const classes = useStyles();
 
   return (
     <Card className={`icon-card ${classes.root}`} style={style}>
       <div>
-        <Icon className="icon" />
+        <Icon type={icon} className="icon" />
         <Title level={5} className="title">
           {title}
         </Title>

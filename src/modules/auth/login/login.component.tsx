@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 import { Form, Button, Checkbox, Card, Typography } from 'antd';
-import { MailOutlined, LockOutlined, GoogleOutlined, FacebookFilled, LoadingOutlined } from '@ant-design/icons';
 
+import { Icon } from 'shared/modules';
 import { Field } from 'shared/modules/form';
-import { AuthCredentials, ICredentials } from 'shared/model';
 import { AuthContext } from 'shared/contexts';
+import { AuthCredentials, ICredentials } from 'shared/model';
 import { REGISTER, FORGOT_PASSWORD } from 'shared/routes';
 
 import { LOGIN_FORM_SCHEMA, INITIAL_LOGIN_FORM_VALUES } from './login.util';
@@ -41,7 +41,7 @@ const Login: FC = () => {
         </Item>
 
         <Field
-          icon={<MailOutlined />}
+          icon={<Icon type="mail" />}
           name="email"
           placeholder="Email"
           autoComplete="username"
@@ -53,7 +53,7 @@ const Login: FC = () => {
         />
 
         <Field
-          icon={<LockOutlined />}
+          icon={<Icon type="lock" />}
           name="password"
           type="password"
           placeholder="Password"
@@ -77,17 +77,17 @@ const Login: FC = () => {
 
         <Item className="submit-button">
           <Button type="primary" htmlType="submit" block>
-            {isLoading ? <LoadingOutlined /> : 'LOGIN'}
+            {isLoading ? <Icon type="loading" /> : 'LOGIN'}
           </Button>
         </Item>
 
         <Item className="other-login-options">
           <Button>
-            <FacebookFilled />
+            <Icon type="facebook" />
             Facebook
           </Button>
           <Button>
-            <GoogleOutlined />
+            <Icon type="google" />
             Google
           </Button>
         </Item>

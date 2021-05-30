@@ -1,7 +1,8 @@
 import React, { PropsWithChildren } from 'react';
 
 import { Card, Typography, Divider } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+
+import { Icon } from 'shared/modules';
 
 import useStyles from './profile-detail.style';
 
@@ -37,7 +38,7 @@ const ProfileDetail = <T,>({
           <img src={avatar} />
         ) : (
           <div className="default-avatar">
-            <UserOutlined />
+            <Icon type="user" />
           </div>
         )}
         <div className="profile-name">

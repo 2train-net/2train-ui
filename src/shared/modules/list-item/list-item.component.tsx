@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
 import { Button, Typography } from 'antd';
-import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+
+import { Icon } from 'shared/modules';
 
 import useStyles from './list-item.style';
 
@@ -26,9 +27,9 @@ const ListItem: FC<IListItem> = ({ title, description, onEdit, onDetail, onDelet
           <Text type="secondary">{description}</Text>
         </div>
         <div className="list-item-actions">
-          {onDelete && <Button shape="circle" icon={<DeleteOutlined />} onClick={onDelete} />}
-          {onEdit && <Button shape="circle" icon={<EditOutlined />} onClick={onEdit} />}
-          {onDetail && <Button shape="circle" icon={<EyeOutlined />} onClick={onDetail} />}
+          {onDelete && <Button shape="circle" icon={<Icon type="delete" />} onClick={onDelete} />}
+          {onEdit && <Button shape="circle" icon={<Icon type="edit" />} onClick={onEdit} />}
+          {onDetail && <Button shape="circle" icon={<Icon type="view" />} onClick={onDetail} />}
         </div>
       </div>
     </div>

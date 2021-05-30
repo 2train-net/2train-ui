@@ -4,6 +4,7 @@ import { Card, Typography, Row, Col, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
 import Button, { ButtonColor } from 'shared/modules/button/button.component';
+import Icon, { IconType } from 'shared/modules/icon/icon.component';
 
 import useStyles from './confirmation-card.style';
 
@@ -11,7 +12,7 @@ const { Title, Text } = Typography;
 
 interface IConfirmationCard {
   title: string;
-  iconRender: FC;
+  icon: IconType;
   message?: string;
   color?: ButtonColor;
   confirmText?: string;
@@ -25,7 +26,7 @@ interface IConfirmationCard {
 
 const ConfirmationCard: FC<IConfirmationCard> = ({
   title,
-  iconRender: Icon,
+  icon,
   message,
   color = 'default',
   isCancelButtonAvailable = true,
@@ -43,7 +44,11 @@ const ConfirmationCard: FC<IConfirmationCard> = ({
       <Row>
         <Col span={24}>
           <div className="icon">
-            {isLoading ? <Spin indicator={<LoadingOutlined className="loading-spinner" spin />} /> : <Icon />}
+            {isLoading ? (
+              <Spin indicator={<LoadingOutlined className="loading-spinner" spin />} />
+            ) : (
+              <Icon type={icon} />
+            )}
           </div>
         </Col>
       </Row>
