@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 
-import { Form, Select } from 'antd';
+import { Form, Select, SelectProps } from 'antd';
 
 const { Item } = Form;
 const { Option } = Select;
 
-interface ISelectOption {
+export interface ISelectOption {
   value: any;
   label: string;
 }
@@ -19,6 +19,7 @@ interface ISelect {
   isDisabled?: boolean;
   hasBeenTouched?: boolean;
   defaultValue?: number;
+  isMultiple?: boolean;
   setFieldValue: (name: string, value: any, shouldValidate?: boolean) => void;
 }
 
@@ -29,10 +30,17 @@ const Field: FC<ISelect> = ({
   error,
   placeholder,
   isDisabled,
+  isMultiple,
   hasBeenTouched,
   defaultValue,
   setFieldValue
 }) => {
+  const props: SelectProps<any> = {};
+
+  if (isMultiple) {
+    props.mode = 'multiple';
+  }
+
   const onChange = (value: any) => {
     setFieldValue(name, value);
   };
@@ -50,9 +58,15 @@ const Field: FC<ISelect> = ({
         onChange={onChange}
         value={value}
         defaultValue={defaultValue}
+        filterOption={(input, option) => {
+          const label = option?.label as string;
+
+          return label.toLowerCase().indexOf(input?.toLowerCase()) >= 0;
+        }}
+        {...props}
       >
         {options.map(({ value, label }) => (
-          <Option key={value} value={value}>
+          <Option key={value} value={value} label={label}>
             {label}
           </Option>
         ))}
