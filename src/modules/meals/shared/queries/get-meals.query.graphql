@@ -1,0 +1,8 @@
+query getMeals($take: Int!, $skip: Int!) {
+  payload: meals(take: $take, skip: $skip) {
+    uuid
+    name
+    description
+    image
+  }
+}

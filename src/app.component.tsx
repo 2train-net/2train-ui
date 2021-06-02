@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+
 import { Route, Redirect, useLocation, Switch } from 'react-router-dom';
 
 import { ThemeProvider } from 'react-jss';
@@ -14,6 +15,7 @@ import WorkoutRoutine from 'modules/workout-routine/workout-routine.module';
 import PlanInvitations from 'modules/plan-invitations/plan-invitations.module';
 import Clients from 'modules/clients/clients.module';
 import Workouts from 'modules/workouts/workouts.module';
+import Meals from 'modules/meals/meals.module';
 
 import { NotFoundErrorPage } from 'shared/modules';
 
@@ -29,7 +31,8 @@ import {
   EXERCISES,
   PLAN_INVITATIONS,
   CLIENTS,
-  WORKOUTS
+  WORKOUTS,
+  MEALS
 } from 'shared/routes';
 
 import './app.css';
@@ -53,6 +56,7 @@ const App: FC = () => {
               <Route path={BODY_MEASURES} component={BodyMeasure} />
               <Route path={CLIENTS} component={Clients} />
               <Route path={WORKOUTS} component={Workouts} />
+              <Route path={MEALS} component={Meals} />
 
               <Route component={NotFoundErrorPage} />
               <Redirect to={pathname} />

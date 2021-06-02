@@ -10,7 +10,8 @@ import {
   EXERCISES,
   CLIENTS,
   TRANSACTIONS,
-  SUPPLIES
+  SUPPLIES,
+  MEALS
 } from 'shared/routes';
 import { IconType } from 'shared/modules/icon/icon.component';
 
@@ -27,10 +28,11 @@ export const OPTIONS: IOption[] = [
   { route: PLANS, title: 'Planes', icon: 'book' },
   { route: CLIENTS, title: 'Clientes', icon: 'team' },
   { route: TRANSACTIONS, title: 'Transaciones', icon: 'dollar' },
-  { route: PLAN_INVITATIONS, title: 'Invitaciones', icon: 'mail' },
   { route: WORKOUT_ROUTINES, title: 'Rutinas', icon: 'file' },
   { route: BODY_MEASURES, title: 'Mediciones', icon: 'heart' },
+  { route: MEALS, title: 'Platillos', icon: 'read' },
   { route: EXERCISES, title: 'Ejercicios', icon: 'rise' },
+  { route: PLAN_INVITATIONS, title: 'Invitaciones', icon: 'mail' },
   { route: WORKOUTS, title: 'Entrenamientos', icon: 'thunderbolt' },
   { route: SUPPLIES, title: 'Suplementos', icon: 'shoppingCart' },
   { route: SETTINGS, title: 'Configuración', icon: 'setting' }

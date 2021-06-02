@@ -1,0 +1,28 @@
+import * as Yup from 'yup';
+
+export interface IMealFormValues {
+  name: string;
+  description?: string | null;
+  imageBase64?: string | null;
+  ingredients: string[];
+}
+
+export const MEAL_FORM_SCHEMA = Yup.object().shape<IMealFormValues>({
+  name: Yup.string().required('Required'),
+  description: Yup.string()
+    .notRequired()
+    .nullable(),
+  imageBase64: Yup.string()
+    .notRequired()
+    .nullable(),
+  ingredients: Yup.array<string>()
+    .min(1, 'Minimo un ingrediente')
+    .required('Required')
+});
+
+export const INITIAL_MEAL_VALUES: IMealFormValues = {
+  name: '',
+  description: undefined,
+  imageBase64: undefined,
+  ingredients: []
+};

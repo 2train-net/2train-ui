@@ -1,0 +1,12 @@
+mutation updateMeal($data: MealUpdateInput!, $where: MealWhereUniqueInput!) {
+  payload: updateMeal(data: $data, where: $where) {
+    name
+    description
+    image
+    mealIngredients {
+      ingredient {
+        uuid
+      }
+    }
+  }
+}

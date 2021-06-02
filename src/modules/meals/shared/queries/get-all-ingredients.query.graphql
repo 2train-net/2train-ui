@@ -1,0 +1,6 @@
+query getAllIngredients {
+  payload: ingredients {
+    uuid
+    name
+  }
+}

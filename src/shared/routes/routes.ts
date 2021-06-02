@@ -55,5 +55,10 @@ export const WORKOUTS = '/workouts';
 export const WORKOUT_ROUTINES = '/workout-routines';
 export const WORKOUT_ROUTINE_EDIT = `${WORKOUT_ROUTINES}/${EDIT}/:${UUID}`;
 
+export const MEALS = '/meals';
+export const MEAL_ADD = `${MEALS}/${ADD}`;
+export const MEAL_EDIT = `${MEALS}/${EDIT}/:${UUID}`;
+export const MEAL_DELETE = `${MEALS}/${DELETE}/:${UUID}`;
+
 export const DIETS = '/diet';
 export const DIET_EDIT = `${DIETS}/${EDIT}/:${UUID}`;

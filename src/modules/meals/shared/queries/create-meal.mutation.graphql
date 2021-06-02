@@ -1,0 +1,5 @@
+mutation createMeal($data: MealCreateInput!) {
+  payload: createMeal(data: $data) {
+    uuid
+  }
+}

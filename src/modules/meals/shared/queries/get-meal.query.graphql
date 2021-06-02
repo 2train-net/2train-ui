@@ -1,0 +1,12 @@
+query getMeal($where: MealWhereUniqueInput!) {
+  payload: meal(where: $where) {
+    name
+    description
+    image
+    mealIngredients {
+      ingredient {
+        uuid
+      }
+    }
+  }
+}
