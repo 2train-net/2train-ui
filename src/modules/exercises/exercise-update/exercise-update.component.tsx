@@ -12,6 +12,7 @@ import FormHeader from 'shared/modules/form-header/form-header.component';
 import { Message } from 'shared/modules';
 import { NOT_FOUND } from 'shared/routes';
 import { GetExerciseDocument, useUpdateExerciseMutation, useGetExerciseQuery } from 'shared/generated';
+import { objectDifferences } from 'shared/util';
 
 const ExerciseUpdate: FC = () => {
   const {
@@ -22,15 +23,17 @@ const ExerciseUpdate: FC = () => {
 
   const [updateExercise] = useUpdateExerciseMutation();
 
-  const { data, loading, error } = useGetExerciseQuery({
+  const exercisePayload = useGetExerciseQuery({
     variables: {
       where
     }
   });
 
-  const notFound = !data?.payload && !loading;
+  const notFound = !exercisePayload.data?.payload && !exercisePayload.loading;
 
-  const onSubmit = async (data: IExerciseFormValues) => {
+  const onSubmit = async (values: IExerciseFormValues) => {
+    const data = objectDifferences(values, exercisePayload.data?.payload);
+
     await updateExercise({
       variables: {
         data,
@@ -49,10 +52,10 @@ const ExerciseUpdate: FC = () => {
   };
 
   useEffect(() => {
-    if (error) {
-      Message.error(error.graphQLErrors[0].message);
+    if (exercisePayload.error) {
+      Message.error(exercisePayload.error.graphQLErrors[0].message);
     }
-  }, [error]);
+  }, [exercisePayload.error]);
 
   return notFound ? (
     <Redirect to={NOT_FOUND} />
@@ -61,7 +64,7 @@ const ExerciseUpdate: FC = () => {
       <FormHeader title="Update Plan" />
       <br />
       <Card>
-        <ExerciseForm onSubmit={onSubmit} initialValues={data?.payload} />
+        <ExerciseForm onSubmit={onSubmit} initialValues={exercisePayload.data?.payload} />
       </Card>
     </>
   );

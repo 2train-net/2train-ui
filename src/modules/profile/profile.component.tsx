@@ -28,13 +28,13 @@ const Profile: FC = () => {
 
   const userProfile = new UserProfileModel(user);
 
-  const onSubmit = async (data: IUserProfileForm) => {
-    const values: IUpdateUserProfileForm = objectDifferences(data, userProfile.userProfileForm);
+  const onSubmit = async (values: IUserProfileForm) => {
+    const data: IUpdateUserProfileForm = objectDifferences(values, userProfile.userProfileForm);
 
     try {
       await updateProfile({
         variables: {
-          data: values
+          data
         }
       });
 

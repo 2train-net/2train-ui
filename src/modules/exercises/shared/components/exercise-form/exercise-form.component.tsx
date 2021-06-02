@@ -3,14 +3,9 @@ import React, { FC } from 'react';
 import { useFormik } from 'formik';
 import { Col, Form, Row } from 'antd';
 
-import {
-  EXERCISE_FORM_SCHEMA,
-  IExerciseFormValues,
-  INITIAL_EXERCISE_VALUES
-} from 'modules/exercises/shared/components/exercise-form/exercise-form.util';
+import { EXERCISE_FORM_SCHEMA, IExerciseFormValues, INITIAL_EXERCISE_VALUES } from './exercise-form.util';
 
-import Button from 'shared/modules/button/button.component';
-
+import { Button } from 'shared/modules';
 import { Field } from 'shared/modules/form';
 import { objectDifferences } from 'shared/util/object-differences';
 

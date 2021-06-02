@@ -1,5 +1,6 @@
 mutation updateExercise($where: ExerciseWhereUniqueInput!, $data: ExerciseUpdateInput!) {
-  updateExercise(where: $where, data: $data) {
-    uuid
+  payload: updateExercise(where: $where, data: $data) {
+    name
+    description
   }
 }
