@@ -8,10 +8,11 @@ import { Card } from 'antd';
 import { Icon } from 'shared/modules';
 import { EDIT, DETAIL, DELETE } from 'shared/routes';
 
-interface IListCard {
+export interface IListCard {
   uuid: string;
   title: string | ReactNode;
-  description: string | ReactNode;
+  image?: string | null;
+  description?: string | ReactNode;
   emptyActions?: boolean;
   actions?: ReactNode[];
   leftContent?: ReactNode;
@@ -28,6 +29,7 @@ const { Meta } = Card;
 const ListCard: FC<IListCard> = ({
   uuid,
   title,
+  image,
   description,
   emptyActions = false,
   isDetailActionEnabled = true,
@@ -66,14 +68,15 @@ const ListCard: FC<IListCard> = ({
   }
 
   return (
-    <>
-      <Card style={{ width: 300 }} actions={cardActions}>
+    <div style={{ display: 'flex' }}>
+      {image && <img style={{ width: 114, height: 114, marginRight: -1, zIndex: 1 }} src={image || ''} />}
+      <Card style={{ width: image ? 186 : 300 }} actions={cardActions} bordered={!image}>
         <div style={{ display: 'flex' }}>
           {leftContent && <div style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: 16 }}>{leftContent}</div>}
           <Meta title={title} description={description} />
         </div>
       </Card>
-    </>
+    </div>
   );
 };
 
