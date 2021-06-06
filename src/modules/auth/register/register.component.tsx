@@ -2,21 +2,22 @@ import React, { FC, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import { useFormik } from 'formik';
-import { Form, Button, Card, Typography, Divider } from 'antd';
+import { Form, Card, Typography, Divider } from 'antd';
 
-import { Icon } from 'shared/modules';
+import { Icon, Button } from 'shared/modules';
 import { LOGIN } from 'shared/routes';
 import { AuthService } from 'shared/services';
 import { Field, Select } from 'shared/modules/form';
 import { CreateAccount, ICreateAccountFormValues } from 'modules/auth/shared/model';
 import { UserType, useCreateUserMutation } from 'shared/generated';
+import LOGO from 'shared/assets/images/logo/logo-horizontal-full-color.png';
 
 import { INITIAL_REGISTER_FORM_VALUES, REGISTER_FORM_SCHEMA } from './register.util';
 
 import userStyles from './register.style';
 
 const { Item } = Form;
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const Register: FC = () => {
   const classes = userStyles();
@@ -58,7 +59,7 @@ const Register: FC = () => {
     <Card className={classes.root} bordered>
       <Form onSubmitCapture={handleSubmit}>
         <Item className="register-form-title">
-          <Title level={4}>2Train</Title>
+          <img src={LOGO} />
         </Item>
 
         <Field
@@ -147,7 +148,7 @@ const Register: FC = () => {
         />
 
         <Field
-          icon={<Icon type="loading" />}
+          icon={<Icon type="lock" />}
           name="confirmPassword"
           type="password"
           placeholder="Confirm password"
@@ -160,7 +161,7 @@ const Register: FC = () => {
         />
 
         <Item className="submit-button">
-          <Button type="primary" htmlType="submit" block>
+          <Button type="submit" fullWidth>
             {isLoading ? <Icon type="loading" /> : 'REGISTER'}
           </Button>
         </Item>

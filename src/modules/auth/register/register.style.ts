@@ -1,27 +1,32 @@
 import { createUseStyles } from 'react-jss';
 
-export default createUseStyles({
+import { ITheme } from 'shared/theme';
+
+export default createUseStyles(({ spacing }: ITheme) => ({
   root: {
     '& .register-form-title': {
       textAlign: 'center',
       margin: {
-        top: 20,
-        bottom: 40
+        top: spacing(3),
+        bottom: spacing(5)
+      },
+      '& img': {
+        height: spacing(8)
       }
     },
     '& .submit-button': {
       margin: {
-        top: 60
+        top: spacing(8)
       }
     },
     '& .register-link': {
       textAlign: 'center',
       margin: {
-        top: 60
+        top: spacing(8)
       },
       '& a': {
         color: 'gray'
       }
     }
   }
-});
+}));

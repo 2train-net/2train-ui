@@ -1,43 +1,27 @@
 import { createUseStyles } from 'react-jss';
 
-export default createUseStyles({
+import { ITheme } from 'shared/theme';
+
+export default createUseStyles(({ spacing }: ITheme) => ({
   root: {
     '& .login-form-title': {
       textAlign: 'center',
       margin: {
-        top: 20,
-        bottom: 40
+        top: spacing(3),
+        bottom: spacing(5)
+      },
+      '& img': {
+        height: spacing(8)
       }
     },
     '& .forgot-password': {
       float: 'right'
     },
-    '& .other-login-options': {
-      margin: {
-        top: 60
-      },
-      '& .ant-form-item-control-input-content': {
-        display: 'flex',
-        justifyContent: 'space-around',
-        '& button': {
-          width: 160
-        },
-        '& button:first-child': {
-          color: '#3B5998'
-        },
-        '& button:last-child': {
-          color: '#DB4437'
-        }
-      }
-    },
     '& .register-link': {
       textAlign: 'center',
-      margin: {
-        top: 60
-      },
       '& a': {
         color: 'gray'
       }
     }
   }
-});
+}));
