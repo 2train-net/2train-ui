@@ -31,11 +31,13 @@ export default createUseStyles<ITheme>(({ palette, spacing }) => ({
       position: 'sticky'
     },
     '& .draggable': {
+      '& > div': {
+        justifyContent: 'center',
+        display: 'flex'
+      },
       userSelect: 'none',
       margin: spacing(1),
-      justifyContent: 'center',
       color: 'white',
-      display: 'flex',
       flexDirection: 'row',
       width: 'auto'
     }
