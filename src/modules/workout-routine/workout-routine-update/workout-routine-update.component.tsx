@@ -22,8 +22,11 @@ import { AuthContext } from 'shared/contexts';
 import { DragAndDropRoutine, Message } from 'shared/modules';
 import { IDragAndDropRoutineFormValues } from 'shared/modules/drag-and-drop-routine/column-items.interface';
 import { DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
+import { WorkoutRoutineService } from 'shared/services';
 
 const WorkoutRoutineUpdate: FC = () => {
+  const { getMaxDay } = WorkoutRoutineService;
+
   const {
     params: { uuid }
   } = useRouteMatch<{ uuid: string }>();
@@ -87,6 +90,7 @@ const WorkoutRoutineUpdate: FC = () => {
       onSubmit={onSubmit}
       isEditModeEnabled={isEditModeEnabled}
       isLoading={workoutRoutine.loading || updateWorkoutRoutinePayload.loading}
+      maxColumn={getMaxDay(workoutRoutine.data?.payload.workoutExercises)}
     />
   );
 };
