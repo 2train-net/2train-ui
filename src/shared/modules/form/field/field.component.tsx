@@ -13,6 +13,7 @@ interface IField {
   error?: string;
   type?: FieldType;
   icon?: ReactElement;
+  measure?: string;
   placeholder?: string;
   autoComplete?: string;
   isDisabled?: boolean;
@@ -32,6 +33,7 @@ const Field: FC<IField> = ({
   label,
   error,
   icon,
+  measure,
   placeholder,
   autoComplete,
   isDisabled,
@@ -52,6 +54,7 @@ const Field: FC<IField> = ({
         type={type}
         name={name}
         prefix={icon}
+        suffix={measure}
         placeholder={placeholder}
         disabled={isDisabled}
         onChange={onChange}
