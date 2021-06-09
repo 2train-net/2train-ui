@@ -11,6 +11,7 @@ import ListCard from './list-card/list-card.component';
 import Status from './status/status.component';
 import Skeleton from './skeleton/skeleton.component';
 import DragAndDropRoutine from './drag-and-drop-routine/drag-and-drop-routine.component';
+import Steps from './steps/steps.component';
 
 import { NotFoundErrorPage } from './error-page';
 
@@ -28,5 +29,6 @@ export {
   ListCard,
   Status,
   Skeleton,
-  DragAndDropRoutine
+  DragAndDropRoutine,
+  Steps
 };
