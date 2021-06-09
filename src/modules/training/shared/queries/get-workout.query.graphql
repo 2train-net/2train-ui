@@ -1,0 +1,15 @@
+query getWorkout($where: WorkoutWhereUniqueInput!) {
+  payload: workout(where: $where) {
+    workoutExercises {
+      uuid
+      sets
+      reps
+      weight
+      seconds
+      exercise {
+        uuid
+        name
+      }
+    }
+  }
+}

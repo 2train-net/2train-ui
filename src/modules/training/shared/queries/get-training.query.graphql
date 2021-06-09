@@ -1,0 +1,18 @@
+query getTraining($where: TrainingWhereInput!) {
+  payload: training(where: $where) {
+    workoutExercises {
+      uuid
+      sets
+      reps
+      weight
+      seconds
+      comments
+      order
+      day
+      exercise {
+        uuid
+        name
+      }
+    }
+  }
+}
