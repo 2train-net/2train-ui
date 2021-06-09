@@ -1,7 +1,19 @@
-import { Gender, Scope, UserStatus, UserType } from 'shared/generated';
+import { Day, Gender, Scope, UserStatus, UserType } from 'shared/generated';
+
+export interface IWorkoutExercise {
+  uuid: string;
+  workoutId?: number | null;
+  day: Day;
+}
+
+export interface IWorkoutRoutine {
+  uuid: string;
+  workoutExercises: IWorkoutExercise[];
+}
 
 export interface ICurrentActivePlan {
   uuid: string;
+  workoutRoutine?: IWorkoutRoutine;
   expireAt: string;
 }
 
