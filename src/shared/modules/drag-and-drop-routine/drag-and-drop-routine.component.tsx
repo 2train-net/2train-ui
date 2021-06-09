@@ -41,6 +41,7 @@ interface IDragAndDropRoutineValues {
   isEditModeEnabled?: boolean;
   isLoading?: boolean;
   onSubmit: (data: any) => any;
+  maxColumn: number;
 }
 
 const { Title } = Typography;
@@ -54,6 +55,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   formModal,
   isEditModeEnabled = true,
   isLoading = true,
+  maxColumn,
   onSubmit
 }) => {
   const classes = useStyles({});
@@ -228,7 +230,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
 
   useEffect(() => {
     if (!columns && data) {
-      setColumns(parseDataToColumns(data));
+      setColumns(parseDataToColumns(data, maxColumn));
     }
   }, [data]);
 
