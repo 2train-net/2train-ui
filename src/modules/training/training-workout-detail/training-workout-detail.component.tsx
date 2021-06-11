@@ -4,24 +4,21 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import { Card, Col, Row, Typography } from 'antd';
 
+import { WORKOUTS } from 'shared/routes';
 import { Button, ListItem } from 'shared/modules';
 import { useGetWorkoutQuery } from 'shared/generated';
-import { WORKOUTS } from 'shared/routes';
 
 const { Title } = Typography;
 
-export interface Params {
-  uuid: string;
-}
-
 const TrainingWorkoutDetail: FC = () => {
-  const params = useParams<Params>();
+  const params = useParams<{ uuid: string }>();
 
   const history = useHistory();
 
   const uuid = params.uuid;
 
   const workout = useGetWorkoutQuery({
+    fetchPolicy: 'network-only',
     variables: {
       where: {
         uuid
@@ -59,7 +56,7 @@ const TrainingWorkoutDetail: FC = () => {
             onClick={() => history.push(WORKOUTS)}
             loading={workout.loading}
           >
-            Listo
+            {workout.loading ? '' : 'Listo'}
           </Button>
         </Col>
       </Row>

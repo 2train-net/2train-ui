@@ -40,6 +40,7 @@ const TrainingWorkoutExerciseList: FC = () => {
   const [createWorkout] = useCreateWorkoutMutation();
 
   const training = useGetTrainingQuery({
+    fetchPolicy: 'network-only',
     variables: {
       where: {
         day: parseNumberToDay(day)
@@ -75,20 +76,24 @@ const TrainingWorkoutExerciseList: FC = () => {
   };
 
   const onFinalize = async () => {
-    const workout = await createWorkout({
-      variables: {
-        data: {
-          workoutRoutine: {
-            uuid: user?.currentActivePlan?.workoutRoutine?.uuid
-          },
-          workoutExercises: {
-            create: parseToWorkoutExercises(values.workoutExercises)
+    const create = parseToWorkoutExercises(values.workoutExercises);
+
+    if (create.length) {
+      const workout = await createWorkout({
+        variables: {
+          data: {
+            workoutRoutine: {
+              uuid: user?.currentActivePlan?.workoutRoutine?.uuid
+            },
+            workoutExercises: {
+              create
+            }
           }
         }
-      }
-    });
+      });
 
-    history.push(`${TRAINING}/detail/${workout.data?.payload.uuid}`);
+      history.push(`${TRAINING}/detail/${workout.data?.payload.uuid}`);
+    }
   };
 
   const { handleSubmit, values } = useFormik<ITrainingWorkoutExercisesFormValues>({
@@ -100,6 +105,8 @@ const TrainingWorkoutExerciseList: FC = () => {
   useEffect(() => {
     setWorkoutExercises(parsed ? parsed : []);
   }, [training]);
+
+  const isAtLeastOneCompleted = values.workoutExercises.filter(({ completed }) => completed).length > 0;
 
   return (
     <Card style={{ height: '100%', marginTop: 10 }} bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -122,8 +129,15 @@ const TrainingWorkoutExerciseList: FC = () => {
         ))}
 
         <Col span={24} style={{ marginTop: 40, justifyContent: 'center', paddingRight: 30, paddingLeft: 30 }}>
-          <Button size="medium" color="secondary" fullWidth onClick={handleSubmit} loading={training.loading}>
-            Finalizar
+          <Button
+            size="medium"
+            color="secondary"
+            fullWidth
+            onClick={handleSubmit}
+            loading={training.loading}
+            disabled={!isAtLeastOneCompleted}
+          >
+            {training.loading ? '' : 'Finalizar'}
           </Button>
         </Col>
       </Row>
