@@ -35,7 +35,9 @@ import {
   ReadOutlined,
   ReconciliationOutlined,
   MinusOutlined,
-  CheckOutlined
+  CheckOutlined,
+  UpOutlined,
+  DownOutlined
 } from '@ant-design/icons';
 
 export type IconType =
@@ -73,7 +75,9 @@ export type IconType =
   | 'read'
   | 'reconciliation'
   | 'minus'
-  | 'check';
+  | 'check'
+  | 'up'
+  | 'down';
 
 interface IIcon {
   key?: string;
@@ -117,7 +121,9 @@ const outlinedIconDictionary = {
   read: ReadOutlined,
   reconciliation: ReconciliationOutlined,
   minus: MinusOutlined,
-  check: CheckOutlined
+  check: CheckOutlined,
+  up: UpOutlined,
+  down: DownOutlined
 };
 
 const Icon: FC<IIcon> = ({ key, type, className, onClick }) => {
