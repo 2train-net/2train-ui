@@ -14,6 +14,7 @@ export interface IModal {
   cancelText?: string;
   isLoading?: boolean;
   isCancelButtonAvailable?: boolean;
+  isSubmitButtonAvailable?: boolean;
   onConfirm?: () => any;
   onCancel?: () => any;
 }
