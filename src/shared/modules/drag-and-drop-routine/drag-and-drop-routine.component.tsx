@@ -4,20 +4,20 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
-import { Col, PageHeader, Row, Typography } from 'antd';
+import { Col, PageHeader, Row, Typography, Button as AButton } from 'antd';
 
 import _ from 'lodash';
 
 import Droppable from 'shared/modules/droppable/droppable.component';
 
-import { Button, Skeleton } from 'shared/modules';
+import { Button, Icon, Skeleton } from 'shared/modules';
 import { Select, Field } from 'shared/modules/form';
 
 import { ModalContext } from 'shared/contexts';
 import { Modal } from 'shared/contexts/modal.context';
 
 import { DELETE_MODAL } from 'shared/constants';
-import { DELETE, EDIT } from 'shared/routes';
+import { DELETE, DETAIL, EDIT } from 'shared/routes';
 
 import { move, copy, reorder } from './actions';
 import {
@@ -113,7 +113,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   const displayEditModal = (uuid: string) => {
     modalProvider.show({
       ...formModal,
-      title: 'Editar',
+      title: isEditModeEnabled ? 'Editar' : 'Detalle',
       contentRender: (
         <Form
           initialValues={findElement(uuid, columns ? columns : [])?.data}
@@ -128,7 +128,9 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
       onConfirm: () => {
         itemFormRef?.current?.dispatchEvent(new Event('submit'));
       },
-      onCancel: goBack
+      onCancel: goBack,
+      isSubmitButtonAvailable: isEditModeEnabled,
+      cancelText: isEditModeEnabled ? 'Cancelar' : 'Salir'
     });
   };
 
@@ -224,6 +226,8 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
         displayDeleteModal(uuid);
       } else if (action === EDIT) {
         displayEditModal(uuid);
+      } else if (action === DETAIL) {
+        displayEditModal(uuid);
       }
     }
   }, [location]);
@@ -240,6 +244,12 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
     }
   }, [options]);
 
+  useEffect(() => {
+    if (columns && columns.length !== visible.length) setVisible(Array(columns.length).fill(true));
+  }, [columns]);
+
+  const [visible, setVisible] = useState<boolean[]>([]);
+
   return (
     <div className={classes.root}>
       <PageHeader
@@ -248,7 +258,6 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
         onBack={goBack}
         extra={[
           <div key="header" className="header-actions">
-            <Field value={searchBar} placeholder="Buscar ejercicio" name="search" onChange={handleSearchChange} />
             {isEditModeEnabled && (
               <Select
                 name="days"
@@ -273,7 +282,6 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
           </div>
         ]}
       />
-
       <DragDropContext onDragEnd={isEditModeEnabled ? result => onDragEnd(result) : () => {}}>
         <Row style={{ marginBottom: 16, marginTop: 16 }}>
           <Col span={24}>
@@ -289,13 +297,24 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
                         lg={columns?.length >= 4 ? 6 : 24 / columns?.length}
                         style={{ marginTop: 16 }}
                       >
-                        <Title level={5}>{`Día ${columnIndex + 1}`}</Title>
+                        <div className="column-header">
+                          <Title level={5}>{`Día ${columnIndex + 1}`}</Title>
+                          <AButton
+                            shape="circle"
+                            onClick={() => {
+                              setVisible(visible.map((item, index) => (index === columnIndex ? !item : item)));
+                            }}
+                          >
+                            <Icon type={visible[columnIndex] ? 'up' : 'down'} />
+                          </AButton>
+                        </div>
                         <Droppable
                           id={columnIndex.toString()}
                           direction="vertical"
                           items={items}
                           renderCard={ColumnCard}
                           isDropDisabled={!isEditModeEnabled}
+                          isVisible={visible[columnIndex]}
                         />
                       </Col>
                     ))
@@ -306,6 +325,9 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
         </Row>
 
         <Title level={5}>Ejercicios</Title>
+        <Col className="search-container" span={24}>
+          <Field value={searchBar} placeholder="Buscar ejercicio" name="search" onChange={handleSearchChange} />
+        </Col>
         <Skeleton isLoading={isLoading}>
           <Droppable
             id="OPTIONS"
@@ -313,6 +335,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
             items={filterOptions || []}
             renderCard={OptionCard}
             isDropDisabled
+            isVisible={true}
           />
         </Skeleton>
       </DragDropContext>
