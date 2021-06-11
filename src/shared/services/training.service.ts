@@ -8,7 +8,7 @@ export class WorkoutRoutineService {
     const completedExercises: ICreateWorkoutExercise[] = [];
     workoutExercises.forEach(item => {
       const { completed, uuid, exercise, ...newItem } = item;
-      completedExercises.push({ exercise: { connect: { uuid: exercise.uuid } }, ...newItem });
+      if (completed) completedExercises.push({ exercise: { connect: { uuid: exercise.uuid } }, ...newItem });
     });
     return completedExercises;
   };
