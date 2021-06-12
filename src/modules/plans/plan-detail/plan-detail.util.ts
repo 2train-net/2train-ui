@@ -3,6 +3,7 @@ import { IIconCard } from 'shared/modules/icon-card/icon-card.component';
 import { DateService, PlanService } from 'shared/services';
 import { ADD, DIETS, EDIT, WORKOUT_ROUTINES } from 'shared/routes';
 import { Currency, PlanStatus, Scope } from 'shared/generated';
+import { DEFAULT_DATE_FORMAT, ISO } from 'shared/constants';
 
 interface IPlanDetail {
   uuid: string;
@@ -67,8 +68,14 @@ export const format = (plan?: IPlanDetail) => {
     {
       col: { xs: 24, md: 9 },
       items: [
-        { label: 'Desde', value: plan?.startAt ? DateService.format(plan.startAt) : undefined },
-        { label: 'Hasta', value: plan?.expireAt ? DateService.format(plan.expireAt) : undefined }
+        {
+          label: 'Desde',
+          value: plan?.startAt ? DateService.format(plan.startAt, DEFAULT_DATE_FORMAT, ISO) : undefined
+        },
+        {
+          label: 'Hasta',
+          value: plan?.expireAt ? DateService.format(plan.expireAt, DEFAULT_DATE_FORMAT, ISO) : undefined
+        }
       ]
     },
     {
