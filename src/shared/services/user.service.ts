@@ -1,6 +1,10 @@
-import { Gender } from 'shared/generated';
+import { Gender, UserType } from 'shared/generated';
 
 export class UserService {
+  parseUserType = (type: UserType) => {
+    return type === 'PERSONAL_TRAINER' ? 'Entrenador personal' : 'Cliente';
+  };
+
   parseGender = (gender: Gender) => {
     return gender === 'MALE' ? 'Masculino' : gender === 'FEMALE' ? 'Femenino' : 'Reservado';
   };

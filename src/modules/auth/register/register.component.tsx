@@ -4,12 +4,25 @@ import { Link, useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { Form, Card, Typography, Divider } from 'antd';
 
+import { REGISTER_TEXT, ALREADY_HAVE_AN_ACCOUNT_TEXT } from 'modules/auth/auth.module';
+
 import { Icon, Button } from 'shared/modules';
 import { LOGIN } from 'shared/routes';
-import { AuthService } from 'shared/services';
+import { AuthService, UserService } from 'shared/services';
 import { Field, Select } from 'shared/modules/form';
+import {
+  FIRST_NAME_TEXT,
+  LAST_NAME_TEXT,
+  USERNAME_TEXT,
+  PHONE_TEXT,
+  USER_TYPE_TEXT,
+  EMAIL_TEXT,
+  PASSWORD_TEXT,
+  CONFIRM_PASSWORD_TEXT
+} from 'shared/constants';
 import { CreateAccount, ICreateAccountFormValues } from 'modules/auth/shared/model';
 import { UserType, useCreateUserMutation } from 'shared/generated';
+
 import LOGO from 'shared/assets/images/logo/logo-horizontal-full-color.png';
 
 import { INITIAL_REGISTER_FORM_VALUES, REGISTER_FORM_SCHEMA } from './register.util';
@@ -65,7 +78,7 @@ const Register: FC = () => {
         <Field
           icon={<Icon type="user" />}
           name="username"
-          placeholder="Username"
+          placeholder={USERNAME_TEXT}
           value={values.username}
           error={errors.username}
           onChange={handleChange}
@@ -76,7 +89,7 @@ const Register: FC = () => {
         <Field
           icon={<Icon type="user" />}
           name="firstName"
-          placeholder="First name"
+          placeholder={FIRST_NAME_TEXT}
           value={values.firstName}
           error={errors.firstName}
           onChange={handleChange}
@@ -87,7 +100,7 @@ const Register: FC = () => {
         <Field
           icon={<Icon type="user" />}
           name="lastName"
-          placeholder="Last name"
+          placeholder={LAST_NAME_TEXT}
           value={values.lastName}
           error={errors.lastName}
           onChange={handleChange}
@@ -98,7 +111,7 @@ const Register: FC = () => {
         <Field
           icon={<Icon type="phone" />}
           name="phone"
-          placeholder="Phone"
+          placeholder={PHONE_TEXT}
           value={values.phone}
           error={errors.phone}
           onChange={handleChange}
@@ -109,10 +122,10 @@ const Register: FC = () => {
         <Select
           value={values.type}
           name="type"
-          placeholder="Type"
+          placeholder={USER_TYPE_TEXT}
           options={[
-            { label: 'Trainer', value: UserType.PersonalTrainer },
-            { label: 'Customer', value: UserType.Customer }
+            { label: UserService.parseUserType(UserType.PersonalTrainer), value: UserType.PersonalTrainer },
+            { label: UserService.parseUserType(UserType.Customer), value: UserType.Customer }
           ]}
           error={errors.type}
           isDisabled={isLoading}
@@ -125,7 +138,7 @@ const Register: FC = () => {
         <Field
           icon={<Icon type="mail" />}
           name="email"
-          placeholder="Email"
+          placeholder={EMAIL_TEXT}
           autoComplete="username"
           value={values.email}
           error={errors.email}
@@ -138,7 +151,7 @@ const Register: FC = () => {
           icon={<Icon type="lock" />}
           name="password"
           type="password"
-          placeholder="Password"
+          placeholder={PASSWORD_TEXT}
           autoComplete="new-password"
           value={values.password}
           error={errors.password}
@@ -151,7 +164,7 @@ const Register: FC = () => {
           icon={<Icon type="lock" />}
           name="confirmPassword"
           type="password"
-          placeholder="Confirm password"
+          placeholder={CONFIRM_PASSWORD_TEXT}
           autoComplete="new-password"
           value={values.confirmPassword}
           error={errors.confirmPassword}
@@ -162,13 +175,13 @@ const Register: FC = () => {
 
         <Item className="submit-button">
           <Button type="submit" fullWidth>
-            {isLoading ? <Icon type="loading" /> : 'REGISTER'}
+            {isLoading ? <Icon type="loading" /> : REGISTER_TEXT}
           </Button>
         </Item>
 
         <Item className="register-link">
           <Link to={LOGIN}>
-            <Text underline>Already have an account?</Text>
+            <Text underline>{ALREADY_HAVE_AN_ACCOUNT_TEXT}</Text>
           </Link>
         </Item>
       </Form>

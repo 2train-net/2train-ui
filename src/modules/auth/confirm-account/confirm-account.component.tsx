@@ -2,16 +2,25 @@ import React, { FC, useState, useEffect, useContext } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 
 import { useFormik } from 'formik';
-import { Form, Button, Card, Typography } from 'antd';
+import { Form, Card, Typography } from 'antd';
 
-import { Icon } from 'shared/modules';
+import {
+  CONFIRM_ACCOUNT_TITLE,
+  CONFIRM_ACCOUNT_DESCRIPTION,
+  RESEND_VERIFICATION_CODE_TEXT,
+  BACK_TO_LOGIN_PAGE_TEXT,
+  VERIFICATION_CODE_TEXT
+} from 'modules/auth/auth.module';
+
 import { Field } from 'shared/modules/form';
+import { Icon, Button } from 'shared/modules';
+import { LOGIN } from 'shared/routes';
+import { EMAIL_TEXT, SEND_TEXT } from 'shared/constants';
 import { ICredentials } from 'shared/model';
 import { AuthContext } from 'shared/contexts';
 import { AuthService } from 'shared/services';
 
 import { INITIAL_CONFIRM_ACCOUNT_FORM_VALUES, CONFIRM_ACCOUNT_FORM_SCHEMA } from './confirm-account.util';
-import { LOGIN } from 'shared/routes';
 
 import userStyles from './confirm-account.style';
 
@@ -68,14 +77,14 @@ const ConfirmAccount: FC = () => {
     <Card className={classes.root} bordered>
       <Form onSubmitCapture={handleSubmit}>
         <Item className="confirm-account-form-title">
-          <Title level={4}>Verificación de correo electrónico</Title>
-          <Text>Proporcione el código numérico enviado a su correo electrónico para confirmar su cuenta.</Text>
+          <Title level={4}>{CONFIRM_ACCOUNT_TITLE}</Title>
+          <Text>{CONFIRM_ACCOUNT_DESCRIPTION}</Text>
         </Item>
 
         <Field
           icon={<Icon type="mail" />}
           name="email"
-          placeholder="Correo Electrónico"
+          placeholder={EMAIL_TEXT}
           value={values.email}
           error={errors.email}
           onChange={handleChange}
@@ -87,7 +96,7 @@ const ConfirmAccount: FC = () => {
           <Field
             icon={<Icon type="safetyCertificate" />}
             name="code"
-            placeholder="Código de verificación"
+            placeholder={VERIFICATION_CODE_TEXT}
             value={values.code}
             error={errors.code}
             onChange={handleChange}
@@ -97,20 +106,20 @@ const ConfirmAccount: FC = () => {
         )}
 
         <Item className="submit-button">
-          <Button type="primary" htmlType="submit" disabled={!isEmailValid} block>
-            {isLoading ? <Icon type="loading" /> : 'ENVIAR'}
+          <Button type="submit" disabled={!isEmailValid} fullWidth>
+            {isLoading ? <Icon type="loading" /> : SEND_TEXT}
           </Button>
         </Item>
 
         <Item className="login-link">
           {isEmailValid && (
             <span onClick={resendVerificationCode}>
-              <Text underline>Reenviar código</Text>
+              <Text underline>{RESEND_VERIFICATION_CODE_TEXT}</Text>
             </span>
           )}
           <br />
           <Link to={LOGIN} onClick={logout}>
-            <Text underline>Volver al inicio de sesión</Text>
+            <Text underline>{BACK_TO_LOGIN_PAGE_TEXT}</Text>
           </Link>
         </Item>
       </Form>

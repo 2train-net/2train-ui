@@ -6,5 +6,7 @@ import ResetPassword from './reset-password/reset-password.component';
 import PreLoader from './pre-loader/pre-loader.component';
 import ConfirmAccount from './confirm-account/confirm-account.component';
 
+export * from './shared/constants';
+
 export { Login, Register, ForgotPassword, ResetPassword, PreLoader, ConfirmAccount };
 export default Auth;

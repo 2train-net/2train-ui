@@ -4,14 +4,19 @@ import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { Form, Checkbox, Card, Typography } from 'antd';
 
+import { LOGIN_TEXT, FORGOT_PASSWORD_TITLE, REMEMBER_ME, REGISTER_ME } from 'modules/auth/auth.module';
+
 import { Icon, Button } from 'shared/modules';
 import { Field } from 'shared/modules/form';
 import { AuthContext } from 'shared/contexts';
 import { AuthCredentials, ICredentials } from 'shared/model';
+import { EMAIL_TEXT, PASSWORD_TEXT } from 'shared/constants';
 import { REGISTER, FORGOT_PASSWORD } from 'shared/routes';
+
 import LOGO from 'shared/assets/images/logo/logo-horizontal-full-color.png';
 
 import { LOGIN_FORM_SCHEMA, INITIAL_LOGIN_FORM_VALUES } from './login.util';
+
 import useStyles from './login.style';
 
 const { Item } = Form;
@@ -44,7 +49,7 @@ const Login: FC = () => {
         <Field
           icon={<Icon type="mail" />}
           name="email"
-          placeholder="Correo Electrónico"
+          placeholder={EMAIL_TEXT}
           autoComplete="username"
           value={values.email}
           error={errors.email}
@@ -57,7 +62,7 @@ const Login: FC = () => {
           icon={<Icon type="lock" />}
           name="password"
           type="password"
-          placeholder="Contraseña"
+          placeholder={PASSWORD_TEXT}
           autoComplete="new-password"
           value={values.password}
           error={errors.password}
@@ -68,23 +73,23 @@ const Login: FC = () => {
 
         <Item>
           <Item name="remember" noStyle>
-            <Checkbox checked>Recuérdame</Checkbox>
+            <Checkbox checked>{REMEMBER_ME}</Checkbox>
           </Item>
 
           <Link to={FORGOT_PASSWORD} className="forgot-password">
-            Olvidé mi contraseña
+            {FORGOT_PASSWORD_TITLE}
           </Link>
         </Item>
 
         <Item className="submit-button">
           <Button type="submit" fullWidth>
-            {isLoading ? <Icon type="loading" /> : 'Iniciar sesión'}
+            {isLoading ? <Icon type="loading" /> : LOGIN_TEXT}
           </Button>
         </Item>
 
         <Item className="register-link">
           <Link to={REGISTER}>
-            <Text underline>Registrarme</Text>
+            <Text underline>{REGISTER_ME}</Text>
           </Link>
         </Item>
       </Form>

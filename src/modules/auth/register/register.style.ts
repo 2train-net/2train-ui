@@ -23,9 +23,6 @@ export default createUseStyles(({ spacing }: ITheme) => ({
       textAlign: 'center',
       margin: {
         top: spacing(8)
-      },
-      '& a': {
-        color: 'gray'
       }
     }
   }

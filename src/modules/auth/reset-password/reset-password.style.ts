@@ -1,13 +1,18 @@
 import { createUseStyles } from 'react-jss';
 
-export default createUseStyles({
+import { ITheme } from 'shared/theme';
+
+export default createUseStyles<ITheme>(({ spacing }) => ({
   root: {
     '& .reset-password-form-title': {
       textAlign: 'center',
       margin: {
-        top: 20,
-        bottom: 20
+        top: spacing(3),
+        bottom: spacing(3)
       }
+    },
+    '& .submit-button': {
+      marginTop: spacing(2)
     }
   }
-});
+}));

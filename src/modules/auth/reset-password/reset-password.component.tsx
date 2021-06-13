@@ -2,10 +2,13 @@ import React, { FC, useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { useFormik } from 'formik';
-import { Form, Button, Card, Typography } from 'antd';
+import { Form, Card, Typography } from 'antd';
 
-import { Icon } from 'shared/modules';
+import { RESET_PASSWORD_TITLE, RESET_PASSWORD_DESCRIPTION, VERIFICATION_CODE_TEXT } from 'modules/auth/auth.module';
+
+import { Icon, Button } from 'shared/modules';
 import { LOGIN } from 'shared/routes';
+import { SEND_TEXT, PASSWORD_TEXT, CONFIRM_PASSWORD_TEXT, EMAIL_TEXT } from 'shared/constants';
 import { Field } from 'shared/modules/form';
 import { AuthService } from 'shared/services';
 
@@ -14,6 +17,7 @@ import {
   RESET_PASSWORD_FORM_SCHEMA,
   ISubmitResetPasswordData
 } from './reset-password.util';
+
 import userStyles from './reset-password.style';
 
 const { Item } = Form;
@@ -56,14 +60,14 @@ const ResetPassword: FC = () => {
     <Card className={classes.root} bordered>
       <Form onSubmitCapture={handleSubmit}>
         <Item className="reset-password-form-title">
-          <Title level={4}>Reset your password</Title>
-          <Text>Tell us your email address and verification code to confirm the password reset</Text>
+          <Title level={4}>{RESET_PASSWORD_TITLE}</Title>
+          <Text>{RESET_PASSWORD_DESCRIPTION}</Text>
         </Item>
 
         <Field
           icon={<Icon type="mail" />}
           name="email"
-          placeholder="Email"
+          placeholder={EMAIL_TEXT}
           autoComplete="username"
           value={values.email}
           error={errors.email}
@@ -75,7 +79,7 @@ const ResetPassword: FC = () => {
         <Field
           icon={<Icon type="safetyCertificate" />}
           name="code"
-          placeholder="Code"
+          placeholder={VERIFICATION_CODE_TEXT}
           value={values.code}
           error={errors.code}
           onChange={handleChange}
@@ -87,7 +91,7 @@ const ResetPassword: FC = () => {
           icon={<Icon type="lock" />}
           name="password"
           type="password"
-          placeholder="Password"
+          placeholder={PASSWORD_TEXT}
           autoComplete="new-password"
           value={values.password}
           error={errors.password}
@@ -100,7 +104,7 @@ const ResetPassword: FC = () => {
           icon={<Icon type="lock" />}
           name="confirmPassword"
           type="password"
-          placeholder="Confirm password"
+          placeholder={CONFIRM_PASSWORD_TEXT}
           autoComplete="new-password"
           value={values.confirmPassword}
           error={errors.confirmPassword}
@@ -110,8 +114,8 @@ const ResetPassword: FC = () => {
         />
 
         <Item className="submit-button">
-          <Button type="primary" htmlType="submit" block>
-            {isLoading ? <Icon type="loading" /> : 'SEND'}
+          <Button type="submit" fullWidth>
+            {isLoading ? <Icon type="loading" /> : SEND_TEXT}
           </Button>
         </Item>
       </Form>

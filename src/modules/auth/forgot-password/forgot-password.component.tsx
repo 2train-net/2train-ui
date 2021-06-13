@@ -2,14 +2,18 @@ import React, { FC, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { useFormik } from 'formik';
-import { Form, Button, Card, Typography } from 'antd';
+import { Form, Card, Typography } from 'antd';
 
-import { Icon } from 'shared/modules';
+import { FORGOT_PASSWORD_TITLE, FORGOT_PASSWORD_DESCRIPTION } from 'modules/auth/auth.module';
+
+import { Icon, Button } from 'shared/modules';
 import { Field } from 'shared/modules/form';
+import { SEND_TEXT, EMAIL_TEXT } from 'shared/constants';
 import { AuthService } from 'shared/services';
 import { RESET_PASSWORD } from 'shared/routes';
 
 import { INITIAL_FORGOT_PASSWORD_FORM_VALUES, FORGOT_PASSWORD_FORM_SCHEMA } from './forgot-password.util';
+
 import userStyles from './forgot-password.style';
 
 const { Item } = Form;
@@ -42,14 +46,14 @@ const ForgotPassword: FC = () => {
     <Card className={classes.root} bordered>
       <Form onSubmitCapture={handleSubmit}>
         <Item className="forgot-password-form-title">
-          <Title level={4}>Forgot your password?</Title>
-          <Text>Tell us your email address to request a password reset</Text>
+          <Title level={4}>{FORGOT_PASSWORD_TITLE}</Title>
+          <Text>{FORGOT_PASSWORD_DESCRIPTION}</Text>
         </Item>
 
         <Field
           icon={<Icon type="mail" />}
           name="email"
-          placeholder="Email"
+          placeholder={EMAIL_TEXT}
           autoComplete="username"
           value={values.email}
           error={errors.email}
@@ -59,8 +63,8 @@ const ForgotPassword: FC = () => {
         />
 
         <Item className="submit-button">
-          <Button type="primary" htmlType="submit" block>
-            {isLoading ? <Icon type="loading" /> : 'SEND'}
+          <Button type="submit" fullWidth>
+            {isLoading ? <Icon type="loading" /> : SEND_TEXT}
           </Button>
         </Item>
       </Form>
