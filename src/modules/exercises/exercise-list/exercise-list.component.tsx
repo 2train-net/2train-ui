@@ -10,15 +10,19 @@ import {
 } from 'modules/exercises/exercises.module';
 
 import { MasterList } from 'shared/modules';
-import { ModalContext } from 'shared/contexts';
+import { AuthContext, ModalContext } from 'shared/contexts';
 import { DELETE_MODAL } from 'shared/constants';
 import { EXERCISES, DELETE } from 'shared/routes';
-import { useGetExercisesQuery } from 'shared/generated';
+import { useGetExercisesQuery, UserType } from 'shared/generated';
 
 const ExerciseList: FC = () => {
   const history = useHistory();
   const location = useLocation();
+
+  const { user } = useContext(AuthContext);
   const modalProvider = useContext(ModalContext);
+
+  const isPersonaTrainer = user?.type === UserType.PersonalTrainer;
 
   const redirectToExercises = () => {
     history.push(EXERCISES);
@@ -44,6 +48,7 @@ const ExerciseList: FC = () => {
     <MasterList<IExercisePayload>
       title={[SINGULAR_EXERCISES_TITLE, PLURAL_EXERCISES_TITLE]}
       render={ExerciseCard}
+      isCreateButtonAvailable={isPersonaTrainer}
       useQuery={useGetExercisesQuery}
     />
   );
