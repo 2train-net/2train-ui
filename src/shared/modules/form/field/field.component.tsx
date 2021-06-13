@@ -20,6 +20,11 @@ interface IField {
   onChange: (eventOrPath: string | React.ChangeEvent<any>) => void;
 }
 
+const fieldByType = {
+  number: Input,
+  password: Input.Password
+};
+
 const Field: FC<IField> = ({
   value,
   name,
@@ -33,6 +38,8 @@ const Field: FC<IField> = ({
   hasBeenTouched,
   onChange
 }) => {
+  const SelectedInput = type ? fieldByType[type] : Input;
+
   return (
     <Item
       label={label}
@@ -41,7 +48,7 @@ const Field: FC<IField> = ({
       hasFeedback={hasBeenTouched}
       className="field-item"
     >
-      <Input
+      <SelectedInput
         type={type}
         name={name}
         prefix={icon}
