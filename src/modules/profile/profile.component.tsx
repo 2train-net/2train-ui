@@ -3,6 +3,8 @@ import React, { FC, useContext } from 'react';
 import { useFormik } from 'formik';
 import { Form, Card, Row, Col } from 'antd';
 
+import { PERSONAL_INFO_TEXT } from './profile.module';
+
 import {
   UserProfile as UserProfileModel,
   IUserProfileForm,
@@ -13,10 +15,26 @@ import { Button, Icon } from 'shared/modules';
 import { Field, Select, DatePicker, Upload } from 'shared/modules/form';
 
 import { AuthContext } from 'shared/contexts';
+import { UserService } from 'shared/services';
 import { objectDifferences } from 'shared/util/object-differences';
+import {
+  BIRTHDAY_TEXT,
+  DISCONNECT_TEXT,
+  EMAIL_TEXT,
+  FIRST_NAME_TEXT,
+  GENDER_TEXT,
+  LAST_NAME_TEXT,
+  OTHER_TEXT,
+  PHONE_TEXT,
+  PROFILE_TEXT,
+  PROFILE_VISIBILITY,
+  SAVE_TEXT,
+  USERNAME_TEXT
+} from 'shared/constants';
 import { Gender, Scope, useUpdateUserMutation } from 'shared/generated';
 
 import { PROFILE_FORM_SCHEMA } from './profile.util';
+
 import useStyles from './profile.style';
 
 const { Item } = Form;
@@ -53,7 +71,7 @@ const Profile: FC = () => {
   const haveValuesChanged = !Object.keys(objectDifferences(userProfile.userProfileForm, values)).length;
 
   return (
-    <Card title="Información personal" className={classes.root} bordered>
+    <Card title={PERSONAL_INFO_TEXT} className={classes.root} bordered>
       <Form onSubmitCapture={handleSubmit}>
         <Row gutter={24}>
           <Col xs={24} md={4}>
@@ -70,12 +88,12 @@ const Profile: FC = () => {
                 ) : (
                   <>
                     <Icon type="plus" />
-                    <p>Perfil</p>
+                    <p>{PROFILE_TEXT}</p>
                   </>
                 )}
               </Upload>
               <Button size="small" onClick={logout}>
-                Desconectar
+                {DISCONNECT_TEXT}
               </Button>
             </Item>
           </Col>
@@ -84,7 +102,7 @@ const Profile: FC = () => {
               isDisabled={true}
               icon={<Icon type="crown" />}
               name="username"
-              placeholder="Username"
+              placeholder={USERNAME_TEXT}
               value={values.username}
               error={errors.username}
               onChange={handleChange}
@@ -95,7 +113,7 @@ const Profile: FC = () => {
               isDisabled={true}
               icon={<Icon type="mail" />}
               name="email"
-              placeholder="Correo Electrónico"
+              placeholder={EMAIL_TEXT}
               value={values.email}
               error={errors.email}
               onChange={handleChange}
@@ -105,7 +123,7 @@ const Profile: FC = () => {
             <Field
               icon={<Icon type="phone" />}
               name="phone"
-              placeholder="Número de télefono"
+              placeholder={PHONE_TEXT}
               value={values.phone}
               error={errors.phone}
               onChange={handleChange}
@@ -115,7 +133,7 @@ const Profile: FC = () => {
             <Select
               value={values.scope}
               name="scope"
-              placeholder="Visibilidad"
+              placeholder={PROFILE_VISIBILITY}
               options={[
                 { label: 'Privado', value: Scope.Private },
                 { label: 'Público', value: Scope.Public }
@@ -129,7 +147,7 @@ const Profile: FC = () => {
             <Field
               icon={<Icon type="user" />}
               name="firstName"
-              placeholder="Nombre"
+              placeholder={FIRST_NAME_TEXT}
               value={values.firstName}
               error={errors.firstName}
               onChange={handleChange}
@@ -139,7 +157,7 @@ const Profile: FC = () => {
             <Field
               icon={<Icon type="user" />}
               name="lastName"
-              placeholder="Apellido"
+              placeholder={LAST_NAME_TEXT}
               value={values.lastName}
               error={errors.lastName}
               onChange={handleChange}
@@ -149,7 +167,7 @@ const Profile: FC = () => {
             <DatePicker
               value={values.birthday}
               name="birthday"
-              placeholder="Fecha de cumpleaños"
+              placeholder={BIRTHDAY_TEXT}
               error={errors.birthday}
               setFieldValue={setFieldValue}
               hasBeenTouched={touched.birthday}
@@ -166,10 +184,11 @@ const Profile: FC = () => {
             <Select
               value={values.gender}
               name="gender"
-              placeholder="Género"
+              placeholder={GENDER_TEXT}
               options={[
-                { label: 'Male', value: Gender.Male },
-                { label: 'Female', value: Gender.Female }
+                { label: UserService.parseGender(Gender.Male), value: Gender.Male },
+                { label: UserService.parseGender(Gender.Female), value: Gender.Female },
+                { label: OTHER_TEXT, value: null }
               ]}
               error={errors.gender}
               setFieldValue={setFieldValue}
@@ -180,7 +199,7 @@ const Profile: FC = () => {
 
         <Item className="submit-button">
           <Button type="submit" disabled={haveValuesChanged}>
-            GUARDAR
+            {SAVE_TEXT}
           </Button>
         </Item>
       </Form>

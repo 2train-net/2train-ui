@@ -3,23 +3,21 @@ import * as Yup from 'yup';
 import { IUserProfileForm } from 'modules/profile/shared/model/user-profile.model';
 import { EMAIL_FORM_SCHEMA } from 'modules/auth/shared/util';
 
-import { PHONE_REGEX } from 'shared/constants';
+import { PHONE_REGEX, REQUIRED_EXCEPTION_TEXT, PHONE_NUMBER_EXCEPTION_TEXT } from 'shared/constants';
 import { Gender, Scope } from 'shared/generated';
 
 export const PROFILE_FORM_SCHEMA = Yup.object().shape<IUserProfileForm>({
   ...EMAIL_FORM_SCHEMA,
   avatarBase64: Yup.string(),
-  username: Yup.string().required('Required'),
-  firstName: Yup.string().required('Required'),
-  lastName: Yup.string().required('Required'),
+  username: Yup.string().required(REQUIRED_EXCEPTION_TEXT),
+  firstName: Yup.string().required(REQUIRED_EXCEPTION_TEXT),
+  lastName: Yup.string().required(REQUIRED_EXCEPTION_TEXT),
   phone: Yup.string()
-    .matches(PHONE_REGEX, 'Phone number is not valid')
-    .required('Required'),
-  birthday: Yup.string().required('Required'),
-  gender: Yup.mixed<Gender>()
-    .oneOf([Gender.Male, Gender.Female])
-    .required('Required'),
+    .matches(PHONE_REGEX, PHONE_NUMBER_EXCEPTION_TEXT)
+    .required(REQUIRED_EXCEPTION_TEXT),
+  birthday: Yup.string().required(REQUIRED_EXCEPTION_TEXT),
+  gender: Yup.mixed<Gender | null>().oneOf([Gender.Male, Gender.Female, null]),
   scope: Yup.mixed<Scope>()
     .oneOf([Scope.Private, Scope.Public])
-    .required('Required')
+    .required(REQUIRED_EXCEPTION_TEXT)
 });

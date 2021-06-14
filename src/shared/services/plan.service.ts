@@ -1,8 +1,9 @@
+import { ACTIVE_TEXT, INACTIVE_TEXT } from 'shared/constants';
 import { PlanStatus } from 'shared/generated';
 
 const planStatus = {
-  [PlanStatus.Active]: 'Activo',
-  [PlanStatus.Inactive]: 'Inactivo'
+  [PlanStatus.Active]: ACTIVE_TEXT,
+  [PlanStatus.Inactive]: INACTIVE_TEXT
 };
 
 export class PlanService {

@@ -1,12 +1,13 @@
+import { PERSONAL_TRAINER_TEXT, CUSTOMER_TEXT, MALE_TEXT, FEMALE_TEXT, OTHER_TEXT } from 'shared/constants';
 import { Gender, UserType } from 'shared/generated';
 
 export class UserService {
   parseUserType = (type: UserType) => {
-    return type === 'PERSONAL_TRAINER' ? 'Entrenador personal' : 'Cliente';
+    return type === 'PERSONAL_TRAINER' ? PERSONAL_TRAINER_TEXT : CUSTOMER_TEXT;
   };
 
   parseGender = (gender: Gender) => {
-    return gender === 'MALE' ? 'Masculino' : gender === 'FEMALE' ? 'Femenino' : 'Reservado';
+    return gender === 'MALE' ? MALE_TEXT : gender === 'FEMALE' ? FEMALE_TEXT : OTHER_TEXT;
   };
 
   getAvatarLetters = (firstName: string, lastName: string) => {

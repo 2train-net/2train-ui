@@ -10,15 +10,15 @@ export default createUseStyles(({ spacing }: ITheme) => ({
     '& .profile-form-title': {
       textAlign: 'center',
       margin: {
-        top: 16,
-        bottom: 16
+        top: spacing(2),
+        bottom: spacing(2)
       }
     },
     '& .avatar-uploader': {
       display: 'flex',
       justifyContent: 'center',
       '& div:last-child , img': {
-        borderRadius: 50
+        borderRadius: spacing(6.25)
       },
       '& img': {
         width: '100%'
