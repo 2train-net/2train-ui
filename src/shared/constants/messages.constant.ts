@@ -19,3 +19,5 @@ export const REQUIRED_EXCEPTION_TEXT = 'Requerido',
   LOWER_CASE_LETTER_EXCEPTION_TEXT = 'Se necesita un carácter en minúscula',
   UPPER_CASE_LETTER_EXCEPTION_TEXT = 'Se necesita un carácter en mayúscula',
   CONFIRM_PASSWORD_EXCEPTION_TEXT = 'Las contraseñas deben coincidir';
+
+export const WRONG_CREDENTIALS_ERROR_TEXT = `${EMAIL_TEXT} ó ${PASSWORD_TEXT.toLowerCase()} incorrectos`;

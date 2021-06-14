@@ -6,6 +6,8 @@ import AuthContext from './auth.context';
 import { AuthCredentials, IUserProfile } from 'shared/model';
 import { AuthService } from 'shared/services';
 import { CONFIRM_ACCOUNT } from 'shared/routes';
+import { Message } from 'shared/modules';
+import { WRONG_CREDENTIALS_ERROR_TEXT } from 'shared/constants';
 import { useUserProfileLazyQuery } from 'shared/generated';
 
 const AuthProvider: FC = ({ children }) => {
@@ -42,8 +44,10 @@ const AuthProvider: FC = ({ children }) => {
 
       setIsAuthenticated(true);
     } catch (error) {
-      if (error.name === 'UserNotConfirmedException') {
+      if (error.code === 'UserNotConfirmedException') {
         history.push(CONFIRM_ACCOUNT, { ...credentials });
+      } else if (error.code === 'NotAuthorizedException') {
+        Message.error(WRONG_CREDENTIALS_ERROR_TEXT);
       }
     }
 
