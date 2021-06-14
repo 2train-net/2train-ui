@@ -10,13 +10,13 @@ import {
   PLAN_INVITATION_MODAL,
   SINGULAR_PLANS_TITLE,
   PLURAL_PLANS_TITLE,
-  PLAN_INVITATION_LINK_MODAL,
-  COPY_ON_CLIPBOARD_SUCCESSFULLY
+  PLAN_INVITATION_LINK_MODAL
 } from 'modules/plans/plans.module';
 
 import { MasterList, Message } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
 import { PLANS, INVITE, PLAN_INVITATIONS } from 'shared/routes';
+import { COPY_ON_CLIPBOARD_SUCCESSFULLY_TEXT } from 'shared/constants';
 import { useCreatePlanInvitationMutation, useDeletePlanMutation, useGetPlansQuery, UserType } from 'shared/generated';
 
 const PlanList: FC = () => {
@@ -55,7 +55,7 @@ const PlanList: FC = () => {
         message: invitationLink,
         onConfirm: () => {
           navigator.clipboard.writeText(invitationLink);
-          Message.success(COPY_ON_CLIPBOARD_SUCCESSFULLY);
+          Message.success(COPY_ON_CLIPBOARD_SUCCESSFULLY_TEXT);
           redirectToPlans();
         }
       });

@@ -4,6 +4,19 @@ import { DateService, PlanService } from 'shared/services';
 import { ADD, DIETS, EDIT, WORKOUT_ROUTINES } from 'shared/routes';
 import { Currency, PlanStatus, Scope } from 'shared/generated';
 import { DEFAULT_DATE_FORMAT, ISO } from 'shared/constants';
+import {
+  FROM_TEXT,
+  TO_TEXT,
+  DAYS_TEXT,
+  STATUS_TEXT,
+  LOOK_TEXT,
+  EXERCISES_TEXT,
+  DIET_TEXT,
+  BODY_MEASURES_TEXT,
+  TRAINING_TEXT,
+  STATISTICS_TEXT,
+  CHAT_TEXT
+} from 'shared/constants';
 
 interface IPlanDetail {
   uuid: string;
@@ -69,11 +82,11 @@ export const format = (plan?: IPlanDetail) => {
       col: { xs: 24, md: 9 },
       items: [
         {
-          label: 'Desde',
+          label: FROM_TEXT,
           value: plan?.startAt ? DateService.format(plan.startAt, DEFAULT_DATE_FORMAT, ISO) : undefined
         },
         {
-          label: 'Hasta',
+          label: TO_TEXT,
           value: plan?.expireAt ? DateService.format(plan.expireAt, DEFAULT_DATE_FORMAT, ISO) : undefined
         }
       ]
@@ -81,8 +94,8 @@ export const format = (plan?: IPlanDetail) => {
     {
       col: { xs: 24, md: 6 },
       items: [
-        { label: 'Estado', value: plan?.status ? PlanService.parseStatus(plan.status) : undefined },
-        { label: 'Días', value: currentDays && totalDays ? `${currentDays} / ${totalDays}` : undefined }
+        { label: STATUS_TEXT, value: plan?.status ? PlanService.parseStatus(plan.status) : undefined },
+        { label: DAYS_TEXT, value: currentDays && totalDays ? `${currentDays} / ${totalDays}` : undefined }
       ]
     }
   ];
@@ -93,8 +106,8 @@ export const format = (plan?: IPlanDetail) => {
 
   const iconCards: IPlanIconCard[] = [
     {
-      title: 'Ejercicios',
-      buttonText: 'Ver',
+      title: EXERCISES_TEXT,
+      buttonText: LOOK_TEXT,
       url: plan?.workoutRoutine
         ? `${WORKOUT_ROUTINES}/${EDIT}/${plan.workoutRoutine.uuid}`
         : `${WORKOUT_ROUTINES}/${ADD}`,
@@ -102,17 +115,17 @@ export const format = (plan?: IPlanDetail) => {
       isDisabled: !plan?.workoutRoutine
     },
     {
-      title: 'Alimentación',
-      buttonText: 'Ver',
+      title: DIET_TEXT,
+      buttonText: LOOK_TEXT,
       url: plan?.dietPlan ? `${DIETS}/${EDIT}/${plan.dietPlan.uuid}` : `${DIETS}/${ADD}`,
       icon: 'read',
       // isDisabled: !plan?.dietPlan
       isDisabled: true
     },
-    { icon: 'heart', title: 'Mediciones', buttonText: 'Ver', isDisabled: true },
-    { icon: 'thunderbolt', title: 'Entrenamiento', buttonText: 'Ver', isDisabled: true },
-    { icon: 'lineChart', title: 'Estadisticas', buttonText: 'Ver', isDisabled: true },
-    { icon: 'chat', title: 'Chat', buttonText: 'Ver', isDisabled: true }
+    { icon: 'heart', title: BODY_MEASURES_TEXT, buttonText: LOOK_TEXT, isDisabled: true },
+    { icon: 'thunderbolt', title: TRAINING_TEXT, buttonText: LOOK_TEXT, isDisabled: true },
+    { icon: 'lineChart', title: STATISTICS_TEXT, buttonText: LOOK_TEXT, isDisabled: true },
+    { icon: 'chat', title: CHAT_TEXT, buttonText: LOOK_TEXT, isDisabled: true }
   ];
 
   return {

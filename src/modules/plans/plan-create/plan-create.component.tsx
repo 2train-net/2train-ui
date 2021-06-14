@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { Card } from 'antd';
 
-import { PlanForm } from 'modules/plans/plans.module';
+import { CREATE_PLAN_TITLE, PlanForm } from 'modules/plans/plans.module';
 
 import { IPlanFormValues, parsePlanFocusToFlags } from 'modules/plans/shared/components/plan-form/plan-form.util';
 
@@ -39,7 +39,7 @@ const PlanCreate: FC = () => {
 
   return (
     <>
-      <FormHeader title="Create Plan" />
+      <FormHeader title={CREATE_PLAN_TITLE} />
       <br />
       <Card>
         <PlanForm onSubmit={onSubmit} />

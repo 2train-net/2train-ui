@@ -5,7 +5,13 @@ import { useRouteMatch } from 'react-router-dom';
 
 import { Card } from 'antd';
 
-import { PlanForm, IPlanFormValues, parseFlagsToPlanFocus, parsePlanFocusToFlags } from 'modules/plans/plans.module';
+import {
+  PlanForm,
+  IPlanFormValues,
+  parseFlagsToPlanFocus,
+  parsePlanFocusToFlags,
+  UPDATE_PLAN_TITLE
+} from 'modules/plans/plans.module';
 
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
@@ -72,7 +78,7 @@ const PlanUpdate: FC = () => {
     <Redirect to={NOT_FOUND} />
   ) : (
     <>
-      <FormHeader title="Update Plan" />
+      <FormHeader title={UPDATE_PLAN_TITLE} />
       <br />
       <Card>
         <PlanForm onSubmit={onSubmit} initialValues={initialValues} />

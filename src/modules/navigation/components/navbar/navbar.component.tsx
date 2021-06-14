@@ -4,9 +4,10 @@ import { Dropdown, Menu } from 'antd';
 
 import { Avatar, Icon } from 'shared/modules';
 import { AuthContext } from 'shared/contexts';
+import { UserService } from 'shared/services';
+import { EXIT_TEXT } from 'shared/constants';
 
 import useStyles from './navbar.style';
-import { UserService } from 'shared/services';
 
 const { Item } = Menu;
 
@@ -24,7 +25,7 @@ const Navbar: FC<INavbar> = ({ handleOpenDrawer }) => {
       <Dropdown
         overlay={
           <Menu>
-            <Item onClick={logout}>Salir</Item>
+            <Item onClick={logout}>{EXIT_TEXT}</Item>
           </Menu>
         }
         placement="bottomLeft"

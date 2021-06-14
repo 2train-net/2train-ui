@@ -5,6 +5,8 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import { Col, PageHeader, Row } from 'antd';
 
+import { RENEW_PLAN_TEXT, PLAN_MEMBERS_TEXT } from 'modules/plans/plans.module';
+
 import { Avatar, Button, IconCard, InfoItem, Message, Skeleton } from 'shared/modules';
 import { CLIENTS, DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
 import { DateService, UserService } from 'shared/services';
@@ -52,8 +54,8 @@ const PlanDetail: FC = () => {
 
   if (isRenovateButtonEnabled) {
     planActions.push(
-      <Button key="renovate" size="small">
-        Renovar
+      <Button key="renew" size="small">
+        {RENEW_PLAN_TEXT}
       </Button>
     );
   }
@@ -81,7 +83,7 @@ const PlanDetail: FC = () => {
         <Row gutter={16}>
           <Col xs={24} md={9}>
             <InfoItem
-              label="Paticipantes"
+              label={PLAN_MEMBERS_TEXT}
               valueRender={() => (
                 <Skeleton isLoading={loading} type="avatar" multiple={3}>
                   {members &&
