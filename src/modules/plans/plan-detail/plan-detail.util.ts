@@ -106,7 +106,8 @@ export const format = (plan?: IPlanDetail) => {
       buttonText: 'Ver',
       url: plan?.dietPlan ? `${DIETS}/${EDIT}/${plan.dietPlan.uuid}` : `${DIETS}/${ADD}`,
       icon: 'read',
-      isDisabled: !plan?.dietPlan
+      // isDisabled: !plan?.dietPlan
+      isDisabled: true
     },
     { icon: 'heart', title: 'Mediciones', buttonText: 'Ver', isDisabled: true },
     { icon: 'thunderbolt', title: 'Entrenamiento', buttonText: 'Ver', isDisabled: true },

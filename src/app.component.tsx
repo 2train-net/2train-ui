@@ -47,6 +47,7 @@ const App: FC = () => {
           <Route path={ROOT} component={Auth} />
           <Navigation>
             <Switch>
+              <Route exact path={ROOT} component={Home} />
               <Route exact path={HOME} component={Home} />
               <Route exact path={PROFILE} component={Profile} />
               <Route path={WORKOUT_ROUTINES} component={WorkoutRoutine} />
