@@ -5,7 +5,7 @@ import { useRouteMatch } from 'react-router-dom';
 
 import { Card } from 'antd';
 
-import { ExerciseForm, IExerciseFormValues } from 'modules/exercises/exercises.module';
+import { ExerciseForm, IExerciseFormValues, UPDATE_EXERCISE_TITLE } from 'modules/exercises/exercises.module';
 
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
@@ -61,7 +61,7 @@ const ExerciseUpdate: FC = () => {
     <Redirect to={NOT_FOUND} />
   ) : (
     <>
-      <FormHeader title="Update Plan" />
+      <FormHeader title={UPDATE_EXERCISE_TITLE} />
       <br />
       <Card>
         <ExerciseForm onSubmit={onSubmit} initialValues={exercisePayload.data?.payload} />

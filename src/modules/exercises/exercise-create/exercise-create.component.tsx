@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom';
 
 import { Card } from 'antd';
 
+import { CREATE_EXERCISE_TITLE } from 'modules/exercises/exercises.module';
+
 import ExerciseForm from 'modules/exercises/shared/components/exercise-form/exercise-form.component';
 
 import { IExerciseFormValues } from 'modules/exercises/shared/components/exercise-form/exercise-form.util';
@@ -36,7 +38,7 @@ const ExerciseCreate: FC = () => {
 
   return (
     <>
-      <FormHeader title="Create Exercise" />
+      <FormHeader title={CREATE_EXERCISE_TITLE} />
       <br />
       <Card>
         <ExerciseForm onSubmit={onSubmit} />
