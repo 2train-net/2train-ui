@@ -9,7 +9,15 @@ import { ProfileDetail } from 'modules/profile/profile.module';
 import { DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
 import { ItemListTab, Message } from 'shared/modules';
 import { UserService, DateService } from 'shared/services';
-import { DEFAULT_DATE_FORMAT, ISO } from 'shared/constants';
+import {
+  BIRTHDAY_TEXT,
+  DEFAULT_DATE_FORMAT,
+  EMAIL_TEXT,
+  GENDER_TEXT,
+  ISO,
+  PHONE_TEXT,
+  PLANS_TEXT
+} from 'shared/constants';
 import { useGetClientQuery } from 'shared/generated';
 
 const ClientDetail: FC = () => {
@@ -48,16 +56,16 @@ const ClientDetail: FC = () => {
           title={client ? `${client.firstName} ${client.lastName}` : ''}
           description={client ? `@${client.username}` : ''}
           itemList={[
-            { key: 'email', label: 'Correo eléctronico' },
-            { key: 'phone', label: 'Numero telefónico' },
+            { key: 'email', label: EMAIL_TEXT },
+            { key: 'phone', label: PHONE_TEXT },
             {
               key: 'birthday',
-              label: 'Fecha de nacimiento',
+              label: BIRTHDAY_TEXT,
               formatter: date => DateService.format(date)
             },
             {
               key: 'gender',
-              label: 'Género',
+              label: GENDER_TEXT,
               formatter: UserService.parseGender
             }
           ]}
@@ -66,7 +74,7 @@ const ClientDetail: FC = () => {
       <Col xs={24} md={16}>
         <Card style={{ height: '100%' }} bodyStyle={{ paddingLeft: 0 }}>
           <ItemListTab
-            tabs={['Plans']}
+            tabs={[PLANS_TEXT]}
             itemList={data?.payload.plans.map(({ uuid, name, startAt, expireAt }) => ({
               key: uuid,
               title: name,

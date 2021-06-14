@@ -17,7 +17,7 @@ export const PROFILE_TEXT = 'Perfil',
 
 export const SEND_TEXT = 'Enviar',
   FROM_TEXT = 'Desde',
-  TO_TEXT = 'HASTA',
+  TO_TEXT = 'Hasta',
   OTHER_TEXT = 'Otro',
   STATUS_TEXT = 'Estado',
   DAYS_TEXT = 'Días',
