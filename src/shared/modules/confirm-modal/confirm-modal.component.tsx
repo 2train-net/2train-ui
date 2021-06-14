@@ -24,6 +24,7 @@ const ConfirmModal: FC<IConfirmModal> = ({
   cancelText,
   contentRender,
   isCancelButtonAvailable,
+  isSubmitButtonAvailable,
   onConfirm,
   onCancel
 }) => {
@@ -45,6 +46,7 @@ const ConfirmModal: FC<IConfirmModal> = ({
             contentRender={contentRender}
             isLoading={isLoading}
             isCancelButtonAvailable={isCancelButtonAvailable}
+            isSubmitButtonAvailable={isSubmitButtonAvailable}
           />
         );
       }}

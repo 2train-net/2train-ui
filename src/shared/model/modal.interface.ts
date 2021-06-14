@@ -2,7 +2,7 @@ import { FC, ReactElement } from 'react';
 
 import { IconType } from 'shared/modules/icon/icon.component';
 
-export type ConfirmModalType = 'success' | 'danger' | 'warning' | 'info';
+export type ConfirmModalType = 'success' | 'danger' | 'warning' | 'info' | 'secondary';
 
 export interface IModal {
   title: string;
@@ -14,6 +14,7 @@ export interface IModal {
   cancelText?: string;
   isLoading?: boolean;
   isCancelButtonAvailable?: boolean;
+  isSubmitButtonAvailable?: boolean;
   onConfirm?: () => any;
   onCancel?: () => any;
 }

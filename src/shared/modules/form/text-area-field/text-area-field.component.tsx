@@ -4,16 +4,14 @@ import { Input, Form } from 'antd';
 
 const { Item } = Form;
 
-type FieldType = 'password' | 'number';
+const { TextArea } = Input;
 
-interface IField {
+interface ITextArea {
   value: any;
   name: string;
   label?: string;
+  labelTop?: boolean;
   error?: string;
-  type?: FieldType;
-  icon?: ReactElement;
-  measure?: string;
   placeholder?: string;
   autoComplete?: string;
   isDisabled?: boolean;
@@ -21,40 +19,30 @@ interface IField {
   onChange: (eventOrPath: string | React.ChangeEvent<any>) => void;
 }
 
-const fieldByType = {
-  number: Input,
-  password: Input.Password
-};
-
-const Field: FC<IField> = ({
+const TextAreaField: FC<ITextArea> = ({
   value,
   name,
-  type,
   label,
+  labelTop = false,
   error,
-  icon,
-  measure,
   placeholder,
   autoComplete,
   isDisabled,
   hasBeenTouched,
   onChange
 }) => {
-  const SelectedInput = type ? fieldByType[type] : Input;
-
   return (
     <Item
       label={label}
+      labelCol={labelTop ? { span: 24 } : {}}
       validateStatus={!!error && hasBeenTouched ? 'error' : 'success'}
       help={!!error && hasBeenTouched ? error : null}
       hasFeedback={hasBeenTouched}
       className="field-item"
     >
-      <SelectedInput
-        type={type}
+      <TextArea
+        autoSize={{ minRows: 3, maxRows: 5 }}
         name={name}
-        prefix={icon}
-        suffix={measure}
         placeholder={placeholder}
         disabled={isDisabled}
         onChange={onChange}
@@ -65,4 +53,4 @@ const Field: FC<IField> = ({
   );
 };
 
-export default Field;
+export default TextAreaField;

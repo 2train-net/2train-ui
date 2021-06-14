@@ -15,9 +15,9 @@ import {
 } from 'modules/plans/plans.module';
 
 import { MasterList, Message } from 'shared/modules';
-import { ModalContext } from 'shared/contexts';
+import { AuthContext, ModalContext } from 'shared/contexts';
 import { PLANS, INVITE, PLAN_INVITATIONS } from 'shared/routes';
-import { useCreatePlanInvitationMutation, useDeletePlanMutation, useGetPlansQuery } from 'shared/generated';
+import { useCreatePlanInvitationMutation, useDeletePlanMutation, useGetPlansQuery, UserType } from 'shared/generated';
 
 const PlanList: FC = () => {
   const history = useHistory();
@@ -27,11 +27,14 @@ const PlanList: FC = () => {
     params: { uuid }
   } = useRouteMatch<{ uuid: string }>();
 
+  const { user } = useContext(AuthContext);
   const modalProvider = useContext(ModalContext);
 
   const inviteFormRef = useRef<HTMLFormElement>(null);
 
   const [createPlanInvitation, planInvitationPayload] = useCreatePlanInvitationMutation();
+
+  const isPersonalTrainer = user?.type === UserType.PersonalTrainer;
 
   const redirectToPlans = () => {
     history.push(PLANS);
@@ -93,6 +96,7 @@ const PlanList: FC = () => {
     <MasterList<IPlanPayload>
       title={[SINGULAR_PLANS_TITLE, PLURAL_PLANS_TITLE]}
       render={PlanCard}
+      isCreateButtonAvailable={isPersonalTrainer}
       useQuery={useGetPlansQuery}
       useDeleteMutation={useDeletePlanMutation}
     />

@@ -19,6 +19,7 @@ interface IConfirmationCard {
   cancelText?: string;
   contentRender?: ReactElement;
   isCancelButtonAvailable?: boolean;
+  isSubmitButtonAvailable?: boolean;
   isLoading?: boolean;
   onConfirm: () => unknown;
   onCancel: () => unknown;
@@ -30,6 +31,7 @@ const ConfirmationCard: FC<IConfirmationCard> = ({
   message,
   color = 'default',
   isCancelButtonAvailable = true,
+  isSubmitButtonAvailable = true,
   isLoading = false,
   confirmText,
   cancelText,
@@ -74,23 +76,25 @@ const ConfirmationCard: FC<IConfirmationCard> = ({
       )}
       <Row className="confirmation-card-actions">
         {isCancelButtonAvailable && (
-          <Col span={12}>
+          <Col span={isSubmitButtonAvailable ? 12 : 24}>
             <Button onClick={onCancel} color="default" size="medium" disabled={isLoading}>
               {cancelText || 'Cancelar'}
             </Button>
           </Col>
         )}
-        <Col span={isCancelButtonAvailable ? 12 : 24}>
-          <Button
-            onClick={onConfirm}
-            color={color}
-            size="medium"
-            disabled={isLoading}
-            fullWidth={!isCancelButtonAvailable}
-          >
-            {confirmText || 'Continuar'}
-          </Button>
-        </Col>
+        {isSubmitButtonAvailable && (
+          <Col span={isCancelButtonAvailable ? 12 : 24}>
+            <Button
+              onClick={onConfirm}
+              color={color}
+              size="medium"
+              disabled={isLoading}
+              fullWidth={!isCancelButtonAvailable}
+            >
+              {confirmText || 'Continuar'}
+            </Button>
+          </Col>
+        )}
       </Row>
     </Card>
   );

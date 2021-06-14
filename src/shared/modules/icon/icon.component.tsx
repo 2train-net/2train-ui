@@ -33,7 +33,11 @@ import {
   LineChartOutlined,
   MessageOutlined,
   ReadOutlined,
-  ReconciliationOutlined
+  ReconciliationOutlined,
+  MinusOutlined,
+  CheckOutlined,
+  UpOutlined,
+  DownOutlined
 } from '@ant-design/icons';
 
 export type IconType =
@@ -69,7 +73,11 @@ export type IconType =
   | 'lineChart'
   | 'chat'
   | 'read'
-  | 'reconciliation';
+  | 'reconciliation'
+  | 'minus'
+  | 'check'
+  | 'up'
+  | 'down';
 
 interface IIcon {
   key?: string;
@@ -111,7 +119,11 @@ const outlinedIconDictionary = {
   lineChart: LineChartOutlined,
   chat: MessageOutlined,
   read: ReadOutlined,
-  reconciliation: ReconciliationOutlined
+  reconciliation: ReconciliationOutlined,
+  minus: MinusOutlined,
+  check: CheckOutlined,
+  up: UpOutlined,
+  down: DownOutlined
 };
 
 const Icon: FC<IIcon> = ({ key, type, className, onClick }) => {

@@ -43,26 +43,18 @@ export const updatePositionsAndColumns = (data: ColumnItem[][]) => {
   );
 };
 
-export const parseDataToColumns = (data: ColumnItem[]) => {
+export const parseDataToColumns = (data: ColumnItem[], maxColumn: number) => {
   const ordered = _.orderBy(data, 'position', 'asc');
-  const grouped = insertEmptyColumns(_.groupBy(ordered, 'column'));
+  const grouped = insertEmptyColumns(_.groupBy(ordered, 'column'), maxColumn);
   return Object.values(grouped);
 };
 
-const insertEmptyColumns = (columns: ColumnItems) => {
+const insertEmptyColumns = (columns: ColumnItems, maxDay: number) => {
   const columnsCopy = columns;
-  for (let i = 0; i < maxItemDay(columns); i++) {
+  for (let i = 0; i < maxDay; i++) {
     if (!columnsCopy[i]) columnsCopy[i] = [];
   }
   return columnsCopy;
-};
-
-const maxItemDay = (columns: ColumnItems) => {
-  let max: number = 0;
-  Object.entries(columns).map(([column], index) => {
-    if (parseInt(column) > max) max = parseInt(column);
-  });
-  return max;
 };
 
 export const dayOptions = [

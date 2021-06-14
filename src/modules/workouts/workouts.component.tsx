@@ -1,18 +1,21 @@
 import React, { FC } from 'react';
 
-import { Redirect, Switch } from 'react-router-dom';
+import { Redirect, Switch, useLocation } from 'react-router-dom';
 
 import { WorkoutList } from 'modules/workouts/workouts.module';
 
-import { NOT_FOUND, WORKOUTS } from 'shared/routes';
+import { TRAINING, WORKOUTS, WORKOUT_ADD } from 'shared/routes';
 import { PrivateRoute } from 'shared/modules/route';
 
-const Workouts: FC = () => (
-  <Switch>
-    <PrivateRoute exact path={WORKOUTS} component={WorkoutList} />
+const Workouts: FC = () => {
+  const location = useLocation();
 
-    <Redirect to={NOT_FOUND} />
-  </Switch>
-);
+  return (
+    <Switch>
+      <PrivateRoute exact path={WORKOUTS} component={WorkoutList} />
+      <PrivateRoute exact path={WORKOUT_ADD} component={() => <Redirect to={TRAINING} />} />
+    </Switch>
+  );
+};
 
 export default Workouts;

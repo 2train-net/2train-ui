@@ -4,7 +4,7 @@ import { ITheme } from 'shared/theme';
 
 export default createUseStyles(({ palette }: ITheme) => ({
   root: {
-    backgroundColor: palette.secondary.main,
+    backgroundColor: palette.default.main,
     fontWeight: 'bold'
   }
 }));

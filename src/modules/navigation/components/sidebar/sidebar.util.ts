@@ -1,5 +1,4 @@
 import {
-  HOME,
   PROFILE,
   PLANS,
   PLAN_INVITATIONS,
@@ -23,7 +22,6 @@ interface IOption {
 }
 
 export const OPTIONS: IOption[] = [
-  { route: HOME, title: 'Inicio', icon: 'home' },
   { route: PROFILE, title: 'Perfil', icon: 'user' },
   { route: PLANS, title: 'Planes', icon: 'book' },
   { route: CLIENTS, title: 'Clientes', icon: 'team' },

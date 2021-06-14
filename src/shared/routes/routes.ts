@@ -1,12 +1,14 @@
 export const ROOT = '/';
 
 export const UUID = 'uuid';
+export const DAY = 'day';
 export const ADD = 'add';
 export const EDIT = 'edit';
 export const DELETE = 'delete';
 export const DETAIL = 'detail';
 export const INVITE = 'invite';
 export const ACTION = 'action';
+export const WORKOUT = 'workout';
 
 export const NOT_FOUND = '/not-found';
 
@@ -51,6 +53,7 @@ export const BODY_MEASURE_EDIT = `${BODY_MEASURES}/${EDIT}/:${UUID}`;
 export const BODY_MEASURE_DETAIL = `${BODY_MEASURES}/${DETAIL}/:${UUID}`;
 
 export const WORKOUTS = '/workouts';
+export const WORKOUT_ADD = `${WORKOUTS}/${ADD}`;
 
 export const WORKOUT_ROUTINES = '/workout-routines';
 export const WORKOUT_ROUTINE_EDIT = `${WORKOUT_ROUTINES}/${EDIT}/:${UUID}`;
@@ -62,3 +65,7 @@ export const MEAL_DELETE = `${MEALS}/${DELETE}/:${UUID}`;
 
 export const DIETS = '/diet';
 export const DIET_EDIT = `${DIETS}/${EDIT}/:${UUID}`;
+
+export const TRAINING = '/training';
+export const TRAINING_WORKOUT = `${TRAINING}/${WORKOUT}/:${DAY}`;
+export const TRAINING_DETAIL = `${TRAINING}/${DETAIL}/:${UUID}`;

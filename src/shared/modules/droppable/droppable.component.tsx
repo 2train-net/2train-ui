@@ -14,8 +14,16 @@ interface IDroppableValues {
   items: Item[];
   renderCard: FC<any>;
   isDropDisabled?: boolean;
+  isVisible: boolean;
 }
-const Droppable: FC<IDroppableValues> = ({ id, direction = 'vertical', items, renderCard, isDropDisabled = false }) => {
+const Droppable: FC<IDroppableValues> = ({
+  id,
+  direction = 'vertical',
+  isVisible,
+  items,
+  renderCard,
+  isDropDisabled = false
+}) => {
   return (
     <RBDroppable droppableId={id} direction={direction} isDropDisabled={isDropDisabled}>
       {(provided, snapshot) => {
@@ -24,13 +32,15 @@ const Droppable: FC<IDroppableValues> = ({ id, direction = 'vertical', items, re
             ref={provided.innerRef}
             {...provided.droppableProps}
             className={
-              direction === 'horizontal'
-                ? snapshot.isDraggingOver
-                  ? 'horizontal-droppable-dragging'
-                  : 'horizontal-droppable'
-                : snapshot.isDraggingOver
-                ? 'vertical-droppable-dragging'
-                : 'vertical-droppable'
+              isVisible
+                ? direction === 'horizontal'
+                  ? snapshot.isDraggingOver
+                    ? 'horizontal-droppable-dragging'
+                    : 'horizontal-droppable'
+                  : snapshot.isDraggingOver
+                  ? 'vertical-droppable-dragging'
+                  : 'vertical-droppable'
+                : 'notVisible'
             }
           >
             {items.map((item: Item, position: number) => (
@@ -44,7 +54,7 @@ const Droppable: FC<IDroppableValues> = ({ id, direction = 'vertical', items, re
   );
 };
 const areEqual = (prevProps: IDroppableValues, nextProps: IDroppableValues) => {
-  return _.isEqual(prevProps.items, nextProps.items);
+  return _.isEqual(prevProps.items, nextProps.items) && prevProps.isVisible === nextProps.isVisible;
 };
 
 export default React.memo(Droppable, areEqual);

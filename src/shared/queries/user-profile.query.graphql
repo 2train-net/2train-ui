@@ -14,6 +14,14 @@ query userProfile($where: UserWhereUniqueInput!) {
     type
     currentActivePlan {
       uuid
+      workoutRoutine {
+        uuid
+        workoutExercises {
+          uuid
+          workoutId
+          day
+        }
+      }
       expireAt
     }
   }

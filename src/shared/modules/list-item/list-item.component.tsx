@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 
 import { Button, Typography } from 'antd';
 
@@ -9,6 +9,11 @@ import useStyles from './list-item.style';
 export interface IListItem {
   title: string;
   description: string;
+  actions?: ReactNode[];
+  emptyActions?: boolean;
+  isDetailActionEnabled?: boolean;
+  isEditActionEnabled?: boolean;
+  isDeleteActionEnabled?: boolean;
   onEdit?: () => any;
   onDetail?: () => any;
   onDelete?: () => any;
@@ -16,8 +21,35 @@ export interface IListItem {
 
 const { Text } = Typography;
 
-const ListItem: FC<IListItem> = ({ title, description, onEdit, onDetail, onDelete }) => {
+const ListItem: FC<IListItem> = ({
+  title,
+  description,
+  emptyActions = false,
+  actions = [],
+  isDetailActionEnabled = true,
+  isEditActionEnabled = false,
+  isDeleteActionEnabled = false,
+  onEdit,
+  onDetail,
+  onDelete
+}) => {
   const classes = useStyles();
+
+  const itemActions: ReactNode[] = actions;
+
+  if (!emptyActions) {
+    if (isDeleteActionEnabled) {
+      itemActions.push(<Button shape="circle" icon={<Icon type="delete" />} onClick={onDelete} />);
+    }
+
+    if (isEditActionEnabled) {
+      itemActions.push(<Button shape="circle" icon={<Icon type="edit" />} onClick={onEdit} />);
+    }
+
+    if (isDetailActionEnabled) {
+      itemActions.push(<Button shape="circle" icon={<Icon type="view" />} onClick={onDetail} />);
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -27,9 +59,9 @@ const ListItem: FC<IListItem> = ({ title, description, onEdit, onDetail, onDelet
           <Text type="secondary">{description}</Text>
         </div>
         <div className="list-item-actions">
-          {onDelete && <Button shape="circle" icon={<Icon type="delete" />} onClick={onDelete} />}
-          {onEdit && <Button shape="circle" icon={<Icon type="edit" />} onClick={onEdit} />}
-          {onDetail && <Button shape="circle" icon={<Icon type="view" />} onClick={onDetail} />}
+          {itemActions.map((action, index) => (
+            <div key={index}>{action}</div>
+          ))}
         </div>
       </div>
     </div>

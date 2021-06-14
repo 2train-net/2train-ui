@@ -14,14 +14,15 @@ import { useGetWorkoutsQuery, UserType } from 'shared/generated';
 const WorkoutList: FC = () => {
   const { user } = useContext(AuthContext);
 
-  const isCustomer = user?.type === UserType.Customer;
+  const isCustomerAndHasRoutine =
+    user?.type === UserType.Customer && user?.currentActivePlan?.workoutRoutine !== undefined;
 
   return (
     <MasterList<IWorkoutPayload>
       title={[SINGULAR_WORKOUTS_TITLE, PLURAL_WORKOUTS_TITLE]}
       render={WorkoutCard}
       useQuery={useGetWorkoutsQuery}
-      isCreateButtonAvailable={isCustomer}
+      isCreateButtonAvailable={isCustomerAndHasRoutine}
     />
   );
 };

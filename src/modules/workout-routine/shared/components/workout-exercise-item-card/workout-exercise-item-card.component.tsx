@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -7,18 +7,24 @@ import ListCard from 'shared/modules/list-card/list-card.component';
 import { parseItemToWorkoutExerciseCard } from 'modules/workout-routine/workout-routine.module';
 
 import { ColumnItem } from 'shared/modules/drag-and-drop-routine/column-items.interface';
-import { ACTION, DELETE, EDIT } from 'shared/routes';
+import { ACTION, DELETE, DETAIL, EDIT } from 'shared/routes';
+import { AuthContext } from 'shared/contexts';
+import { UserType } from 'shared/generated';
 
 interface IWorkoutExerciseItemCardValues {
   data: ColumnItem;
 }
 
 const WorkoutExerciseItemCard: FC<IWorkoutExerciseItemCardValues> = ({ data }) => {
+  const { user } = useContext(AuthContext);
+
   const history = useHistory();
 
   const redirect = history.push;
 
   const { uuid, exercise, sets, reps, weight, seconds } = parseItemToWorkoutExerciseCard(data);
+
+  const isClient = user?.type === UserType.Customer;
 
   return (
     <ListCard
@@ -32,6 +38,10 @@ const WorkoutExerciseItemCard: FC<IWorkoutExerciseItemCardValues> = ({ data }) =
       `}
       onEdit={() => redirect(`?&${ACTION}=${EDIT}&uuid=${uuid}`)}
       onDelete={() => redirect(`?&${ACTION}=${DELETE}&uuid=${uuid}`)}
+      onDetail={() => redirect(`?&${ACTION}=${DETAIL}&uuid=${uuid}`)}
+      isDeleteActionEnabled={!isClient}
+      isEditActionEnabled={!isClient}
+      isDetailActionEnabled={isClient}
     />
   );
 };
