@@ -87,4 +87,5 @@ export const REQUIRED_EXCEPTION_TEXT = 'Requerido',
 
 export const WRONG_CREDENTIALS_ERROR_TEXT = `${EMAIL_TEXT} ó ${PASSWORD_TEXT.toLowerCase()} incorrectos`;
 
-export const COPY_ON_CLIPBOARD_SUCCESSFULLY_TEXT = 'Copiado en el portapapeles correctamente';
+export const COPY_ON_CLIPBOARD_SUCCESSFULLY_TEXT = 'Copiado en el portapapeles correctamente',
+  NEW_APP_VERSION_TEXT = 'Hay una nueva versión, deseas actualizarla?';
