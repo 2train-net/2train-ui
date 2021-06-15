@@ -179,7 +179,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
         break;
 
       case 'OPTIONS':
-        const sourceOptionsSelectedItemId = options ? options[source.index].uuid : '';
+        const sourceOptionsSelectedItemId = filterOptions ? filterOptions[source.index].uuid : '';
         if ((!findElementInColumn(sourceOptionsSelectedItemId, destItems) && !acceptsRepeated) || acceptsRepeated) {
           modalProvider.show({
             ...formModal,
