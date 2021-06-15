@@ -11,7 +11,7 @@ interface IMealCard extends IMasterComponent<IMealPayload> {
 }
 
 const MealCard: FC<IMealCard> = ({ data }) => {
-  return <ListCard image={data.image} uuid={data.uuid} title={data.name} />;
+  return <ListCard image={data.image} uuid={data.uuid} title={data.name} isDetailActionEnabled={false} />;
 };
 
 export default MealCard;

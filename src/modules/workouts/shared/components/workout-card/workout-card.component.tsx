@@ -38,6 +38,7 @@ const WorkoutCard: FC<IWorkoutCard> = ({ data }) => {
       } ejercicio${data.workoutExercises.length > 1 ? 's' : ''}`}
       isDeleteActionEnabled={false}
       isEditActionEnabled={false}
+      isDetailActionEnabled={false}
     />
   );
 };

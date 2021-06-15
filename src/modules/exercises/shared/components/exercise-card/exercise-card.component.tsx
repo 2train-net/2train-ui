@@ -24,6 +24,7 @@ const ExerciseCard: FC<IExerciseCard> = ({ data }) => {
       description={data.description}
       isDeleteActionEnabled={isPersonalTrainer}
       isEditActionEnabled={isPersonalTrainer}
+      isDetailActionEnabled={false}
     />
   );
 };
