@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 
+import { REQUIRED_EXCEPTION_TEXT } from 'shared/constants';
 import { Currency, IntervalPlan, PlanStatus } from 'shared/generated';
 
 export enum PlanFocus {
@@ -22,22 +23,22 @@ export interface IPlanFormValues {
 }
 
 export const PLAN_FORM_SCHEMA = Yup.object().shape({
-  name: Yup.string().required('Required'),
-  description: Yup.string().required('Required'),
-  price: Yup.number().required('Required'),
+  name: Yup.string().required(REQUIRED_EXCEPTION_TEXT),
+  description: Yup.string().required(REQUIRED_EXCEPTION_TEXT),
+  price: Yup.number().required(REQUIRED_EXCEPTION_TEXT),
   currency: Yup.mixed<Currency>()
     .oneOf([Currency.Crc, Currency.Us])
-    .required('Required'),
-  intervalCount: Yup.number().required('Required'),
+    .required(REQUIRED_EXCEPTION_TEXT),
+  intervalCount: Yup.number().required(REQUIRED_EXCEPTION_TEXT),
   intervalPlan: Yup.mixed<IntervalPlan>()
     .oneOf([IntervalPlan.Day, IntervalPlan.Week, IntervalPlan.Month, IntervalPlan.Year])
-    .required('Required'),
+    .required(REQUIRED_EXCEPTION_TEXT),
   status: Yup.mixed<PlanStatus>()
     .oneOf([PlanStatus.Active, PlanStatus.Inactive])
-    .required('Required'),
+    .required(REQUIRED_EXCEPTION_TEXT),
   focus: Yup.mixed<PlanFocus>()
     .oneOf([PlanFocus.EXERCISES, PlanFocus.NUTRITIONAL, PlanFocus.BOTH])
-    .required('Required')
+    .required(REQUIRED_EXCEPTION_TEXT)
 });
 
 export const INITIAL_PLAN_FORM_VALUES: IPlanFormValues = {
