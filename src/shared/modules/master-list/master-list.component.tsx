@@ -6,7 +6,7 @@ import { Row, Col, PageHeader, Typography, Empty } from 'antd';
 
 import { ADD, DELETE } from 'shared/routes';
 import { ModalContext } from 'shared/contexts';
-import { DELETE_MODAL } from 'shared/constants';
+import { CREATE_TEXT, DELETE_MODAL, LOAD_MORE_TEXT, NO_DATA_TEXT, RELOAD_TEXT } from 'shared/constants';
 import { Button, Message, Skeleton } from 'shared/modules';
 
 import { IMasterList, Entity } from './master-list.util';
@@ -98,7 +98,7 @@ const MasterList = <T,>({
     pageHeaderActions.push(
       <Link key="create-link" to={location => `${location.pathname}/${ADD}`}>
         <Button type="button" color="primary" size="small">
-          Crear
+          {CREATE_TEXT}
         </Button>
       </Link>
     );
@@ -134,12 +134,12 @@ const MasterList = <T,>({
             <Empty
               description={
                 <Text type="secondary" strong>
-                  Sin datos
+                  {NO_DATA_TEXT}
                 </Text>
               }
               imageStyle={{ fill: 'white' }}
             >
-              <Button onClick={reload}>Recargar</Button>
+              <Button onClick={reload}>{RELOAD_TEXT}</Button>
             </Empty>
           )}
         </Skeleton>
@@ -148,7 +148,7 @@ const MasterList = <T,>({
       {!isEmpty && (
         <Row className="master-list-loading">
           <Button type="button" onClick={loadMore} loading={loading}>
-            {loading ? '' : 'Cargar más'}
+            {loading ? '' : LOAD_MORE_TEXT}
           </Button>
         </Row>
       )}

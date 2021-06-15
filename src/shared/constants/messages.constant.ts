@@ -15,7 +15,8 @@ export const PROFILE_TEXT = 'Perfil',
   SUPPLIES_TEXT = 'Suplementos',
   SETTINGS_TEXT = 'Configuración';
 
-export const SEND_TEXT = 'Enviar',
+export const CREATE_TEXT = 'Crear',
+  SEND_TEXT = 'Enviar',
   FROM_TEXT = 'Desde',
   TO_TEXT = 'Hasta',
   OTHER_TEXT = 'Otro',
@@ -26,7 +27,10 @@ export const SEND_TEXT = 'Enviar',
   SAVE_TEXT = 'Guardar',
   DISCONNECT_TEXT = 'Desconectar',
   ACTIVE_TEXT = 'Activo',
-  INACTIVE_TEXT = 'Inactivo';
+  INACTIVE_TEXT = 'Inactivo',
+  RELOAD_TEXT = 'Recargar',
+  LOAD_MORE_TEXT = 'Cargar más',
+  NO_DATA_TEXT = 'Sin datos';
 
 export const FIRST_NAME_TEXT = 'Nombre',
   LAST_NAME_TEXT = 'Apellido(s)',
@@ -39,8 +43,8 @@ export const FIRST_NAME_TEXT = 'Nombre',
   MALE_TEXT = 'Masculino',
   FEMALE_TEXT = 'Femenino';
 
-export const PERSONAL_TRAINER_TEXT = '',
-  CUSTOMER_TEXT = '';
+export const PERSONAL_TRAINER_TEXT = 'Entrenador personal',
+  CUSTOMER_TEXT = 'Cliente';
 
 export const EMAIL_TEXT = 'Correo electrónico',
   PASSWORD_TEXT = 'Contraseña',
