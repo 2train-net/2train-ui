@@ -3,13 +3,15 @@ import React, { FC } from 'react';
 import { useFormik } from 'formik';
 import { Form, Row, Col } from 'antd';
 
-import { MEAL_FORM_SCHEMA, IMealFormValues, INITIAL_MEAL_VALUES } from './meal-form.util';
+import { INGREDIENTS_TEXT } from 'modules/meals/meals.module';
 
 import { Button, Icon } from 'shared/modules';
-
 import { Field, Select, Upload } from 'shared/modules/form';
 import { objectDifferences } from 'shared/util/object-differences';
 import { ISelectOption } from 'shared/modules/form/select/select.component';
+import { DESCRIPTION_TEXT, NAME_TEXT, SAVE_TEXT } from 'shared/constants';
+
+import { MEAL_FORM_SCHEMA, IMealFormValues, INITIAL_MEAL_VALUES } from './meal-form.util';
 
 import useStyles from './meal-form.style';
 
@@ -60,7 +62,7 @@ const MealForm: FC<IMealForm> = ({ onSubmit, initialValues = INITIAL_MEAL_VALUES
           <Field
             isDisabled={false}
             name="name"
-            placeholder="Nombre"
+            placeholder={NAME_TEXT}
             value={values.name}
             error={errors.name}
             onChange={handleChange}
@@ -70,7 +72,7 @@ const MealForm: FC<IMealForm> = ({ onSubmit, initialValues = INITIAL_MEAL_VALUES
           <Field
             isDisabled={false}
             name="description"
-            placeholder="Descripción"
+            placeholder={DESCRIPTION_TEXT}
             value={values.description}
             error={errors.description}
             onChange={handleChange}
@@ -81,7 +83,7 @@ const MealForm: FC<IMealForm> = ({ onSubmit, initialValues = INITIAL_MEAL_VALUES
             isMultiple
             name="ingredients"
             options={ingredients}
-            placeholder="Ingredientes"
+            placeholder={INGREDIENTS_TEXT}
             value={values.ingredients}
             error={errors.ingredients as string}
             setFieldValue={setFieldValue}
@@ -94,7 +96,7 @@ const MealForm: FC<IMealForm> = ({ onSubmit, initialValues = INITIAL_MEAL_VALUES
         <Col style={{ width: '100%' }}>
           <Item className="submit-button">
             <Button type="submit" disabled={haveValuesChanged}>
-              GUARDAR
+              {SAVE_TEXT}
             </Button>
           </Item>
         </Col>

@@ -7,6 +7,7 @@ import { IPlanPayload } from 'modules/plans/shared/model';
 import { Icon, Status, ListCard } from 'shared/modules';
 import { AuthContext } from 'shared/contexts';
 import { UserType } from 'shared/generated';
+import { PlanService } from 'shared/services';
 
 import { IMasterComponent } from 'shared/modules/master-list/master-list.util';
 
@@ -27,6 +28,12 @@ const PlanCard: FC<IPlanCard> = ({ data }) => {
       ? [<Icon type="share" onClick={() => redirect(`${pathname}/invite/${data.uuid}`)} />]
       : [];
 
+  const price = `${data.currency} ${data.price}`;
+  const interval = `
+    ${data.intervalCount} 
+    ${PlanService.parseIntervalByCount(data.intervalCount, data.intervalPlan)}
+  `;
+
   return (
     <ListCard
       uuid={data.uuid}
@@ -36,7 +43,7 @@ const PlanCard: FC<IPlanCard> = ({ data }) => {
           <span style={{ marginLeft: 10 }}>{`${data.name}`}</span>
         </>
       }
-      description={`${data.currency} ${data.price} | ${data.intervalCount} ${data.intervalPlan}`}
+      description={`${price} | ${interval}`}
       isDetailActionEnabled={user?.type === UserType.Customer}
       isEditActionEnabled={user?.type === UserType.PersonalTrainer}
       isDeleteActionEnabled={user?.type === UserType.PersonalTrainer}

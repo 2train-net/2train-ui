@@ -5,11 +5,24 @@ import { Col, Form, Row } from 'antd';
 
 import { IPlanFormValues, INITIAL_PLAN_FORM_VALUES, PLAN_FORM_SCHEMA, PlanFocus } from './plan-form.util';
 
-import Button from 'shared/modules/button/button.component';
-
+import { Button } from 'shared/modules';
+import { PlanService, CurrencyService } from 'shared/services';
 import { Field, FieldGroup, Select, RadioGroup } from 'shared/modules/form';
 import { Currency, IntervalPlan, PlanStatus } from 'shared/generated';
 import { objectDifferences } from 'shared/util/object-differences';
+import {
+  BOTH_TEXT,
+  CURRENCY_TEXT,
+  DESCRIPTION_TEXT,
+  DIET_TEXT,
+  DURATION_TEXT,
+  EXERCISES_TEXT,
+  INTERVAL_TEXT,
+  NAME_TEXT,
+  PRICE_TEXT,
+  SAVE_TEXT,
+  STATUS_TEXT
+} from 'shared/constants';
 
 interface IPlanForm {
   initialValues?: IPlanFormValues;
@@ -33,7 +46,7 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
         <Col xs={24} md={12}>
           <Field
             name="name"
-            placeholder="Nombre"
+            placeholder={NAME_TEXT}
             value={values.name}
             error={errors.name}
             onChange={handleChange}
@@ -42,7 +55,7 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
 
           <Field
             name="description"
-            placeholder="Descripción"
+            placeholder={DESCRIPTION_TEXT}
             value={values.description}
             error={errors.description}
             onChange={handleChange}
@@ -53,7 +66,7 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
             <Field
               name="price"
               type="number"
-              placeholder="Precio"
+              placeholder={PRICE_TEXT}
               value={values.price}
               error={errors.price}
               onChange={handleChange}
@@ -63,10 +76,10 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
             <Select
               value={values.currency}
               name="currency"
-              placeholder="Moneda"
+              placeholder={CURRENCY_TEXT}
               options={[
-                { label: 'Colones', value: Currency.Crc },
-                { label: 'Dolares', value: Currency.Us }
+                { label: CurrencyService.parseCurrencyByCount(values.price, Currency.Crc), value: Currency.Crc },
+                { label: CurrencyService.parseCurrencyByCount(values.price, Currency.Us), value: Currency.Us }
               ]}
               error={errors.currency}
               setFieldValue={setFieldValue}
@@ -78,7 +91,7 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
             <Field
               name="intervalCount"
               type="number"
-              placeholder="Duración"
+              placeholder={DURATION_TEXT}
               value={values.intervalCount}
               error={errors.intervalCount}
               onChange={handleChange}
@@ -88,12 +101,24 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
             <Select
               value={values.intervalPlan}
               name="intervalPlan"
-              placeholder="Intervalo"
+              placeholder={INTERVAL_TEXT}
               options={[
-                { label: 'Día', value: IntervalPlan.Day },
-                { label: 'Semana', value: IntervalPlan.Week },
-                { label: 'Mes', value: IntervalPlan.Month },
-                { label: 'Año', value: IntervalPlan.Year }
+                {
+                  label: PlanService.parseIntervalByCount(values.intervalCount, IntervalPlan.Day),
+                  value: IntervalPlan.Day
+                },
+                {
+                  label: PlanService.parseIntervalByCount(values.intervalCount, IntervalPlan.Week),
+                  value: IntervalPlan.Week
+                },
+                {
+                  label: PlanService.parseIntervalByCount(values.intervalCount, IntervalPlan.Month),
+                  value: IntervalPlan.Month
+                },
+                {
+                  label: PlanService.parseIntervalByCount(values.intervalCount, IntervalPlan.Year),
+                  value: IntervalPlan.Year
+                }
               ]}
               error={errors.currency}
               setFieldValue={setFieldValue}
@@ -104,10 +129,10 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
           <Select
             value={values.status}
             name="status"
-            placeholder="Estado"
+            placeholder={STATUS_TEXT}
             options={[
-              { label: 'Activo', value: PlanStatus.Active },
-              { label: 'Inactivo', value: PlanStatus.Inactive }
+              { label: PlanService.parseStatus(PlanStatus.Active), value: PlanStatus.Active },
+              { label: PlanService.parseStatus(PlanStatus.Inactive), value: PlanStatus.Inactive }
             ]}
             error={errors.status}
             setFieldValue={setFieldValue}
@@ -118,9 +143,9 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
             value={values.focus}
             name="focus"
             options={[
-              { label: 'Ejercicios', value: PlanFocus.EXERCISES },
-              { label: 'Ambos', value: PlanFocus.BOTH },
-              { label: 'Nutricional', value: PlanFocus.NUTRITIONAL }
+              { label: EXERCISES_TEXT, value: PlanFocus.EXERCISES },
+              { label: BOTH_TEXT, value: PlanFocus.BOTH },
+              { label: DIET_TEXT, value: PlanFocus.NUTRITIONAL }
             ]}
             error={errors.focus}
             setFieldValue={setFieldValue}
@@ -131,7 +156,7 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
 
           <Form.Item className="submit-button" style={{ textAlign: 'center' }}>
             <Button type="submit" disabled={haveValuesChanged}>
-              GUARDAR
+              {SAVE_TEXT}
             </Button>
           </Form.Item>
         </Col>

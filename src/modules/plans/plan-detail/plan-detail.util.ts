@@ -3,7 +3,7 @@ import { IIconCard } from 'shared/modules/icon-card/icon-card.component';
 import { DateService, PlanService } from 'shared/services';
 import { ADD, DIETS, EDIT, WORKOUT_ROUTINES } from 'shared/routes';
 import { Currency, PlanStatus, Scope } from 'shared/generated';
-import { DEFAULT_DATE_FORMAT, ISO } from 'shared/constants';
+import { DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT } from 'shared/constants';
 import {
   FROM_TEXT,
   TO_TEXT,
@@ -83,11 +83,15 @@ export const format = (plan?: IPlanDetail) => {
       items: [
         {
           label: FROM_TEXT,
-          value: plan?.startAt ? DateService.format(plan.startAt, DEFAULT_DATE_FORMAT, ISO) : undefined
+          value: plan?.startAt
+            ? DateService.format(plan.startAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)
+            : undefined
         },
         {
           label: TO_TEXT,
-          value: plan?.expireAt ? DateService.format(plan.expireAt, DEFAULT_DATE_FORMAT, ISO) : undefined
+          value: plan?.expireAt
+            ? DateService.format(plan.expireAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)
+            : undefined
         }
       ]
     },

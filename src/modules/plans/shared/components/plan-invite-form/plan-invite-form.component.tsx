@@ -10,6 +10,7 @@ import {
 } from './plan-invite-form.util';
 
 import { Field } from 'shared/modules/form';
+import { EMAIL_TEXT } from 'shared/constants';
 
 interface IPlanInviteForm {
   initialValues?: IPlanInviteFormValues;
@@ -35,7 +36,7 @@ const PlanInviteForm: FC<IPlanInviteForm> = ({
         <Col style={{ margin: 'auto', width: '100%' }}>
           <Field
             name="email"
-            placeholder="Email"
+            placeholder={EMAIL_TEXT}
             value={values.email}
             error={errors.email}
             onChange={handleChange}

@@ -2,7 +2,7 @@ import React, { FC, useContext } from 'react';
 
 import { IWorkoutPayload } from 'modules/workouts/shared/model';
 
-import { DEFAULT_DATE_FORMAT, ISO } from 'shared/constants';
+import { DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT } from 'shared/constants';
 import { Avatar, ListCard } from 'shared/modules';
 import { DateService, UserService } from 'shared/services';
 
@@ -33,7 +33,7 @@ const WorkoutCard: FC<IWorkoutCard> = ({ data }) => {
       }
       uuid={data.uuid}
       title={data.workoutRoutine.plan.name}
-      description={`${DateService.format(data.createdAt, DEFAULT_DATE_FORMAT, ISO)} | ${
+      description={`${DateService.format(data.createdAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)} | ${
         data.workoutExercises.length
       } ejercicio${data.workoutExercises.length > 1 ? 's' : ''}`}
       isDeleteActionEnabled={false}

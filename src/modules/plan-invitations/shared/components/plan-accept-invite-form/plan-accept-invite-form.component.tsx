@@ -3,15 +3,22 @@ import React, { FC, RefObject } from 'react';
 import { useFormik } from 'formik';
 import { Col, Row, Typography } from 'antd';
 
-import { IPlanAcceptInviteFormValues, PLAN_ACCEPT_INVITE_FORM_SCHEMA } from './plan-accept-invite-form.util';
+import {
+  ALREADY_HAVE_AN_ACTIVE_PLAN_TEXT,
+  EXPIRE_AT_TEXT,
+  START_DATE_TEXT,
+  WHICH_EXPIRE_AT_TEXT
+} from 'modules/plan-invitations/plan-invitations.module';
 
 import { DatePicker } from 'shared/modules/form';
 import { ICurrentActivePlan } from 'shared/model';
 import { DateService } from 'shared/services';
 import { Currency, IntervalPlan } from 'shared/generated';
+import { DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT } from 'shared/constants';
 
 import useStyles from './plan-accept-invite-form.style';
-import { DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT } from 'shared/constants';
+
+import { IPlanAcceptInviteFormValues, PLAN_ACCEPT_INVITE_FORM_SCHEMA } from './plan-accept-invite-form.util';
 
 interface IPlanInviteForm {
   onSubmit: (values: IPlanAcceptInviteFormValues) => any;
@@ -52,12 +59,12 @@ const PlanForm: FC<IPlanInviteForm> = ({ onSubmit, formRef, planInvitation, curr
       <Title level={3} type="success">{`${currency} ${price}`}</Title>
       <Row gutter={24}>
         <Col className="start-date-col">
-          <Title level={5}>Fecha de inicio</Title>
+          <Title level={5}>{START_DATE_TEXT}</Title>
           <DatePicker
             hasFeedback
             value={values.startAt}
             name="startAt"
-            placeholder="Fecha de inicio"
+            placeholder={START_DATE_TEXT}
             error={errors.startAt}
             setFieldValue={setFieldValue}
             hasBeenTouched={touched.startAt}
@@ -65,7 +72,7 @@ const PlanForm: FC<IPlanInviteForm> = ({ onSubmit, formRef, planInvitation, curr
               date: validStartDateFormatted,
               condition: 'isBefore'
             }}
-            feedback={`Expira el: ${DateService.add(
+            feedback={`${EXPIRE_AT_TEXT}: ${DateService.add(
               DateService.format(values.startAt),
               intervalCount,
               DateService.parseDuration(intervalPlan)
@@ -75,9 +82,9 @@ const PlanForm: FC<IPlanInviteForm> = ({ onSubmit, formRef, planInvitation, curr
       </Row>
       {currentActivePlan && (
         <div className="expiration-message">
-          <Title level={5}>Ya tienes un plan activo</Title>
+          <Title level={5}>{ALREADY_HAVE_AN_ACTIVE_PLAN_TEXT}</Title>
           <Text type="danger" strong>
-            El cuál expira el:{' '}
+            {`${WHICH_EXPIRE_AT_TEXT}: `}
             {DateService.format(currentActivePlan.expireAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)}
           </Text>
         </div>

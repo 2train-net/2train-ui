@@ -4,5 +4,6 @@ import DateService from './date.service';
 import PlanService from './plan.service';
 import WorkoutRoutineService from './workout-routine.service';
 import TrainingService from './training.service';
+import CurrencyService from './currency.service';
 
-export { AuthService, UserService, DateService, PlanService, WorkoutRoutineService, TrainingService };
+export { AuthService, UserService, DateService, PlanService, WorkoutRoutineService, TrainingService, CurrencyService };

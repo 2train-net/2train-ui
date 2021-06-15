@@ -8,6 +8,7 @@ import { EXERCISE_FORM_SCHEMA, IExerciseFormValues, INITIAL_EXERCISE_VALUES } fr
 import { Button } from 'shared/modules';
 import { Field } from 'shared/modules/form';
 import { objectDifferences } from 'shared/util/object-differences';
+import { DESCRIPTION_TEXT, NAME_TEXT, SAVE_TEXT } from 'shared/constants';
 
 interface IExerciseForm {
   onSubmit: (data: IExerciseFormValues) => any;
@@ -32,7 +33,7 @@ const ExerciseForm: FC<IExerciseForm> = ({ onSubmit, initialValues = INITIAL_EXE
           <Field
             isDisabled={false}
             name="name"
-            placeholder="Add Name"
+            placeholder={NAME_TEXT}
             value={values.name}
             error={errors.name}
             onChange={handleChange}
@@ -41,7 +42,7 @@ const ExerciseForm: FC<IExerciseForm> = ({ onSubmit, initialValues = INITIAL_EXE
           <Field
             isDisabled={false}
             name="description"
-            placeholder="Add Description"
+            placeholder={DESCRIPTION_TEXT}
             value={values.description}
             error={errors.description}
             onChange={handleChange}
@@ -49,7 +50,7 @@ const ExerciseForm: FC<IExerciseForm> = ({ onSubmit, initialValues = INITIAL_EXE
           />
           <Form.Item className="submit-button" style={{ textAlign: 'center' }}>
             <Button type="submit" disabled={haveValuesChanged}>
-              GUARDAR
+              {SAVE_TEXT}
             </Button>
           </Form.Item>
         </Col>

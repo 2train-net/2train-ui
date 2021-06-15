@@ -14,7 +14,7 @@ import {
   DEFAULT_DATE_FORMAT,
   EMAIL_TEXT,
   GENDER_TEXT,
-  ISO,
+  DEFAULT_SERVER_DATE_FORMAT,
   PHONE_TEXT,
   PLANS_TEXT
 } from 'shared/constants';
@@ -79,8 +79,8 @@ const ClientDetail: FC = () => {
               key: uuid,
               title: name,
               description: `
-              ${DateService.format(startAt, DEFAULT_DATE_FORMAT, ISO)} -
-              ${DateService.format(expireAt, DEFAULT_DATE_FORMAT, ISO)}
+              ${DateService.format(startAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)} -
+              ${DateService.format(expireAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)}
             `,
               onDetail: () => redirect(`${PLANS}/${DETAIL}/${uuid}`)
             }))}

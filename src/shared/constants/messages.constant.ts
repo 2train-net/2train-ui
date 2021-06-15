@@ -20,13 +20,12 @@ export const CREATE_TEXT = 'Crear',
   FROM_TEXT = 'Desde',
   TO_TEXT = 'Hasta',
   OTHER_TEXT = 'Otro',
+  BOTH_TEXT = 'Ambos',
   STATUS_TEXT = 'Estado',
-  DAYS_TEXT = 'Días',
-  DAY_TEXT = 'Día',
   LOOK_TEXT = 'Ver',
   EXIT_TEXT = 'Salir',
   SAVE_TEXT = 'Guardar',
-  DISCONNECT_TEXT = 'Desconectar',
+  DISCONNECT_TEXT = 'Cerrar sesión',
   ACTIVE_TEXT = 'Activo',
   INACTIVE_TEXT = 'Inactivo',
   RELOAD_TEXT = 'Recargar',
@@ -34,7 +33,9 @@ export const CREATE_TEXT = 'Crear',
   NO_DATA_TEXT = 'Sin datos',
   FINALIZE_TEXT = 'Finalizar',
   READY_TEXT = 'Listo',
-  COMPLETE_TEXT = 'Completar';
+  COMPLETE_TEXT = 'Completar',
+  DURATION_TEXT = 'Duración',
+  INTERVAL_TEXT = 'Intervalo';
 
 export const FIRST_NAME_TEXT = 'Nombre',
   LAST_NAME_TEXT = 'Apellido(s)',
@@ -53,6 +54,25 @@ export const PERSONAL_TRAINER_TEXT = 'Entrenador personal',
 export const EMAIL_TEXT = 'Correo electrónico',
   PASSWORD_TEXT = 'Contraseña',
   CONFIRM_PASSWORD_TEXT = 'Confirmar contraseña';
+
+export const DAY_TEXT = 'Día',
+  DAYS_TEXT = 'Días',
+  WEEK_TEXT = 'Semana',
+  WEEKS_TEXT = 'Semanas',
+  MONTH_TEXT = 'Mes',
+  MONTHS_TEXT = 'Meses',
+  YEAR_TEXT = 'Año',
+  YEARS_TEXT = 'Año';
+
+export const PRICE_TEXT = 'Precio',
+  CURRENCY_TEXT = 'Moneda',
+  DOLLAR_TEXT = 'Dolar',
+  DOLLARS_TEXT = 'Dolares',
+  COLON_TEXT = 'Colón',
+  COLONES_TEXT = 'Colones';
+
+export const NAME_TEXT = 'Nombre',
+  DESCRIPTION_TEXT = 'Descripción';
 
 export const REQUIRED_EXCEPTION_TEXT = 'Requerido',
   INVALID_EMAIL_EXCEPTION_TEXT = `${EMAIL_TEXT} invalido`,
