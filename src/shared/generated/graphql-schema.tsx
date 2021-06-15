@@ -148,6 +148,7 @@ export type WorkoutExercise = {
   exercise: Exercise;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  isDeleted: Scalars['Boolean'];
 };
 
 export type WorkoutRoutine = {
@@ -1404,7 +1405,10 @@ export type UserProfileQuery = { __typename?: 'Query' } & {
             workoutRoutine?: Maybe<
               { __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid'> & {
                   workoutExercises: Array<
-                    { __typename?: 'WorkoutExercise' } & Pick<WorkoutExercise, 'uuid' | 'workoutId' | 'day'>
+                    { __typename?: 'WorkoutExercise' } & Pick<
+                      WorkoutExercise,
+                      'uuid' | 'day' | 'workoutId' | 'isDeleted'
+                    >
                   >;
                 }
             >;
@@ -3919,8 +3923,9 @@ export const UserProfileDocument = gql`
           uuid
           workoutExercises {
             uuid
-            workoutId
             day
+            workoutId
+            isDeleted
           }
         }
         expireAt

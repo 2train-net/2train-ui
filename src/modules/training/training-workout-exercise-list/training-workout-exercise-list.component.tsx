@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 
-import { useHistory, useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 
@@ -8,7 +8,7 @@ import { Card, Col, Row, Typography } from 'antd';
 
 import { ITrainingWorkoutExercise, TrainingWorkoutExerciseForm } from 'modules/training/training.module';
 
-import { TRAINING } from 'shared/routes';
+import { NOT_FOUND, TRAINING } from 'shared/routes';
 import { Button, Icon, ListItem } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
 import { TrainingService, WorkoutRoutineService } from 'shared/services';
@@ -47,10 +47,6 @@ const TrainingWorkoutExerciseList: FC = () => {
       }
     }
   });
-
-  const parsed = parseToTrainingWorkoutExercise(training.data?.payload?.workoutExercises);
-
-  const [workoutExercises, setWorkoutExercises] = useState<ITrainingWorkoutExercise[]>(parsed ? parsed : []);
 
   const displayUpdateModal = (workoutExercise: ITrainingWorkoutExercise, index: number) => {
     modalProvider.show({
@@ -96,15 +92,25 @@ const TrainingWorkoutExerciseList: FC = () => {
     }
   };
 
+  useEffect(() => {
+    setWorkoutExercises(parsed ? parsed : []);
+  }, [training]);
+
+  const routineWorkoutExercises = training.data?.payload?.workoutExercises;
+
+  const parsed = parseToTrainingWorkoutExercise(routineWorkoutExercises);
+
+  const [workoutExercises, setWorkoutExercises] = useState<ITrainingWorkoutExercise[]>(parsed ? parsed : []);
+
   const { handleSubmit, values } = useFormik<ITrainingWorkoutExercisesFormValues>({
     onSubmit: onFinalize,
     initialValues: { workoutExercises },
     enableReinitialize: true
   });
 
-  useEffect(() => {
-    setWorkoutExercises(parsed ? parsed : []);
-  }, [training]);
+  if (!routineWorkoutExercises?.length) {
+    return <Redirect to={NOT_FOUND} />;
+  }
 
   const isAtLeastOneCompleted = values.workoutExercises.filter(({ completed }) => completed).length > 0;
 
@@ -116,7 +122,7 @@ const TrainingWorkoutExerciseList: FC = () => {
         </Title>
 
         {values.workoutExercises.map((item, index) => (
-          <Col key={item.uuid} span={24}>
+          <Col key={`${index}-${item.uuid}`} span={24}>
             <ListItem
               title={item.exercise.name}
               description={`${item.sets} x ${item.reps ? item.reps : item.seconds + 'seconds'} | ${item.weight} lbs`}

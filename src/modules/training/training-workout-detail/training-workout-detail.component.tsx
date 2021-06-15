@@ -35,8 +35,8 @@ const TrainingWorkoutDetail: FC = () => {
       </Title>
       <Row>
         {completed
-          ? completed.map(item => (
-              <Col key={item.uuid} span={24}>
+          ? completed.map((item, index) => (
+              <Col key={`${index}-${item.uuid}`} span={24}>
                 <ListItem
                   title={item.exercise.name}
                   description={`${item.sets} x ${item.reps ? item.reps : item.seconds + 'seconds'} | ${

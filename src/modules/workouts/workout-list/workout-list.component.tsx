@@ -10,12 +10,14 @@ import {
 import { MasterList } from 'shared/modules';
 import { AuthContext } from 'shared/contexts';
 import { useGetWorkoutsQuery, UserType } from 'shared/generated';
+import { WorkoutRoutineService } from 'shared/services';
 
 const WorkoutList: FC = () => {
   const { user } = useContext(AuthContext);
 
-  const isCustomerAndHasRoutine =
-    user?.type === UserType.Customer && user?.currentActivePlan?.workoutRoutine !== undefined;
+  const workoutExercises = WorkoutRoutineService.getActiveWorkoutExercises(user?.currentActivePlan?.workoutRoutine);
+
+  const isCustomerAndHasRoutine = user?.type === UserType.Customer && !!workoutExercises?.length;
 
   return (
     <MasterList<IWorkoutPayload>

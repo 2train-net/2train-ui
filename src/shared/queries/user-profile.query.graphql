@@ -18,8 +18,9 @@ query userProfile($where: UserWhereUniqueInput!) {
         uuid
         workoutExercises {
           uuid
-          workoutId
           day
+          workoutId
+          isDeleted
         }
       }
       expireAt

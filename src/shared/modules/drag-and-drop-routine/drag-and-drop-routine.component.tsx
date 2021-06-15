@@ -4,13 +4,13 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
-import { Col, PageHeader, Row, Typography, Button as AButton } from 'antd';
+import { Col, PageHeader, Row, Typography, Button as AButton, Card } from 'antd';
 
 import _ from 'lodash';
 
 import Droppable from 'shared/modules/droppable/droppable.component';
 
-import { Button, Icon, Skeleton } from 'shared/modules';
+import { Button, Icon, Message, Skeleton } from 'shared/modules';
 import { Select, Field } from 'shared/modules/form';
 
 import { ModalContext } from 'shared/contexts';
@@ -23,6 +23,7 @@ import { move, copy, reorder } from './actions';
 import {
   dayOptions,
   findElement,
+  findElementInColumn,
   parseColumnsToData,
   parseDataToColumns,
   updatePositionsAndColumns
@@ -42,6 +43,7 @@ interface IDragAndDropRoutineValues {
   isLoading?: boolean;
   onSubmit: (data: any) => any;
   maxColumn: number;
+  acceptsRepeated?: boolean;
 }
 
 const { Title } = Typography;
@@ -56,9 +58,10 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   isEditModeEnabled = true,
   isLoading = true,
   maxColumn,
+  acceptsRepeated = true,
   onSubmit
 }) => {
-  const classes = useStyles({});
+  const classes = useStyles();
 
   const [columns, setColumns] = useState<ColumnItem[][] | undefined>();
 
@@ -176,29 +179,34 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
         break;
 
       case 'OPTIONS':
-        modalProvider.show({
-          ...formModal,
-          contentRender: (
-            <Form
-              initialValues={undefined}
-              onSubmit={(data: FormData) => {
-                columnsCopy[parseInt(destination.droppableId)] = copy(
-                  options || [],
-                  destItems,
-                  source,
-                  destination,
-                  data
-                );
-                setColumns(updatePositionsAndColumns(columnsCopy));
-                modalProvider.close();
-              }}
-              formRef={itemFormRef}
-            />
-          ),
-          onConfirm: () => {
-            itemFormRef?.current?.dispatchEvent(new Event('submit'));
-          }
-        });
+        const sourceOptionsSelectedItemId = options ? options[source.index].uuid : '';
+        if ((!findElementInColumn(sourceOptionsSelectedItemId, destItems) && !acceptsRepeated) || acceptsRepeated) {
+          modalProvider.show({
+            ...formModal,
+            contentRender: (
+              <Form
+                initialValues={undefined}
+                onSubmit={(data: FormData) => {
+                  columnsCopy[parseInt(destination.droppableId)] = copy(
+                    options || [],
+                    destItems,
+                    source,
+                    destination,
+                    data
+                  );
+                  setColumns(updatePositionsAndColumns(columnsCopy));
+                  modalProvider.close();
+                }}
+                formRef={itemFormRef}
+              />
+            ),
+            onConfirm: () => {
+              itemFormRef?.current?.dispatchEvent(new Event('submit'));
+            }
+          });
+        } else {
+          Message.info('No se puede repetir elementos en la misma columna');
+        }
         break;
 
       default:
@@ -245,7 +253,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   }, [options]);
 
   useEffect(() => {
-    if (columns && columns.length !== visible.length) setVisible(Array(columns.length).fill(true));
+    if (columns && columns.length !== visible.length) setVisible(Array(columns.length).fill(false));
   }, [columns]);
 
   const [visible, setVisible] = useState<boolean[]>([]);
@@ -261,7 +269,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
             {isEditModeEnabled && (
               <Select
                 name="days"
-                value={columns?.length || 0}
+                value={columns?.length || 3}
                 options={dayOptions}
                 setFieldValue={handleColumnsChange}
               />
@@ -283,7 +291,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
         ]}
       />
       <DragDropContext onDragEnd={isEditModeEnabled ? result => onDragEnd(result) : () => {}}>
-        <Row style={{ marginBottom: 16, marginTop: 16 }}>
+        <Row className="columns">
           <Col span={24}>
             {isLoading && <Title level={5}>Días</Title>}
             <Skeleton isLoading={isLoading}>
@@ -324,20 +332,22 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
           </Col>
         </Row>
 
-        <Title level={5}>Ejercicios</Title>
-        <Col className="search-container" span={24}>
-          <Field value={searchBar} placeholder="Buscar ejercicio" name="search" onChange={handleSearchChange} />
-        </Col>
-        <Skeleton isLoading={isLoading}>
-          <Droppable
-            id="OPTIONS"
-            direction="horizontal"
-            items={filterOptions || []}
-            renderCard={OptionCard}
-            isDropDisabled
-            isVisible={true}
-          />
-        </Skeleton>
+        <Card className="footer">
+          <Title level={5}>Ejercicios</Title>
+          <Col className="search-container" span={24}>
+            <Field value={searchBar} placeholder="Buscar ejercicio" name="search" onChange={handleSearchChange} />
+          </Col>
+          <Skeleton isLoading={isLoading}>
+            <Droppable
+              id="OPTIONS"
+              direction="horizontal"
+              items={filterOptions || []}
+              renderCard={OptionCard}
+              isDropDisabled
+              isVisible={true}
+            />
+          </Skeleton>
+        </Card>
       </DragDropContext>
     </div>
   );

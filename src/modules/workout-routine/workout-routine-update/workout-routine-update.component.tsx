@@ -91,6 +91,7 @@ const WorkoutRoutineUpdate: FC = () => {
       isEditModeEnabled={isEditModeEnabled}
       isLoading={workoutRoutine.loading || updateWorkoutRoutinePayload.loading}
       maxColumn={getMaxDay(workoutRoutine.data?.payload.workoutExercises)}
+      acceptsRepeated={false}
     />
   );
 };

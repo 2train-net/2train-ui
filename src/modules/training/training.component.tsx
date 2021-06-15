@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 
 import { Redirect, Switch, useHistory, useLocation } from 'react-router-dom';
 
@@ -10,6 +10,8 @@ import { Steps } from 'shared/modules';
 import { PrivateRoute } from 'shared/modules/route';
 
 import { NOT_FOUND, TRAINING, TRAINING_DETAIL, TRAINING_WORKOUT, WORKOUTS } from 'shared/routes';
+import { AuthContext } from 'shared/contexts';
+import { WorkoutRoutineService } from 'shared/services';
 
 enum TrainingSteps {
   SELECT_DAY,
@@ -20,6 +22,8 @@ enum TrainingSteps {
 const steps = [{ label: 'Días' }, { label: 'Entrenar' }, { label: 'Detalle' }];
 
 const Training: FC = () => {
+  const { user } = useContext(AuthContext);
+
   const [current, setCurrent] = useState(TrainingSteps.SELECT_DAY);
 
   const history = useHistory();
@@ -46,6 +50,12 @@ const Training: FC = () => {
       history.push(TRAINING);
     }
   };
+
+  const workoutExercises = WorkoutRoutineService.getActiveWorkoutExercises(user?.currentActivePlan?.workoutRoutine);
+
+  if (!workoutExercises?.length) {
+    return <Redirect to={NOT_FOUND} />;
+  }
 
   return (
     <>

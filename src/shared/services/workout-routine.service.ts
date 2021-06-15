@@ -1,4 +1,5 @@
 import { Day } from 'shared/generated';
+import { IWorkoutRoutine } from 'shared/model';
 
 interface WorkoutExercise {
   day: Day;
@@ -30,6 +31,10 @@ export class WorkoutRoutineService {
   };
   parseNumberToDay = (number: number) => {
     return numbers[number];
+  };
+
+  getActiveWorkoutExercises = (workoutRoutine?: IWorkoutRoutine) => {
+    return workoutRoutine?.workoutExercises.filter(({ isDeleted }) => !isDeleted);
   };
 
   getMaxDay = (workoutExercises: WorkoutExercise[] | undefined) => {

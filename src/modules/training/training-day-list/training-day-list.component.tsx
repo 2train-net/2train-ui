@@ -20,9 +20,11 @@ const TrainingDayList: FC = () => {
 
   const history = useHistory();
 
-  const days = Array.from(Array(getMaxDay(user?.currentActivePlan?.workoutRoutine?.workoutExercises) + 1).keys());
+  const workoutExercises = WorkoutRoutineService.getActiveWorkoutExercises(user?.currentActivePlan?.workoutRoutine);
 
-  const grouped = _.groupBy(user?.currentActivePlan?.workoutRoutine?.workoutExercises, 'day');
+  const days = Array.from(Array(getMaxDay(workoutExercises) + 1).keys());
+
+  const grouped = _.groupBy(workoutExercises, 'day');
 
   const calculateAmountOfWorkoutExercises = (workoutExercises: IWorkoutExercise[]) => {
     return workoutExercises.reduce((acc, current) => {

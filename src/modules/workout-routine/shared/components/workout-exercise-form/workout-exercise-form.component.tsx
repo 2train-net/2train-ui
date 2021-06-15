@@ -4,7 +4,7 @@ import { Col, Row } from 'antd';
 
 import { useFormik } from 'formik';
 
-import { Field, RadioGroup } from 'shared/modules/form';
+import { Field, RadioGroup, TextAreaField } from 'shared/modules/form';
 
 import {
   WorkoutExerciseFocus,
@@ -12,6 +12,13 @@ import {
   WORKOUT_EXERCISE_FORM_SCHEMA,
   INITIAL_WORKOUT_EXERCISE_FORM_VALUES
 } from './workout-exercise-form.util';
+import {
+  COMMENTS_TITLE,
+  REPS_TITLE,
+  SECONDS_TITLE,
+  SETS_TITLE,
+  WEIGHT_TITLE
+} from 'modules/workout-routine/workout-routine.module';
 
 interface IWorkoutExerciseForm {
   initialValues?: IWorkoutExerciseFormValues;
@@ -65,11 +72,12 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
         <br />
 
         <Col span={12}>
-          Sets:{' '}
           <Field
+            label={SETS_TITLE}
+            labelTop={true}
             name="sets"
             type="number"
-            placeholder="Sets"
+            placeholder={SETS_TITLE}
             value={values.sets}
             error={errors.sets}
             onChange={handleChange}
@@ -78,11 +86,12 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
         </Col>
         {values.focus === WorkoutExerciseFocus.REPS ? (
           <Col span={12}>
-            Reps:{' '}
             <Field
+              label={REPS_TITLE}
+              labelTop={true}
               name="reps"
               type="number"
-              placeholder="Reps"
+              placeholder={REPS_TITLE}
               value={values.reps}
               error={errors.reps}
               onChange={handleChange}
@@ -91,11 +100,12 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
           </Col>
         ) : (
           <Col span={12}>
-            Seconds:
             <Field
+              label={SECONDS_TITLE}
+              labelTop={true}
               name="seconds"
               type="number"
-              placeholder="Seconds"
+              placeholder={SECONDS_TITLE}
               value={values.seconds}
               error={errors.seconds}
               onChange={handleChange}
@@ -107,24 +117,27 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
           <Field
             name="weight"
             type="number"
-            label="Weight"
-            placeholder="Weight"
+            label={WEIGHT_TITLE}
+            placeholder={WEIGHT_TITLE}
             value={values.weight}
             error={errors.weight}
             onChange={handleChange}
             hasBeenTouched={touched.weight}
+            labelTop={true}
+            measure="lbs"
           />
         </Col>
 
         <Col span={24}>
-          <Field
+          <TextAreaField
             name="comments"
-            label="Comments"
-            placeholder="Comments"
+            label={COMMENTS_TITLE}
+            placeholder={COMMENTS_TITLE}
             value={values.comments}
             error={errors.comments}
             onChange={handleChange}
             hasBeenTouched={touched.comments}
+            labelTop={true}
           />
         </Col>
       </Row>

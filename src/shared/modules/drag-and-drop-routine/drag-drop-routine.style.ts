@@ -1,7 +1,7 @@
 import { createUseStyles } from 'react-jss';
 import { ITheme } from 'shared/theme';
 
-export default createUseStyles<ITheme>(({ palette, spacing }) => ({
+export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
   root: {
     '& .header-actions': {
       display: 'flex',
@@ -35,6 +35,21 @@ export default createUseStyles<ITheme>(({ palette, spacing }) => ({
       justifyContent: 'space-between',
       marginBottom: spacing(1),
       alignItems: 'baseline'
+    },
+    '& .columns': {
+      marginBottom: spacing(2),
+      marginTop: spacing(2),
+      [breakpoints.down('sm')]: {
+        marginBottom: spacing(31.25)
+      }
+    },
+    '& .footer': {
+      bottom: 0,
+      [breakpoints.down('sm')]: {
+        position: 'fixed',
+        left: 0,
+        width: '100%'
+      }
     },
     '& .notVisible': {
       display: 'none'

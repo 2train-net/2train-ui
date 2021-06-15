@@ -10,6 +10,7 @@ interface IField {
   value: any;
   name: string;
   label?: string;
+  labelTop?: boolean;
   error?: string;
   type?: FieldType;
   icon?: ReactElement;
@@ -31,6 +32,7 @@ const Field: FC<IField> = ({
   name,
   type,
   label,
+  labelTop = false,
   error,
   icon,
   measure,
@@ -45,6 +47,7 @@ const Field: FC<IField> = ({
   return (
     <Item
       label={label}
+      labelCol={labelTop ? { span: 24 } : {}}
       validateStatus={!!error && hasBeenTouched ? 'error' : 'success'}
       help={!!error && hasBeenTouched ? error : null}
       hasFeedback={hasBeenTouched}

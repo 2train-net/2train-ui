@@ -16,6 +16,8 @@ import { Icon } from 'shared/modules';
 
 import useStyles from './training-workout-exercise-form.style';
 
+import { SETS_TITLE, REPS_TITLE, WEIGHT_TITLE, COMMENTS_TITLE } from 'modules/workout-routine/workout-routine.module';
+
 interface ITrainingWorkoutExerciseForm {
   initialValues?: ITrainingWorkoutExerciseFormValues;
   onComplete: (data: ITrainingWorkoutExerciseFormValues) => void;
@@ -69,13 +71,13 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
             options={
               initialValues.workoutExercise.reps
                 ? [
-                    { label: 'Sets', value: TrainingWorkoutExerciseFocus.SETS },
-                    { label: 'Reps', value: TrainingWorkoutExerciseFocus.REPS },
-                    { label: 'Weight', value: TrainingWorkoutExerciseFocus.WEIGHT }
+                    { label: SETS_TITLE, value: TrainingWorkoutExerciseFocus.SETS },
+                    { label: REPS_TITLE, value: TrainingWorkoutExerciseFocus.REPS },
+                    { label: WEIGHT_TITLE, value: TrainingWorkoutExerciseFocus.WEIGHT }
                   ]
                 : [
-                    { label: 'Sets', value: TrainingWorkoutExerciseFocus.SETS },
-                    { label: 'Weight', value: TrainingWorkoutExerciseFocus.WEIGHT }
+                    { label: SETS_TITLE, value: TrainingWorkoutExerciseFocus.SETS },
+                    { label: REPS_TITLE, value: TrainingWorkoutExerciseFocus.WEIGHT }
                   ]
             }
             hasBeenTouched={touched.focus}
@@ -93,7 +95,7 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
               type="number"
               value={values.workoutExercise.sets}
               error={errors.workoutExercise?.sets}
-              onChange={handleChange}
+              onChange={handleChange('workoutExercise.sets')}
               hasBeenTouched={touched.workoutExercise?.sets}
             />
           ) : (
@@ -105,7 +107,7 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
               type="number"
               value={values.workoutExercise.reps}
               error={errors.workoutExercise?.reps}
-              onChange={handleChange}
+              onChange={handleChange('workoutExercise.reps')}
               hasBeenTouched={touched.workoutExercise?.reps}
             />
           ) : (
@@ -119,7 +121,7 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
                 type="number"
                 value={values.workoutExercise.weight}
                 error={errors.workoutExercise?.weight}
-                onChange={handleChange}
+                onChange={handleChange('workoutExercise.weight')}
                 hasBeenTouched={touched.workoutExercise?.weight}
               />
             </>
@@ -134,12 +136,12 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
 
         <Col span={24}>
           <TextAreaField
-            label="Comentarios"
+            label={COMMENTS_TITLE}
             labelTop={true}
             name="comments"
             value={values.workoutExercise.comments}
             error={errors.workoutExercise?.comments}
-            onChange={handleChange}
+            onChange={handleChange('workoutExercise.comments')}
             hasBeenTouched={touched.workoutExercise?.comments}
           />
         </Col>

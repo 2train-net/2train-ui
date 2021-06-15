@@ -2,8 +2,9 @@ import { Day, Gender, Scope, UserStatus, UserType } from 'shared/generated';
 
 export interface IWorkoutExercise {
   uuid: string;
-  workoutId?: number | null;
   day: Day;
+  workoutId?: number | null;
+  isDeleted: boolean;
 }
 
 export interface IWorkoutRoutine {

@@ -33,6 +33,10 @@ export const findElement = (uuid: string, columns: ColumnItem[][]) => {
   return item;
 };
 
+export const findElementInColumn = (uuid: string, columns: ColumnItem[]) => {
+  return _.find(columns, items => _.some(items, item => uuid === item.uuid));
+};
+
 export const updatePositionsAndColumns = (data: ColumnItem[][]) => {
   return data.map((items, column) =>
     items.map((item, position) => ({
@@ -51,6 +55,7 @@ export const parseDataToColumns = (data: ColumnItem[], maxColumn: number) => {
 
 const insertEmptyColumns = (columns: ColumnItems, maxDay: number) => {
   const columnsCopy = columns;
+  if (maxDay === 0) return [[], [], []];
   for (let i = 0; i < maxDay; i++) {
     if (!columnsCopy[i]) columnsCopy[i] = [];
   }
