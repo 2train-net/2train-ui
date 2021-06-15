@@ -11,6 +11,10 @@ import { AuthContext } from 'shared/contexts';
 import { IWorkoutExercise } from 'shared/model';
 import { WorkoutRoutineService } from 'shared/services';
 
+import { SELECT_TRAINING_DAY_TITLE } from 'modules/training/training.module';
+import { DAY_TEXT } from 'shared/constants';
+import { AMOUNT_OF_EXERCISES_TEXT } from '../shared/constants';
+
 const { parseNumberToDay, getMaxDay } = WorkoutRoutineService;
 
 const { Title } = Typography;
@@ -36,15 +40,15 @@ const TrainingDayList: FC = () => {
   return (
     <Card style={{ height: '100%', marginTop: 10 }} bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}>
       <Title style={{ marginLeft: 15 }} level={5}>
-        Elegir día de entrenamiento:
+        {SELECT_TRAINING_DAY_TITLE}
       </Title>
 
       {days.map(day => {
         return parseNumberToDay(day) in grouped ? (
           <Col span={24} key={`list-item-${day}`}>
             <ListItem
-              title={`Día ${day + 1}`}
-              description={`Cantidad de ejercicios: ${calculateAmountOfWorkoutExercises(
+              title={`${DAY_TEXT} ${day + 1}`}
+              description={`${AMOUNT_OF_EXERCISES_TEXT}: ${calculateAmountOfWorkoutExercises(
                 grouped[parseNumberToDay(day)]
               )}`}
               onDetail={() => history.push(`training/workout/${day}`)}

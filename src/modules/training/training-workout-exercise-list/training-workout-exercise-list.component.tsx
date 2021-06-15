@@ -13,6 +13,7 @@ import { Button, Icon, ListItem } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
 import { TrainingService, WorkoutRoutineService } from 'shared/services';
 import { useGetTrainingQuery, useCreateWorkoutMutation } from 'shared/generated';
+import { COMPLETE_TEXT, DAY_TEXT, FINALIZE_TEXT } from 'shared/constants';
 
 const { parseToTrainingWorkoutExercise, parseToWorkoutExercises } = TrainingService;
 
@@ -52,7 +53,7 @@ const TrainingWorkoutExerciseList: FC = () => {
     modalProvider.show({
       type: 'secondary',
       title: workoutExercise.exercise.name,
-      confirmText: 'Completar',
+      confirmText: COMPLETE_TEXT,
       icon: 'thunderbolt',
       contentRender: (
         <TrainingWorkoutExerciseForm
@@ -108,7 +109,9 @@ const TrainingWorkoutExerciseList: FC = () => {
     enableReinitialize: true
   });
 
-  if (!routineWorkoutExercises?.length) {
+  console.log(routineWorkoutExercises);
+
+  if (!routineWorkoutExercises?.length && !training.loading) {
     return <Redirect to={NOT_FOUND} />;
   }
 
@@ -118,7 +121,7 @@ const TrainingWorkoutExerciseList: FC = () => {
     <Card style={{ height: '100%', marginTop: 10 }} bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}>
       <Row>
         <Title style={{ marginLeft: 15 }} level={5}>
-          Día {day + 1}:{' '}
+          {DAY_TEXT} {day + 1}:{' '}
         </Title>
 
         {values.workoutExercises.map((item, index) => (
@@ -143,7 +146,7 @@ const TrainingWorkoutExerciseList: FC = () => {
             loading={training.loading}
             disabled={!isAtLeastOneCompleted}
           >
-            {training.loading ? '' : 'Finalizar'}
+            {training.loading ? '' : FINALIZE_TEXT}
           </Button>
         </Col>
       </Row>

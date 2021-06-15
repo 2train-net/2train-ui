@@ -7,6 +7,8 @@ import { Card, Col, Row, Typography } from 'antd';
 import { WORKOUTS } from 'shared/routes';
 import { Button, ListItem } from 'shared/modules';
 import { useGetWorkoutQuery } from 'shared/generated';
+import { READY_TEXT } from 'shared/constants';
+import { COMPLETED_EXERCISES_TITLE } from '../shared/constants';
 
 const { Title } = Typography;
 
@@ -31,7 +33,7 @@ const TrainingWorkoutDetail: FC = () => {
   return (
     <Card style={{ height: '100%', marginTop: 10 }} bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}>
       <Title style={{ marginLeft: 15 }} level={5}>
-        Ejercicios completados:
+        {COMPLETED_EXERCISES_TITLE}
       </Title>
       <Row>
         {completed
@@ -56,7 +58,7 @@ const TrainingWorkoutDetail: FC = () => {
             onClick={() => history.push(WORKOUTS)}
             loading={workout.loading}
           >
-            {workout.loading ? '' : 'Listo'}
+            {workout.loading ? '' : READY_TEXT}
           </Button>
         </Col>
       </Row>

@@ -8,6 +8,8 @@ import TrainingWorkoutExerciseForm from 'modules/training/shared/components/trai
 
 export * from './shared/model';
 
+export * from './shared/constants';
+
 export { TrainingDayList, TrainingWorkoutExerciseList, TrainingWorkoutDetail, TrainingWorkoutExerciseForm };
 
 export default Training;
