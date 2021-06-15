@@ -4,7 +4,7 @@ import { useRouteMatch } from 'react-router-dom';
 
 import { Card } from 'antd';
 
-import { IMealFormValues, MealForm, SINGULAR_MEALS_TITLE } from 'modules/meals/meals.module';
+import { IMealFormValues, MealForm, UPDATE_MEAL_TITLE } from 'modules/meals/meals.module';
 
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
@@ -70,7 +70,7 @@ const MealUpdate: FC = () => {
 
   return (
     <>
-      <FormHeader title={`Actualizar ${SINGULAR_MEALS_TITLE}`} />
+      <FormHeader title={UPDATE_MEAL_TITLE} />
       <br />
       <Card>
         <MealForm onSubmit={onSubmit} ingredients={ingredients} initialValues={meal} />

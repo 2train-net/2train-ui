@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { Card } from 'antd';
 
-import { IMealFormValues, MealForm, SINGULAR_MEALS_TITLE } from 'modules/meals/meals.module';
+import { CREATE_MEAL_TITLE, IMealFormValues, MealForm } from 'modules/meals/meals.module';
 
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
@@ -43,7 +43,7 @@ const MealCreate: FC = () => {
 
   return (
     <>
-      <FormHeader title={`Crear ${SINGULAR_MEALS_TITLE}`} />
+      <FormHeader title={CREATE_MEAL_TITLE} />
       <br />
       <Card>
         <MealForm onSubmit={onSubmit} ingredients={ingredients} />
