@@ -55,7 +55,7 @@ export const parseDataToColumns = (data: ColumnItem[], maxColumn: number) => {
 
 const insertEmptyColumns = (columns: ColumnItems, maxDay: number) => {
   const columnsCopy = columns;
-  if (maxDay === 0) return [[], [], []];
+  if (maxDay === -1) return [[], [], []];
   for (let i = 0; i < maxDay; i++) {
     if (!columnsCopy[i]) columnsCopy[i] = [];
   }

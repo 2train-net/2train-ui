@@ -41,8 +41,8 @@ export class WorkoutRoutineService {
     return workoutExercises
       ? workoutExercises.length > 0
         ? this.parseDayToNumber(workoutExercises.reduce((a, b) => (a.day > b.day ? a : b)).day)
-        : 0
-      : 0;
+        : -1
+      : -1;
   };
 }
 
