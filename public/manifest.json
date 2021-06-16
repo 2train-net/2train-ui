@@ -1,11 +1,11 @@
 {
   "name": "2Train",
   "short_name": "2Train",
-  "background_color": "#141414",
+  "background_color": "#FFFFFF",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "theme_color": "#141414",
+  "theme_color": "#FFFFFF",
   "icons": [
     {
       "src": "favicon.png",
