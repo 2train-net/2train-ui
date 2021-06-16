@@ -188,7 +188,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
                 initialValues={undefined}
                 onSubmit={(data: FormData) => {
                   columnsCopy[parseInt(destination.droppableId)] = copy(
-                    options || [],
+                    filterOptions || [],
                     destItems,
                     source,
                     destination,

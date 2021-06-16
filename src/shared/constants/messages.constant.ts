@@ -62,7 +62,7 @@ export const DAY_TEXT = 'Día',
   MONTH_TEXT = 'Mes',
   MONTHS_TEXT = 'Meses',
   YEAR_TEXT = 'Año',
-  YEARS_TEXT = 'Año';
+  YEARS_TEXT = 'Años';
 
 export const PRICE_TEXT = 'Precio',
   CURRENCY_TEXT = 'Moneda',
