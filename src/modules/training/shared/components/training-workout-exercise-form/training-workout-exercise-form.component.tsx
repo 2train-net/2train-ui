@@ -97,7 +97,6 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
             <Field
               name="sets"
               type="number"
-              allowsNegative={false}
               value={values.workoutExercise.sets}
               error={errors.workoutExercise?.sets}
               onChange={handleChange('workoutExercise.sets')}
@@ -110,7 +109,6 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
             <Field
               name="reps"
               type="number"
-              allowsNegative={false}
               value={values.workoutExercise.reps}
               error={errors.workoutExercise?.reps}
               onChange={handleChange('workoutExercise.reps')}
@@ -125,7 +123,6 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
                 name="weight"
                 suffix="lbs"
                 type="number"
-                allowsNegative={false}
                 value={values.workoutExercise.weight}
                 error={errors.workoutExercise?.weight}
                 onChange={handleChange('workoutExercise.weight')}

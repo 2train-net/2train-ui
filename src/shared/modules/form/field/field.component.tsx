@@ -40,7 +40,7 @@ const Field: FC<IField> = ({
   error,
   icon,
   suffix,
-  allowsNegative = true,
+  allowsNegative = false,
   placeholder,
   autoComplete,
   isDisabled,
@@ -57,7 +57,9 @@ const Field: FC<IField> = ({
       if (event.target.value === '' || check) {
         onChange(event);
       }
-    } else onChange(event);
+    } else {
+      onChange(event);
+    }
   };
 
   return (
