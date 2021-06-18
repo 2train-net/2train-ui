@@ -73,7 +73,7 @@ const ListCard: FC<IListCard> = ({
       <Card style={{ width: image ? 186 : 300 }} actions={cardActions} bordered={!image}>
         <div style={{ display: 'flex' }}>
           {leftContent && <div style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: 16 }}>{leftContent}</div>}
-          <Meta title={title} description={description} />
+          <Meta title={title} description={description} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} />
         </div>
       </Card>
     </div>
