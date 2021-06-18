@@ -36,32 +36,11 @@ import {
   MEALS,
   TRAINING
 } from 'shared/routes';
-import { NEW_APP_VERSION_TEXT } from 'shared/constants';
-
-import * as serviceWorker from './service-worker';
 
 import './app.css';
 
 const App: FC = () => {
   const { pathname } = useLocation();
-  const [waitingWorker, setWaitingWorker] = React.useState<ServiceWorker | null>(null);
-
-  const onUpdate = (registration: ServiceWorkerRegistration) => {
-    setWaitingWorker(registration.waiting);
-
-    const shouldRefresh = global.confirm(NEW_APP_VERSION_TEXT);
-
-    if (shouldRefresh) {
-      waitingWorker?.postMessage({ type: 'SKIP_WAITING' });
-      window.location.reload(true);
-    }
-  };
-
-  React.useEffect(() => {
-    serviceWorker.register({
-      onUpdate
-    });
-  }, []);
 
   return (
     <AuthProvider>
