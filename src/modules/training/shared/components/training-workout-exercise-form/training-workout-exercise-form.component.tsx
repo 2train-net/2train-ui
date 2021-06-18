@@ -32,21 +32,25 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
   const classes = useStyles();
 
   const onSum = () => {
-    if (values.focus === TrainingWorkoutExerciseFocus.REPS && values.workoutExercise.reps)
-      setFieldValue('workoutExercise.reps', values.workoutExercise.reps + 1);
-    else if (values.focus === TrainingWorkoutExerciseFocus.SETS && values.workoutExercise.sets)
-      setFieldValue('workoutExercise.sets', values.workoutExercise.sets + 1);
-    else if (values.focus === TrainingWorkoutExerciseFocus.WEIGHT && values.workoutExercise.weight)
-      setFieldValue('workoutExercise.weight', values.workoutExercise.weight + 1);
+    const { reps, sets, weight } = values.workoutExercise;
+
+    if (values.focus === TrainingWorkoutExerciseFocus.REPS && typeof reps === 'number')
+      setFieldValue('workoutExercise.reps', reps + 1);
+    else if (values.focus === TrainingWorkoutExerciseFocus.SETS && typeof sets === 'number')
+      setFieldValue('workoutExercise.sets', sets + 1);
+    else if (values.focus === TrainingWorkoutExerciseFocus.WEIGHT && typeof weight === 'number')
+      setFieldValue('workoutExercise.weight', weight + 1);
   };
 
   const onSubtract = () => {
-    if (values.focus === TrainingWorkoutExerciseFocus.REPS && values.workoutExercise.reps)
-      setFieldValue('workoutExercise.reps', values.workoutExercise.reps - 1);
-    else if (values.focus === TrainingWorkoutExerciseFocus.SETS && values.workoutExercise.sets)
-      setFieldValue('workoutExercise.sets', values.workoutExercise.sets - 1);
-    else if (values.focus === TrainingWorkoutExerciseFocus.WEIGHT && values.workoutExercise.weight)
-      setFieldValue('workoutExercise.weight', values.workoutExercise.weight - 1);
+    const { reps, sets, weight } = values.workoutExercise;
+
+    if (values.focus === TrainingWorkoutExerciseFocus.REPS && typeof reps === 'number' && reps - 1 >= 0)
+      setFieldValue('workoutExercise.reps', reps - 1);
+    else if (values.focus === TrainingWorkoutExerciseFocus.SETS && typeof sets === 'number' && sets - 1 >= 0)
+      setFieldValue('workoutExercise.sets', sets - 1);
+    else if (values.focus === TrainingWorkoutExerciseFocus.WEIGHT && typeof weight === 'number' && weight - 1 >= 0)
+      setFieldValue('workoutExercise.weight', weight - 1);
   };
 
   const { handleSubmit, handleChange, setFieldValue, values, errors, touched, resetForm } = useFormik<
@@ -93,6 +97,7 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
             <Field
               name="sets"
               type="number"
+              allowsNegative={false}
               value={values.workoutExercise.sets}
               error={errors.workoutExercise?.sets}
               onChange={handleChange('workoutExercise.sets')}
@@ -105,6 +110,7 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
             <Field
               name="reps"
               type="number"
+              allowsNegative={false}
               value={values.workoutExercise.reps}
               error={errors.workoutExercise?.reps}
               onChange={handleChange('workoutExercise.reps')}
@@ -117,8 +123,9 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
             <>
               <Field
                 name="weight"
-                measure="lbs"
+                suffix="lbs"
                 type="number"
+                allowsNegative={false}
                 value={values.workoutExercise.weight}
                 error={errors.workoutExercise?.weight}
                 onChange={handleChange('workoutExercise.weight')}

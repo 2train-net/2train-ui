@@ -109,8 +109,6 @@ const TrainingWorkoutExerciseList: FC = () => {
     enableReinitialize: true
   });
 
-  console.log(routineWorkoutExercises);
-
   if (!routineWorkoutExercises?.length && !training.loading) {
     return <Redirect to={NOT_FOUND} />;
   }

@@ -124,7 +124,7 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
             onChange={handleChange}
             hasBeenTouched={touched.weight}
             labelTop={true}
-            measure="lbs"
+            suffix="lbs"
           />
         </Col>
 
