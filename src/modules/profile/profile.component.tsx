@@ -37,6 +37,8 @@ import { PROFILE_FORM_SCHEMA } from './profile.util';
 
 import useStyles from './profile.style';
 
+import * as config from '../../../package.json';
+
 const { Item } = Form;
 
 const Profile: FC = () => {
@@ -71,7 +73,12 @@ const Profile: FC = () => {
   const haveValuesChanged = !Object.keys(objectDifferences(userProfile.userProfileForm, values)).length;
 
   return (
-    <Card title={PERSONAL_INFO_TEXT} className={classes.root} bordered>
+    <Card
+      bordered
+      title={PERSONAL_INFO_TEXT}
+      className={classes.root}
+      actions={[<span className="version">{config.version}</span>]}
+    >
       <Form onSubmitCapture={handleSubmit}>
         <Row gutter={24}>
           <Col xs={24} md={4}>
