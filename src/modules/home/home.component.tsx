@@ -7,7 +7,7 @@ import { PROFILE, TRAINING } from 'shared/routes';
 import { WorkoutRoutineService } from 'shared/services';
 
 const Home: FC = () => {
-  const { user } = useContext(AuthContext);
+  const { user, isLoading } = useContext(AuthContext);
 
   const isCustomer = user?.type === UserType.Customer;
 
@@ -15,7 +15,7 @@ const Home: FC = () => {
 
   const url = isCustomer && workoutExercises?.length ? TRAINING : PROFILE;
 
-  return <Redirect to={url} />;
+  return isLoading ? <></> : <Redirect to={url} />;
 };
 
 export default Home;

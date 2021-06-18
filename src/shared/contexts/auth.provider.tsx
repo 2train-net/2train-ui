@@ -1,5 +1,6 @@
 import React, { FC, useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useApolloClient } from 'react-apollo';
 
 import AuthContext from './auth.context';
 
@@ -11,10 +12,13 @@ import { WRONG_CREDENTIALS_ERROR_TEXT } from 'shared/constants';
 import { useUserProfileLazyQuery } from 'shared/generated';
 
 const AuthProvider: FC = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [getUser, { data, updateQuery, refetch }] = useUserProfileLazyQuery();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
   const history = useHistory();
+  const client = useApolloClient();
+
+  const [getUser, { data, updateQuery, refetch }] = useUserProfileLazyQuery();
 
   const user = data && (data.user as IUserProfile);
 
@@ -25,7 +29,7 @@ const AuthProvider: FC = ({ children }) => {
       setIsAuthenticated(true);
 
       if (isVerified) {
-        getUser({ variables: { where: { email } } });
+        await getUser({ variables: { where: { email } } });
       } else {
         history.push(CONFIRM_ACCOUNT, { email });
       }
@@ -50,14 +54,13 @@ const AuthProvider: FC = ({ children }) => {
         Message.error(WRONG_CREDENTIALS_ERROR_TEXT);
       }
     }
-
-    setIsLoading(false);
   };
 
   const logout = async () => {
     try {
       setIsLoading(true);
 
+      await client.clearStore();
       await AuthService.logout();
 
       setIsAuthenticated(false);
