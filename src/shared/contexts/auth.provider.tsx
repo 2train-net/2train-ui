@@ -48,6 +48,8 @@ const AuthProvider: FC = ({ children }) => {
 
       setIsAuthenticated(true);
     } catch (error) {
+      setIsLoading(false);
+
       if (error.code === 'UserNotConfirmedException') {
         history.push(CONFIRM_ACCOUNT, { ...credentials });
       } else if (error.code === 'NotAuthorizedException') {
