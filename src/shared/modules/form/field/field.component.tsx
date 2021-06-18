@@ -2,6 +2,8 @@ import React, { ReactElement, FC } from 'react';
 
 import { Input, Form } from 'antd';
 
+import { ONLY_NUMBERS_REGEX, POSITIVE_NUMBER_REGEX } from 'shared/constants';
+
 const { Item } = Form;
 
 type FieldType = 'password' | 'number';
@@ -14,12 +16,14 @@ interface IField {
   error?: string;
   type?: FieldType;
   icon?: ReactElement;
-  measure?: string;
+  suffix?: string;
+  allowsNegative?: boolean;
   placeholder?: string;
   autoComplete?: string;
   isDisabled?: boolean;
   hasBeenTouched?: boolean;
-  onChange: (eventOrPath: string | React.ChangeEvent<any>) => void;
+  clearable?: boolean;
+  onChange: (eventOrPath: React.ChangeEvent<any>) => void;
 }
 
 const fieldByType = {
@@ -35,14 +39,26 @@ const Field: FC<IField> = ({
   labelTop = false,
   error,
   icon,
-  measure,
+  suffix,
+  allowsNegative = true,
   placeholder,
   autoComplete,
   isDisabled,
   hasBeenTouched,
+  clearable = false,
   onChange
 }) => {
   const SelectedInput = type ? fieldByType[type] : Input;
+
+  const handleChange = (event: React.ChangeEvent<any>) => {
+    if (type === 'number') {
+      const value = event.target.value;
+      const check = allowsNegative ? ONLY_NUMBERS_REGEX.test(value) : POSITIVE_NUMBER_REGEX.test(value);
+      if (event.target.value === '' || check) {
+        onChange(event);
+      }
+    } else onChange(event);
+  };
 
   return (
     <Item
@@ -54,13 +70,14 @@ const Field: FC<IField> = ({
       className="field-item"
     >
       <SelectedInput
+        allowClear={clearable}
         type={type}
         name={name}
         prefix={icon}
-        suffix={measure}
+        suffix={suffix}
         placeholder={placeholder}
         disabled={isDisabled}
-        onChange={onChange}
+        onChange={handleChange}
         value={value}
         autoComplete={autoComplete}
       />
