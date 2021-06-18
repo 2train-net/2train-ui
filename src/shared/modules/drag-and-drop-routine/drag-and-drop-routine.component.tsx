@@ -155,9 +155,8 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
     setColumns(columnsArray);
   };
 
-  const handleSearchChange = (e: string | React.ChangeEvent<HTMLInputElement>) => {
-    const event = e as React.ChangeEvent<HTMLInputElement>;
-    setSearchBar(event.target.value);
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchBar(e.target.value);
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -218,6 +217,11 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   useEffect(() => {
     if (options) {
       setFilterOptions(options.filter(option => option.name.toLowerCase().includes(searchBar.toLowerCase())));
+      if (!areOptionsVisible) {
+        setAreOptionsVisible(true);
+      } else if (searchBar === '') {
+        setAreOptionsVisible(false);
+      }
     }
   }, [searchBar]);
 
@@ -257,6 +261,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   }, [columns]);
 
   const [visible, setVisible] = useState<boolean[]>([]);
+  const [areOptionsVisible, setAreOptionsVisible] = useState(false);
 
   return (
     <div className={classes.root}>
@@ -333,10 +338,18 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
         </Row>
 
         <Card className="footer">
-          <Title level={5}>Ejercicios</Title>
-          <Col className="search-container" span={24}>
-            <Field value={searchBar} placeholder="Buscar ejercicio" name="search" onChange={handleSearchChange} />
-          </Col>
+          <div className="search-container">
+            <Field
+              value={searchBar}
+              placeholder="Buscar ejercicio"
+              name="search"
+              onChange={handleSearchChange}
+              clearable
+            />
+            <AButton shape="circle" onClick={() => setAreOptionsVisible(!areOptionsVisible)}>
+              <Icon type={areOptionsVisible ? 'up' : 'down'} />
+            </AButton>
+          </div>
           <Skeleton isLoading={isLoading}>
             <Droppable
               id="OPTIONS"
@@ -344,7 +357,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
               items={filterOptions || []}
               renderCard={OptionCard}
               isDropDisabled
-              isVisible={true}
+              isVisible={areOptionsVisible}
             />
           </Skeleton>
         </Card>

@@ -12,16 +12,13 @@ export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
         marginRight: spacing(1)
       }
     },
-
     '& .ant-page-header-heading-extra': {
-      '@media (max-width: 520px)': {
-        width: '100%',
-        marginTop: spacing(2)
+      width: '100%',
+      marginTop: spacing(2),
+      [breakpoints.up('sm')]: {
+        width: spacing(30),
+        marginTop: 0
       }
-    },
-
-    '& .search-container': {
-      marginBottom: spacing(-2)
     },
 
     '& .column-header': {
@@ -41,6 +38,9 @@ export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
       marginTop: spacing(2),
       [breakpoints.down('sm')]: {
         marginBottom: spacing(31.25)
+      },
+      '& .ant-row': {
+        alignItems: 'baseline'
       }
     },
     '& .footer': {
@@ -49,6 +49,15 @@ export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
         position: 'fixed',
         left: 0,
         width: '100%'
+      },
+      '& .field-item': {
+        width: '100%',
+        marginRight: spacing(1)
+      },
+      '& .search-container': {
+        marginBottom: spacing(-2),
+        display: 'flex',
+        justifyContent: 'space-between'
       }
     },
     '& .notVisible': {
@@ -59,7 +68,12 @@ export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
       padding: spacing(1),
       height: spacing(50),
       overflowY: 'scroll',
-      position: 'static'
+      position: 'static',
+      '& .draggable': {
+        margin: 'auto',
+        marginTop: spacing(2),
+        marginBottom: spacing(1)
+      }
     },
     '& .vertical-droppable-dragging': {
       background: palette.secondary.light
@@ -74,10 +88,14 @@ export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
       position: 'sticky'
     },
     '& .draggable': {
+      justifyContent: 'center',
       '& > div': {
         justifyContent: 'center',
-        display: 'flex'
+        '& .ant-card': {
+          width: [['100%'], '!important']
+        }
       },
+      maxWidth: 400,
       userSelect: 'none',
       margin: spacing(1),
       color: 'white',
