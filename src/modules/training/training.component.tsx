@@ -47,19 +47,15 @@ const Training: FC = () => {
     }
   }, [location]);
 
-  const displayGoBackModal = (next: number) => {
-    modalProvider.show({
-      ...ALERT_UNSAVED_MODAL,
-      onConfirm: () => {
-        onChangeSteps(next);
-      }
-    });
-  };
-
   const onChangeSteps = (next: number) => {
     if (current === TrainingSteps.TRAINING && next === TrainingSteps.SELECT_DAY) {
-      setCurrent(next);
-      history.push(TRAINING);
+      modalProvider.show({
+        ...ALERT_UNSAVED_MODAL,
+        onConfirm: () => {
+          setCurrent(next);
+          history.push(TRAINING);
+        }
+      });
     }
   };
 
@@ -72,7 +68,7 @@ const Training: FC = () => {
   return (
     <>
       <PageHeader ghost={false}>
-        <Steps color="secondary" steps={steps} activeStep={current} onChange={displayGoBackModal}></Steps>
+        <Steps color="secondary" steps={steps} activeStep={current} onChange={onChangeSteps}></Steps>
       </PageHeader>
 
       <Row>
