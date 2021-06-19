@@ -50,6 +50,7 @@ const TrainingWorkoutExerciseList: FC = () => {
   });
 
   const displayUpdateModal = (workoutExercise: ITrainingWorkoutExercise, index: number) => {
+    const { completed } = values.workoutExercises[index];
     modalProvider.show({
       type: 'secondary',
       title: workoutExercise.exercise.name,
@@ -59,8 +60,12 @@ const TrainingWorkoutExerciseList: FC = () => {
         <TrainingWorkoutExerciseForm
           initialValues={{ workoutExercise, focus: 2 }}
           onComplete={data => {
-            values.workoutExercises[index] = data.workoutExercise as ITrainingWorkoutExercise;
-            values.workoutExercises[index].completed = !values.workoutExercises[index].completed;
+            if (parsed) {
+              values.workoutExercises[index] = completed
+                ? parsed[index]
+                : (data.workoutExercise as ITrainingWorkoutExercise);
+            }
+            values.workoutExercises[index].completed = !completed;
             modalProvider.close();
           }}
           formRef={itemFormRef}
