@@ -36,6 +36,7 @@ export const CREATE_TEXT = 'Crear',
   FINALIZE_TEXT = 'Finalizar',
   READY_TEXT = 'Listo',
   COMPLETE_TEXT = 'Completar',
+  UNCOMPLETE_TEXT = 'Descompletar',
   DURATION_TEXT = 'Duración',
   INTERVAL_TEXT = 'Intervalo',
   IMAGE_TEXT = 'Imagen';
