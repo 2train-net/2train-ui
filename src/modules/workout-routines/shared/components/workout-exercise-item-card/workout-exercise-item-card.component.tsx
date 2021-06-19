@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import ListCard from 'shared/modules/list-card/list-card.component';
 
-import { parseItemToWorkoutExerciseCard } from 'modules/workout-routine/workout-routine.module';
+import { parseItemToWorkoutExerciseCard } from 'modules/workout-routines/workout-routines.module';
 
 import { ColumnItem } from 'shared/modules/drag-and-drop-routine/column-items.interface';
 import { ACTION, DELETE, DETAIL, EDIT } from 'shared/routes';

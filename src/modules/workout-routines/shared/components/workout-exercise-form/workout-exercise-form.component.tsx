@@ -18,7 +18,7 @@ import {
   SECONDS_TITLE,
   SETS_TITLE,
   WEIGHT_TITLE
-} from 'modules/workout-routine/workout-routine.module';
+} from 'modules/workout-routines/workout-routines.module';
 
 interface IWorkoutExerciseForm {
   initialValues?: IWorkoutExerciseFormValues;

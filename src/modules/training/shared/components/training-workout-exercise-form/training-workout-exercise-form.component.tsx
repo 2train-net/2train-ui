@@ -16,7 +16,7 @@ import { Icon } from 'shared/modules';
 
 import useStyles from './training-workout-exercise-form.style';
 
-import { SETS_TITLE, REPS_TITLE, WEIGHT_TITLE, COMMENTS_TITLE } from 'modules/workout-routine/workout-routine.module';
+import { SETS_TITLE, REPS_TITLE, WEIGHT_TITLE, COMMENTS_TITLE } from 'modules/workout-routines/workout-routines.module';
 
 interface ITrainingWorkoutExerciseForm {
   initialValues?: ITrainingWorkoutExerciseFormValues;

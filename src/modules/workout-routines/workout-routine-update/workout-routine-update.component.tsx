@@ -16,7 +16,7 @@ import {
   WorkoutExerciseItemCard,
   WorkoutExerciseForm,
   WORKOUT_EXERCISE_MODAL
-} from 'modules/workout-routine/workout-routine.module';
+} from 'modules/workout-routines/workout-routines.module';
 
 import { AuthContext } from 'shared/contexts';
 import { DragAndDropRoutine, Message } from 'shared/modules';

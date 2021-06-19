@@ -11,9 +11,9 @@ import { AuthContext } from 'shared/contexts';
 import { IWorkoutExercise } from 'shared/model';
 import { WorkoutRoutineService } from 'shared/services';
 
-import { SELECT_TRAINING_DAY_TITLE } from 'modules/training/training.module';
+import { SELECT_TRAINING_DAY_TITLE, AMOUNT_OF_EXERCISES_TEXT } from 'modules/training/training.module';
+
 import { DAY_TEXT } from 'shared/constants';
-import { AMOUNT_OF_EXERCISES_TEXT } from '../shared/constants';
 
 const { parseNumberToDay, getMaxDay } = WorkoutRoutineService;
 
