@@ -16,7 +16,7 @@ import { Select, Field } from 'shared/modules/form';
 import { ModalContext } from 'shared/contexts';
 import { Modal } from 'shared/contexts/modal.context';
 
-import { DELETE_MODAL } from 'shared/constants';
+import { DELETE_MODAL, ALERT_UNSAVED_MODAL } from 'shared/constants';
 import { DELETE, DETAIL, EDIT } from 'shared/routes';
 
 import { move, copy, reorder } from './actions';
@@ -78,6 +78,15 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   const itemFormRef = useRef<HTMLFormElement>(null);
 
   const { goBack } = history;
+
+  const displayGoBackModal = () => {
+    modalProvider.show({
+      ...ALERT_UNSAVED_MODAL,
+      onConfirm: () => {
+        goBack();
+      }
+    });
+  };
 
   const deleteElement = (uuid: string) => {
     return columns ? columns.map(items => _.remove(items, item => item.uuid !== uuid)) : [];
@@ -268,7 +277,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
       <PageHeader
         ghost={false}
         title="Rutina de ejercicios"
-        onBack={goBack}
+        onBack={() => displayGoBackModal()}
         extra={[
           <div key="header" className="header-actions">
             {isEditModeEnabled && (
