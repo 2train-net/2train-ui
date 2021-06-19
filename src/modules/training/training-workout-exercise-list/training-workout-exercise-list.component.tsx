@@ -4,7 +4,7 @@ import { Redirect, useHistory, useParams } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 
-import { Card, Col, Row, Typography } from 'antd';
+import { Card, Col, Row, Typography, Button as AButton } from 'antd';
 
 import { ITrainingWorkoutExercise, TrainingWorkoutExerciseForm } from 'modules/training/training.module';
 
@@ -13,7 +13,7 @@ import { Button, Icon, ListItem } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
 import { TrainingService, WorkoutRoutineService } from 'shared/services';
 import { useGetTrainingQuery, useCreateWorkoutMutation } from 'shared/generated';
-import { COMPLETE_TEXT, DAY_TEXT, FINALIZE_TEXT } from 'shared/constants';
+import { COMPLETE_TEXT, DAY_TEXT, FINALIZE_TEXT, UNCOMPLETE_TEXT } from 'shared/constants';
 
 const { parseToTrainingWorkoutExercise, parseToWorkoutExercises } = TrainingService;
 
@@ -53,14 +53,14 @@ const TrainingWorkoutExerciseList: FC = () => {
     modalProvider.show({
       type: 'secondary',
       title: workoutExercise.exercise.name,
-      confirmText: COMPLETE_TEXT,
+      confirmText: values.workoutExercises[index].completed ? UNCOMPLETE_TEXT : COMPLETE_TEXT,
       icon: 'thunderbolt',
       contentRender: (
         <TrainingWorkoutExerciseForm
           initialValues={{ workoutExercise, focus: 2 }}
           onComplete={data => {
             values.workoutExercises[index] = data.workoutExercise as ITrainingWorkoutExercise;
-            values.workoutExercises[index].completed = true;
+            values.workoutExercises[index].completed = !values.workoutExercises[index].completed;
             modalProvider.close();
           }}
           formRef={itemFormRef}
@@ -130,7 +130,17 @@ const TrainingWorkoutExerciseList: FC = () => {
               key={item.uuid}
               isDetailActionEnabled={!item.completed}
               onDetail={() => displayUpdateModal(item, index)}
-              actions={item.completed ? [<Icon type="check" />] : []}
+              actions={
+                item.completed
+                  ? [
+                      <AButton
+                        shape="circle"
+                        icon={<Icon type="check" />}
+                        onClick={() => displayUpdateModal(item, index)}
+                      ></AButton>
+                    ]
+                  : []
+              }
             />
           </Col>
         ))}
