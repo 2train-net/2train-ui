@@ -10,8 +10,9 @@ import { Steps } from 'shared/modules';
 import { PrivateRoute } from 'shared/modules/route';
 
 import { NOT_FOUND, TRAINING, TRAINING_DETAIL, TRAINING_WORKOUT, WORKOUTS } from 'shared/routes';
-import { AuthContext } from 'shared/contexts';
+import { AuthContext, ModalContext } from 'shared/contexts';
 import { WorkoutRoutineService } from 'shared/services';
+import { ALERT_UNSAVED_MODAL } from 'shared/constants';
 
 enum TrainingSteps {
   SELECT_DAY,
@@ -30,6 +31,8 @@ const Training: FC = () => {
 
   const location = useLocation();
 
+  const modalProvider = useContext(ModalContext);
+
   useEffect(() => {
     const { pathname } = location;
 
@@ -43,6 +46,15 @@ const Training: FC = () => {
       setCurrent(TrainingSteps.DETAIL);
     }
   }, [location]);
+
+  const displayGoBackModal = (next: number) => {
+    modalProvider.show({
+      ...ALERT_UNSAVED_MODAL,
+      onConfirm: () => {
+        onChangeSteps(next);
+      }
+    });
+  };
 
   const onChangeSteps = (next: number) => {
     if (current === TrainingSteps.TRAINING && next === TrainingSteps.SELECT_DAY) {
@@ -60,7 +72,7 @@ const Training: FC = () => {
   return (
     <>
       <PageHeader ghost={false}>
-        <Steps color="secondary" steps={steps} activeStep={current} onChange={onChangeSteps}></Steps>
+        <Steps color="secondary" steps={steps} activeStep={current} onChange={displayGoBackModal}></Steps>
       </PageHeader>
 
       <Row>
