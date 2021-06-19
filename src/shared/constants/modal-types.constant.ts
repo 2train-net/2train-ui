@@ -8,3 +8,11 @@ export const DELETE_MODAL: Modal = {
   closeOnConfirm: true,
   onConfirm: () => {}
 };
+
+export const ALERT_UNSAVED_MODAL: Modal = {
+  type: 'danger',
+  title: 'Advertencia',
+  message: '¿Seguro de que deseas continuar se perdera el progreso?',
+  icon: 'warning',
+  closeOnConfirm: true
+};
