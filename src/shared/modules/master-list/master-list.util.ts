@@ -4,6 +4,7 @@ import * as ApolloReactHooks from '@apollo/react-hooks';
 import * as ApolloReactCommon from '@apollo/react-common';
 
 import { WatchQueryFetchPolicy } from 'apollo-boost';
+import { OrderByArg } from 'shared/generated';
 
 export type Entity<T> = { uuid: string } & T;
 
@@ -31,6 +32,9 @@ export interface MutationDeleteVariables {
 export interface QueryVariables {
   take: number;
   skip: number;
+  order: {
+    createdAt?: OrderByArg | null;
+  };
 }
 
 export interface IMasterList<T> {

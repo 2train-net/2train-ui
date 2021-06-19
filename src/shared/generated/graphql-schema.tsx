@@ -621,6 +621,7 @@ export type PlanInvitationWhereUniqueInput = {
 export type PlanInvitationOrderByInput = {
   id?: Maybe<OrderByArg>;
   uuid?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
 };
 
 export type PlanInvitationWhereInput = {
@@ -644,6 +645,7 @@ export type ClientOrderByInput = {
   phone?: Maybe<OrderByArg>;
   birthday?: Maybe<OrderByArg>;
   gender?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
 };
 
 export type ClientWhereInput = {
@@ -1034,6 +1036,7 @@ export type GetClientQuery = { __typename?: 'Query' } & {
 export type GetClientsQueryVariables = Exact<{
   skip: Scalars['Int'];
   take: Scalars['Int'];
+  order: ClientOrderByInput;
 }>;
 
 export type GetClientsQuery = { __typename?: 'Query' } & {
@@ -1061,6 +1064,7 @@ export type GetExerciseQuery = { __typename?: 'Query' } & {
 export type GetExercisesQueryVariables = Exact<{
   skip: Scalars['Int'];
   take: Scalars['Int'];
+  order: ExerciseOrderByInput;
 }>;
 
 export type GetExercisesQuery = { __typename?: 'Query' } & {
@@ -1113,6 +1117,7 @@ export type GetMealQuery = { __typename?: 'Query' } & {
 export type GetMealsQueryVariables = Exact<{
   take: Scalars['Int'];
   skip: Scalars['Int'];
+  order: MealOrderByInput;
 }>;
 
 export type GetMealsQuery = { __typename?: 'Query' } & {
@@ -1161,6 +1166,7 @@ export type GetPlanInvitationQuery = { __typename?: 'Query' } & {
 export type GetPlanInvitationsQueryVariables = Exact<{
   skip: Scalars['Int'];
   take: Scalars['Int'];
+  order: PlanInvitationOrderByInput;
 }>;
 
 export type GetPlanInvitationsQuery = { __typename?: 'Query' } & {
@@ -1244,6 +1250,7 @@ export type GetPlanQuery = { __typename?: 'Query' } & {
 export type GetPlansQueryVariables = Exact<{
   take: Scalars['Int'];
   skip: Scalars['Int'];
+  order: PlanOrderByInput;
 }>;
 
 export type GetPlansQuery = { __typename?: 'Query' } & {
@@ -1360,6 +1367,7 @@ export type UpdateWorkoutRoutineMutation = { __typename?: 'Mutation' } & {
 export type GetWorkoutsQueryVariables = Exact<{
   skip: Scalars['Int'];
   take: Scalars['Int'];
+  order: WorkoutOrderByInput;
 }>;
 
 export type GetWorkoutsQuery = { __typename?: 'Query' } & {
@@ -1577,8 +1585,8 @@ export type GetClientQueryHookResult = ReturnType<typeof useGetClientQuery>;
 export type GetClientLazyQueryHookResult = ReturnType<typeof useGetClientLazyQuery>;
 export type GetClientQueryResult = ApolloReactCommon.QueryResult<GetClientQuery, GetClientQueryVariables>;
 export const GetClientsDocument = gql`
-  query getClients($skip: Int!, $take: Int!) {
-    payload: clients(skip: $skip, take: $take) {
+  query getClients($skip: Int!, $take: Int!, $order: ClientOrderByInput!) {
+    payload: clients(skip: $skip, take: $take, orderBy: $order) {
       uuid
       firstName
       lastName
@@ -1635,6 +1643,7 @@ export function withGetClients<TProps, TChildProps = {}, TDataName extends strin
  *   variables: {
  *      skip: // value for 'skip'
  *      take: // value for 'take'
+ *      order: // value for 'order'
  *   },
  * });
  */
@@ -1799,8 +1808,8 @@ export type GetExerciseQueryHookResult = ReturnType<typeof useGetExerciseQuery>;
 export type GetExerciseLazyQueryHookResult = ReturnType<typeof useGetExerciseLazyQuery>;
 export type GetExerciseQueryResult = ApolloReactCommon.QueryResult<GetExerciseQuery, GetExerciseQueryVariables>;
 export const GetExercisesDocument = gql`
-  query getExercises($skip: Int!, $take: Int!) {
-    payload: exercises(skip: $skip, take: $take, orderBy: { createdAt: DESC }) {
+  query getExercises($skip: Int!, $take: Int!, $order: ExerciseOrderByInput!) {
+    payload: exercises(skip: $skip, take: $take, orderBy: $order) {
       uuid
       name
       description
@@ -1854,6 +1863,7 @@ export function withGetExercises<TProps, TChildProps = {}, TDataName extends str
  *   variables: {
  *      skip: // value for 'skip'
  *      take: // value for 'take'
+ *      order: // value for 'order'
  *   },
  * });
  */
@@ -2247,8 +2257,8 @@ export type GetMealQueryHookResult = ReturnType<typeof useGetMealQuery>;
 export type GetMealLazyQueryHookResult = ReturnType<typeof useGetMealLazyQuery>;
 export type GetMealQueryResult = ApolloReactCommon.QueryResult<GetMealQuery, GetMealQueryVariables>;
 export const GetMealsDocument = gql`
-  query getMeals($take: Int!, $skip: Int!) {
-    payload: meals(take: $take, skip: $skip) {
+  query getMeals($take: Int!, $skip: Int!, $order: MealOrderByInput!) {
+    payload: meals(take: $take, skip: $skip, orderBy: $order) {
       uuid
       name
       description
@@ -2301,6 +2311,7 @@ export function withGetMeals<TProps, TChildProps = {}, TDataName extends string 
  *   variables: {
  *      take: // value for 'take'
  *      skip: // value for 'skip'
+ *      order: // value for 'order'
  *   },
  * });
  */
@@ -2651,8 +2662,8 @@ export type GetPlanInvitationQueryResult = ApolloReactCommon.QueryResult<
   GetPlanInvitationQueryVariables
 >;
 export const GetPlanInvitationsDocument = gql`
-  query getPlanInvitations($skip: Int!, $take: Int!) {
-    payload: planInvitations(skip: $skip, take: $take) {
+  query getPlanInvitations($skip: Int!, $take: Int!, $order: PlanInvitationOrderByInput!) {
+    payload: planInvitations(skip: $skip, take: $take, orderBy: $order) {
       uuid
       link
       plan {
@@ -2727,6 +2738,7 @@ export function withGetPlanInvitations<TProps, TChildProps = {}, TDataName exten
  *   variables: {
  *      skip: // value for 'skip'
  *      take: // value for 'take'
+ *      order: // value for 'order'
  *   },
  * });
  */
@@ -3078,8 +3090,8 @@ export type GetPlanQueryHookResult = ReturnType<typeof useGetPlanQuery>;
 export type GetPlanLazyQueryHookResult = ReturnType<typeof useGetPlanLazyQuery>;
 export type GetPlanQueryResult = ApolloReactCommon.QueryResult<GetPlanQuery, GetPlanQueryVariables>;
 export const GetPlansDocument = gql`
-  query getPlans($take: Int!, $skip: Int!) {
-    payload: plans(take: $take, skip: $skip) {
+  query getPlans($take: Int!, $skip: Int!, $order: PlanOrderByInput!) {
+    payload: plans(take: $take, skip: $skip, orderBy: $order) {
       uuid
       name
       price
@@ -3135,6 +3147,7 @@ export function withGetPlans<TProps, TChildProps = {}, TDataName extends string 
  *   variables: {
  *      take: // value for 'take'
  *      skip: // value for 'skip'
+ *      order: // value for 'order'
  *   },
  * });
  */
@@ -3811,8 +3824,8 @@ export type UpdateWorkoutRoutineMutationOptions = ApolloReactCommon.BaseMutation
   UpdateWorkoutRoutineMutationVariables
 >;
 export const GetWorkoutsDocument = gql`
-  query getWorkouts($skip: Int!, $take: Int!) {
-    payload: workouts(skip: $skip, take: $take, orderBy: { createdAt: DESC }) {
+  query getWorkouts($skip: Int!, $take: Int!, $order: WorkoutOrderByInput!) {
+    payload: workouts(skip: $skip, take: $take, orderBy: $order) {
       uuid
       workoutRoutine {
         uuid
@@ -3886,6 +3899,7 @@ export function withGetWorkouts<TProps, TChildProps = {}, TDataName extends stri
  *   variables: {
  *      skip: // value for 'skip'
  *      take: // value for 'take'
+ *      order: // value for 'order'
  *   },
  * });
  */

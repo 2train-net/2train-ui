@@ -1,5 +1,5 @@
-query getClients($skip: Int!, $take: Int!) {
-  payload: clients(skip: $skip, take: $take) {
+query getClients($skip: Int!, $take: Int!, $order: ClientOrderByInput!) {
+  payload: clients(skip: $skip, take: $take, orderBy: $order) {
     uuid
     firstName
     lastName

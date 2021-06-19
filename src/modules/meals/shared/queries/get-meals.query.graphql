@@ -1,5 +1,5 @@
-query getMeals($take: Int!, $skip: Int!) {
-  payload: meals(take: $take, skip: $skip) {
+query getMeals($take: Int!, $skip: Int!, $order: MealOrderByInput!) {
+  payload: meals(take: $take, skip: $skip, orderBy: $order) {
     uuid
     name
     description

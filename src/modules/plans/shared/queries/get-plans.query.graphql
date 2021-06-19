@@ -1,5 +1,5 @@
-query getPlans($take: Int!, $skip: Int!) {
-  payload: plans(take: $take, skip: $skip) {
+query getPlans($take: Int!, $skip: Int!, $order: PlanOrderByInput!) {
+  payload: plans(take: $take, skip: $skip, orderBy: $order) {
     uuid
     name
     price

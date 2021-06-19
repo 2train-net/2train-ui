@@ -8,6 +8,7 @@ import { ADD, DELETE } from 'shared/routes';
 import { ModalContext } from 'shared/contexts';
 import { CREATE_TEXT, DELETE_MODAL, LOAD_MORE_TEXT, NO_DATA_TEXT, RELOAD_TEXT } from 'shared/constants';
 import { Button, Message, Skeleton } from 'shared/modules';
+import { OrderByArg } from 'shared/generated';
 
 import { IMasterList, Entity } from './master-list.util';
 
@@ -36,11 +37,13 @@ const MasterList = <T,>({
 
   const [skip, setSkip] = useState(0);
 
+  const order = { createdAt: OrderByArg.Desc };
+
   const [deleteEntity, deleteEntityPayload] = useDeleteMutation();
 
   const { data = { payload: [] }, loading, error: queryError, fetchMore, refetch } = useQuery({
     fetchPolicy,
-    variables: { take, skip: 0 }
+    variables: { take, order, skip: 0 }
   });
 
   const error = queryError || deleteEntityPayload?.error;
@@ -69,7 +72,7 @@ const MasterList = <T,>({
   };
 
   const reload = () => {
-    refetch({ take, skip: 0 });
+    refetch({ take, order, skip: 0 });
   };
 
   const displayDeleteConfirmation = () => {
