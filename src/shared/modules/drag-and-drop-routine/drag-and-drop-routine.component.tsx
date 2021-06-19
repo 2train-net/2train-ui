@@ -277,7 +277,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
       <PageHeader
         ghost={false}
         title="Rutina de ejercicios"
-        onBack={() => displayGoBackModal()}
+        onBack={isEditModeEnabled ? () => displayGoBackModal() : goBack}
         extra={[
           <div key="header" className="header-actions">
             {isEditModeEnabled && (
