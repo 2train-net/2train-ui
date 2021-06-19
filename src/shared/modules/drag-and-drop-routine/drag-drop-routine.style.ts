@@ -31,7 +31,8 @@ export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
       display: 'flex',
       justifyContent: 'space-between',
       marginBottom: spacing(1),
-      alignItems: 'baseline'
+      alignItems: 'baseline',
+      maxWidth: spacing(80)
     },
     '& .columns': {
       marginBottom: spacing(2),
@@ -64,6 +65,7 @@ export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
       display: 'none'
     },
     '& .vertical-droppable, .vertical-droppable-dragging': {
+      maxWidth: spacing(80),
       background: palette.default.light,
       padding: spacing(1),
       height: spacing(50),
