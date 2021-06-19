@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 
 import { Redirect } from 'react-router';
-import { useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import { Card } from 'antd';
 
@@ -16,10 +16,11 @@ import {
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
 import { Message } from 'shared/modules';
-import { NOT_FOUND } from 'shared/routes';
+import { NOT_FOUND, PLANS } from 'shared/routes';
 import { GetPlanDocument, useGetPlanQuery, useUpdatePlanMutation } from 'shared/generated';
 
 const PlanUpdate: FC = () => {
+  const history = useHistory();
   const {
     params: { uuid }
   } = useRouteMatch<{ uuid: string }>();
@@ -44,28 +45,38 @@ const PlanUpdate: FC = () => {
         }
       : undefined;
 
-  const [updatePlan] = useUpdatePlanMutation();
+  const [updatePlan, { loading: isFormLoading }] = useUpdatePlanMutation();
+
+  const redirectToPlans = () => {
+    history.push(PLANS);
+  };
 
   const onSubmit = async ({ focus, ...data }: IPlanFormValues) => {
     // TODO Add the objectDifferences method to only update what really changed
-    await updatePlan({
-      variables: {
-        where,
-        data: {
-          ...data,
-          ...parsePlanFocusToFlags[focus]
-        }
-      },
-      update: (cache, { data }) => {
-        cache.writeQuery({
-          data,
-          query: GetPlanDocument,
+    try {
+      if (!isFormLoading) {
+        await updatePlan({
           variables: {
-            where
+            where,
+            data: {
+              ...data,
+              ...parsePlanFocusToFlags[focus]
+            }
+          },
+          update: (cache, { data }) => {
+            cache.writeQuery({
+              data,
+              query: GetPlanDocument,
+              variables: {
+                where
+              }
+            });
           }
         });
+
+        redirectToPlans();
       }
-    });
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -81,7 +92,7 @@ const PlanUpdate: FC = () => {
       <FormHeader title={UPDATE_PLAN_TITLE} />
       <br />
       <Card>
-        <PlanForm onSubmit={onSubmit} initialValues={initialValues} />
+        <PlanForm onSubmit={onSubmit} initialValues={initialValues} isLoading={loading || isFormLoading} />
       </Card>
     </>
   );

@@ -25,11 +25,12 @@ import {
 } from 'shared/constants';
 
 interface IPlanForm {
+  isLoading: boolean;
   initialValues?: IPlanFormValues;
   onSubmit: (values: IPlanFormValues) => any;
 }
 
-const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onSubmit }) => {
+const PlanForm: FC<IPlanForm> = ({ isLoading, initialValues = INITIAL_PLAN_FORM_VALUES, onSubmit }) => {
   const { handleSubmit, handleChange, setFieldValue, values, errors, touched } = useFormik<IPlanFormValues>({
     onSubmit,
     initialValues,
@@ -49,41 +50,45 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
             placeholder={NAME_TEXT}
             value={values.name}
             error={errors.name}
-            onChange={handleChange}
+            isDisabled={isLoading}
             hasBeenTouched={touched.name}
+            onChange={handleChange}
           />
 
           <Field
             name="description"
-            placeholder={DESCRIPTION_TEXT}
             value={values.description}
             error={errors.description}
-            onChange={handleChange}
+            isDisabled={isLoading}
+            placeholder={DESCRIPTION_TEXT}
             hasBeenTouched={touched.description}
+            onChange={handleChange}
           />
 
           <FieldGroup>
             <Field
               name="price"
               type="number"
-              placeholder={PRICE_TEXT}
               value={values.price}
               error={errors.price}
-              onChange={handleChange}
+              isDisabled={isLoading}
+              placeholder={PRICE_TEXT}
               hasBeenTouched={touched.price}
+              onChange={handleChange}
             />
 
             <Select
               value={values.currency}
               name="currency"
-              placeholder={CURRENCY_TEXT}
               options={[
                 { label: CurrencyService.parseCurrencyByCount(values.price, Currency.Crc), value: Currency.Crc },
                 { label: CurrencyService.parseCurrencyByCount(values.price, Currency.Us), value: Currency.Us }
               ]}
               error={errors.currency}
-              setFieldValue={setFieldValue}
+              isDisabled={isLoading}
+              placeholder={CURRENCY_TEXT}
               hasBeenTouched={touched.currency}
+              setFieldValue={setFieldValue}
             />
           </FieldGroup>
 
@@ -91,17 +96,17 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
             <Field
               name="intervalCount"
               type="number"
-              placeholder={DURATION_TEXT}
               value={values.intervalCount}
               error={errors.intervalCount}
-              onChange={handleChange}
+              isDisabled={isLoading}
+              placeholder={DURATION_TEXT}
               hasBeenTouched={touched.intervalCount}
+              onChange={handleChange}
             />
 
             <Select
               value={values.intervalPlan}
               name="intervalPlan"
-              placeholder={INTERVAL_TEXT}
               options={[
                 {
                   label: PlanService.parseIntervalByCount(values.intervalCount, IntervalPlan.Day),
@@ -121,22 +126,25 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
                 }
               ]}
               error={errors.currency}
-              setFieldValue={setFieldValue}
+              isDisabled={isLoading}
+              placeholder={INTERVAL_TEXT}
               hasBeenTouched={touched.currency}
+              setFieldValue={setFieldValue}
             />
           </FieldGroup>
 
           <Select
             value={values.status}
             name="status"
-            placeholder={STATUS_TEXT}
             options={[
               { label: PlanService.parseStatus(PlanStatus.Active), value: PlanStatus.Active },
               { label: PlanService.parseStatus(PlanStatus.Inactive), value: PlanStatus.Inactive }
             ]}
             error={errors.status}
-            setFieldValue={setFieldValue}
+            isDisabled={isLoading}
+            placeholder={STATUS_TEXT}
             hasBeenTouched={touched.status}
+            setFieldValue={setFieldValue}
           />
 
           <RadioGroup
@@ -148,14 +156,15 @@ const PlanForm: FC<IPlanForm> = ({ initialValues = INITIAL_PLAN_FORM_VALUES, onS
               { label: DIET_TEXT, value: PlanFocus.NUTRITIONAL }
             ]}
             error={errors.focus}
-            setFieldValue={setFieldValue}
+            isDisabled={isLoading}
             hasBeenTouched={touched.focus}
+            setFieldValue={setFieldValue}
           />
           <br />
           <br />
 
           <Form.Item className="submit-button" style={{ textAlign: 'center' }}>
-            <Button type="submit" disabled={haveValuesChanged}>
+            <Button type="submit" disabled={haveValuesChanged || isLoading} loading={isLoading}>
               {SAVE_TEXT}
             </Button>
           </Form.Item>

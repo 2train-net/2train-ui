@@ -16,7 +16,7 @@ import { useCreatePlanMutation } from 'shared/generated';
 const PlanCreate: FC = () => {
   const history = useHistory();
 
-  const [createPlan] = useCreatePlanMutation();
+  const [createPlan, { loading }] = useCreatePlanMutation();
 
   const redirectToPlans = () => {
     history.push(PLANS);
@@ -24,16 +24,18 @@ const PlanCreate: FC = () => {
 
   const onSubmit = async ({ focus, ...data }: IPlanFormValues) => {
     try {
-      await createPlan({
-        variables: {
-          data: {
-            ...data,
-            ...parsePlanFocusToFlags[focus]
+      if (!loading) {
+        await createPlan({
+          variables: {
+            data: {
+              ...data,
+              ...parsePlanFocusToFlags[focus]
+            }
           }
-        }
-      });
+        });
 
-      redirectToPlans();
+        redirectToPlans();
+      }
     } catch (error) {}
   };
 
@@ -42,7 +44,7 @@ const PlanCreate: FC = () => {
       <FormHeader title={CREATE_PLAN_TITLE} />
       <br />
       <Card>
-        <PlanForm onSubmit={onSubmit} />
+        <PlanForm onSubmit={onSubmit} isLoading={loading} />
       </Card>
     </>
   );
