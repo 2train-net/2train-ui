@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 
 import { Redirect } from 'react-router';
-import { useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import { Card } from 'antd';
 
@@ -10,18 +10,19 @@ import { ExerciseForm, IExerciseFormValues, UPDATE_EXERCISE_TITLE } from 'module
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
 import { Message } from 'shared/modules';
-import { NOT_FOUND } from 'shared/routes';
+import { EXERCISES, NOT_FOUND } from 'shared/routes';
 import { GetExerciseDocument, useUpdateExerciseMutation, useGetExerciseQuery } from 'shared/generated';
 import { objectDifferences } from 'shared/util';
 
 const ExerciseUpdate: FC = () => {
+  const history = useHistory();
   const {
     params: { uuid }
   } = useRouteMatch<{ uuid: string }>();
 
   const where = { uuid };
 
-  const [updateExercise] = useUpdateExerciseMutation();
+  const [updateExercise, updateExercisePayload] = useUpdateExerciseMutation();
 
   const exercisePayload = useGetExerciseQuery({
     variables: {
@@ -31,31 +32,43 @@ const ExerciseUpdate: FC = () => {
 
   const notFound = !exercisePayload.data?.payload && !exercisePayload.loading;
 
-  const onSubmit = async (values: IExerciseFormValues) => {
-    const data = objectDifferences(values, exercisePayload.data?.payload);
+  const redirectToExercises = () => {
+    history.push(EXERCISES);
+  };
 
-    await updateExercise({
-      variables: {
-        data,
-        where
-      },
-      update: (cache, { data }) => {
-        cache.writeQuery({
-          data,
-          query: GetExerciseDocument,
+  const onSubmit = async (values: IExerciseFormValues) => {
+    try {
+      if (!updateExercisePayload.loading) {
+        const data = objectDifferences(values, exercisePayload.data?.payload);
+
+        await updateExercise({
           variables: {
+            data,
             where
+          },
+          update: (cache, { data }) => {
+            cache.writeQuery({
+              data,
+              query: GetExerciseDocument,
+              variables: {
+                where
+              }
+            });
           }
         });
+
+        redirectToExercises();
       }
-    });
+    } catch (error) {}
   };
 
   useEffect(() => {
-    if (exercisePayload.error) {
-      Message.error(exercisePayload.error.graphQLErrors[0].message);
+    const { error } = exercisePayload || updateExercisePayload;
+
+    if (error) {
+      Message.error(error.graphQLErrors[0].message);
     }
-  }, [exercisePayload.error]);
+  }, [exercisePayload.error, updateExercisePayload.error]);
 
   return notFound ? (
     <Redirect to={NOT_FOUND} />
@@ -64,7 +77,11 @@ const ExerciseUpdate: FC = () => {
       <FormHeader title={UPDATE_EXERCISE_TITLE} />
       <br />
       <Card>
-        <ExerciseForm onSubmit={onSubmit} initialValues={exercisePayload.data?.payload} />
+        <ExerciseForm
+          onSubmit={onSubmit}
+          initialValues={exercisePayload.data?.payload}
+          isLoading={exercisePayload.loading || updateExercisePayload.loading}
+        />
       </Card>
     </>
   );

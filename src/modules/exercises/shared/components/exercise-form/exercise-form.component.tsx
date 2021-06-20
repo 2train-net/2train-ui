@@ -11,11 +11,12 @@ import { objectDifferences } from 'shared/util/object-differences';
 import { DESCRIPTION_TEXT, NAME_TEXT, SAVE_TEXT } from 'shared/constants';
 
 interface IExerciseForm {
-  onSubmit: (data: IExerciseFormValues) => any;
+  isLoading: boolean;
   initialValues?: IExerciseFormValues;
+  onSubmit: (data: IExerciseFormValues) => any;
 }
 
-const ExerciseForm: FC<IExerciseForm> = ({ onSubmit, initialValues = INITIAL_EXERCISE_VALUES }) => {
+const ExerciseForm: FC<IExerciseForm> = ({ isLoading, initialValues = INITIAL_EXERCISE_VALUES, onSubmit }) => {
   const { handleSubmit, handleChange, values, errors, touched } = useFormik<IExerciseFormValues>({
     onSubmit,
     initialValues,
@@ -31,25 +32,25 @@ const ExerciseForm: FC<IExerciseForm> = ({ onSubmit, initialValues = INITIAL_EXE
         <Col xs={24} md={6}></Col>
         <Col xs={24} md={12}>
           <Field
-            isDisabled={false}
             name="name"
-            placeholder={NAME_TEXT}
             value={values.name}
             error={errors.name}
-            onChange={handleChange}
+            placeholder={NAME_TEXT}
+            isDisabled={isLoading}
             hasBeenTouched={touched.name}
+            onChange={handleChange}
           />
           <Field
-            isDisabled={false}
             name="description"
-            placeholder={DESCRIPTION_TEXT}
             value={values.description}
             error={errors.description}
-            onChange={handleChange}
+            isDisabled={isLoading}
+            placeholder={DESCRIPTION_TEXT}
             hasBeenTouched={touched.description}
+            onChange={handleChange}
           />
           <Form.Item className="submit-button" style={{ textAlign: 'center' }}>
-            <Button type="submit" disabled={haveValuesChanged}>
+            <Button type="submit" disabled={haveValuesChanged || isLoading} loading={isLoading}>
               {SAVE_TEXT}
             </Button>
           </Form.Item>

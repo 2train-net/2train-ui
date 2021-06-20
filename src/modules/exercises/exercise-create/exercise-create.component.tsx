@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -14,11 +14,12 @@ import FormHeader from 'shared/modules/form-header/form-header.component';
 
 import { useCreateExerciseMutation } from 'shared/generated/graphql-schema';
 import { EXERCISES } from 'shared/routes';
+import { Message } from 'shared/modules';
 
 const ExerciseCreate: FC = () => {
   const history = useHistory();
 
-  const [createExercise] = useCreateExerciseMutation();
+  const [createExercise, { loading, error }] = useCreateExerciseMutation();
 
   const redirectToExercises = () => {
     history.push(EXERCISES);
@@ -26,22 +27,30 @@ const ExerciseCreate: FC = () => {
 
   const onSubmit = async (data: IExerciseFormValues) => {
     try {
-      await createExercise({
-        variables: {
-          data
-        }
-      });
+      if (!loading) {
+        await createExercise({
+          variables: {
+            data
+          }
+        });
 
-      redirectToExercises();
+        redirectToExercises();
+      }
     } catch (error) {}
   };
+
+  useEffect(() => {
+    if (error) {
+      Message.error(error.graphQLErrors[0].message);
+    }
+  }, [error]);
 
   return (
     <>
       <FormHeader title={CREATE_EXERCISE_TITLE} />
       <br />
       <Card>
-        <ExerciseForm onSubmit={onSubmit} />
+        <ExerciseForm onSubmit={onSubmit} isLoading={loading} />
       </Card>
     </>
   );
