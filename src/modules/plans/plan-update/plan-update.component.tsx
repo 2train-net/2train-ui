@@ -27,25 +27,25 @@ const PlanUpdate: FC = () => {
 
   const where = { uuid };
 
-  const { data, loading, error } = useGetPlanQuery({
+  const planPayload = useGetPlanQuery({
     variables: {
       where
     }
   });
 
-  const notFound = !data?.payload && !loading;
+  const notFound = !planPayload.data?.payload && !planPayload.loading;
 
-  const { isExercisesPlanEnabled, isDietPlanEnabled } = data?.payload || {};
+  const { isExercisesPlanEnabled, isDietPlanEnabled } = planPayload.data?.payload || {};
 
   const initialValues =
-    data?.payload && typeof isExercisesPlanEnabled === 'boolean' && typeof isDietPlanEnabled === 'boolean'
+    planPayload.data?.payload && typeof isExercisesPlanEnabled === 'boolean' && typeof isDietPlanEnabled === 'boolean'
       ? {
-          ...data.payload,
+          ...planPayload.data.payload,
           focus: parseFlagsToPlanFocus(isExercisesPlanEnabled, isDietPlanEnabled)
         }
       : undefined;
 
-  const [updatePlan, { loading: isFormLoading }] = useUpdatePlanMutation();
+  const [updatePlan, updatePlanPayload] = useUpdatePlanMutation();
 
   const redirectToPlans = () => {
     history.push(PLANS);
@@ -54,7 +54,7 @@ const PlanUpdate: FC = () => {
   const onSubmit = async ({ focus, ...data }: IPlanFormValues) => {
     // TODO Add the objectDifferences method to only update what really changed
     try {
-      if (!isFormLoading) {
+      if (!updatePlanPayload.loading) {
         await updatePlan({
           variables: {
             where,
@@ -80,10 +80,12 @@ const PlanUpdate: FC = () => {
   };
 
   useEffect(() => {
+    const { error } = planPayload || updatePlanPayload;
+
     if (error) {
       Message.error(error.graphQLErrors[0].message);
     }
-  }, [error]);
+  }, [planPayload.error || updatePlanPayload.error]);
 
   return notFound ? (
     <Redirect to={NOT_FOUND} />
@@ -92,7 +94,11 @@ const PlanUpdate: FC = () => {
       <FormHeader title={UPDATE_PLAN_TITLE} />
       <br />
       <Card>
-        <PlanForm onSubmit={onSubmit} initialValues={initialValues} isLoading={loading || isFormLoading} />
+        <PlanForm
+          onSubmit={onSubmit}
+          initialValues={initialValues}
+          isLoading={planPayload.loading || updatePlanPayload.loading}
+        />
       </Card>
     </>
   );
