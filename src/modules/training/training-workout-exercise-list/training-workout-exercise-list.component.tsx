@@ -144,7 +144,7 @@ const TrainingWorkoutExerciseList: FC = () => {
             loading={training.loading}
             disabled={!isAtLeastOneCompleted}
           >
-            {training.loading ? '' : FINALIZE_TEXT}
+            {FINALIZE_TEXT}
           </Button>
         </Col>
       </Row>

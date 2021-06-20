@@ -106,8 +106,8 @@ const ConfirmAccount: FC = () => {
         )}
 
         <Item className="submit-button">
-          <Button type="submit" disabled={!isEmailValid} fullWidth>
-            {isLoading ? <Icon type="loading" /> : SEND_TEXT}
+          <Button type="submit" disabled={!isEmailValid} loading={isLoading} fullWidth>
+            {SEND_TEXT}
           </Button>
         </Item>
 

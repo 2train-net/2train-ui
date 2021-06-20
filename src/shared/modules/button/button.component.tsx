@@ -43,7 +43,7 @@ const Button: FC<IButton> = ({
       disabled={disabled}
       loading={loading}
     >
-      {children}
+      {loading ? '' : children}
     </ADButton>
   );
 };

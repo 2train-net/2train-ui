@@ -174,8 +174,8 @@ const Register: FC = () => {
         />
 
         <Item className="submit-button">
-          <Button type="submit" fullWidth>
-            {isLoading ? <Icon type="loading" /> : REGISTER_TEXT}
+          <Button type="submit" loading={isLoading} fullWidth>
+            {REGISTER_TEXT}
           </Button>
         </Item>
 

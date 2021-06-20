@@ -5,6 +5,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 import Button, { ButtonColor } from 'shared/modules/button/button.component';
 import Icon, { IconType } from 'shared/modules/icon/icon.component';
+import { CANCEL_TEXT, CONTINUE_TEXT } from 'shared/constants';
 
 import useStyles from './confirmation-card.style';
 
@@ -77,8 +78,8 @@ const ConfirmationCard: FC<IConfirmationCard> = ({
       <Row className="confirmation-card-actions">
         {isCancelButtonAvailable && (
           <Col span={isSubmitButtonAvailable ? 12 : 24}>
-            <Button onClick={onCancel} color="default" size="medium" disabled={isLoading}>
-              {cancelText || 'Cancelar'}
+            <Button onClick={onCancel} color="default" size="medium" disabled={isLoading} loading={isLoading}>
+              {cancelText || CANCEL_TEXT}
             </Button>
           </Col>
         )}
@@ -91,7 +92,7 @@ const ConfirmationCard: FC<IConfirmationCard> = ({
               disabled={isLoading}
               fullWidth={!isCancelButtonAvailable}
             >
-              {confirmText || 'Continuar'}
+              {confirmText || CONTINUE_TEXT}
             </Button>
           </Col>
         )}

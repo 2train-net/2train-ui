@@ -58,7 +58,7 @@ const TrainingWorkoutDetail: FC = () => {
             onClick={() => history.push(WORKOUTS)}
             loading={workout.loading}
           >
-            {workout.loading ? '' : READY_TEXT}
+            {READY_TEXT}
           </Button>
         </Col>
       </Row>

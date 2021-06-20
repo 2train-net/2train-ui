@@ -16,6 +16,8 @@ export const PROFILE_TEXT = 'Perfil',
   SETTINGS_TEXT = 'Configuración';
 
 export const CREATE_TEXT = 'Crear',
+  CANCEL_TEXT = 'Cancelar',
+  CONTINUE_TEXT = 'Continuar',
   SEND_TEXT = 'Enviar',
   FROM_TEXT = 'Desde',
   TO_TEXT = 'Hasta',

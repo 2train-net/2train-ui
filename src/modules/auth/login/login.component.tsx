@@ -82,8 +82,8 @@ const Login: FC = () => {
         </Item>
 
         <Item className="submit-button">
-          <Button type="submit" fullWidth>
-            {isLoading ? <Icon type="loading" /> : LOGIN_TEXT}
+          <Button type="submit" loading={isLoading} fullWidth>
+            {LOGIN_TEXT}
           </Button>
         </Item>
 

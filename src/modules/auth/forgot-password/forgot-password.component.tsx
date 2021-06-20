@@ -63,8 +63,8 @@ const ForgotPassword: FC = () => {
         />
 
         <Item className="submit-button">
-          <Button type="submit" fullWidth>
-            {isLoading ? <Icon type="loading" /> : SEND_TEXT}
+          <Button type="submit" loading={isLoading} fullWidth>
+            {SEND_TEXT}
           </Button>
         </Item>
       </Form>
