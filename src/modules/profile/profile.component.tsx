@@ -44,11 +44,11 @@ const { Item } = Form;
 const Profile: FC = () => {
   const classes = useStyles();
   const { user, refreshUser, logout } = useContext(AuthContext);
-  const [updateProfile] = useUpdateUserMutation();
+  const [updateProfile, { loading }] = useUpdateUserMutation();
 
   const userProfile = new UserProfileModel(user);
 
-  const onSubmit = async (values: IUserProfileForm) => {
+  const onSubmit = async ({ username, email, ...values }: IUserProfileForm) => {
     const data: IUpdateUserProfileForm = objectDifferences(values, userProfile.userProfileForm);
 
     try {
@@ -106,7 +106,7 @@ const Profile: FC = () => {
           </Col>
           <Col xs={24} md={8}>
             <Field
-              isDisabled={true}
+              isDisabled
               icon={<Icon type="crown" />}
               name="username"
               placeholder={USERNAME_TEXT}
@@ -117,67 +117,72 @@ const Profile: FC = () => {
             />
 
             <Field
-              isDisabled={true}
+              isDisabled
               icon={<Icon type="mail" />}
               name="email"
-              placeholder={EMAIL_TEXT}
               value={values.email}
               error={errors.email}
-              onChange={handleChange}
+              placeholder={EMAIL_TEXT}
               hasBeenTouched={touched.email}
+              onChange={handleChange}
             />
 
             <Field
               icon={<Icon type="phone" />}
               name="phone"
-              placeholder={PHONE_TEXT}
               value={values.phone}
               error={errors.phone}
-              onChange={handleChange}
+              isDisabled={loading}
+              placeholder={PHONE_TEXT}
               hasBeenTouched={touched.phone}
+              onChange={handleChange}
             />
 
             <Select
               value={values.scope}
               name="scope"
-              placeholder={PROFILE_VISIBILITY}
               options={[
                 { label: 'Privado', value: Scope.Private },
                 { label: 'Público', value: Scope.Public }
               ]}
               error={errors.scope}
-              setFieldValue={setFieldValue}
+              isDisabled={loading}
+              placeholder={PROFILE_VISIBILITY}
               hasBeenTouched={touched.scope}
+              setFieldValue={setFieldValue}
             />
           </Col>
           <Col xs={24} md={8}>
             <Field
               icon={<Icon type="user" />}
               name="firstName"
-              placeholder={FIRST_NAME_TEXT}
               value={values.firstName}
               error={errors.firstName}
-              onChange={handleChange}
+              isDisabled={loading}
+              placeholder={FIRST_NAME_TEXT}
               hasBeenTouched={touched.firstName}
+              onChange={handleChange}
             />
 
             <Field
               icon={<Icon type="user" />}
               name="lastName"
-              placeholder={LAST_NAME_TEXT}
               value={values.lastName}
               error={errors.lastName}
-              onChange={handleChange}
+              isDisabled={loading}
+              placeholder={LAST_NAME_TEXT}
               hasBeenTouched={touched.lastName}
+              onChange={handleChange}
             />
 
             <DatePicker
               value={values.birthday}
               name="birthday"
-              placeholder={BIRTHDAY_TEXT}
               error={errors.birthday}
-              setFieldValue={setFieldValue}
+              isDisabled={loading}
+              placeholder={BIRTHDAY_TEXT}
               hasBeenTouched={touched.birthday}
+              setFieldValue={setFieldValue}
               disabledDate={
                 values.birthday
                   ? {
@@ -191,13 +196,14 @@ const Profile: FC = () => {
             <Select
               value={values.gender}
               name="gender"
-              placeholder={GENDER_TEXT}
               options={[
                 { label: UserService.parseGender(Gender.Male), value: Gender.Male },
                 { label: UserService.parseGender(Gender.Female), value: Gender.Female },
                 { label: OTHER_TEXT, value: null }
               ]}
               error={errors.gender}
+              isDisabled={loading}
+              placeholder={GENDER_TEXT}
               setFieldValue={setFieldValue}
               hasBeenTouched={touched.gender}
             />
@@ -205,7 +211,7 @@ const Profile: FC = () => {
         </Row>
 
         <Item className="submit-button">
-          <Button type="submit" disabled={haveValuesChanged}>
+          <Button type="submit" disabled={haveValuesChanged} loading={loading}>
             {SAVE_TEXT}
           </Button>
         </Item>
