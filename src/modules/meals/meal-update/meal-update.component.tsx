@@ -2,13 +2,9 @@ import React, { FC, useEffect } from 'react';
 
 import { useRouteMatch } from 'react-router-dom';
 
-import { Card } from 'antd';
-
 import { IMealFormValues, MealForm, UPDATE_MEAL_TITLE } from 'modules/meals/meals.module';
 
-import FormHeader from 'shared/modules/form-header/form-header.component';
-
-import { Message } from 'shared/modules';
+import { FormPage, Message } from 'shared/modules';
 import { arrayDifferences, objectDifferences } from 'shared/util';
 import { useGetAllIngredientsQuery, useUpdateMealMutation, useGetMealQuery, GetMealDocument } from 'shared/generated';
 
@@ -80,18 +76,14 @@ const MealUpdate: FC = () => {
   }, [mealPayload.error, updateMealPayload.error]);
 
   return (
-    <>
-      <FormHeader title={UPDATE_MEAL_TITLE} />
-      <br />
-      <Card>
-        <MealForm
-          onSubmit={onSubmit}
-          ingredients={ingredients}
-          initialValues={meal}
-          isLoading={mealPayload.loading || updateMealPayload.loading}
-        />
-      </Card>
-    </>
+    <FormPage title={UPDATE_MEAL_TITLE}>
+      <MealForm
+        onSubmit={onSubmit}
+        ingredients={ingredients}
+        initialValues={meal}
+        isLoading={mealPayload.loading || updateMealPayload.loading}
+      />
+    </FormPage>
   );
 };
 

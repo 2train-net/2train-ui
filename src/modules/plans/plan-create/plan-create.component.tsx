@@ -2,16 +2,12 @@ import React, { FC, useEffect } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Card } from 'antd';
-
 import { CREATE_PLAN_TITLE, PlanForm } from 'modules/plans/plans.module';
 
 import { IPlanFormValues, parsePlanFocusToFlags } from 'modules/plans/shared/components/plan-form/plan-form.util';
 
-import FormHeader from 'shared/modules/form-header/form-header.component';
-
 import { PLANS } from 'shared/routes';
-import { Message } from 'shared/modules';
+import { FormPage, Message } from 'shared/modules';
 import { useCreatePlanMutation } from 'shared/generated';
 
 const PlanCreate: FC = () => {
@@ -47,13 +43,9 @@ const PlanCreate: FC = () => {
   }, [error]);
 
   return (
-    <>
-      <FormHeader title={CREATE_PLAN_TITLE} />
-      <br />
-      <Card>
-        <PlanForm onSubmit={onSubmit} isLoading={loading} />
-      </Card>
-    </>
+    <FormPage title={CREATE_PLAN_TITLE}>
+      <PlanForm onSubmit={onSubmit} isLoading={loading} />
+    </FormPage>
   );
 };
 

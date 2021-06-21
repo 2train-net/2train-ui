@@ -3,8 +3,6 @@ import React, { FC, useEffect } from 'react';
 import { Redirect } from 'react-router';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
-import { Card } from 'antd';
-
 import {
   PlanForm,
   IPlanFormValues,
@@ -13,9 +11,7 @@ import {
   UPDATE_PLAN_TITLE
 } from 'modules/plans/plans.module';
 
-import FormHeader from 'shared/modules/form-header/form-header.component';
-
-import { Message } from 'shared/modules';
+import { FormPage, Message } from 'shared/modules';
 import { NOT_FOUND, PLANS } from 'shared/routes';
 import { GetPlanDocument, useGetPlanQuery, useUpdatePlanMutation } from 'shared/generated';
 
@@ -90,17 +86,13 @@ const PlanUpdate: FC = () => {
   return notFound ? (
     <Redirect to={NOT_FOUND} />
   ) : (
-    <>
-      <FormHeader title={UPDATE_PLAN_TITLE} />
-      <br />
-      <Card>
-        <PlanForm
-          onSubmit={onSubmit}
-          initialValues={initialValues}
-          isLoading={planPayload.loading || updatePlanPayload.loading}
-        />
-      </Card>
-    </>
+    <FormPage title={UPDATE_PLAN_TITLE}>
+      <PlanForm
+        onSubmit={onSubmit}
+        initialValues={initialValues}
+        isLoading={planPayload.loading || updatePlanPayload.loading}
+      />
+    </FormPage>
   );
 };
 

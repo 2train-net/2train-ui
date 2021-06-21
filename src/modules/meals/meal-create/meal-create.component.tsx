@@ -2,14 +2,10 @@ import React, { FC, useEffect } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { Card } from 'antd';
-
 import { CREATE_MEAL_TITLE, IMealFormValues, MealForm } from 'modules/meals/meals.module';
 
-import FormHeader from 'shared/modules/form-header/form-header.component';
-
 import { MEALS } from 'shared/routes';
-import { Message } from 'shared/modules';
+import { FormPage, Message } from 'shared/modules';
 import { useGetAllIngredientsQuery, useCreateMealMutation } from 'shared/generated';
 
 const MealCreate: FC = () => {
@@ -51,13 +47,9 @@ const MealCreate: FC = () => {
   }, [error]);
 
   return (
-    <>
-      <FormHeader title={CREATE_MEAL_TITLE} />
-      <br />
-      <Card>
-        <MealForm onSubmit={onSubmit} ingredients={ingredients} isLoading={loading} />
-      </Card>
-    </>
+    <FormPage title={CREATE_MEAL_TITLE}>
+      <MealForm onSubmit={onSubmit} ingredients={ingredients} isLoading={loading} />
+    </FormPage>
   );
 };
 

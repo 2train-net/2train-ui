@@ -3,13 +3,9 @@ import React, { FC, useEffect } from 'react';
 import { Redirect } from 'react-router';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
-import { Card } from 'antd';
-
 import { ExerciseForm, IExerciseFormValues, UPDATE_EXERCISE_TITLE } from 'modules/exercises/exercises.module';
 
-import FormHeader from 'shared/modules/form-header/form-header.component';
-
-import { Message } from 'shared/modules';
+import { FormPage, Message } from 'shared/modules';
 import { EXERCISES, NOT_FOUND } from 'shared/routes';
 import { GetExerciseDocument, useUpdateExerciseMutation, useGetExerciseQuery } from 'shared/generated';
 import { objectDifferences } from 'shared/util';
@@ -73,17 +69,13 @@ const ExerciseUpdate: FC = () => {
   return notFound ? (
     <Redirect to={NOT_FOUND} />
   ) : (
-    <>
-      <FormHeader title={UPDATE_EXERCISE_TITLE} />
-      <br />
-      <Card>
-        <ExerciseForm
-          onSubmit={onSubmit}
-          initialValues={exercisePayload.data?.payload}
-          isLoading={exercisePayload.loading || updateExercisePayload.loading}
-        />
-      </Card>
-    </>
+    <FormPage title={UPDATE_EXERCISE_TITLE}>
+      <ExerciseForm
+        onSubmit={onSubmit}
+        initialValues={exercisePayload.data?.payload}
+        isLoading={exercisePayload.loading || updateExercisePayload.loading}
+      />
+    </FormPage>
   );
 };
 

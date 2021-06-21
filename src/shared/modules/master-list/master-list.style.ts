@@ -7,7 +7,7 @@ export default createUseStyles<ITheme>(({ spacing }) => ({
     '& .master-list-content': {
       justifyContent: 'center',
       margin: {
-        top: spacing(4)
+        top: spacing(3)
       }
     },
     '& .master-list-loading': {

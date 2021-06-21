@@ -11,7 +11,7 @@ interface IFormHeader {
 const FormHeader: FC<IFormHeader> = ({ title }) => {
   const { goBack } = useHistory();
 
-  return <PageHeader ghost={false} onBack={goBack} title={title} />;
+  return <PageHeader className="page-header" ghost={false} onBack={goBack} title={title} />;
 };
 
 export default FormHeader;
