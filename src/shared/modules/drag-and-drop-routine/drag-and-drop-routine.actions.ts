@@ -1,6 +1,6 @@
 import { DraggableLocation } from 'react-beautiful-dnd';
 import { v4 as uuid } from 'uuid';
-import { FormData, ColumnItem, Item } from './column-items.interface';
+import { FormData, ColumnItem, Option } from './shared/model/column-items.interface';
 
 export const reorder = (list: ColumnItem[], startIndex: number, endIndex: number) => {
   const result = list;
@@ -10,7 +10,7 @@ export const reorder = (list: ColumnItem[], startIndex: number, endIndex: number
 };
 
 export const copy = (
-  source: Item[],
+  source: Option[],
   destination: ColumnItem[],
   droppableSource: DraggableLocation,
   droppableDestination: DraggableLocation,

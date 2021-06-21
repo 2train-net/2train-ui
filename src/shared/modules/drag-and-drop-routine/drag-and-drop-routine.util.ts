@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { ColumnItems, ColumnItem } from './column-items.interface';
+import { ColumnItems, ColumnItem } from './shared/model/column-items.interface';
 
 export const parseColumnsToData = (columns: ColumnItem[][], data: ColumnItem[]) => {
   const array = columns.reduce((items, column) => [...items, ...column], []);
@@ -29,7 +29,7 @@ export const parseColumnsToData = (columns: ColumnItem[][], data: ColumnItem[]) 
 
 export const findElement = (uuid: string, columns: ColumnItem[][]) => {
   const result = _.find(columns, items => _.some(items, item => uuid === item.uuid));
-  const item = result !== undefined ? result[0] : undefined;
+  const item = result !== undefined ? _.find(result, ['uuid', uuid]) : undefined;
   return item;
 };
 

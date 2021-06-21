@@ -8,7 +8,7 @@ import { Card, Col, Row, Typography, Button as AButton } from 'antd';
 
 import { ITrainingWorkoutExercise, TrainingWorkoutExerciseForm } from 'modules/training/training.module';
 
-import { NOT_FOUND, TRAINING } from 'shared/routes';
+import { DETAIL, NOT_FOUND, TRAINING } from 'shared/routes';
 import { Button, Icon, ListItem } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
 import { TrainingService, WorkoutRoutineService } from 'shared/services';
@@ -61,11 +61,12 @@ const TrainingWorkoutExerciseList: FC = () => {
           initialValues={{ workoutExercise, focus: 2 }}
           onComplete={data => {
             if (parsed) {
-              values.workoutExercises[index] = completed
-                ? parsed[index]
-                : (data.workoutExercise as ITrainingWorkoutExercise);
+              setFieldValue(
+                `workoutExercises[${index}]`,
+                completed ? parsed[index] : (data.workoutExercise as ITrainingWorkoutExercise)
+              );
             }
-            values.workoutExercises[index].completed = !completed;
+            setFieldValue(`workoutExercises[${index}].completed`, !completed);
             modalProvider.close();
           }}
           formRef={itemFormRef}
@@ -94,7 +95,7 @@ const TrainingWorkoutExerciseList: FC = () => {
         }
       });
 
-      history.push(`${TRAINING}/detail/${workout.data?.payload.uuid}`);
+      history.push(`${TRAINING}/${DETAIL}/${workout.data?.payload.uuid}`);
     }
   };
 
@@ -108,7 +109,7 @@ const TrainingWorkoutExerciseList: FC = () => {
 
   const [workoutExercises, setWorkoutExercises] = useState<ITrainingWorkoutExercise[]>(parsed ? parsed : []);
 
-  const { handleSubmit, values } = useFormik<ITrainingWorkoutExercisesFormValues>({
+  const { handleSubmit, values, setFieldValue } = useFormik<ITrainingWorkoutExercisesFormValues>({
     onSubmit: onFinalize,
     initialValues: { workoutExercises },
     enableReinitialize: true

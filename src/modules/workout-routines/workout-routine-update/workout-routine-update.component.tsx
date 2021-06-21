@@ -20,7 +20,7 @@ import {
 
 import { AuthContext } from 'shared/contexts';
 import { DragAndDropRoutine, Message } from 'shared/modules';
-import { IDragAndDropRoutineFormValues } from 'shared/modules/drag-and-drop-routine/column-items.interface';
+import { IDragAndDropRoutineFormValues } from 'shared/modules/drag-and-drop-routine/shared/model/column-items.interface';
 import { DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
 import { WorkoutRoutineService } from 'shared/services';
 
@@ -82,7 +82,7 @@ const WorkoutRoutineUpdate: FC = () => {
   ) : (
     <DragAndDropRoutine
       data={parseWorkoutExerciseToItem(workoutRoutine.data?.payload.workoutExercises)}
-      options={exercises.data?.payload}
+      options={isEditModeEnabled ? exercises.data?.payload : undefined}
       renderColumnCard={WorkoutExerciseItemCard}
       renderOptionCard={ExerciseItemCard}
       renderForm={WorkoutExerciseForm}

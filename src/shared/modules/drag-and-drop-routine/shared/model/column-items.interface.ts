@@ -3,7 +3,7 @@ import { RefObject } from 'react';
 export interface ColumnItem extends Item {
   position: number;
   column: number;
-  option: Item;
+  option: Option;
   data: any;
 }
 
@@ -12,6 +12,7 @@ export interface Item {
 }
 
 export interface Option extends Item {
+  name: string;
   [data: string]: any;
 }
 

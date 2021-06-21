@@ -3,7 +3,6 @@ import { Redirect, Switch } from 'react-router-dom';
 
 import { WorkoutRoutineUpdate } from 'modules/workout-routines/workout-routines.module';
 
-import { NotFoundErrorPage } from 'shared/modules';
 import { PrivateRoute } from 'shared/modules/route';
 import { NOT_FOUND, WORKOUT_ROUTINE_EDIT } from 'shared/routes';
 

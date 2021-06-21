@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 
 import { Direction, Droppable as RBDroppable } from 'react-beautiful-dnd';
 
-import { Item } from 'shared/modules/drag-and-drop-routine/column-items.interface';
+import { Item } from 'shared/modules/drag-and-drop-routine/shared/model';
 
 import Draggable from 'shared/modules/draggable/draggable.component';
 

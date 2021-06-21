@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 
 import { Draggable as RBDraggable } from 'react-beautiful-dnd';
 
-import { ICard, Item } from 'shared/modules/drag-and-drop-routine/column-items.interface';
+import { ICard, Item } from 'shared/modules/drag-and-drop-routine/shared/model';
 
 interface IDraggableValues {
   position: number;

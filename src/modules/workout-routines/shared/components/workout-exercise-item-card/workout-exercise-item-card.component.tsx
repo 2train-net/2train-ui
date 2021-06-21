@@ -6,7 +6,7 @@ import ListCard from 'shared/modules/list-card/list-card.component';
 
 import { parseItemToWorkoutExerciseCard } from 'modules/workout-routines/workout-routines.module';
 
-import { ColumnItem } from 'shared/modules/drag-and-drop-routine/column-items.interface';
+import { ColumnItem } from 'shared/modules/drag-and-drop-routine/shared/model/column-items.interface';
 import { ACTION, DELETE, DETAIL, EDIT } from 'shared/routes';
 import { AuthContext } from 'shared/contexts';
 import { UserType } from 'shared/generated';

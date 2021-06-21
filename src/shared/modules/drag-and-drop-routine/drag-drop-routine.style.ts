@@ -65,7 +65,7 @@ export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
       display: 'none'
     },
     '& .vertical-droppable, .vertical-droppable-dragging': {
-      maxWidth: spacing(80),
+      maxWidth: spacing(90),
       background: palette.default.light,
       padding: spacing(1),
       height: spacing(50),
@@ -74,7 +74,10 @@ export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
       '& .draggable': {
         margin: 'auto',
         marginTop: spacing(2),
-        marginBottom: spacing(1)
+        marginBottom: spacing(1),
+        '& .ant-card': {
+          width: [['80%'], '!important']
+        }
       }
     },
     '& .vertical-droppable-dragging': {
@@ -84,6 +87,7 @@ export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
       background: palette.default.light,
       padding: spacing(1),
       height: 'auto',
+      minHeight: spacing(12.5),
       marginTop: spacing(2),
       overflowY: 'scroll',
       display: 'flex',

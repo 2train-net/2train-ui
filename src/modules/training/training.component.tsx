@@ -9,10 +9,10 @@ import { TrainingDayList, TrainingWorkoutDetail, TrainingWorkoutExerciseList } f
 import { Steps } from 'shared/modules';
 import { PrivateRoute } from 'shared/modules/route';
 
-import { NOT_FOUND, TRAINING, TRAINING_DETAIL, TRAINING_WORKOUT, WORKOUTS } from 'shared/routes';
-import { AuthContext, ModalContext } from 'shared/contexts';
-import { WorkoutRoutineService } from 'shared/services';
 import { ALERT_UNSAVED_MODAL } from 'shared/constants';
+import { WorkoutRoutineService } from 'shared/services';
+import { AuthContext, ModalContext } from 'shared/contexts';
+import { NOT_FOUND, TRAINING, TRAINING_DETAIL, TRAINING_WORKOUT } from 'shared/routes';
 
 enum TrainingSteps {
   SELECT_DAY,

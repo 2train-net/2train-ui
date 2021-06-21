@@ -16,10 +16,10 @@ import { Select, Field } from 'shared/modules/form';
 import { ModalContext } from 'shared/contexts';
 import { Modal } from 'shared/contexts/modal.context';
 
-import { DELETE_MODAL, ALERT_UNSAVED_MODAL } from 'shared/constants';
+import { DELETE_MODAL, ALERT_UNSAVED_MODAL, CANCEL_TEXT, EXIT_TEXT, SAVE_TEXT, DAY_TEXT } from 'shared/constants';
 import { DELETE, DETAIL, EDIT } from 'shared/routes';
 
-import { move, copy, reorder } from './actions';
+import { move, copy, reorder } from './drag-and-drop-routine.actions';
 import {
   dayOptions,
   findElement,
@@ -28,7 +28,15 @@ import {
   parseDataToColumns,
   updatePositionsAndColumns
 } from './drag-and-drop-routine.util';
-import { ColumnItem, FormData, ICard, Option } from './column-items.interface';
+
+import { ColumnItem, FormData, ICard, Option } from './shared/model';
+
+import {
+  NOT_REPEAT_ELEMENTS_EXCEPTION,
+  REDUCE_DAY_MODAL,
+  ROUTINE_OF_EXERCISE_TITLE,
+  SEARCH_EXERCISE_TEXT
+} from './shared/constants';
 
 import useStyles from './drag-drop-routine.style';
 
@@ -79,6 +87,13 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
 
   const { goBack } = history;
 
+  const displayReduceDayModal = (value: number) => {
+    modalProvider.show({
+      ...REDUCE_DAY_MODAL,
+      onConfirm: () => modifyColumns(value)
+    });
+  };
+
   const displayGoBackModal = () => {
     modalProvider.show({
       ...ALERT_UNSAVED_MODAL,
@@ -123,12 +138,13 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   };
 
   const displayEditModal = (uuid: string) => {
+    const element = findElement(uuid, columns ? columns : []);
     modalProvider.show({
       ...formModal,
-      title: isEditModeEnabled ? 'Editar' : 'Detalle',
+      title: element?.option.name!,
       contentRender: (
         <Form
-          initialValues={findElement(uuid, columns ? columns : [])?.data}
+          initialValues={element?.data}
           onSubmit={(formData: FormData) => {
             setColumns(updatePositionsAndColumns(editElement(formData, uuid)));
             goBack();
@@ -142,11 +158,11 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
       },
       onCancel: goBack,
       isSubmitButtonAvailable: isEditModeEnabled,
-      cancelText: isEditModeEnabled ? 'Cancelar' : 'Salir'
+      cancelText: isEditModeEnabled ? CANCEL_TEXT : EXIT_TEXT
     });
   };
 
-  const handleColumnsChange = (name: string, value: number) => {
+  const modifyColumns = (value: number) => {
     const columnsArray = columns ? _.cloneDeep(columns) : [];
 
     if (value < columnsArray.length) {
@@ -162,6 +178,13 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
     }
 
     setColumns(columnsArray);
+  };
+  const handleColumnsChange = (name: string, value: number) => {
+    if (columns && value < columns?.length) {
+      displayReduceDayModal(value);
+    } else {
+      modifyColumns(value);
+    }
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -213,7 +236,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
             }
           });
         } else {
-          Message.info('No se puede repetir elementos en la misma columna');
+          Message.info(NOT_REPEAT_ELEMENTS_EXCEPTION);
         }
         break;
 
@@ -266,7 +289,8 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   }, [options]);
 
   useEffect(() => {
-    if (columns && columns.length !== visible.length) setVisible(Array(columns.length).fill(false));
+    if (columns && columns.length !== visible.length)
+      setVisible(Array(columns.length).fill(window.screen.width >= 960 ? true : false));
   }, [columns]);
 
   const [visible, setVisible] = useState<boolean[]>([]);
@@ -276,7 +300,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
     <div className={classes.root}>
       <PageHeader
         ghost={false}
-        title="Rutina de ejercicios"
+        title={ROUTINE_OF_EXERCISE_TITLE}
         onBack={isEditModeEnabled ? () => displayGoBackModal() : goBack}
         extra={[
           <div key="header" className="header-actions">
@@ -298,7 +322,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
                 type="button"
                 size="small"
               >
-                Guardar
+                {SAVE_TEXT}
               </Button>
             )}
           </div>
@@ -320,7 +344,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
                         style={{ marginTop: 16 }}
                       >
                         <div className="column-header">
-                          <Title level={5}>{`Día ${columnIndex + 1}`}</Title>
+                          <Title level={5}>{`${DAY_TEXT} ${columnIndex + 1}`}</Title>
                           <AButton
                             shape="circle"
                             onClick={() => {
@@ -346,30 +370,34 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
           </Col>
         </Row>
 
-        <Card className="footer">
-          <div className="search-container">
-            <Field
-              value={searchBar}
-              placeholder="Buscar ejercicio"
-              name="search"
-              onChange={handleSearchChange}
-              clearable
-            />
-            <AButton shape="circle" onClick={() => setAreOptionsVisible(!areOptionsVisible)}>
-              <Icon type={areOptionsVisible ? 'up' : 'down'} />
-            </AButton>
-          </div>
-          <Skeleton isLoading={isLoading}>
-            <Droppable
-              id="OPTIONS"
-              direction="horizontal"
-              items={filterOptions || []}
-              renderCard={OptionCard}
-              isDropDisabled
-              isVisible={areOptionsVisible}
-            />
-          </Skeleton>
-        </Card>
+        {options && !isLoading ? (
+          <Card className="footer">
+            <div className="search-container">
+              <Field
+                value={searchBar}
+                placeholder={SEARCH_EXERCISE_TEXT}
+                name="search"
+                onChange={handleSearchChange}
+                clearable
+              />
+              <AButton shape="circle" onClick={() => setAreOptionsVisible(!areOptionsVisible)}>
+                <Icon type={areOptionsVisible ? 'up' : 'down'} />
+              </AButton>
+            </div>
+            <Skeleton isLoading={isLoading}>
+              <Droppable
+                id="OPTIONS"
+                direction="horizontal"
+                items={filterOptions || []}
+                renderCard={OptionCard}
+                isDropDisabled
+                isVisible={areOptionsVisible}
+              />
+            </Skeleton>
+          </Card>
+        ) : (
+          ''
+        )}
       </DragDropContext>
     </div>
   );
