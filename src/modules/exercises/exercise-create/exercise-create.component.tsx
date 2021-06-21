@@ -12,9 +12,9 @@ import { IExerciseFormValues } from 'modules/exercises/shared/components/exercis
 
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
-import { useCreateExerciseMutation } from 'shared/generated/graphql-schema';
 import { EXERCISES } from 'shared/routes';
 import { Message } from 'shared/modules';
+import { useCreateExerciseMutation } from 'shared/generated/graphql-schema';
 
 const ExerciseCreate: FC = () => {
   const history = useHistory();

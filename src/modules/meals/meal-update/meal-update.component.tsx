@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { useRouteMatch } from 'react-router-dom';
 
@@ -8,8 +8,9 @@ import { IMealFormValues, MealForm, UPDATE_MEAL_TITLE } from 'modules/meals/meal
 
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
-import { useGetAllIngredientsQuery, useUpdateMealMutation, useGetMealQuery, GetMealDocument } from 'shared/generated';
+import { Message } from 'shared/modules';
 import { arrayDifferences, objectDifferences } from 'shared/util';
+import { useGetAllIngredientsQuery, useUpdateMealMutation, useGetMealQuery, GetMealDocument } from 'shared/generated';
 
 const MealUpdate: FC = () => {
   const {
@@ -28,7 +29,7 @@ const MealUpdate: FC = () => {
     }
   });
 
-  const [updateMeal] = useUpdateMealMutation();
+  const [updateMeal, updateMealPayload] = useUpdateMealMutation();
 
   const { mealIngredients = [], image, ...mealInfo } = mealPayload?.data?.payload! || {};
   const meal = {
@@ -44,36 +45,51 @@ const MealUpdate: FC = () => {
     const differences = arrayDifferences(meal.ingredients, newIngredients);
 
     try {
-      await updateMeal({
-        variables: {
-          where,
-          data: {
-            ...data,
-            ingredients: {
-              create: differences.create.map(uuid => ({ uuid })),
-              delete: differences.delete.map(uuid => ({ uuid }))
+      if (!updateMealPayload.loading) {
+        await updateMeal({
+          variables: {
+            where,
+            data: {
+              ...data,
+              ingredients: {
+                create: differences.create.map(uuid => ({ uuid })),
+                delete: differences.delete.map(uuid => ({ uuid }))
+              }
             }
+          },
+          update: (cache, { data }) => {
+            cache.writeQuery({
+              data,
+              query: GetMealDocument,
+              variables: {
+                where
+              }
+            });
           }
-        },
-        update: (cache, { data }) => {
-          cache.writeQuery({
-            data,
-            query: GetMealDocument,
-            variables: {
-              where
-            }
-          });
-        }
-      });
+        });
+      }
     } catch (error) {}
   };
+
+  useEffect(() => {
+    const { error } = mealPayload || updateMealPayload;
+
+    if (error) {
+      Message.error(error.graphQLErrors[0].message);
+    }
+  }, [mealPayload.error, updateMealPayload.error]);
 
   return (
     <>
       <FormHeader title={UPDATE_MEAL_TITLE} />
       <br />
       <Card>
-        <MealForm onSubmit={onSubmit} ingredients={ingredients} initialValues={meal} />
+        <MealForm
+          onSubmit={onSubmit}
+          ingredients={ingredients}
+          initialValues={meal}
+          isLoading={mealPayload.loading || updateMealPayload.loading}
+        />
       </Card>
     </>
   );

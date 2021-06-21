@@ -37,7 +37,8 @@ export const CREATE_TEXT = 'Crear',
   READY_TEXT = 'Listo',
   COMPLETE_TEXT = 'Completar',
   DURATION_TEXT = 'Duración',
-  INTERVAL_TEXT = 'Intervalo';
+  INTERVAL_TEXT = 'Intervalo',
+  IMAGE_TEXT = 'Imagen';
 
 export const FIRST_NAME_TEXT = 'Nombre',
   LAST_NAME_TEXT = 'Apellido(s)',

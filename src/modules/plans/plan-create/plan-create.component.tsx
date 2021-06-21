@@ -11,8 +11,8 @@ import { IPlanFormValues, parsePlanFocusToFlags } from 'modules/plans/shared/com
 import FormHeader from 'shared/modules/form-header/form-header.component';
 
 import { PLANS } from 'shared/routes';
-import { useCreatePlanMutation } from 'shared/generated';
 import { Message } from 'shared/modules';
+import { useCreatePlanMutation } from 'shared/generated';
 
 const PlanCreate: FC = () => {
   const history = useHistory();

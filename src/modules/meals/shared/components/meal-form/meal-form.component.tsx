@@ -9,21 +9,22 @@ import { Button, Icon } from 'shared/modules';
 import { Field, Select, Upload } from 'shared/modules/form';
 import { objectDifferences } from 'shared/util/object-differences';
 import { ISelectOption } from 'shared/modules/form/select/select.component';
-import { DESCRIPTION_TEXT, NAME_TEXT, SAVE_TEXT } from 'shared/constants';
+import { DESCRIPTION_TEXT, IMAGE_TEXT, NAME_TEXT, SAVE_TEXT } from 'shared/constants';
 
 import { MEAL_FORM_SCHEMA, IMealFormValues, INITIAL_MEAL_VALUES } from './meal-form.util';
 
 import useStyles from './meal-form.style';
 
 interface IMealForm {
-  onSubmit: (data: IMealFormValues) => any;
+  isLoading: boolean;
   initialValues?: IMealFormValues;
   ingredients?: ISelectOption[];
+  onSubmit: (data: IMealFormValues) => any;
 }
 
 const { Item } = Form;
 
-const MealForm: FC<IMealForm> = ({ onSubmit, initialValues = INITIAL_MEAL_VALUES, ingredients = [] }) => {
+const MealForm: FC<IMealForm> = ({ isLoading, initialValues = INITIAL_MEAL_VALUES, ingredients = [], onSubmit }) => {
   const classes = useStyles();
 
   const { handleSubmit, handleChange, setFieldValue, values, errors, touched } = useFormik<IMealFormValues>({
@@ -45,6 +46,7 @@ const MealForm: FC<IMealForm> = ({ onSubmit, initialValues = INITIAL_MEAL_VALUES
               className="meal-image-uploader"
               error={errors.imageBase64}
               setFieldValue={setFieldValue}
+              isDisabled={isLoading}
               hasBeenTouched={touched.imageBase64}
             >
               {values.imageBase64 ? (
@@ -52,7 +54,7 @@ const MealForm: FC<IMealForm> = ({ onSubmit, initialValues = INITIAL_MEAL_VALUES
               ) : (
                 <>
                   <Icon type="plus" />
-                  <p>Imagen</p>
+                  <p>{IMAGE_TEXT}</p>
                 </>
               )}
             </Upload>
@@ -60,34 +62,35 @@ const MealForm: FC<IMealForm> = ({ onSubmit, initialValues = INITIAL_MEAL_VALUES
         </Col>
         <Col xs={24} md={12}>
           <Field
-            isDisabled={false}
             name="name"
-            placeholder={NAME_TEXT}
             value={values.name}
             error={errors.name}
-            onChange={handleChange}
+            isDisabled={isLoading}
+            placeholder={NAME_TEXT}
             hasBeenTouched={touched.name}
+            onChange={handleChange}
           />
 
           <Field
-            isDisabled={false}
             name="description"
-            placeholder={DESCRIPTION_TEXT}
             value={values.description}
             error={errors.description}
-            onChange={handleChange}
+            isDisabled={isLoading}
+            placeholder={DESCRIPTION_TEXT}
             hasBeenTouched={touched.description}
+            onChange={handleChange}
           />
 
           <Select
             isMultiple
             name="ingredients"
             options={ingredients}
-            placeholder={INGREDIENTS_TEXT}
             value={values.ingredients}
             error={errors.ingredients as string}
-            setFieldValue={setFieldValue}
+            isDisabled={isLoading}
+            placeholder={INGREDIENTS_TEXT}
             hasBeenTouched={touched.ingredients}
+            setFieldValue={setFieldValue}
           />
         </Col>
         <Col xs={24} md={6}></Col>
@@ -95,7 +98,7 @@ const MealForm: FC<IMealForm> = ({ onSubmit, initialValues = INITIAL_MEAL_VALUES
       <Row>
         <Col style={{ width: '100%' }}>
           <Item className="submit-button">
-            <Button type="submit" disabled={haveValuesChanged}>
+            <Button type="submit" disabled={haveValuesChanged} loading={isLoading}>
               {SAVE_TEXT}
             </Button>
           </Item>
