@@ -32,7 +32,7 @@ export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
       justifyContent: 'space-between',
       marginBottom: spacing(1),
       alignItems: 'baseline',
-      maxWidth: spacing(80)
+      maxWidth: spacing(90)
     },
     '& .columns': {
       marginBottom: spacing(2),
