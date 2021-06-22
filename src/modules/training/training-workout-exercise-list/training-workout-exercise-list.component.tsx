@@ -6,7 +6,11 @@ import { useFormik } from 'formik';
 
 import { Card, Col, Row, Typography, Button as AButton } from 'antd';
 
-import { ITrainingWorkoutExercise, TrainingWorkoutExerciseForm } from 'modules/training/training.module';
+import {
+  ITrainingWorkoutExercise,
+  TrainingWorkoutExerciseForm,
+  TrainingContext
+} from 'modules/training/training.module';
 
 import { DETAIL, NOT_FOUND, TRAINING } from 'shared/routes';
 import { Button, Icon, ListItem } from 'shared/modules';
@@ -27,6 +31,8 @@ interface ITrainingWorkoutExercisesFormValues {
 
 const TrainingWorkoutExerciseList: FC = () => {
   const { user } = useContext(AuthContext);
+
+  const { hasWorkoutExerciseListChange, setHasWorkoutExerciseListChange } = useContext(TrainingContext);
 
   const history = useHistory();
 
@@ -109,20 +115,29 @@ const TrainingWorkoutExerciseList: FC = () => {
 
   const [workoutExercises, setWorkoutExercises] = useState<ITrainingWorkoutExercise[]>(parsed ? parsed : []);
 
-  const { handleSubmit, values, setFieldValue } = useFormik<ITrainingWorkoutExercisesFormValues>({
+  const { values, handleSubmit, setFieldValue } = useFormik<ITrainingWorkoutExercisesFormValues>({
     onSubmit: onFinalize,
     initialValues: { workoutExercises },
     enableReinitialize: true
   });
 
+  const isAtLeastOneCompleted = values.workoutExercises.filter(({ completed }) => completed).length > 0;
+
+  useEffect(() => {
+    if (hasWorkoutExerciseListChange && !isAtLeastOneCompleted) {
+      setHasWorkoutExerciseListChange(false);
+    }
+    if (!hasWorkoutExerciseListChange && isAtLeastOneCompleted) {
+      setHasWorkoutExerciseListChange(true);
+    }
+  }, [isAtLeastOneCompleted]);
+
   if (!routineWorkoutExercises?.length && !training.loading) {
     return <Redirect to={NOT_FOUND} />;
   }
 
-  const isAtLeastOneCompleted = values.workoutExercises.filter(({ completed }) => completed).length > 0;
-
   return (
-    <Card style={{ height: '100%', marginTop: 10 }} bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}>
+    <Card style={{ height: '100%', marginTop: 24 }} bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}>
       <Row>
         <Title style={{ marginLeft: 15 }} level={5}>
           {DAY_TEXT} {day + 1}:{' '}

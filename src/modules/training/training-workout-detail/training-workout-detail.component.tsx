@@ -31,7 +31,7 @@ const TrainingWorkoutDetail: FC = () => {
   const completed = workout.data?.payload.workoutExercises;
 
   return (
-    <Card style={{ height: '100%', marginTop: 10 }} bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}>
+    <Card style={{ height: '100%', marginTop: 24 }} bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}>
       <Title style={{ marginLeft: 15 }} level={5}>
         {COMPLETED_EXERCISES_TITLE}
       </Title>

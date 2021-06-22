@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { ColumnItems, ColumnItem } from './shared/model/column-items.interface';
+import { objectDifferences } from 'shared/util';
+import { ColumnItems, ColumnItem } from './shared/model';
 
 export const parseColumnsToData = (columns: ColumnItem[][], data: ColumnItem[]) => {
   const array = columns.reduce((items, column) => [...items, ...column], []);
@@ -25,6 +26,28 @@ export const parseColumnsToData = (columns: ColumnItem[][], data: ColumnItem[]) 
     update: edited,
     delete: deleted
   };
+};
+
+export const compareColumns = (initialData: ColumnItem[][], newData: ColumnItem[][] | undefined) => {
+  let ban = false;
+  if (newData) {
+    if (initialData.length === newData.length) {
+      initialData.forEach((column, i) => {
+        if (column.length === newData[i].length) {
+          column.forEach((item, j) => {
+            if (Object.keys(objectDifferences(item.data, newData[i][j].data)).length) {
+              ban = true;
+            }
+          });
+        } else {
+          ban = true;
+        }
+      });
+    } else {
+      ban = true;
+    }
+  }
+  return ban;
 };
 
 export const findElement = (uuid: string, columns: ColumnItem[][]) => {

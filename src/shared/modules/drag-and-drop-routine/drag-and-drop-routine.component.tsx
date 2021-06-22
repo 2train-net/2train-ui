@@ -10,17 +10,25 @@ import _ from 'lodash';
 
 import Droppable from 'shared/modules/droppable/droppable.component';
 
-import { Button, Icon, Message, Skeleton } from 'shared/modules';
-import { Select, Field } from 'shared/modules/form';
-
 import { ModalContext } from 'shared/contexts';
+import { Select, Field } from 'shared/modules/form';
 import { Modal } from 'shared/contexts/modal.context';
+import { Button, Icon, Message, Skeleton } from 'shared/modules';
 
-import { DELETE_MODAL, ALERT_UNSAVED_MODAL, CANCEL_TEXT, EXIT_TEXT, SAVE_TEXT, DAY_TEXT } from 'shared/constants';
+import {
+  DELETE_MODAL,
+  ALERT_UNSAVED_MODAL,
+  CANCEL_TEXT,
+  EXIT_TEXT,
+  SAVE_TEXT,
+  DAY_TEXT,
+  DAYS_TEXT
+} from 'shared/constants';
 import { DELETE, DETAIL, EDIT } from 'shared/routes';
 
 import { move, copy, reorder } from './drag-and-drop-routine.actions';
 import {
+  compareColumns,
   dayOptions,
   findElement,
   findElementInColumn,
@@ -126,10 +134,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
             return columns[column][position].uuid === uuid
               ? {
                   ...item,
-                  data: {
-                    ...data,
-                    ...item.data
-                  }
+                  data
                 }
               : item;
           })
@@ -296,12 +301,14 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   const [visible, setVisible] = useState<boolean[]>([]);
   const [areOptionsVisible, setAreOptionsVisible] = useState(false);
 
+  const haveValuesChanged = data ? compareColumns(parseDataToColumns(data, maxColumn), columns) : false;
+
   return (
     <div className={classes.root}>
       <PageHeader
         ghost={false}
         title={ROUTINE_OF_EXERCISE_TITLE}
-        onBack={isEditModeEnabled ? () => displayGoBackModal() : goBack}
+        onBack={isEditModeEnabled ? (haveValuesChanged ? () => displayGoBackModal() : goBack) : goBack}
         extra={[
           <div key="header" className="header-actions">
             {isEditModeEnabled && (
@@ -321,6 +328,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
                 }
                 type="button"
                 size="small"
+                disabled={!haveValuesChanged}
               >
                 {SAVE_TEXT}
               </Button>
@@ -331,7 +339,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
       <DragDropContext onDragEnd={isEditModeEnabled ? result => onDragEnd(result) : () => {}}>
         <Row className="columns">
           <Col span={24}>
-            {isLoading && <Title level={5}>Días</Title>}
+            {isLoading && <Title level={5}>{DAYS_TEXT}</Title>}
             <Skeleton isLoading={isLoading}>
               <Row gutter={16} justify="center" align="middle">
                 {columns

@@ -20,6 +20,7 @@ export const CREATE_TEXT = 'Crear',
   CONTINUE_TEXT = 'Continuar',
   SEND_TEXT = 'Enviar',
   FROM_TEXT = 'Desde',
+  TO_TRAIN_TEXT = 'Entrenar',
   TO_TEXT = 'Hasta',
   OTHER_TEXT = 'Otro',
   BOTH_TEXT = 'Ambos',
@@ -76,7 +77,8 @@ export const PRICE_TEXT = 'Precio',
   COLONES_TEXT = 'Colones';
 
 export const NAME_TEXT = 'Nombre',
-  DESCRIPTION_TEXT = 'Descripción';
+  DESCRIPTION_TEXT = 'Descripción',
+  DETAIL_TEXT = 'Detalle';
 
 export const REQUIRED_EXCEPTION_TEXT = 'Requerido',
   INVALID_EMAIL_EXCEPTION_TEXT = `${EMAIL_TEXT} invalido`,

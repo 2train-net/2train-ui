@@ -38,7 +38,7 @@ const TrainingDayList: FC = () => {
   };
 
   return (
-    <Card style={{ height: '100%', marginTop: 10 }} bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}>
+    <Card style={{ height: '100%', marginTop: 24 }} bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}>
       <Title style={{ marginLeft: 15 }} level={5}>
         {SELECT_TRAINING_DAY_TITLE}
       </Title>
