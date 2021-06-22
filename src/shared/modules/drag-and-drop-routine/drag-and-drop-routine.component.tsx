@@ -246,7 +246,14 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
         break;
 
       default:
-        setColumns(updatePositionsAndColumns(move(sourceItems, destItems, source, destination, columnsCopy)));
+        if (
+          (!findElementInColumn(sourceItems[source.index].option.uuid, destItems) && !acceptsRepeated) ||
+          acceptsRepeated
+        ) {
+          setColumns(updatePositionsAndColumns(move(sourceItems, destItems, source, destination, columnsCopy)));
+        } else {
+          Message.info(NOT_REPEAT_ELEMENTS_EXCEPTION);
+        }
         break;
     }
   };
