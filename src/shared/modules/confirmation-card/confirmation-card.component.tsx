@@ -75,28 +75,32 @@ const ConfirmationCard: FC<IConfirmationCard> = ({
           </Col>
         </Row>
       )}
-      <Row className="confirmation-card-actions">
-        {isCancelButtonAvailable && (
-          <Col span={isSubmitButtonAvailable ? 12 : 24}>
-            <Button onClick={onCancel} color="default" size="medium" disabled={isLoading} loading={isLoading}>
-              {cancelText || CANCEL_TEXT}
-            </Button>
-          </Col>
-        )}
-        {isSubmitButtonAvailable && (
-          <Col span={isCancelButtonAvailable ? 12 : 24}>
-            <Button
-              onClick={onConfirm}
-              color={color}
-              size="medium"
-              disabled={isLoading}
-              fullWidth={!isCancelButtonAvailable}
-            >
-              {confirmText || CONTINUE_TEXT}
-            </Button>
-          </Col>
-        )}
-      </Row>
+      {isCancelButtonAvailable && isSubmitButtonAvailable ? (
+        <Row className="confirmation-card-actions">
+          {isCancelButtonAvailable && (
+            <Col span={isSubmitButtonAvailable ? 12 : 24}>
+              <Button onClick={onCancel} color="default" size="medium" disabled={isLoading} loading={isLoading}>
+                {cancelText || CANCEL_TEXT}
+              </Button>
+            </Col>
+          )}
+          {isSubmitButtonAvailable && (
+            <Col span={isCancelButtonAvailable ? 12 : 24}>
+              <Button
+                onClick={onConfirm}
+                color={color}
+                size="medium"
+                disabled={isLoading}
+                fullWidth={!isCancelButtonAvailable}
+              >
+                {confirmText || CONTINUE_TEXT}
+              </Button>
+            </Col>
+          )}
+        </Row>
+      ) : (
+        ''
+      )}
     </Card>
   );
 };
