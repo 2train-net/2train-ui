@@ -14,6 +14,7 @@ import { parseWorkoutExerciseToItem, parseUpdate, parseCreate, parseDelete } fro
 import {
   ExerciseItemCard,
   WorkoutExerciseItemCard,
+  ExerciseOptionCreate,
   WorkoutExerciseForm,
   WORKOUT_EXERCISE_MODAL
 } from 'modules/workout-routines/workout-routines.module';
@@ -23,6 +24,7 @@ import { DragAndDropRoutine, Message } from 'shared/modules';
 import { IDragAndDropRoutineFormValues } from 'shared/modules/drag-and-drop-routine/shared/model/column-items.interface';
 import { DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
 import { WorkoutRoutineService } from 'shared/services';
+import { EXERCISES_TEXT } from 'shared/constants';
 
 const WorkoutRoutineUpdate: FC = () => {
   const { getMaxDay } = WorkoutRoutineService;
@@ -81,11 +83,13 @@ const WorkoutRoutineUpdate: FC = () => {
     <Redirect to={NOT_FOUND} />
   ) : (
     <DragAndDropRoutine
+      optionsTitle={EXERCISES_TEXT}
       data={parseWorkoutExerciseToItem(workoutRoutine.data?.payload.workoutExercises)}
       options={isEditModeEnabled ? exercises.data?.payload : undefined}
       renderColumnCard={WorkoutExerciseItemCard}
       renderOptionCard={ExerciseItemCard}
       renderForm={WorkoutExerciseForm}
+      createOptionsRenderForm={ExerciseOptionCreate}
       formModal={WORKOUT_EXERCISE_MODAL}
       onSubmit={onSubmit}
       isEditModeEnabled={isEditModeEnabled}
