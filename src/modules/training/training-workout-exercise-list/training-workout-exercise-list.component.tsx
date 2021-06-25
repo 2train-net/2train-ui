@@ -44,7 +44,7 @@ const TrainingWorkoutExerciseList: FC = () => {
 
   const itemFormRef = useRef<HTMLFormElement>(null);
 
-  const [createWorkout] = useCreateWorkoutMutation();
+  const [createWorkout, { loading }] = useCreateWorkoutMutation();
 
   const training = useGetTrainingQuery({
     fetchPolicy: 'network-only',
@@ -86,22 +86,22 @@ const TrainingWorkoutExerciseList: FC = () => {
 
   const onFinalize = async () => {
     const create = parseToWorkoutExercises(values.workoutExercises);
-
-    if (create.length) {
-      const workout = await createWorkout({
-        variables: {
-          data: {
-            workoutRoutine: {
-              uuid: user?.currentActivePlan?.workoutRoutine?.uuid
-            },
-            workoutExercises: {
-              create
+    if (!loading) {
+      if (create.length) {
+        const workout = await createWorkout({
+          variables: {
+            data: {
+              workoutRoutine: {
+                uuid: user?.currentActivePlan?.workoutRoutine?.uuid
+              },
+              workoutExercises: {
+                create
+              }
             }
           }
-        }
-      });
-
-      history.push(`${TRAINING}/${DETAIL}/${workout.data?.payload.uuid}`);
+        });
+        history.push(`${TRAINING}/${DETAIL}/${workout.data?.payload.uuid}`);
+      }
     }
   };
 
@@ -172,8 +172,8 @@ const TrainingWorkoutExerciseList: FC = () => {
             color="secondary"
             fullWidth
             onClick={handleSubmit}
-            loading={training.loading}
-            disabled={!isAtLeastOneCompleted}
+            loading={training.loading || loading}
+            disabled={!isAtLeastOneCompleted || loading}
           >
             {FINALIZE_TEXT}
           </Button>
