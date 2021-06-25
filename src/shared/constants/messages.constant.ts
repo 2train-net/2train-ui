@@ -40,7 +40,8 @@ export const CREATE_TEXT = 'Crear',
   UNCOMPLETE_TEXT = 'Descompletar',
   DURATION_TEXT = 'Duración',
   INTERVAL_TEXT = 'Intervalo',
-  IMAGE_TEXT = 'Imagen';
+  IMAGE_TEXT = 'Imagen',
+  NONE_TEXT = 'Ninguna';
 
 export const FIRST_NAME_TEXT = 'Nombre',
   LAST_NAME_TEXT = 'Apellido(s)',
