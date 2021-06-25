@@ -22,7 +22,8 @@ import {
   EXIT_TEXT,
   SAVE_TEXT,
   DAY_TEXT,
-  DAYS_TEXT
+  DAYS_TEXT,
+  CREATE_TEXT
 } from 'shared/constants';
 import { DELETE, DETAIL, EDIT } from 'shared/routes';
 
@@ -37,9 +38,10 @@ import {
   updatePositionsAndColumns
 } from './drag-and-drop-routine.util';
 
-import { ColumnItem, FormData, ICard, Option } from './shared/model';
+import { ColumnItem, FormData, ICard, Option, OptionFormData } from './shared/model';
 
 import {
+  OPTION_DOESNT_EXIST_TEXT,
   NOT_REPEAT_ELEMENTS_EXCEPTION,
   REDUCE_DAY_MODAL,
   ROUTINE_OF_EXERCISE_TITLE,
@@ -49,11 +51,13 @@ import {
 import useStyles from './drag-drop-routine.style';
 
 interface IDragAndDropRoutineValues {
+  optionsTitle: string;
   data?: ColumnItem[];
   options?: Option[];
   renderColumnCard: FC<ICard>;
   renderOptionCard: FC<ICard>;
   renderForm: FC<FormData>;
+  createOptionsRenderForm: FC<OptionFormData>;
   formModal: Modal;
   isEditModeEnabled?: boolean;
   isLoading?: boolean;
@@ -62,14 +66,16 @@ interface IDragAndDropRoutineValues {
   acceptsRepeated?: boolean;
 }
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
+  optionsTitle,
   data,
   options,
   renderColumnCard: ColumnCard,
   renderOptionCard: OptionCard,
   renderForm: Form,
+  createOptionsRenderForm: OptionForm,
   formModal,
   isEditModeEnabled = true,
   isLoading = true,
@@ -111,6 +117,24 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
     });
   };
 
+  const displayCreateOptionsModal = () => {
+    modalProvider.show({
+      ...formModal,
+      title: `${CREATE_TEXT} ${optionsTitle}`,
+      contentRender: (
+        <OptionForm
+          onFinishAction={() => {
+            setSearchBar('');
+            setAreOptionsVisible(true);
+            modalProvider.close();
+          }}
+          searchInput={searchBar}
+        />
+      ),
+      isCancelButtonAvailable: false,
+      isSubmitButtonAvailable: false
+    });
+  };
   const deleteElement = (uuid: string) => {
     return columns ? columns.map(items => _.remove(items, item => item.uuid !== uuid)) : [];
   };
@@ -336,6 +360,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
                 type="button"
                 size="small"
                 disabled={!haveValuesChanged}
+                loading={isLoading}
               >
                 {SAVE_TEXT}
               </Button>
@@ -400,14 +425,26 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
               </AButton>
             </div>
             <Skeleton isLoading={isLoading}>
-              <Droppable
-                id="OPTIONS"
-                direction="horizontal"
-                items={filterOptions || []}
-                renderCard={OptionCard}
-                isDropDisabled
-                isVisible={areOptionsVisible}
-              />
+              {filterOptions?.length ? (
+                <Droppable
+                  id="OPTIONS"
+                  direction="horizontal"
+                  items={filterOptions || []}
+                  renderCard={OptionCard}
+                  isDropDisabled
+                  isVisible={areOptionsVisible}
+                />
+              ) : (
+                <div
+                  className="create-options-container"
+                  style={filterOptions?.length || !areOptionsVisible ? { display: 'none' } : {}}
+                >
+                  <Text type="secondary">{OPTION_DOESNT_EXIST_TEXT}</Text>
+                  <Button size="small" onClick={displayCreateOptionsModal}>
+                    {CREATE_TEXT}
+                  </Button>
+                </div>
+              )}
             </Skeleton>
           </Card>
         ) : (
