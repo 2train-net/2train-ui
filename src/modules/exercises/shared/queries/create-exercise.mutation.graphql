@@ -1,5 +1,7 @@
 mutation createExercise($data: ExerciseCreateInput!) {
   payload: createExercise(data: $data) {
     uuid
+    name
+    description
   }
 }
