@@ -636,15 +636,6 @@ export type ClientWhereUniqueInput = {
 };
 
 export type ClientOrderByInput = {
-  id?: Maybe<OrderByArg>;
-  uuid?: Maybe<OrderByArg>;
-  email?: Maybe<OrderByArg>;
-  username?: Maybe<OrderByArg>;
-  firstName?: Maybe<OrderByArg>;
-  lastName?: Maybe<OrderByArg>;
-  phone?: Maybe<OrderByArg>;
-  birthday?: Maybe<OrderByArg>;
-  gender?: Maybe<OrderByArg>;
   createdAt?: Maybe<OrderByArg>;
 };
 
@@ -825,7 +816,6 @@ export type UserCreateInput = {
 
 export type UserUpdateInput = {
   avatarBase64?: Maybe<Scalars['String']>;
-  username?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
@@ -1050,7 +1040,7 @@ export type CreateExerciseMutationVariables = Exact<{
 }>;
 
 export type CreateExerciseMutation = { __typename?: 'Mutation' } & {
-  payload: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid'>;
+  payload: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'>;
 };
 
 export type GetExerciseQueryVariables = Exact<{
@@ -1664,6 +1654,8 @@ export const CreateExerciseDocument = gql`
   mutation createExercise($data: ExerciseCreateInput!) {
     payload: createExercise(data: $data) {
       uuid
+      name
+      description
     }
   }
 `;
