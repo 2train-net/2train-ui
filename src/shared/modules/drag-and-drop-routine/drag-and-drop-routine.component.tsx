@@ -44,7 +44,8 @@ import {
   OPTION_NOT_EXISTS_TEXT,
   NOT_REPEAT_ELEMENTS_EXCEPTION,
   REDUCE_DAY_MODAL,
-  SEARCH_OPTION_TEXT
+  SEARCH_OPTION_TEXT,
+  OPTIONS_TEXT
 } from './shared/constants';
 
 import useStyles from './drag-drop-routine.style';
@@ -55,15 +56,15 @@ interface IDragAndDropRoutineValues {
   renderColumnCard: FC<ICard>;
   renderOptionCard: FC<ICard>;
   renderForm: FC<FormData>;
-  createOptionsRenderForm: FC<OptionFormData>;
+  createOptionsRenderForm?: FC<OptionFormData>;
   formModal: Modal;
   isEditModeEnabled?: boolean;
   isLoading?: boolean;
-  onSubmit: (data: any) => any;
+  onSubmit?: (data: any) => any;
   maxColumn: number;
   acceptsRepeated?: boolean;
   routineTitle: string;
-  optionsTitle: string;
+  optionsTitle?: string;
   searchOptionText?: string;
   optionNotExistsText?: string;
   notRepeatOptionsText?: string;
@@ -85,7 +86,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   acceptsRepeated = true,
   onSubmit,
   routineTitle,
-  optionsTitle,
+  optionsTitle = OPTIONS_TEXT,
   searchOptionText = SEARCH_OPTION_TEXT,
   optionNotExistsText = OPTION_NOT_EXISTS_TEXT,
   notRepeatOptionsText = NOT_REPEAT_ELEMENTS_EXCEPTION
@@ -128,7 +129,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
     modalProvider.show({
       ...formModal,
       title: `${CREATE_TEXT} ${optionsTitle}`,
-      contentRender: (
+      contentRender: OptionForm ? (
         <OptionForm
           onFinishAction={() => {
             setSearchBar('');
@@ -137,6 +138,8 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
           }}
           searchInput={searchBar}
         />
+      ) : (
+        <></>
       ),
       isCancelButtonAvailable: false,
       isSubmitButtonAvailable: false
@@ -361,7 +364,10 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
               <Button
                 onClick={
                   data
-                    ? () => onSubmit(parseColumnsToData(updatePositionsAndColumns(columns ? columns : []), data))
+                    ? () => {
+                        if (onSubmit)
+                          onSubmit(parseColumnsToData(updatePositionsAndColumns(columns ? columns : []), data));
+                      }
                     : () => {}
                 }
                 type="button"
@@ -408,6 +414,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
                           renderCard={ColumnCard}
                           isDropDisabled={!isEditModeEnabled}
                           isVisible={visible[columnIndex]}
+                          isDragDisabled={!isEditModeEnabled}
                         />
                       </Col>
                     ))

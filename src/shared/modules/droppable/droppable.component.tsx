@@ -14,6 +14,7 @@ interface IDroppableValues {
   items: Item[];
   renderCard: FC<any>;
   isDropDisabled?: boolean;
+  isDragDisabled?: boolean;
   isVisible: boolean;
 }
 const Droppable: FC<IDroppableValues> = ({
@@ -22,7 +23,8 @@ const Droppable: FC<IDroppableValues> = ({
   isVisible,
   items,
   renderCard,
-  isDropDisabled = false
+  isDropDisabled = false,
+  isDragDisabled = false
 }) => {
   return (
     <RBDroppable droppableId={id} direction={direction} isDropDisabled={isDropDisabled}>
@@ -44,7 +46,14 @@ const Droppable: FC<IDroppableValues> = ({
             }
           >
             {items.map((item: Item, position: number) => (
-              <Draggable key={item.uuid} id={item.uuid} position={position} item={item} renderCard={renderCard} />
+              <Draggable
+                key={item.uuid}
+                id={item.uuid}
+                position={position}
+                item={item}
+                renderCard={renderCard}
+                isDragDisabled={isDragDisabled}
+              />
             ))}
             {provided.placeholder}
           </div>

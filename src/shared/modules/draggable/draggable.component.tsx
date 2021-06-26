@@ -11,11 +11,12 @@ interface IDraggableValues {
   id: string;
   item: Item;
   renderCard: FC<ICard>;
+  isDragDisabled?: boolean;
 }
 
-const Draggable: FC<IDraggableValues> = ({ id, position, item, renderCard: Card }) => {
+const Draggable: FC<IDraggableValues> = ({ id, position, item, renderCard: Card, isDragDisabled = false }) => {
   return (
-    <RBDraggable draggableId={id} index={position}>
+    <RBDraggable isDragDisabled={isDragDisabled} draggableId={id} index={position}>
       {(provided, snapshot) => {
         return (
           <div
