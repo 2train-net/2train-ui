@@ -10,7 +10,11 @@ import { IExerciseFormValues } from 'modules/exercises/shared/components/exercis
 
 import { EXERCISES } from 'shared/routes';
 import { FormPage, Message } from 'shared/modules';
-import { useCreateExerciseMutation } from 'shared/generated/graphql-schema';
+import {
+  GetAllExercisesDocument,
+  GetAllExercisesQuery,
+  useCreateExerciseMutation
+} from 'shared/generated/graphql-schema';
 
 const ExerciseCreate: FC = () => {
   const history = useHistory();
@@ -27,6 +31,14 @@ const ExerciseCreate: FC = () => {
         await createExercise({
           variables: {
             data
+          },
+          update: (cache, { data }) => {
+            const query = cache.readQuery<GetAllExercisesQuery>({ query: GetAllExercisesDocument });
+            const exercises = query?.payload!;
+            cache.writeQuery({
+              data: { payload: [data?.payload, ...exercises] },
+              query: GetAllExercisesDocument
+            });
           }
         });
 
