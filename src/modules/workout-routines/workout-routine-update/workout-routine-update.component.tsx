@@ -19,16 +19,15 @@ import {
   WORKOUT_EXERCISE_MODAL,
   EXERCISE_NOT_EXISTS_TEXT,
   NOT_REPEAT_EXERCISE_EXCEPTION,
-  ROUTINE_OF_EXERCISES_TEXT,
   SEARCH_EXERCISE_TEXT
 } from 'modules/workout-routines/workout-routines.module';
 
 import { AuthContext } from 'shared/contexts';
-import { DragAndDropRoutine, Message } from 'shared/modules';
-import { IDragAndDropRoutineFormValues } from 'shared/modules/drag-and-drop-routine/shared/model/column-items.interface';
-import { DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
 import { WorkoutRoutineService } from 'shared/services';
-import { EXERCISES_TEXT } from 'shared/constants';
+import { DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
+import { DragAndDropRoutine, Message } from 'shared/modules';
+import { EXERCISES_TEXT, WORKOUT_ROUTINE_TEXT } from 'shared/constants';
+import { IDragAndDropRoutineFormValues } from 'shared/modules/drag-and-drop-routine/shared/model/column-items.interface';
 
 const WorkoutRoutineUpdate: FC = () => {
   const { getMaxDay } = WorkoutRoutineService;
@@ -88,7 +87,7 @@ const WorkoutRoutineUpdate: FC = () => {
   ) : (
     <DragAndDropRoutine
       optionsTitle={EXERCISES_TEXT}
-      routineTitle={ROUTINE_OF_EXERCISES_TEXT}
+      routineTitle={WORKOUT_ROUTINE_TEXT}
       searchOptionText={SEARCH_EXERCISE_TEXT}
       notRepeatOptionsText={NOT_REPEAT_EXERCISE_EXCEPTION}
       optionNotExistsText={EXERCISE_NOT_EXISTS_TEXT}
