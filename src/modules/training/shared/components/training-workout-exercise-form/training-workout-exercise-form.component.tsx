@@ -56,10 +56,7 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
   const { handleSubmit, handleChange, setFieldValue, values, errors, touched, resetForm } = useFormik<
     ITrainingWorkoutExerciseFormValues
   >({
-    onSubmit: () => {
-      onComplete(values);
-      resetForm();
-    },
+    onSubmit: onComplete,
     initialValues: initialValues,
     validationSchema: TRAINING_WORKOUT_EXERCISE_FORM_SCHEMA,
     enableReinitialize: true

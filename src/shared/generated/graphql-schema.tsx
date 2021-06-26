@@ -621,7 +621,6 @@ export type PlanInvitationWhereUniqueInput = {
 export type PlanInvitationOrderByInput = {
   id?: Maybe<OrderByArg>;
   uuid?: Maybe<OrderByArg>;
-  createdAt?: Maybe<OrderByArg>;
 };
 
 export type PlanInvitationWhereInput = {
@@ -645,7 +644,6 @@ export type ClientOrderByInput = {
   phone?: Maybe<OrderByArg>;
   birthday?: Maybe<OrderByArg>;
   gender?: Maybe<OrderByArg>;
-  createdAt?: Maybe<OrderByArg>;
 };
 
 export type ClientWhereInput = {
@@ -1050,7 +1048,7 @@ export type CreateExerciseMutationVariables = Exact<{
 }>;
 
 export type CreateExerciseMutation = { __typename?: 'Mutation' } & {
-  payload: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid'>;
+  payload: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'>;
 };
 
 export type GetExerciseQueryVariables = Exact<{
@@ -1664,6 +1662,8 @@ export const CreateExerciseDocument = gql`
   mutation createExercise($data: ExerciseCreateInput!) {
     payload: createExercise(data: $data) {
       uuid
+      name
+      description
     }
   }
 `;

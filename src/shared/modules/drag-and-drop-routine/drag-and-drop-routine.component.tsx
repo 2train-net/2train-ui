@@ -22,7 +22,8 @@ import {
   EXIT_TEXT,
   SAVE_TEXT,
   DAY_TEXT,
-  DAYS_TEXT
+  DAYS_TEXT,
+  CREATE_TEXT
 } from 'shared/constants';
 import { DELETE, DETAIL, EDIT } from 'shared/routes';
 
@@ -37,13 +38,13 @@ import {
   updatePositionsAndColumns
 } from './drag-and-drop-routine.util';
 
-import { ColumnItem, FormData, ICard, Option } from './shared/model';
+import { ColumnItem, FormData, ICard, Option, OptionFormData } from './shared/model';
 
 import {
+  OPTION_NOT_EXISTS_TEXT,
   NOT_REPEAT_ELEMENTS_EXCEPTION,
   REDUCE_DAY_MODAL,
-  ROUTINE_OF_EXERCISE_TITLE,
-  SEARCH_EXERCISE_TEXT
+  SEARCH_OPTION_TEXT
 } from './shared/constants';
 
 import useStyles from './drag-drop-routine.style';
@@ -54,15 +55,21 @@ interface IDragAndDropRoutineValues {
   renderColumnCard: FC<ICard>;
   renderOptionCard: FC<ICard>;
   renderForm: FC<FormData>;
+  createOptionsRenderForm: FC<OptionFormData>;
   formModal: Modal;
   isEditModeEnabled?: boolean;
   isLoading?: boolean;
   onSubmit: (data: any) => any;
   maxColumn: number;
   acceptsRepeated?: boolean;
+  routineTitle: string;
+  optionsTitle: string;
+  searchOptionText?: string;
+  optionNotExistsText?: string;
+  notRepeatOptionsText?: string;
 }
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   data,
@@ -70,12 +77,18 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   renderColumnCard: ColumnCard,
   renderOptionCard: OptionCard,
   renderForm: Form,
+  createOptionsRenderForm: OptionForm,
   formModal,
   isEditModeEnabled = true,
   isLoading = true,
   maxColumn,
   acceptsRepeated = true,
-  onSubmit
+  onSubmit,
+  routineTitle,
+  optionsTitle,
+  searchOptionText = SEARCH_OPTION_TEXT,
+  optionNotExistsText = OPTION_NOT_EXISTS_TEXT,
+  notRepeatOptionsText = NOT_REPEAT_ELEMENTS_EXCEPTION
 }) => {
   const classes = useStyles();
 
@@ -111,6 +124,24 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
     });
   };
 
+  const displayCreateOptionsModal = () => {
+    modalProvider.show({
+      ...formModal,
+      title: `${CREATE_TEXT} ${optionsTitle}`,
+      contentRender: (
+        <OptionForm
+          onFinishAction={() => {
+            setSearchBar('');
+            setAreOptionsVisible(true);
+            modalProvider.close();
+          }}
+          searchInput={searchBar}
+        />
+      ),
+      isCancelButtonAvailable: false,
+      isSubmitButtonAvailable: false
+    });
+  };
   const deleteElement = (uuid: string) => {
     return columns ? columns.map(items => _.remove(items, item => item.uuid !== uuid)) : [];
   };
@@ -241,7 +272,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
             }
           });
         } else {
-          Message.info(NOT_REPEAT_ELEMENTS_EXCEPTION);
+          Message.info(notRepeatOptionsText);
         }
         break;
 
@@ -252,7 +283,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
         ) {
           setColumns(updatePositionsAndColumns(move(sourceItems, destItems, source, destination, columnsCopy)));
         } else {
-          Message.info(NOT_REPEAT_ELEMENTS_EXCEPTION);
+          Message.info(notRepeatOptionsText);
         }
         break;
     }
@@ -314,7 +345,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
     <div className={classes.root}>
       <PageHeader
         ghost={false}
-        title={ROUTINE_OF_EXERCISE_TITLE}
+        title={routineTitle}
         onBack={isEditModeEnabled ? (haveValuesChanged ? () => displayGoBackModal() : goBack) : goBack}
         extra={[
           <div key="header" className="header-actions">
@@ -336,6 +367,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
                 type="button"
                 size="small"
                 disabled={!haveValuesChanged}
+                loading={isLoading}
               >
                 {SAVE_TEXT}
               </Button>
@@ -390,7 +422,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
             <div className="search-container">
               <Field
                 value={searchBar}
-                placeholder={SEARCH_EXERCISE_TEXT}
+                placeholder={searchOptionText}
                 name="search"
                 onChange={handleSearchChange}
                 clearable
@@ -400,14 +432,26 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
               </AButton>
             </div>
             <Skeleton isLoading={isLoading}>
-              <Droppable
-                id="OPTIONS"
-                direction="horizontal"
-                items={filterOptions || []}
-                renderCard={OptionCard}
-                isDropDisabled
-                isVisible={areOptionsVisible}
-              />
+              {filterOptions?.length ? (
+                <Droppable
+                  id="OPTIONS"
+                  direction="horizontal"
+                  items={filterOptions || []}
+                  renderCard={OptionCard}
+                  isDropDisabled
+                  isVisible={areOptionsVisible}
+                />
+              ) : (
+                <div
+                  className="create-options-container"
+                  style={filterOptions?.length || !areOptionsVisible ? { display: 'none' } : {}}
+                >
+                  <Text type="secondary">{optionNotExistsText}</Text>
+                  <Button size="small" onClick={displayCreateOptionsModal}>
+                    {CREATE_TEXT}
+                  </Button>
+                </div>
+              )}
             </Skeleton>
           </Card>
         ) : (

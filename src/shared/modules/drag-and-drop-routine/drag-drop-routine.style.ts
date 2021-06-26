@@ -61,6 +61,16 @@ export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
         justifyContent: 'space-between'
       }
     },
+    '& .create-options-container': {
+      display: 'flex',
+      flexDirection: 'column',
+      width: 'fit-content',
+      margin: 'auto',
+      '& > span': {
+        marginTop: spacing(1),
+        marginBottom: spacing(2)
+      }
+    },
     '& .notVisible': {
       display: 'none'
     },
@@ -98,7 +108,8 @@ export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
       '& > div': {
         justifyContent: 'center',
         '& .ant-card': {
-          width: [['100%'], '!important']
+          width: [['100%'], '!important'],
+          minWidth: spacing(25)
         }
       },
       maxWidth: 400,
