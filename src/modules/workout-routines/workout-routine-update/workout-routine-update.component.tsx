@@ -16,7 +16,11 @@ import {
   WorkoutExerciseItemCard,
   ExerciseOptionCreate,
   WorkoutExerciseForm,
-  WORKOUT_EXERCISE_MODAL
+  WORKOUT_EXERCISE_MODAL,
+  EXERCISE_NOT_EXISTS_TEXT,
+  NOT_REPEAT_EXERCISE_EXCEPTION,
+  ROUTINE_OF_EXERCISES_TEXT,
+  SEARCH_EXERCISE_TEXT
 } from 'modules/workout-routines/workout-routines.module';
 
 import { AuthContext } from 'shared/contexts';
@@ -84,6 +88,10 @@ const WorkoutRoutineUpdate: FC = () => {
   ) : (
     <DragAndDropRoutine
       optionsTitle={EXERCISES_TEXT}
+      routineTitle={ROUTINE_OF_EXERCISES_TEXT}
+      searchOptionText={SEARCH_EXERCISE_TEXT}
+      notRepeatOptionsText={NOT_REPEAT_EXERCISE_EXCEPTION}
+      optionNotExistsText={EXERCISE_NOT_EXISTS_TEXT}
       data={parseWorkoutExerciseToItem(workoutRoutine.data?.payload.workoutExercises)}
       options={isEditModeEnabled ? exercises.data?.payload : undefined}
       renderColumnCard={WorkoutExerciseItemCard}
