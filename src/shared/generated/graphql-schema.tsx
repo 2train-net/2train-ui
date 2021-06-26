@@ -621,6 +621,7 @@ export type PlanInvitationWhereUniqueInput = {
 export type PlanInvitationOrderByInput = {
   id?: Maybe<OrderByArg>;
   uuid?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
 };
 
 export type PlanInvitationWhereInput = {
@@ -635,15 +636,7 @@ export type ClientWhereUniqueInput = {
 };
 
 export type ClientOrderByInput = {
-  id?: Maybe<OrderByArg>;
-  uuid?: Maybe<OrderByArg>;
-  email?: Maybe<OrderByArg>;
-  username?: Maybe<OrderByArg>;
-  firstName?: Maybe<OrderByArg>;
-  lastName?: Maybe<OrderByArg>;
-  phone?: Maybe<OrderByArg>;
-  birthday?: Maybe<OrderByArg>;
-  gender?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
 };
 
 export type ClientWhereInput = {
@@ -823,7 +816,6 @@ export type UserCreateInput = {
 
 export type UserUpdateInput = {
   avatarBase64?: Maybe<Scalars['String']>;
-  username?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
