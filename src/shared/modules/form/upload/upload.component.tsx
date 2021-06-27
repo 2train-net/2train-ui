@@ -18,11 +18,7 @@ const Upload: FC<IUpload> = ({ children, name, error, className, isDisabled, has
   const getBase64 = (file: Blob, callback: (image: string | ArrayBuffer | null) => void) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
-    try {
-      reader.readAsDataURL(file);
-    } catch (error) {
-      console.log(error);
-    }
+    reader.readAsDataURL(file);
   };
 
   const onUpload = (file: Blob) => {

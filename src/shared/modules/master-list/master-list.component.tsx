@@ -59,7 +59,7 @@ const MasterList = <T,>({
         take,
         skip: nextSkip
       },
-      updateQuery: (prev, { fetchMoreResult }) => {
+      updateQuery: (prev: any, { fetchMoreResult }: any) => {
         if (!fetchMoreResult) return prev;
 
         return Object.assign({}, prev, {
@@ -128,7 +128,7 @@ const MasterList = <T,>({
       <Row className="master-list-content" gutter={[24, 24]}>
         <Skeleton isLoading={loading} multiple={3} type="card" spaceBetween={3}>
           {!isEmpty ? (
-            data.payload.map((data: Entity<T>) => (
+            data?.payload?.map((data: Entity<T>) => (
               <Col key={data.uuid} sm={{ order: 24 }} md={{ order: 12 }} lg={{ order: 6 }}>
                 <Component data={data} />
               </Col>

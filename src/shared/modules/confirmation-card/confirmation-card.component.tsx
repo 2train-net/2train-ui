@@ -75,11 +75,11 @@ const ConfirmationCard: FC<IConfirmationCard> = ({
           </Col>
         </Row>
       )}
-      {isCancelButtonAvailable && isSubmitButtonAvailable ? (
+      {isCancelButtonAvailable || isSubmitButtonAvailable ? (
         <Row className="confirmation-card-actions">
           {isCancelButtonAvailable && (
             <Col span={isSubmitButtonAvailable ? 12 : 24}>
-              <Button onClick={onCancel} color="default" size="medium" disabled={isLoading} loading={isLoading}>
+              <Button onClick={onCancel} color="default" size="medium" disabled={isLoading}>
                 {cancelText || CANCEL_TEXT}
               </Button>
             </Col>

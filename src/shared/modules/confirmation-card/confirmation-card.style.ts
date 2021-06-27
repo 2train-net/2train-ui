@@ -3,7 +3,7 @@ import { createUseStyles } from 'react-jss';
 import { ITheme } from 'shared/theme';
 import { ButtonColor } from 'shared/modules/button/button.component';
 
-export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
+export default createUseStyles<string, { color: string }, ITheme>(({ palette, breakpoints, spacing }): any => ({
   root: ({ color }: { color: ButtonColor }) => ({
     pointerEvents: 'auto',
     margin: {

@@ -51,7 +51,6 @@ export class AuthService {
     try {
       await Auth.confirmSignUp(email, code);
     } catch (error) {
-      console.log(error);
       throw new AuthError();
     }
   }

@@ -18,8 +18,7 @@ import Workouts from 'modules/workouts/workouts.module';
 import Meals from 'modules/meals/meals.module';
 import Training from 'modules/training/training.module';
 
-import { NotFoundErrorPage } from 'shared/modules';
-
+import { NotFoundErrorPage, ErrorBoundary } from 'shared/modules';
 import { AuthProvider, ModalProvider } from 'shared/contexts';
 import { LIGHT_THEME } from 'shared/theme';
 import {
@@ -43,32 +42,35 @@ const App: FC = () => {
   const { pathname } = useLocation();
 
   return (
-    <AuthProvider>
-      <ThemeProvider theme={LIGHT_THEME}>
-        <ModalProvider>
-          <Route path={ROOT} component={Auth} />
-          <Navigation>
-            <Switch>
-              <Route exact path={ROOT} component={Home} />
-              <Route exact path={HOME} component={Home} />
-              <Route exact path={PROFILE} component={Profile} />
-              <Route path={WORKOUT_ROUTINES} component={WorkoutRoutines} />
-              <Route path={PLANS} component={Plans} />
-              <Route path={PLAN_INVITATIONS} component={PlanInvitations} />
-              <Route path={EXERCISES} component={Exercises} />
-              <Route path={BODY_MEASURES} component={BodyMeasure} />
-              <Route path={CLIENTS} component={Clients} />
-              <Route path={WORKOUTS} component={Workouts} />
-              <Route path={MEALS} component={Meals} />
-              <Route path={TRAINING} component={Training} />
+    <ThemeProvider theme={LIGHT_THEME}>
+      <ErrorBoundary>
+        <AuthProvider>
+          <ModalProvider>
+            <Route path={ROOT} component={Auth} />
+            <Navigation>
+              <Switch>
+                <Route exact path={ROOT} component={Home} />
+                <Route exact path={HOME} component={Home} />
+                <Route exact path={PROFILE} component={Profile} />
+                <Route path={WORKOUT_ROUTINES} component={WorkoutRoutines} />
+                <Route path={PLANS} component={Plans} />
+                <Route path={PLAN_INVITATIONS} component={PlanInvitations} />
+                <Route path={EXERCISES} component={Exercises} />
+                <Route path={BODY_MEASURES} component={BodyMeasure} />
+                <Route path={CLIENTS} component={Clients} />
+                <Route path={WORKOUTS} component={Workouts} />
+                <Route path={MEALS} component={Meals} />
+                <Route path={TRAINING} component={Training} />
 
-              <Route component={NotFoundErrorPage} />
-              <Redirect to={pathname} />
-            </Switch>
-          </Navigation>
-        </ModalProvider>
-      </ThemeProvider>
-    </AuthProvider>
+                <Route component={NotFoundErrorPage} />
+                <Redirect to={pathname} />
+              </Switch>
+            </Navigation>
+          </ModalProvider>
+        </AuthProvider>
+      </ErrorBoundary>
+    </ThemeProvider>
   );
 };
+
 export default App;

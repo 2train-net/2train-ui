@@ -4,7 +4,7 @@ import { ITheme } from 'shared/theme';
 
 export default createUseStyles(({ palette, spacing, breakpoints }: ITheme) => ({
   root: {
-    '& aside, .ant-layout-sider-trigger, .ant-menu-dark, .ant-menu-dark .ant-menu-item > a': {
+    '& aside, .ant-layout-sider-trigger, .ant-menu-dark, .ant-menu-dark .ant-menu-item a > span': {
       color: 'black',
       background: 'white'
     },
@@ -22,10 +22,17 @@ export default createUseStyles(({ palette, spacing, breakpoints }: ITheme) => ({
       left: 0,
       zIndex: 2,
 
-      '& .ant-menu-item-selected, .ant-menu-item-selected > a, .ant-menu-submenu .ant-menu-submenu-selected': {
+      '& .ant-menu-item-selected': {
         backgroundColor: `${palette.primary.main} !important`,
-        '& a, svg, span': {
-          color: 'white !important'
+
+        '& a': {
+          '& span': {
+            backgroundColor: `${palette.primary.main} !important`
+          },
+
+          '& a, svg, span': {
+            color: 'white !important'
+          }
         }
       },
 

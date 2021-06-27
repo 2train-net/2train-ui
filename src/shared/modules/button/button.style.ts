@@ -16,31 +16,33 @@ const BUTTON_WIDTH = {
   small: 12
 };
 
-export default createUseStyles<ITheme>(({ palette, spacing }) => ({
-  root: ({
-    color,
-    variant,
-    size,
-    fullWidth
-  }: {
-    color: ButtonColor;
-    variant: ButtonVariant;
-    size: ButtonSize;
-    fullWidth: boolean;
-  }) => ({
-    color: variant === 'contained' ? 'white' : palette[color].main,
-    background: variant === 'contained' ? palette[color].main : 'white',
-    borderColor: palette[color].main,
-    textTransform: 'none',
-    borderRadius: spacing(1),
-    height: spacing(BUTTON_HEIGHT[size]),
-    minWidth: spacing(BUTTON_WIDTH[size]),
-    boxShadow: variant === 'contained' && `$0px 4px 12px ${palette[color].light}`,
-    width: fullWidth ? '100%' : undefined,
-    '&:hover, &:focus, &:active ': {
-      borderColor: palette[color].main,
+export default createUseStyles<string, { color: string; variant: ButtonVariant; size: ButtonSize }, ITheme>(
+  ({ palette, spacing }): any => ({
+    root: ({
+      color,
+      variant,
+      size,
+      fullWidth
+    }: {
+      color: ButtonColor;
+      variant: ButtonVariant;
+      size: ButtonSize;
+      fullWidth: boolean;
+    }) => ({
       color: variant === 'contained' ? 'white' : palette[color].main,
-      background: variant === 'contained' ? palette[color].main : 'white'
-    }
+      background: variant === 'contained' ? palette[color].main : 'white',
+      borderColor: palette[color].main,
+      textTransform: 'none',
+      borderRadius: spacing(1),
+      height: spacing(BUTTON_HEIGHT[size]),
+      minWidth: spacing(BUTTON_WIDTH[size]),
+      boxShadow: variant === 'contained' && `$0px 4px 12px ${palette[color].light}`,
+      width: fullWidth ? '100%' : undefined,
+      '&:hover, &:focus, &:active ': {
+        borderColor: palette[color].main,
+        color: variant === 'contained' ? 'white' : palette[color].main,
+        background: variant === 'contained' ? palette[color].main : 'white'
+      }
+    })
   })
-}));
+);

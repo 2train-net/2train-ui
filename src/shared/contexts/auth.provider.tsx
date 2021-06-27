@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useApolloClient } from 'react-apollo';
+import { useApolloClient } from '@apollo/client';
 
 import AuthContext from './auth.context';
 
@@ -73,14 +73,15 @@ const AuthProvider: FC = ({ children }) => {
 
   const refreshUser = (data?: IUserProfile) => {
     if (data) {
-      updateQuery(({ user }) => ({
-        user: {
-          ...user,
-          ...data
-        }
-      }));
+      updateQuery &&
+        updateQuery(({ user }) => ({
+          user: {
+            ...user,
+            ...data
+          }
+        }));
     } else {
-      refetch();
+      refetch && refetch();
     }
   };
 

@@ -1,7 +1,7 @@
 import { createUseStyles } from 'react-jss';
 import { ITheme } from 'shared/theme';
 
-export default createUseStyles<ITheme>(({ palette, spacing }) => ({
+export default createUseStyles(({ spacing }: ITheme) => ({
   root: {
     '& .circle-container': {
       marginTop: spacing(3),

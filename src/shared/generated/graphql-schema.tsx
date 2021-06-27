@@ -1,14 +1,10 @@
 import gql from 'graphql-tag';
-import * as ApolloReactCommon from '@apollo/react-common';
-import * as React from 'react';
-import * as ApolloReactComponents from '@apollo/react-components';
-import * as ApolloReactHoc from '@apollo/react-hoc';
-import * as ApolloReactHooks from '@apollo/react-hooks';
+import * as ApolloReactCommon from '@apollo/client';
+import * as ApolloReactHooks from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -20,28 +16,45 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type Meal = {
-  __typename?: 'Meal';
+export type Client = {
+  __typename?: 'Client';
   id: Scalars['Int'];
   uuid: Scalars['String'];
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
-  position: Scalars['Int'];
-  type: MealType;
-  day: Day;
-  user: User;
-  mealIngredients: Array<MealIngredient>;
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
+  email: Scalars['String'];
+  username: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
+  birthday?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars['String']>;
+  gender?: Maybe<Gender>;
+  plans: Array<Plan>;
 };
 
-export enum MealType {
-  Breakfast = 'BREAKFAST',
-  Lunch = 'LUNCH',
-  Dinner = 'DINNER',
-  Snack = 'SNACK',
-  Other = 'OTHER'
+export type ClientOrderByInput = {
+  createdAt?: Maybe<OrderByArg>;
+};
+
+export type ClientWhereInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  birthday?: Maybe<Scalars['String']>;
+  gender?: Maybe<Gender>;
+};
+
+export type ClientWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+};
+
+export enum Currency {
+  Us = 'US',
+  Crc = 'CRC'
 }
 
 export enum Day {
@@ -54,35 +67,6 @@ export enum Day {
   Day_7 = 'DAY_7'
 }
 
-export type MealIngredient = {
-  __typename?: 'MealIngredient';
-  id: Scalars['Int'];
-  uuid: Scalars['String'];
-  quantity: Scalars['Int'];
-  unitMeasure: UnitMeasure;
-  ingredient: Ingredient;
-  meal: Meal;
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-};
-
-export enum UnitMeasure {
-  Gram = 'GRAM',
-  Liter = 'LITER'
-}
-
-export type Ingredient = {
-  __typename?: 'Ingredient';
-  id: Scalars['Int'];
-  uuid: Scalars['String'];
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  user: User;
-  mealIngredients: Array<MealIngredient>;
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-};
-
 export type DietPlan = {
   __typename?: 'DietPlan';
   id: Scalars['Int'];
@@ -92,13 +76,27 @@ export type DietPlan = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type PlanAssociation = {
-  __typename?: 'PlanAssociation';
-  userId: Scalars['Int'];
-  planId: Scalars['Int'];
-  association: DocumentAssociation;
-  user: User;
-  plan: Plan;
+export type DietPlanCreateInput = {
+  meals: MealCreateManyInput;
+};
+
+export type DietPlanOrderByInput = {
+  id?: Maybe<OrderByArg>;
+  uuid?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
+  updatedAt?: Maybe<OrderByArg>;
+};
+
+export type DietPlanWhereInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type DietPlanWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
 };
 
 export enum DocumentAssociation {
@@ -119,47 +117,360 @@ export type Exercise = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type Workout = {
-  __typename?: 'Workout';
+export type ExerciseCreateInput = {
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+};
+
+export type ExerciseCreateOneWithoutWorkoutExercisesInput = {
+  connect: ExerciseWhereUniqueInput;
+};
+
+export type ExerciseOrderByInput = {
+  id?: Maybe<OrderByArg>;
+  uuid?: Maybe<OrderByArg>;
+  name?: Maybe<OrderByArg>;
+  description?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
+  updatedAt?: Maybe<OrderByArg>;
+};
+
+export type ExerciseUpdateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type ExerciseWhereInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ExerciseWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+};
+
+export enum Gender {
+  Male = 'MALE',
+  Female = 'FEMALE'
+}
+
+export type Ingredient = {
+  __typename?: 'Ingredient';
   id: Scalars['Int'];
   uuid: Scalars['String'];
-  workoutRoutine: WorkoutRoutine;
-  workoutExercises: Array<WorkoutExercise>;
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  user: User;
+  mealIngredients: Array<MealIngredient>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };
 
-export type WorkoutExercise = {
-  __typename?: 'WorkoutExercise';
+export type IngredientCreateInput = {
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  user: UserCreateOneWithoutIngredientInput;
+};
+
+export type IngredientCreateOneWithoutMealIngredientInput = {
+  connect: IngredientWhereUniqueInput;
+};
+
+export type IngredientOrderByInput = {
+  id?: Maybe<OrderByArg>;
+  uuid?: Maybe<OrderByArg>;
+  name?: Maybe<OrderByArg>;
+  description?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
+  updatedAt?: Maybe<OrderByArg>;
+};
+
+export type IngredientUpdateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type IngredientUpdateManyWithoutMealInput = {
+  create?: Maybe<Array<IngredientWhereUniqueInput>>;
+  delete?: Maybe<Array<IngredientWhereUniqueInput>>;
+};
+
+export type IngredientWhereInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type IngredientWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+};
+
+export enum IntervalPlan {
+  Day = 'DAY',
+  Week = 'WEEK',
+  Month = 'MONTH',
+  Year = 'YEAR'
+}
+
+export type Meal = {
+  __typename?: 'Meal';
   id: Scalars['Int'];
   uuid: Scalars['String'];
-  exerciseId: Scalars['Int'];
-  workoutId?: Maybe<Scalars['Int']>;
-  workoutRoutineId: Scalars['Int'];
-  sets: Scalars['Int'];
-  reps?: Maybe<Scalars['Int']>;
-  weight?: Maybe<Scalars['Int']>;
-  seconds?: Maybe<Scalars['Int']>;
-  comments?: Maybe<Scalars['String']>;
-  order: Scalars['Int'];
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  position: Scalars['Int'];
+  type: MealType;
   day: Day;
-  workoutRoutine: WorkoutRoutine;
-  workout?: Maybe<Workout>;
-  exercise: Exercise;
+  user: User;
+  mealIngredients: Array<MealIngredient>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
-  isDeleted: Scalars['Boolean'];
 };
 
-export type WorkoutRoutine = {
-  __typename?: 'WorkoutRoutine';
+export type MealCreateInput = {
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  imageBase64?: Maybe<Scalars['String']>;
+  ingredients: Array<IngredientWhereUniqueInput>;
+};
+
+export type MealCreateManyInput = {
+  connect: Array<MealWhereUniqueInput>;
+};
+
+export type MealCreateOneWithoutMealIngredientInput = {
+  connect: MealWhereUniqueInput;
+};
+
+export type MealIngredient = {
+  __typename?: 'MealIngredient';
   id: Scalars['Int'];
   uuid: Scalars['String'];
-  plan: Plan;
-  workoutExercises: Array<WorkoutExercise>;
+  quantity: Scalars['Int'];
+  unitMeasure: UnitMeasure;
+  ingredient: Ingredient;
+  meal: Meal;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };
+
+export type MealIngredientCreateInput = {
+  quantity: Scalars['Int'];
+  unitMeasure: UnitMeasure;
+  ingredient: IngredientCreateOneWithoutMealIngredientInput;
+  meal: MealCreateOneWithoutMealIngredientInput;
+};
+
+export type MealIngredientOrderByInput = {
+  id?: Maybe<OrderByArg>;
+  uuid?: Maybe<OrderByArg>;
+  quantity?: Maybe<OrderByArg>;
+  unitMeasure?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
+  updatedAt?: Maybe<OrderByArg>;
+};
+
+export type MealIngredientUpdateInput = {
+  quantity?: Maybe<Scalars['Int']>;
+  unitMeasure?: Maybe<UnitMeasure>;
+};
+
+export type MealIngredientWhereInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['Int']>;
+  unitMeasure?: Maybe<UnitMeasure>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type MealIngredientWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+};
+
+export type MealOrderByInput = {
+  id?: Maybe<OrderByArg>;
+  uuid?: Maybe<OrderByArg>;
+  name?: Maybe<OrderByArg>;
+  description?: Maybe<OrderByArg>;
+  position?: Maybe<OrderByArg>;
+  type?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
+  updatedAt?: Maybe<OrderByArg>;
+};
+
+export enum MealType {
+  Breakfast = 'BREAKFAST',
+  Lunch = 'LUNCH',
+  Dinner = 'DINNER',
+  Snack = 'SNACK',
+  Other = 'OTHER'
+}
+
+export type MealUpdateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  imageBase64?: Maybe<Scalars['String']>;
+  ingredients: IngredientUpdateManyWithoutMealInput;
+};
+
+export type MealWhereInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  position?: Maybe<Scalars['Int']>;
+  type?: Maybe<MealType>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type MealWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createUser: User;
+  updateUser: User;
+  deleteUser: User;
+  createIngredient: Ingredient;
+  updateIngredient: Ingredient;
+  deleteIngredient: Ingredient;
+  createMeal: Meal;
+  updateMeal: Meal;
+  deleteMeal: Meal;
+  createMealIngredient: MealIngredient;
+  updateMealIngredient: MealIngredient;
+  deleteMealIngredient: MealIngredient;
+  creatDietPlan: DietPlan;
+  createPlan: Plan;
+  updatePlan: Plan;
+  deletePlan: Plan;
+  buyPlan: Plan;
+  createExercise: Exercise;
+  updateExercise: Exercise;
+  createPlanInvitation: PlanInvitation;
+  acceptPlanInvitation: PlanInvitation;
+  updateWorkoutRoutine: WorkoutRoutine;
+  createWorkout: Workout;
+};
+
+export type MutationCreateUserArgs = {
+  data: UserCreateInput;
+};
+
+export type MutationUpdateUserArgs = {
+  data: UserUpdateInput;
+};
+
+export type MutationDeleteUserArgs = {
+  where: UserWhereUniqueInput;
+};
+
+export type MutationCreateIngredientArgs = {
+  data: IngredientCreateInput;
+};
+
+export type MutationUpdateIngredientArgs = {
+  where: IngredientWhereUniqueInput;
+  data: IngredientUpdateInput;
+};
+
+export type MutationDeleteIngredientArgs = {
+  where: IngredientWhereUniqueInput;
+};
+
+export type MutationCreateMealArgs = {
+  data: MealCreateInput;
+};
+
+export type MutationUpdateMealArgs = {
+  where: MealWhereUniqueInput;
+  data: MealUpdateInput;
+};
+
+export type MutationDeleteMealArgs = {
+  where: MealWhereUniqueInput;
+};
+
+export type MutationCreateMealIngredientArgs = {
+  data: MealIngredientCreateInput;
+};
+
+export type MutationUpdateMealIngredientArgs = {
+  where: MealIngredientWhereUniqueInput;
+  data: MealIngredientUpdateInput;
+};
+
+export type MutationDeleteMealIngredientArgs = {
+  where: MealIngredientWhereUniqueInput;
+};
+
+export type MutationCreatDietPlanArgs = {
+  data: DietPlanCreateInput;
+};
+
+export type MutationCreatePlanArgs = {
+  data: PlanCreateInput;
+};
+
+export type MutationUpdatePlanArgs = {
+  where: PlanWhereUniqueInput;
+  data: PlanUpdateInput;
+};
+
+export type MutationDeletePlanArgs = {
+  where: PlanWhereUniqueInput;
+};
+
+export type MutationBuyPlanArgs = {
+  where: PlanWhereUniqueInput;
+  data: PlanBuyInput;
+};
+
+export type MutationCreateExerciseArgs = {
+  data: ExerciseCreateInput;
+};
+
+export type MutationUpdateExerciseArgs = {
+  where: ExerciseWhereUniqueInput;
+  data: ExerciseUpdateInput;
+};
+
+export type MutationCreatePlanInvitationArgs = {
+  data: PlanInvitationCreateInput;
+};
+
+export type MutationAcceptPlanInvitationArgs = {
+  data: PlanInvitationAcceptInput;
+};
+
+export type MutationUpdateWorkoutRoutineArgs = {
+  where: WorkoutRoutineWhereUniqueInput;
+  data: WorkoutRoutineUpdateInput;
+};
+
+export type MutationCreateWorkoutArgs = {
+  data: WorkoutCreateInput;
+};
+
+export enum OrderByArg {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
 
 export type Plan = {
   __typename?: 'Plan';
@@ -189,71 +500,34 @@ export type Plan = {
   updatedAt: Scalars['DateTime'];
 };
 
-export enum IntervalPlan {
-  Day = 'DAY',
-  Week = 'WEEK',
-  Month = 'MONTH',
-  Year = 'YEAR'
-}
-
-export enum Scope {
-  Public = 'PUBLIC',
-  Private = 'PRIVATE'
-}
-
-export enum PlanType {
-  Custom = 'CUSTOM',
-  NonCustom = 'NON_CUSTOM'
-}
-
-export enum Currency {
-  Us = 'US',
-  Crc = 'CRC'
-}
-
-export enum PlanStatus {
-  Active = 'ACTIVE',
-  Inactive = 'INACTIVE'
-}
-
-export type User = {
-  __typename?: 'User';
-  id: Scalars['Int'];
-  uuid: Scalars['String'];
-  email: Scalars['String'];
-  username: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  phone?: Maybe<Scalars['String']>;
-  birthday?: Maybe<Scalars['String']>;
-  avatar?: Maybe<Scalars['String']>;
-  type: UserType;
-  status: UserStatus;
-  gender?: Maybe<Gender>;
-  scope: Scope;
-  ingredients: Array<Ingredient>;
-  meals: Array<Meal>;
-  currentActivePlan?: Maybe<Plan>;
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
+export type PlanAssociation = {
+  __typename?: 'PlanAssociation';
+  userId: Scalars['Int'];
+  planId: Scalars['Int'];
+  association: DocumentAssociation;
+  user: User;
+  plan: Plan;
 };
 
-export enum UserType {
-  Customer = 'CUSTOMER',
-  PersonalTrainer = 'PERSONAL_TRAINER'
-}
+export type PlanBuyInput = {
+  startAt: Scalars['String'];
+};
 
-export enum UserStatus {
-  Invited = 'INVITED',
-  Registered = 'REGISTERED',
-  Confirmed = 'CONFIRMED',
-  Blocked = 'BLOCKED'
-}
+export type PlanCreateInput = {
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  price: Scalars['Float'];
+  intervalCount: Scalars['Int'];
+  intervalPlan: IntervalPlan;
+  currency: Currency;
+  status: PlanStatus;
+  isDietPlanEnabled: Scalars['Boolean'];
+  isExercisesPlanEnabled: Scalars['Boolean'];
+};
 
-export enum Gender {
-  Male = 'MALE',
-  Female = 'FEMALE'
-}
+export type PlanCreateOneWithoutPlanInvitationInput = {
+  connect: PlanWhereUniqueInput;
+};
 
 export type PlanInvitation = {
   __typename?: 'PlanInvitation';
@@ -267,24 +541,71 @@ export type PlanInvitation = {
   plan: Plan;
 };
 
-export type Client = {
-  __typename?: 'Client';
-  id: Scalars['Int'];
+export type PlanInvitationAcceptInput = {
   uuid: Scalars['String'];
-  email: Scalars['String'];
-  username: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  phone?: Maybe<Scalars['String']>;
-  birthday?: Maybe<Scalars['String']>;
-  avatar?: Maybe<Scalars['String']>;
-  gender?: Maybe<Gender>;
-  plans: Array<Plan>;
+  startAt: Scalars['String'];
 };
 
-export type Training = {
-  __typename?: 'Training';
-  workoutExercises: Array<WorkoutExercise>;
+export type PlanInvitationCreateInput = {
+  plan: PlanCreateOneWithoutPlanInvitationInput;
+  user: UserCreateOneWithoutPlanInvitationInput;
+};
+
+export type PlanInvitationOrderByInput = {
+  id?: Maybe<OrderByArg>;
+  uuid?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
+};
+
+export type PlanInvitationWhereInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+  template?: Maybe<Scalars['String']>;
+};
+
+export type PlanInvitationWhereUniqueInput = {
+  uuid: Scalars['String'];
+};
+
+export type PlanOrderByInput = {
+  id?: Maybe<OrderByArg>;
+  uuid?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
+  updatedAt?: Maybe<OrderByArg>;
+};
+
+export enum PlanStatus {
+  Active = 'ACTIVE',
+  Inactive = 'INACTIVE'
+}
+
+export enum PlanType {
+  Custom = 'CUSTOM',
+  NonCustom = 'NON_CUSTOM'
+}
+
+export type PlanUpdateInput = {
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Float']>;
+  intervalCount?: Maybe<Scalars['Int']>;
+  intervalPlan?: Maybe<IntervalPlan>;
+  currency?: Maybe<Currency>;
+  status?: Maybe<PlanStatus>;
+  isDietPlanEnabled?: Maybe<Scalars['Boolean']>;
+  isExercisesPlanEnabled?: Maybe<Scalars['Boolean']>;
+};
+
+export type PlanWhereInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type PlanWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -441,8 +762,62 @@ export type QueryTrainingArgs = {
   where: TrainingWhereInput;
 };
 
-export type UserWhereUniqueInput = {
+export enum Scope {
+  Public = 'PUBLIC',
+  Private = 'PRIVATE'
+}
+
+export type Training = {
+  __typename?: 'Training';
+  workoutExercises: Array<WorkoutExercise>;
+};
+
+export type TrainingWhereInput = {
+  day: Day;
+};
+
+export enum UnitMeasure {
+  Gram = 'GRAM',
+  Liter = 'LITER'
+}
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['Int'];
+  uuid: Scalars['String'];
   email: Scalars['String'];
+  username: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
+  birthday?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars['String']>;
+  type: UserType;
+  status: UserStatus;
+  gender?: Maybe<Gender>;
+  scope: Scope;
+  ingredients: Array<Ingredient>;
+  meals: Array<Meal>;
+  currentActivePlan?: Maybe<Plan>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type UserCreateInput = {
+  email: Scalars['String'];
+  username: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  phone: Scalars['String'];
+  type: UserType;
+};
+
+export type UserCreateOneWithoutIngredientInput = {
+  connect: UserWhereUniqueInput;
+};
+
+export type UserCreateOneWithoutPlanInvitationInput = {
+  connect: UserWhereUniqueInput;
 };
 
 export type UserOrderByInput = {
@@ -460,10 +835,27 @@ export type UserOrderByInput = {
   updatedAt?: Maybe<OrderByArg>;
 };
 
-export enum OrderByArg {
-  Asc = 'ASC',
-  Desc = 'DESC'
+export enum UserStatus {
+  Invited = 'INVITED',
+  Registered = 'REGISTERED',
+  Confirmed = 'CONFIRMED',
+  Blocked = 'BLOCKED'
 }
+
+export enum UserType {
+  Customer = 'CUSTOMER',
+  PersonalTrainer = 'PERSONAL_TRAINER'
+}
+
+export type UserUpdateInput = {
+  avatarBase64?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  birthday?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scope>;
+  gender?: Maybe<Gender>;
+};
 
 export type UserWhereInput = {
   id?: Maybe<Scalars['Int']>;
@@ -480,470 +872,49 @@ export type UserWhereInput = {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-export type IngredientWhereUniqueInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-};
-
-export type IngredientOrderByInput = {
-  id?: Maybe<OrderByArg>;
-  uuid?: Maybe<OrderByArg>;
-  name?: Maybe<OrderByArg>;
-  description?: Maybe<OrderByArg>;
-  createdAt?: Maybe<OrderByArg>;
-  updatedAt?: Maybe<OrderByArg>;
-};
-
-export type IngredientWhereInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type MealWhereUniqueInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-};
-
-export type MealOrderByInput = {
-  id?: Maybe<OrderByArg>;
-  uuid?: Maybe<OrderByArg>;
-  name?: Maybe<OrderByArg>;
-  description?: Maybe<OrderByArg>;
-  position?: Maybe<OrderByArg>;
-  type?: Maybe<OrderByArg>;
-  createdAt?: Maybe<OrderByArg>;
-  updatedAt?: Maybe<OrderByArg>;
-};
-
-export type MealWhereInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  position?: Maybe<Scalars['Int']>;
-  type?: Maybe<MealType>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type MealIngredientWhereUniqueInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-};
-
-export type MealIngredientOrderByInput = {
-  id?: Maybe<OrderByArg>;
-  uuid?: Maybe<OrderByArg>;
-  quantity?: Maybe<OrderByArg>;
-  unitMeasure?: Maybe<OrderByArg>;
-  createdAt?: Maybe<OrderByArg>;
-  updatedAt?: Maybe<OrderByArg>;
-};
-
-export type MealIngredientWhereInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-  quantity?: Maybe<Scalars['Int']>;
-  unitMeasure?: Maybe<UnitMeasure>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type DietPlanWhereUniqueInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-};
-
-export type DietPlanOrderByInput = {
-  id?: Maybe<OrderByArg>;
-  uuid?: Maybe<OrderByArg>;
-  createdAt?: Maybe<OrderByArg>;
-  updatedAt?: Maybe<OrderByArg>;
-};
-
-export type DietPlanWhereInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type PlanWhereUniqueInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-};
-
-export type PlanOrderByInput = {
-  id?: Maybe<OrderByArg>;
-  uuid?: Maybe<OrderByArg>;
-  createdAt?: Maybe<OrderByArg>;
-  updatedAt?: Maybe<OrderByArg>;
-};
-
-export type PlanWhereInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type ExerciseWhereUniqueInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-};
-
-export type ExerciseOrderByInput = {
-  id?: Maybe<OrderByArg>;
-  uuid?: Maybe<OrderByArg>;
-  name?: Maybe<OrderByArg>;
-  description?: Maybe<OrderByArg>;
-  createdAt?: Maybe<OrderByArg>;
-  updatedAt?: Maybe<OrderByArg>;
-};
-
-export type ExerciseWhereInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type PlanInvitationWhereUniqueInput = {
-  uuid: Scalars['String'];
-};
-
-export type PlanInvitationOrderByInput = {
-  id?: Maybe<OrderByArg>;
-  uuid?: Maybe<OrderByArg>;
-  createdAt?: Maybe<OrderByArg>;
-};
-
-export type PlanInvitationWhereInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-  template?: Maybe<Scalars['String']>;
-};
-
-export type ClientWhereUniqueInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-};
-
-export type ClientOrderByInput = {
-  createdAt?: Maybe<OrderByArg>;
-};
-
-export type ClientWhereInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  username?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  birthday?: Maybe<Scalars['String']>;
-  gender?: Maybe<Gender>;
-};
-
-export type WorkoutRoutineWhereUniqueInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-};
-
-export type WorkoutWhereUniqueInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-};
-
-export type WorkoutOrderByInput = {
-  id?: Maybe<OrderByArg>;
-  uuid?: Maybe<OrderByArg>;
-  createdAt?: Maybe<OrderByArg>;
-  updatedAt?: Maybe<OrderByArg>;
-};
-
-export type WorkoutWhereInput = {
-  id?: Maybe<Scalars['Int']>;
-  uuid?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type TrainingWhereInput = {
-  day: Day;
-};
-
-export type Mutation = {
-  __typename?: 'Mutation';
-  createUser: User;
-  updateUser: User;
-  deleteUser: User;
-  createIngredient: Ingredient;
-  updateIngredient: Ingredient;
-  deleteIngredient: Ingredient;
-  createMeal: Meal;
-  updateMeal: Meal;
-  deleteMeal: Meal;
-  createMealIngredient: MealIngredient;
-  updateMealIngredient: MealIngredient;
-  deleteMealIngredient: MealIngredient;
-  creatDietPlan: DietPlan;
-  createPlan: Plan;
-  updatePlan: Plan;
-  deletePlan: Plan;
-  buyPlan: Plan;
-  createExercise: Exercise;
-  updateExercise: Exercise;
-  createPlanInvitation: PlanInvitation;
-  acceptPlanInvitation: PlanInvitation;
-  updateWorkoutRoutine: WorkoutRoutine;
-  createWorkout: Workout;
-};
-
-export type MutationCreateUserArgs = {
-  data: UserCreateInput;
-};
-
-export type MutationUpdateUserArgs = {
-  data: UserUpdateInput;
-};
-
-export type MutationDeleteUserArgs = {
-  where: UserWhereUniqueInput;
-};
-
-export type MutationCreateIngredientArgs = {
-  data: IngredientCreateInput;
-};
-
-export type MutationUpdateIngredientArgs = {
-  where: IngredientWhereUniqueInput;
-  data: IngredientUpdateInput;
-};
-
-export type MutationDeleteIngredientArgs = {
-  where: IngredientWhereUniqueInput;
-};
-
-export type MutationCreateMealArgs = {
-  data: MealCreateInput;
-};
-
-export type MutationUpdateMealArgs = {
-  where: MealWhereUniqueInput;
-  data: MealUpdateInput;
-};
-
-export type MutationDeleteMealArgs = {
-  where: MealWhereUniqueInput;
-};
-
-export type MutationCreateMealIngredientArgs = {
-  data: MealIngredientCreateInput;
-};
-
-export type MutationUpdateMealIngredientArgs = {
-  where: MealIngredientWhereUniqueInput;
-  data: MealIngredientUpdateInput;
-};
-
-export type MutationDeleteMealIngredientArgs = {
-  where: MealIngredientWhereUniqueInput;
-};
-
-export type MutationCreatDietPlanArgs = {
-  data: DietPlanCreateInput;
-};
-
-export type MutationCreatePlanArgs = {
-  data: PlanCreateInput;
-};
-
-export type MutationUpdatePlanArgs = {
-  where: PlanWhereUniqueInput;
-  data: PlanUpdateInput;
-};
-
-export type MutationDeletePlanArgs = {
-  where: PlanWhereUniqueInput;
-};
-
-export type MutationBuyPlanArgs = {
-  where: PlanWhereUniqueInput;
-  data: PlanBuyInput;
-};
-
-export type MutationCreateExerciseArgs = {
-  data: ExerciseCreateInput;
-};
-
-export type MutationUpdateExerciseArgs = {
-  where: ExerciseWhereUniqueInput;
-  data: ExerciseUpdateInput;
-};
-
-export type MutationCreatePlanInvitationArgs = {
-  data: PlanInvitationCreateInput;
-};
-
-export type MutationAcceptPlanInvitationArgs = {
-  data: PlanInvitationAcceptInput;
-};
-
-export type MutationUpdateWorkoutRoutineArgs = {
-  where: WorkoutRoutineWhereUniqueInput;
-  data: WorkoutRoutineUpdateInput;
-};
-
-export type MutationCreateWorkoutArgs = {
-  data: WorkoutCreateInput;
-};
-
-export type UserCreateInput = {
+export type UserWhereUniqueInput = {
   email: Scalars['String'];
-  username: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  phone: Scalars['String'];
-  type: UserType;
 };
 
-export type UserUpdateInput = {
-  avatarBase64?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  birthday?: Maybe<Scalars['String']>;
-  scope?: Maybe<Scope>;
-  gender?: Maybe<Gender>;
-};
-
-export type IngredientCreateInput = {
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  user: UserCreateOneWithoutIngredientInput;
-};
-
-export type UserCreateOneWithoutIngredientInput = {
-  connect: UserWhereUniqueInput;
-};
-
-export type IngredientUpdateInput = {
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-};
-
-export type MealCreateInput = {
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  imageBase64?: Maybe<Scalars['String']>;
-  ingredients: Array<IngredientWhereUniqueInput>;
-};
-
-export type MealUpdateInput = {
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  imageBase64?: Maybe<Scalars['String']>;
-  ingredients: IngredientUpdateManyWithoutMealInput;
-};
-
-export type IngredientUpdateManyWithoutMealInput = {
-  create?: Maybe<Array<IngredientWhereUniqueInput>>;
-  delete?: Maybe<Array<IngredientWhereUniqueInput>>;
-};
-
-export type MealIngredientCreateInput = {
-  quantity: Scalars['Int'];
-  unitMeasure: UnitMeasure;
-  ingredient: IngredientCreateOneWithoutMealIngredientInput;
-  meal: MealCreateOneWithoutMealIngredientInput;
-};
-
-export type IngredientCreateOneWithoutMealIngredientInput = {
-  connect: IngredientWhereUniqueInput;
-};
-
-export type MealCreateOneWithoutMealIngredientInput = {
-  connect: MealWhereUniqueInput;
-};
-
-export type MealIngredientUpdateInput = {
-  quantity?: Maybe<Scalars['Int']>;
-  unitMeasure?: Maybe<UnitMeasure>;
-};
-
-export type DietPlanCreateInput = {
-  meals: MealCreateManyInput;
-};
-
-export type MealCreateManyInput = {
-  connect: Array<MealWhereUniqueInput>;
-};
-
-export type PlanCreateInput = {
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  price: Scalars['Float'];
-  intervalCount: Scalars['Int'];
-  intervalPlan: IntervalPlan;
-  currency: Currency;
-  status: PlanStatus;
-  isDietPlanEnabled: Scalars['Boolean'];
-  isExercisesPlanEnabled: Scalars['Boolean'];
-};
-
-export type PlanUpdateInput = {
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Float']>;
-  intervalCount?: Maybe<Scalars['Int']>;
-  intervalPlan?: Maybe<IntervalPlan>;
-  currency?: Maybe<Currency>;
-  status?: Maybe<PlanStatus>;
-  isDietPlanEnabled?: Maybe<Scalars['Boolean']>;
-  isExercisesPlanEnabled?: Maybe<Scalars['Boolean']>;
-};
-
-export type PlanBuyInput = {
-  startAt: Scalars['String'];
-};
-
-export type ExerciseCreateInput = {
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-};
-
-export type ExerciseUpdateInput = {
-  name?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-};
-
-export type PlanInvitationCreateInput = {
-  plan: PlanCreateOneWithoutPlanInvitationInput;
-  user: UserCreateOneWithoutPlanInvitationInput;
-};
-
-export type PlanCreateOneWithoutPlanInvitationInput = {
-  connect: PlanWhereUniqueInput;
-};
-
-export type UserCreateOneWithoutPlanInvitationInput = {
-  connect: UserWhereUniqueInput;
-};
-
-export type PlanInvitationAcceptInput = {
+export type Workout = {
+  __typename?: 'Workout';
+  id: Scalars['Int'];
   uuid: Scalars['String'];
-  startAt: Scalars['String'];
+  workoutRoutine: WorkoutRoutine;
+  workoutExercises: Array<WorkoutExercise>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
 };
 
-export type WorkoutRoutineUpdateInput = {
-  workoutExercises: WorkoutExerciseCreateManyWithoutWorkoutRoutineInput;
+export type WorkoutCreateInput = {
+  workoutRoutine: WorkoutRoutineWhereUniqueInput;
+  workoutExercises: WorkoutExerciseCreateManyWithoutWorkoutInput;
+};
+
+export type WorkoutExercise = {
+  __typename?: 'WorkoutExercise';
+  id: Scalars['Int'];
+  uuid: Scalars['String'];
+  exerciseId: Scalars['Int'];
+  workoutId?: Maybe<Scalars['Int']>;
+  workoutRoutineId: Scalars['Int'];
+  sets: Scalars['Int'];
+  reps?: Maybe<Scalars['Int']>;
+  weight?: Maybe<Scalars['Int']>;
+  seconds?: Maybe<Scalars['Int']>;
+  comments?: Maybe<Scalars['String']>;
+  order: Scalars['Int'];
+  day: Day;
+  workoutRoutine: WorkoutRoutine;
+  workout?: Maybe<Workout>;
+  exercise: Exercise;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  isDeleted: Scalars['Boolean'];
+};
+
+export type WorkoutExerciseCreateManyWithoutWorkoutInput = {
+  create: Array<WorkoutExerciseCreateWithoutWorkoutRoutineInput>;
 };
 
 export type WorkoutExerciseCreateManyWithoutWorkoutRoutineInput = {
@@ -961,10 +932,6 @@ export type WorkoutExerciseCreateWithoutWorkoutRoutineInput = {
   seconds?: Maybe<Scalars['Int']>;
   comments?: Maybe<Scalars['String']>;
   exercise: ExerciseCreateOneWithoutWorkoutExercisesInput;
-};
-
-export type ExerciseCreateOneWithoutWorkoutExercisesInput = {
-  connect: ExerciseWhereUniqueInput;
 };
 
 export type WorkoutExerciseUpdateManyWithWhereWithoutWorkoutRoutineInput = {
@@ -988,13 +955,42 @@ export type WorkoutExerciseWhereUniqueInput = {
   uuid?: Maybe<Scalars['String']>;
 };
 
-export type WorkoutCreateInput = {
-  workoutRoutine: WorkoutRoutineWhereUniqueInput;
-  workoutExercises: WorkoutExerciseCreateManyWithoutWorkoutInput;
+export type WorkoutOrderByInput = {
+  id?: Maybe<OrderByArg>;
+  uuid?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
+  updatedAt?: Maybe<OrderByArg>;
 };
 
-export type WorkoutExerciseCreateManyWithoutWorkoutInput = {
-  create: Array<WorkoutExerciseCreateWithoutWorkoutRoutineInput>;
+export type WorkoutRoutine = {
+  __typename?: 'WorkoutRoutine';
+  id: Scalars['Int'];
+  uuid: Scalars['String'];
+  plan: Plan;
+  workoutExercises: Array<WorkoutExercise>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type WorkoutRoutineUpdateInput = {
+  workoutExercises: WorkoutExerciseCreateManyWithoutWorkoutRoutineInput;
+};
+
+export type WorkoutRoutineWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+};
+
+export type WorkoutWhereInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type WorkoutWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
 };
 
 export type CreateUserMutationVariables = Exact<{
@@ -1423,40 +1419,6 @@ export const CreateUserDocument = gql`
   }
 `;
 export type CreateUserMutationFn = ApolloReactCommon.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
-export type CreateUserComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<CreateUserMutation, CreateUserMutationVariables>,
-  'mutation'
->;
-
-export const CreateUserComponent = (props: CreateUserComponentProps) => (
-  <ApolloReactComponents.Mutation<CreateUserMutation, CreateUserMutationVariables>
-    mutation={CreateUserDocument}
-    {...props}
-  />
-);
-
-export type CreateUserProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
-} &
-  TChildProps;
-export function withCreateUser<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateUserMutation,
-    CreateUserMutationVariables,
-    CreateUserProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateUserMutation,
-    CreateUserMutationVariables,
-    CreateUserProps<TChildProps, TDataName>
-  >(CreateUserDocument, {
-    alias: 'createUser',
-    ...operationOptions
-  });
-}
 
 /**
  * __useCreateUserMutation__
@@ -1512,38 +1474,6 @@ export const GetClientDocument = gql`
     }
   }
 `;
-export type GetClientComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetClientQuery, GetClientQueryVariables>,
-  'query'
-> &
-  ({ variables: GetClientQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetClientComponent = (props: GetClientComponentProps) => (
-  <ApolloReactComponents.Query<GetClientQuery, GetClientQueryVariables> query={GetClientDocument} {...props} />
-);
-
-export type GetClientProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetClientQuery, GetClientQueryVariables>;
-} &
-  TChildProps;
-export function withGetClient<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetClientQuery,
-    GetClientQueryVariables,
-    GetClientProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetClientQuery,
-    GetClientQueryVariables,
-    GetClientProps<TChildProps, TDataName>
-  >(GetClientDocument, {
-    alias: 'getClient',
-    ...operationOptions
-  });
-}
 
 /**
  * __useGetClientQuery__
@@ -1586,38 +1516,6 @@ export const GetClientsDocument = gql`
     }
   }
 `;
-export type GetClientsComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetClientsQuery, GetClientsQueryVariables>,
-  'query'
-> &
-  ({ variables: GetClientsQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetClientsComponent = (props: GetClientsComponentProps) => (
-  <ApolloReactComponents.Query<GetClientsQuery, GetClientsQueryVariables> query={GetClientsDocument} {...props} />
-);
-
-export type GetClientsProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetClientsQuery, GetClientsQueryVariables>;
-} &
-  TChildProps;
-export function withGetClients<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetClientsQuery,
-    GetClientsQueryVariables,
-    GetClientsProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetClientsQuery,
-    GetClientsQueryVariables,
-    GetClientsProps<TChildProps, TDataName>
-  >(GetClientsDocument, {
-    alias: 'getClients',
-    ...operationOptions
-  });
-}
 
 /**
  * __useGetClientsQuery__
@@ -1663,40 +1561,6 @@ export type CreateExerciseMutationFn = ApolloReactCommon.MutationFunction<
   CreateExerciseMutation,
   CreateExerciseMutationVariables
 >;
-export type CreateExerciseComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<CreateExerciseMutation, CreateExerciseMutationVariables>,
-  'mutation'
->;
-
-export const CreateExerciseComponent = (props: CreateExerciseComponentProps) => (
-  <ApolloReactComponents.Mutation<CreateExerciseMutation, CreateExerciseMutationVariables>
-    mutation={CreateExerciseDocument}
-    {...props}
-  />
-);
-
-export type CreateExerciseProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<CreateExerciseMutation, CreateExerciseMutationVariables>;
-} &
-  TChildProps;
-export function withCreateExercise<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateExerciseMutation,
-    CreateExerciseMutationVariables,
-    CreateExerciseProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateExerciseMutation,
-    CreateExerciseMutationVariables,
-    CreateExerciseProps<TChildProps, TDataName>
-  >(CreateExerciseDocument, {
-    alias: 'createExercise',
-    ...operationOptions
-  });
-}
 
 /**
  * __useCreateExerciseMutation__
@@ -1737,38 +1601,6 @@ export const GetExerciseDocument = gql`
     }
   }
 `;
-export type GetExerciseComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetExerciseQuery, GetExerciseQueryVariables>,
-  'query'
-> &
-  ({ variables: GetExerciseQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetExerciseComponent = (props: GetExerciseComponentProps) => (
-  <ApolloReactComponents.Query<GetExerciseQuery, GetExerciseQueryVariables> query={GetExerciseDocument} {...props} />
-);
-
-export type GetExerciseProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetExerciseQuery, GetExerciseQueryVariables>;
-} &
-  TChildProps;
-export function withGetExercise<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetExerciseQuery,
-    GetExerciseQueryVariables,
-    GetExerciseProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetExerciseQuery,
-    GetExerciseQueryVariables,
-    GetExerciseProps<TChildProps, TDataName>
-  >(GetExerciseDocument, {
-    alias: 'getExercise',
-    ...operationOptions
-  });
-}
 
 /**
  * __useGetExerciseQuery__
@@ -1808,38 +1640,6 @@ export const GetExercisesDocument = gql`
     }
   }
 `;
-export type GetExercisesComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetExercisesQuery, GetExercisesQueryVariables>,
-  'query'
-> &
-  ({ variables: GetExercisesQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetExercisesComponent = (props: GetExercisesComponentProps) => (
-  <ApolloReactComponents.Query<GetExercisesQuery, GetExercisesQueryVariables> query={GetExercisesDocument} {...props} />
-);
-
-export type GetExercisesProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetExercisesQuery, GetExercisesQueryVariables>;
-} &
-  TChildProps;
-export function withGetExercises<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetExercisesQuery,
-    GetExercisesQueryVariables,
-    GetExercisesProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetExercisesQuery,
-    GetExercisesQueryVariables,
-    GetExercisesProps<TChildProps, TDataName>
-  >(GetExercisesDocument, {
-    alias: 'getExercises',
-    ...operationOptions
-  });
-}
 
 /**
  * __useGetExercisesQuery__
@@ -1887,40 +1687,6 @@ export type UpdateExerciseMutationFn = ApolloReactCommon.MutationFunction<
   UpdateExerciseMutation,
   UpdateExerciseMutationVariables
 >;
-export type UpdateExerciseComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<UpdateExerciseMutation, UpdateExerciseMutationVariables>,
-  'mutation'
->;
-
-export const UpdateExerciseComponent = (props: UpdateExerciseComponentProps) => (
-  <ApolloReactComponents.Mutation<UpdateExerciseMutation, UpdateExerciseMutationVariables>
-    mutation={UpdateExerciseDocument}
-    {...props}
-  />
-);
-
-export type UpdateExerciseProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateExerciseMutation, UpdateExerciseMutationVariables>;
-} &
-  TChildProps;
-export function withUpdateExercise<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UpdateExerciseMutation,
-    UpdateExerciseMutationVariables,
-    UpdateExerciseProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    UpdateExerciseMutation,
-    UpdateExerciseMutationVariables,
-    UpdateExerciseProps<TChildProps, TDataName>
-  >(UpdateExerciseDocument, {
-    alias: 'updateExercise',
-    ...operationOptions
-  });
-}
 
 /**
  * __useUpdateExerciseMutation__
@@ -1962,40 +1728,6 @@ export const CreateMealDocument = gql`
   }
 `;
 export type CreateMealMutationFn = ApolloReactCommon.MutationFunction<CreateMealMutation, CreateMealMutationVariables>;
-export type CreateMealComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<CreateMealMutation, CreateMealMutationVariables>,
-  'mutation'
->;
-
-export const CreateMealComponent = (props: CreateMealComponentProps) => (
-  <ApolloReactComponents.Mutation<CreateMealMutation, CreateMealMutationVariables>
-    mutation={CreateMealDocument}
-    {...props}
-  />
-);
-
-export type CreateMealProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<CreateMealMutation, CreateMealMutationVariables>;
-} &
-  TChildProps;
-export function withCreateMeal<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateMealMutation,
-    CreateMealMutationVariables,
-    CreateMealProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateMealMutation,
-    CreateMealMutationVariables,
-    CreateMealProps<TChildProps, TDataName>
-  >(CreateMealDocument, {
-    alias: 'createMeal',
-    ...operationOptions
-  });
-}
 
 /**
  * __useCreateMealMutation__
@@ -2033,40 +1765,6 @@ export const DeleteMealDocument = gql`
   }
 `;
 export type DeleteMealMutationFn = ApolloReactCommon.MutationFunction<DeleteMealMutation, DeleteMealMutationVariables>;
-export type DeleteMealComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<DeleteMealMutation, DeleteMealMutationVariables>,
-  'mutation'
->;
-
-export const DeleteMealComponent = (props: DeleteMealComponentProps) => (
-  <ApolloReactComponents.Mutation<DeleteMealMutation, DeleteMealMutationVariables>
-    mutation={DeleteMealDocument}
-    {...props}
-  />
-);
-
-export type DeleteMealProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<DeleteMealMutation, DeleteMealMutationVariables>;
-} &
-  TChildProps;
-export function withDeleteMeal<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    DeleteMealMutation,
-    DeleteMealMutationVariables,
-    DeleteMealProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    DeleteMealMutation,
-    DeleteMealMutationVariables,
-    DeleteMealProps<TChildProps, TDataName>
-  >(DeleteMealDocument, {
-    alias: 'deleteMeal',
-    ...operationOptions
-  });
-}
 
 /**
  * __useDeleteMealMutation__
@@ -2104,40 +1802,6 @@ export const GetAllIngredientsDocument = gql`
     }
   }
 `;
-export type GetAllIngredientsComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetAllIngredientsQuery, GetAllIngredientsQueryVariables>,
-  'query'
->;
-
-export const GetAllIngredientsComponent = (props: GetAllIngredientsComponentProps) => (
-  <ApolloReactComponents.Query<GetAllIngredientsQuery, GetAllIngredientsQueryVariables>
-    query={GetAllIngredientsDocument}
-    {...props}
-  />
-);
-
-export type GetAllIngredientsProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetAllIngredientsQuery, GetAllIngredientsQueryVariables>;
-} &
-  TChildProps;
-export function withGetAllIngredients<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetAllIngredientsQuery,
-    GetAllIngredientsQueryVariables,
-    GetAllIngredientsProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetAllIngredientsQuery,
-    GetAllIngredientsQueryVariables,
-    GetAllIngredientsProps<TChildProps, TDataName>
-  >(GetAllIngredientsDocument, {
-    alias: 'getAllIngredients',
-    ...operationOptions
-  });
-}
 
 /**
  * __useGetAllIngredientsQuery__
@@ -2190,36 +1854,6 @@ export const GetMealDocument = gql`
     }
   }
 `;
-export type GetMealComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetMealQuery, GetMealQueryVariables>,
-  'query'
-> &
-  ({ variables: GetMealQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetMealComponent = (props: GetMealComponentProps) => (
-  <ApolloReactComponents.Query<GetMealQuery, GetMealQueryVariables> query={GetMealDocument} {...props} />
-);
-
-export type GetMealProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetMealQuery, GetMealQueryVariables>;
-} &
-  TChildProps;
-export function withGetMeal<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetMealQuery,
-    GetMealQueryVariables,
-    GetMealProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<TProps, GetMealQuery, GetMealQueryVariables, GetMealProps<TChildProps, TDataName>>(
-    GetMealDocument,
-    {
-      alias: 'getMeal',
-      ...operationOptions
-    }
-  );
-}
 
 /**
  * __useGetMealQuery__
@@ -2258,36 +1892,6 @@ export const GetMealsDocument = gql`
     }
   }
 `;
-export type GetMealsComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetMealsQuery, GetMealsQueryVariables>,
-  'query'
-> &
-  ({ variables: GetMealsQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetMealsComponent = (props: GetMealsComponentProps) => (
-  <ApolloReactComponents.Query<GetMealsQuery, GetMealsQueryVariables> query={GetMealsDocument} {...props} />
-);
-
-export type GetMealsProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetMealsQuery, GetMealsQueryVariables>;
-} &
-  TChildProps;
-export function withGetMeals<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetMealsQuery,
-    GetMealsQueryVariables,
-    GetMealsProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<TProps, GetMealsQuery, GetMealsQueryVariables, GetMealsProps<TChildProps, TDataName>>(
-    GetMealsDocument,
-    {
-      alias: 'getMeals',
-      ...operationOptions
-    }
-  );
-}
 
 /**
  * __useGetMealsQuery__
@@ -2335,40 +1939,6 @@ export const UpdateMealDocument = gql`
   }
 `;
 export type UpdateMealMutationFn = ApolloReactCommon.MutationFunction<UpdateMealMutation, UpdateMealMutationVariables>;
-export type UpdateMealComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<UpdateMealMutation, UpdateMealMutationVariables>,
-  'mutation'
->;
-
-export const UpdateMealComponent = (props: UpdateMealComponentProps) => (
-  <ApolloReactComponents.Mutation<UpdateMealMutation, UpdateMealMutationVariables>
-    mutation={UpdateMealDocument}
-    {...props}
-  />
-);
-
-export type UpdateMealProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateMealMutation, UpdateMealMutationVariables>;
-} &
-  TChildProps;
-export function withUpdateMeal<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UpdateMealMutation,
-    UpdateMealMutationVariables,
-    UpdateMealProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    UpdateMealMutation,
-    UpdateMealMutationVariables,
-    UpdateMealProps<TChildProps, TDataName>
-  >(UpdateMealDocument, {
-    alias: 'updateMeal',
-    ...operationOptions
-  });
-}
 
 /**
  * __useUpdateMealMutation__
@@ -2410,43 +1980,6 @@ export type AcceptPlanInvitationMutationFn = ApolloReactCommon.MutationFunction<
   AcceptPlanInvitationMutation,
   AcceptPlanInvitationMutationVariables
 >;
-export type AcceptPlanInvitationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<AcceptPlanInvitationMutation, AcceptPlanInvitationMutationVariables>,
-  'mutation'
->;
-
-export const AcceptPlanInvitationComponent = (props: AcceptPlanInvitationComponentProps) => (
-  <ApolloReactComponents.Mutation<AcceptPlanInvitationMutation, AcceptPlanInvitationMutationVariables>
-    mutation={AcceptPlanInvitationDocument}
-    {...props}
-  />
-);
-
-export type AcceptPlanInvitationProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<
-    AcceptPlanInvitationMutation,
-    AcceptPlanInvitationMutationVariables
-  >;
-} &
-  TChildProps;
-export function withAcceptPlanInvitation<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    AcceptPlanInvitationMutation,
-    AcceptPlanInvitationMutationVariables,
-    AcceptPlanInvitationProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    AcceptPlanInvitationMutation,
-    AcceptPlanInvitationMutationVariables,
-    AcceptPlanInvitationProps<TChildProps, TDataName>
-  >(AcceptPlanInvitationDocument, {
-    alias: 'acceptPlanInvitation',
-    ...operationOptions
-  });
-}
 
 /**
  * __useAcceptPlanInvitationMutation__
@@ -2493,43 +2026,6 @@ export type CreatePlanInvitationMutationFn = ApolloReactCommon.MutationFunction<
   CreatePlanInvitationMutation,
   CreatePlanInvitationMutationVariables
 >;
-export type CreatePlanInvitationComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<CreatePlanInvitationMutation, CreatePlanInvitationMutationVariables>,
-  'mutation'
->;
-
-export const CreatePlanInvitationComponent = (props: CreatePlanInvitationComponentProps) => (
-  <ApolloReactComponents.Mutation<CreatePlanInvitationMutation, CreatePlanInvitationMutationVariables>
-    mutation={CreatePlanInvitationDocument}
-    {...props}
-  />
-);
-
-export type CreatePlanInvitationProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<
-    CreatePlanInvitationMutation,
-    CreatePlanInvitationMutationVariables
-  >;
-} &
-  TChildProps;
-export function withCreatePlanInvitation<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreatePlanInvitationMutation,
-    CreatePlanInvitationMutationVariables,
-    CreatePlanInvitationProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreatePlanInvitationMutation,
-    CreatePlanInvitationMutationVariables,
-    CreatePlanInvitationProps<TChildProps, TDataName>
-  >(CreatePlanInvitationDocument, {
-    alias: 'createPlanInvitation',
-    ...operationOptions
-  });
-}
 
 /**
  * __useCreatePlanInvitationMutation__
@@ -2579,41 +2075,6 @@ export const GetPlanInvitationDocument = gql`
     }
   }
 `;
-export type GetPlanInvitationComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetPlanInvitationQuery, GetPlanInvitationQueryVariables>,
-  'query'
-> &
-  ({ variables: GetPlanInvitationQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetPlanInvitationComponent = (props: GetPlanInvitationComponentProps) => (
-  <ApolloReactComponents.Query<GetPlanInvitationQuery, GetPlanInvitationQueryVariables>
-    query={GetPlanInvitationDocument}
-    {...props}
-  />
-);
-
-export type GetPlanInvitationProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetPlanInvitationQuery, GetPlanInvitationQueryVariables>;
-} &
-  TChildProps;
-export function withGetPlanInvitation<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetPlanInvitationQuery,
-    GetPlanInvitationQueryVariables,
-    GetPlanInvitationProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetPlanInvitationQuery,
-    GetPlanInvitationQueryVariables,
-    GetPlanInvitationProps<TChildProps, TDataName>
-  >(GetPlanInvitationDocument, {
-    alias: 'getPlanInvitation',
-    ...operationOptions
-  });
-}
 
 /**
  * __useGetPlanInvitationQuery__
@@ -2680,41 +2141,6 @@ export const GetPlanInvitationsDocument = gql`
     }
   }
 `;
-export type GetPlanInvitationsComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetPlanInvitationsQuery, GetPlanInvitationsQueryVariables>,
-  'query'
-> &
-  ({ variables: GetPlanInvitationsQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetPlanInvitationsComponent = (props: GetPlanInvitationsComponentProps) => (
-  <ApolloReactComponents.Query<GetPlanInvitationsQuery, GetPlanInvitationsQueryVariables>
-    query={GetPlanInvitationsDocument}
-    {...props}
-  />
-);
-
-export type GetPlanInvitationsProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetPlanInvitationsQuery, GetPlanInvitationsQueryVariables>;
-} &
-  TChildProps;
-export function withGetPlanInvitations<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetPlanInvitationsQuery,
-    GetPlanInvitationsQueryVariables,
-    GetPlanInvitationsProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetPlanInvitationsQuery,
-    GetPlanInvitationsQueryVariables,
-    GetPlanInvitationsProps<TChildProps, TDataName>
-  >(GetPlanInvitationsDocument, {
-    alias: 'getPlanInvitations',
-    ...operationOptions
-  });
-}
 
 /**
  * __useGetPlanInvitationsQuery__
@@ -2764,40 +2190,6 @@ export const CreatePlanDocument = gql`
   }
 `;
 export type CreatePlanMutationFn = ApolloReactCommon.MutationFunction<CreatePlanMutation, CreatePlanMutationVariables>;
-export type CreatePlanComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<CreatePlanMutation, CreatePlanMutationVariables>,
-  'mutation'
->;
-
-export const CreatePlanComponent = (props: CreatePlanComponentProps) => (
-  <ApolloReactComponents.Mutation<CreatePlanMutation, CreatePlanMutationVariables>
-    mutation={CreatePlanDocument}
-    {...props}
-  />
-);
-
-export type CreatePlanProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<CreatePlanMutation, CreatePlanMutationVariables>;
-} &
-  TChildProps;
-export function withCreatePlan<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreatePlanMutation,
-    CreatePlanMutationVariables,
-    CreatePlanProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreatePlanMutation,
-    CreatePlanMutationVariables,
-    CreatePlanProps<TChildProps, TDataName>
-  >(CreatePlanDocument, {
-    alias: 'createPlan',
-    ...operationOptions
-  });
-}
 
 /**
  * __useCreatePlanMutation__
@@ -2835,40 +2227,6 @@ export const DeletePlanDocument = gql`
   }
 `;
 export type DeletePlanMutationFn = ApolloReactCommon.MutationFunction<DeletePlanMutation, DeletePlanMutationVariables>;
-export type DeletePlanComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<DeletePlanMutation, DeletePlanMutationVariables>,
-  'mutation'
->;
-
-export const DeletePlanComponent = (props: DeletePlanComponentProps) => (
-  <ApolloReactComponents.Mutation<DeletePlanMutation, DeletePlanMutationVariables>
-    mutation={DeletePlanDocument}
-    {...props}
-  />
-);
-
-export type DeletePlanProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<DeletePlanMutation, DeletePlanMutationVariables>;
-} &
-  TChildProps;
-export function withDeletePlan<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    DeletePlanMutation,
-    DeletePlanMutationVariables,
-    DeletePlanProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    DeletePlanMutation,
-    DeletePlanMutationVariables,
-    DeletePlanProps<TChildProps, TDataName>
-  >(DeletePlanDocument, {
-    alias: 'deletePlan',
-    ...operationOptions
-  });
-}
 
 /**
  * __useDeletePlanMutation__
@@ -2940,41 +2298,6 @@ export const GetPlanDetailDocument = gql`
     }
   }
 `;
-export type GetPlanDetailComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetPlanDetailQuery, GetPlanDetailQueryVariables>,
-  'query'
-> &
-  ({ variables: GetPlanDetailQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetPlanDetailComponent = (props: GetPlanDetailComponentProps) => (
-  <ApolloReactComponents.Query<GetPlanDetailQuery, GetPlanDetailQueryVariables>
-    query={GetPlanDetailDocument}
-    {...props}
-  />
-);
-
-export type GetPlanDetailProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetPlanDetailQuery, GetPlanDetailQueryVariables>;
-} &
-  TChildProps;
-export function withGetPlanDetail<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetPlanDetailQuery,
-    GetPlanDetailQueryVariables,
-    GetPlanDetailProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetPlanDetailQuery,
-    GetPlanDetailQueryVariables,
-    GetPlanDetailProps<TChildProps, TDataName>
-  >(GetPlanDetailDocument, {
-    alias: 'getPlanDetail',
-    ...operationOptions
-  });
-}
 
 /**
  * __useGetPlanDetailQuery__
@@ -3023,36 +2346,6 @@ export const GetPlanDocument = gql`
     }
   }
 `;
-export type GetPlanComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetPlanQuery, GetPlanQueryVariables>,
-  'query'
-> &
-  ({ variables: GetPlanQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetPlanComponent = (props: GetPlanComponentProps) => (
-  <ApolloReactComponents.Query<GetPlanQuery, GetPlanQueryVariables> query={GetPlanDocument} {...props} />
-);
-
-export type GetPlanProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetPlanQuery, GetPlanQueryVariables>;
-} &
-  TChildProps;
-export function withGetPlan<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetPlanQuery,
-    GetPlanQueryVariables,
-    GetPlanProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<TProps, GetPlanQuery, GetPlanQueryVariables, GetPlanProps<TChildProps, TDataName>>(
-    GetPlanDocument,
-    {
-      alias: 'getPlan',
-      ...operationOptions
-    }
-  );
-}
 
 /**
  * __useGetPlanQuery__
@@ -3094,36 +2387,6 @@ export const GetPlansDocument = gql`
     }
   }
 `;
-export type GetPlansComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetPlansQuery, GetPlansQueryVariables>,
-  'query'
-> &
-  ({ variables: GetPlansQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetPlansComponent = (props: GetPlansComponentProps) => (
-  <ApolloReactComponents.Query<GetPlansQuery, GetPlansQueryVariables> query={GetPlansDocument} {...props} />
-);
-
-export type GetPlansProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetPlansQuery, GetPlansQueryVariables>;
-} &
-  TChildProps;
-export function withGetPlans<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetPlansQuery,
-    GetPlansQueryVariables,
-    GetPlansProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<TProps, GetPlansQuery, GetPlansQueryVariables, GetPlansProps<TChildProps, TDataName>>(
-    GetPlansDocument,
-    {
-      alias: 'getPlans',
-      ...operationOptions
-    }
-  );
-}
 
 /**
  * __useGetPlansQuery__
@@ -3172,40 +2435,6 @@ export const UpdatePlanDocument = gql`
   }
 `;
 export type UpdatePlanMutationFn = ApolloReactCommon.MutationFunction<UpdatePlanMutation, UpdatePlanMutationVariables>;
-export type UpdatePlanComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<UpdatePlanMutation, UpdatePlanMutationVariables>,
-  'mutation'
->;
-
-export const UpdatePlanComponent = (props: UpdatePlanComponentProps) => (
-  <ApolloReactComponents.Mutation<UpdatePlanMutation, UpdatePlanMutationVariables>
-    mutation={UpdatePlanDocument}
-    {...props}
-  />
-);
-
-export type UpdatePlanProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<UpdatePlanMutation, UpdatePlanMutationVariables>;
-} &
-  TChildProps;
-export function withUpdatePlan<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UpdatePlanMutation,
-    UpdatePlanMutationVariables,
-    UpdatePlanProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    UpdatePlanMutation,
-    UpdatePlanMutationVariables,
-    UpdatePlanProps<TChildProps, TDataName>
-  >(UpdatePlanDocument, {
-    alias: 'updatePlan',
-    ...operationOptions
-  });
-}
 
 /**
  * __useUpdatePlanMutation__
@@ -3250,40 +2479,6 @@ export const UpdateUserDocument = gql`
   }
 `;
 export type UpdateUserMutationFn = ApolloReactCommon.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
-export type UpdateUserComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<UpdateUserMutation, UpdateUserMutationVariables>,
-  'mutation'
->;
-
-export const UpdateUserComponent = (props: UpdateUserComponentProps) => (
-  <ApolloReactComponents.Mutation<UpdateUserMutation, UpdateUserMutationVariables>
-    mutation={UpdateUserDocument}
-    {...props}
-  />
-);
-
-export type UpdateUserProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
-} &
-  TChildProps;
-export function withUpdateUser<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UpdateUserMutation,
-    UpdateUserMutationVariables,
-    UpdateUserProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    UpdateUserMutation,
-    UpdateUserMutationVariables,
-    UpdateUserProps<TChildProps, TDataName>
-  >(UpdateUserDocument, {
-    alias: 'updateUser',
-    ...operationOptions
-  });
-}
 
 /**
  * __useUpdateUserMutation__
@@ -3324,40 +2519,6 @@ export type CreateWorkoutMutationFn = ApolloReactCommon.MutationFunction<
   CreateWorkoutMutation,
   CreateWorkoutMutationVariables
 >;
-export type CreateWorkoutComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<CreateWorkoutMutation, CreateWorkoutMutationVariables>,
-  'mutation'
->;
-
-export const CreateWorkoutComponent = (props: CreateWorkoutComponentProps) => (
-  <ApolloReactComponents.Mutation<CreateWorkoutMutation, CreateWorkoutMutationVariables>
-    mutation={CreateWorkoutDocument}
-    {...props}
-  />
-);
-
-export type CreateWorkoutProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<CreateWorkoutMutation, CreateWorkoutMutationVariables>;
-} &
-  TChildProps;
-export function withCreateWorkout<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    CreateWorkoutMutation,
-    CreateWorkoutMutationVariables,
-    CreateWorkoutProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    CreateWorkoutMutation,
-    CreateWorkoutMutationVariables,
-    CreateWorkoutProps<TChildProps, TDataName>
-  >(CreateWorkoutDocument, {
-    alias: 'createWorkout',
-    ...operationOptions
-  });
-}
 
 /**
  * __useCreateWorkoutMutation__
@@ -3410,38 +2571,6 @@ export const GetTrainingDocument = gql`
     }
   }
 `;
-export type GetTrainingComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetTrainingQuery, GetTrainingQueryVariables>,
-  'query'
-> &
-  ({ variables: GetTrainingQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetTrainingComponent = (props: GetTrainingComponentProps) => (
-  <ApolloReactComponents.Query<GetTrainingQuery, GetTrainingQueryVariables> query={GetTrainingDocument} {...props} />
-);
-
-export type GetTrainingProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetTrainingQuery, GetTrainingQueryVariables>;
-} &
-  TChildProps;
-export function withGetTraining<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetTrainingQuery,
-    GetTrainingQueryVariables,
-    GetTrainingProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetTrainingQuery,
-    GetTrainingQueryVariables,
-    GetTrainingProps<TChildProps, TDataName>
-  >(GetTrainingDocument, {
-    alias: 'getTraining',
-    ...operationOptions
-  });
-}
 
 /**
  * __useGetTrainingQuery__
@@ -3489,38 +2618,6 @@ export const GetWorkoutDocument = gql`
     }
   }
 `;
-export type GetWorkoutComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetWorkoutQuery, GetWorkoutQueryVariables>,
-  'query'
-> &
-  ({ variables: GetWorkoutQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetWorkoutComponent = (props: GetWorkoutComponentProps) => (
-  <ApolloReactComponents.Query<GetWorkoutQuery, GetWorkoutQueryVariables> query={GetWorkoutDocument} {...props} />
-);
-
-export type GetWorkoutProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetWorkoutQuery, GetWorkoutQueryVariables>;
-} &
-  TChildProps;
-export function withGetWorkout<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetWorkoutQuery,
-    GetWorkoutQueryVariables,
-    GetWorkoutProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetWorkoutQuery,
-    GetWorkoutQueryVariables,
-    GetWorkoutProps<TChildProps, TDataName>
-  >(GetWorkoutDocument, {
-    alias: 'getWorkout',
-    ...operationOptions
-  });
-}
 
 /**
  * __useGetWorkoutQuery__
@@ -3560,40 +2657,6 @@ export const GetAllExercisesDocument = gql`
     }
   }
 `;
-export type GetAllExercisesComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetAllExercisesQuery, GetAllExercisesQueryVariables>,
-  'query'
->;
-
-export const GetAllExercisesComponent = (props: GetAllExercisesComponentProps) => (
-  <ApolloReactComponents.Query<GetAllExercisesQuery, GetAllExercisesQueryVariables>
-    query={GetAllExercisesDocument}
-    {...props}
-  />
-);
-
-export type GetAllExercisesProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetAllExercisesQuery, GetAllExercisesQueryVariables>;
-} &
-  TChildProps;
-export function withGetAllExercises<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetAllExercisesQuery,
-    GetAllExercisesQueryVariables,
-    GetAllExercisesProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetAllExercisesQuery,
-    GetAllExercisesQueryVariables,
-    GetAllExercisesProps<TChildProps, TDataName>
-  >(GetAllExercisesDocument, {
-    alias: 'getAllExercises',
-    ...operationOptions
-  });
-}
 
 /**
  * __useGetAllExercisesQuery__
@@ -3654,41 +2717,6 @@ export const GetWorkoutRoutineDocument = gql`
     }
   }
 `;
-export type GetWorkoutRoutineComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetWorkoutRoutineQuery, GetWorkoutRoutineQueryVariables>,
-  'query'
-> &
-  ({ variables: GetWorkoutRoutineQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetWorkoutRoutineComponent = (props: GetWorkoutRoutineComponentProps) => (
-  <ApolloReactComponents.Query<GetWorkoutRoutineQuery, GetWorkoutRoutineQueryVariables>
-    query={GetWorkoutRoutineDocument}
-    {...props}
-  />
-);
-
-export type GetWorkoutRoutineProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetWorkoutRoutineQuery, GetWorkoutRoutineQueryVariables>;
-} &
-  TChildProps;
-export function withGetWorkoutRoutine<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetWorkoutRoutineQuery,
-    GetWorkoutRoutineQueryVariables,
-    GetWorkoutRoutineProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetWorkoutRoutineQuery,
-    GetWorkoutRoutineQueryVariables,
-    GetWorkoutRoutineProps<TChildProps, TDataName>
-  >(GetWorkoutRoutineDocument, {
-    alias: 'getWorkoutRoutine',
-    ...operationOptions
-  });
-}
 
 /**
  * __useGetWorkoutRoutineQuery__
@@ -3742,43 +2770,6 @@ export type UpdateWorkoutRoutineMutationFn = ApolloReactCommon.MutationFunction<
   UpdateWorkoutRoutineMutation,
   UpdateWorkoutRoutineMutationVariables
 >;
-export type UpdateWorkoutRoutineComponentProps = Omit<
-  ApolloReactComponents.MutationComponentOptions<UpdateWorkoutRoutineMutation, UpdateWorkoutRoutineMutationVariables>,
-  'mutation'
->;
-
-export const UpdateWorkoutRoutineComponent = (props: UpdateWorkoutRoutineComponentProps) => (
-  <ApolloReactComponents.Mutation<UpdateWorkoutRoutineMutation, UpdateWorkoutRoutineMutationVariables>
-    mutation={UpdateWorkoutRoutineDocument}
-    {...props}
-  />
-);
-
-export type UpdateWorkoutRoutineProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
-  [key in TDataName]: ApolloReactCommon.MutationFunction<
-    UpdateWorkoutRoutineMutation,
-    UpdateWorkoutRoutineMutationVariables
-  >;
-} &
-  TChildProps;
-export function withUpdateWorkoutRoutine<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UpdateWorkoutRoutineMutation,
-    UpdateWorkoutRoutineMutationVariables,
-    UpdateWorkoutRoutineProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withMutation<
-    TProps,
-    UpdateWorkoutRoutineMutation,
-    UpdateWorkoutRoutineMutationVariables,
-    UpdateWorkoutRoutineProps<TChildProps, TDataName>
-  >(UpdateWorkoutRoutineDocument, {
-    alias: 'updateWorkoutRoutine',
-    ...operationOptions
-  });
-}
 
 /**
  * __useUpdateWorkoutRoutineMutation__
@@ -3844,38 +2835,6 @@ export const GetWorkoutsDocument = gql`
     }
   }
 `;
-export type GetWorkoutsComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<GetWorkoutsQuery, GetWorkoutsQueryVariables>,
-  'query'
-> &
-  ({ variables: GetWorkoutsQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const GetWorkoutsComponent = (props: GetWorkoutsComponentProps) => (
-  <ApolloReactComponents.Query<GetWorkoutsQuery, GetWorkoutsQueryVariables> query={GetWorkoutsDocument} {...props} />
-);
-
-export type GetWorkoutsProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<GetWorkoutsQuery, GetWorkoutsQueryVariables>;
-} &
-  TChildProps;
-export function withGetWorkouts<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    GetWorkoutsQuery,
-    GetWorkoutsQueryVariables,
-    GetWorkoutsProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    GetWorkoutsQuery,
-    GetWorkoutsQueryVariables,
-    GetWorkoutsProps<TChildProps, TDataName>
-  >(GetWorkoutsDocument, {
-    alias: 'getWorkouts',
-    ...operationOptions
-  });
-}
 
 /**
  * __useGetWorkoutsQuery__
@@ -3939,38 +2898,6 @@ export const UserProfileDocument = gql`
     }
   }
 `;
-export type UserProfileComponentProps = Omit<
-  ApolloReactComponents.QueryComponentOptions<UserProfileQuery, UserProfileQueryVariables>,
-  'query'
-> &
-  ({ variables: UserProfileQueryVariables; skip?: boolean } | { skip: boolean });
-
-export const UserProfileComponent = (props: UserProfileComponentProps) => (
-  <ApolloReactComponents.Query<UserProfileQuery, UserProfileQueryVariables> query={UserProfileDocument} {...props} />
-);
-
-export type UserProfileProps<TChildProps = {}, TDataName extends string = 'data'> = {
-  [key in TDataName]: ApolloReactHoc.DataValue<UserProfileQuery, UserProfileQueryVariables>;
-} &
-  TChildProps;
-export function withUserProfile<TProps, TChildProps = {}, TDataName extends string = 'data'>(
-  operationOptions?: ApolloReactHoc.OperationOption<
-    TProps,
-    UserProfileQuery,
-    UserProfileQueryVariables,
-    UserProfileProps<TChildProps, TDataName>
-  >
-) {
-  return ApolloReactHoc.withQuery<
-    TProps,
-    UserProfileQuery,
-    UserProfileQueryVariables,
-    UserProfileProps<TChildProps, TDataName>
-  >(UserProfileDocument, {
-    alias: 'userProfile',
-    ...operationOptions
-  });
-}
 
 /**
  * __useUserProfileQuery__

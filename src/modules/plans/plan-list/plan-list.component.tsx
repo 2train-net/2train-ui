@@ -42,6 +42,8 @@ const PlanList: FC = () => {
 
   const sendPlanInvitation = async ({ email }: IPlanInviteFormValues) => {
     try {
+      modalProvider.refresh({ isLoading: true });
+
       const planInvitation = await createPlanInvitation({
         variables: {
           data: { plan: { connect: { uuid } }, user: { connect: { email } } }
@@ -52,6 +54,7 @@ const PlanList: FC = () => {
 
       modalProvider.refresh({
         ...PLAN_INVITATION_LINK_MODAL,
+        isLoading: false,
         message: invitationLink,
         onConfirm: () => {
           navigator.clipboard.writeText(invitationLink);
@@ -59,7 +62,9 @@ const PlanList: FC = () => {
           redirectToPlans();
         }
       });
-    } catch (error) {}
+    } catch (error) {
+      modalProvider.refresh({ isLoading: false });
+    }
   };
 
   const displayInviteModal = () => {
@@ -83,14 +88,11 @@ const PlanList: FC = () => {
 
   useEffect(() => {
     const error = planInvitationPayload.error;
-    const isLoading = planInvitationPayload.loading;
 
     if (error) {
       Message.error(error.graphQLErrors[0].message);
     }
-
-    modalProvider.refresh({ isLoading });
-  }, [planInvitationPayload]);
+  }, [planInvitationPayload.error]);
 
   return (
     <MasterList<IPlanPayload>

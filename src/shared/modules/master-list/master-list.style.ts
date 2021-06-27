@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { ITheme } from 'shared/theme';
 
-export default createUseStyles<ITheme>(({ spacing }) => ({
+export default createUseStyles<string, unknown, ITheme>(({ spacing }) => ({
   root: {
     '& .master-list-content': {
       justifyContent: 'center',

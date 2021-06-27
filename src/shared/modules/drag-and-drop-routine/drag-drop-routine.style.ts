@@ -1,7 +1,7 @@
 import { createUseStyles } from 'react-jss';
 import { ITheme } from 'shared/theme';
 
-export default createUseStyles<ITheme>(({ palette, breakpoints, spacing }) => ({
+export default createUseStyles<string, unknown, ITheme>(({ palette, breakpoints, spacing }) => ({
   root: {
     '& .header-actions': {
       display: 'flex',

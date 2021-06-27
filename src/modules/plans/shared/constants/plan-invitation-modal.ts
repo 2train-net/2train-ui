@@ -11,6 +11,7 @@ export const PLAN_INVITATION_LINK_MODAL: RefreshModal = {
   title: 'Link',
   confirmText: 'Copiar',
   isCancelButtonAvailable: false,
+  isSubmitButtonAvailable: true,
   closeOnConfirm: true,
   contentRender: undefined
 };

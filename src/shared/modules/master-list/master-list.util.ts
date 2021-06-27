@@ -1,9 +1,13 @@
 import { FC } from 'react';
 
-import * as ApolloReactHooks from '@apollo/react-hooks';
-import * as ApolloReactCommon from '@apollo/react-common';
+import {
+  WatchQueryFetchPolicy,
+  MutationHookOptions,
+  MutationTuple,
+  QueryHookOptions,
+  QueryResult
+} from '@apollo/client';
 
-import { WatchQueryFetchPolicy } from 'apollo-boost';
 import { OrderByArg } from 'shared/generated';
 
 export type Entity<T> = { uuid: string } & T;
@@ -44,9 +48,9 @@ export interface IMasterList<T> {
   render: FC<IMasterComponent<T>>;
   isCreateButtonAvailable?: boolean;
   useQuery: (
-    options: ApolloReactHooks.QueryHookOptions<QueryPayload<T>, QueryVariables>
-  ) => ApolloReactCommon.QueryResult<QueryPayload<T>, QueryVariables>;
+    options: QueryHookOptions<QueryPayload<T>, QueryVariables>
+  ) => QueryResult<QueryPayload<T>, QueryVariables>;
   useDeleteMutation?: (
-    baseOptions?: ApolloReactHooks.MutationHookOptions<MutationDeletePayload, MutationDeleteVariables>
-  ) => ApolloReactHooks.MutationTuple<MutationDeletePayload, MutationDeleteVariables>;
+    baseOptions?: MutationHookOptions<MutationDeletePayload, MutationDeleteVariables>
+  ) => MutationTuple<MutationDeletePayload, MutationDeleteVariables>;
 }

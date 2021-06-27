@@ -14,6 +14,7 @@ import DragAndDropRoutine from './drag-and-drop-routine/drag-and-drop-routine.co
 import Steps from './steps/steps.component';
 import FormHeader from './form-header/form-header.component';
 import FormPage from './form-page/form-page.component';
+import ErrorBoundary from './error-boundary/error-boundary.component';
 
 import { NotFoundErrorPage } from './error-page';
 
@@ -34,5 +35,6 @@ export {
   DragAndDropRoutine,
   Steps,
   FormHeader,
-  FormPage
+  FormPage,
+  ErrorBoundary
 };

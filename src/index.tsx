@@ -2,15 +2,33 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { ApolloProvider } from '@apollo/react-hooks';
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
+
+import { ApolloProvider } from '@apollo/client';
 
 import App from './app.component';
 
 import { client } from 'shared/config';
 
+import * as config from '../package.json';
 import * as serviceWorker from './service-worker';
 
 import './index.css';
+
+const { NODE_ENV, REACT_APP_SENTRY_URL } = process.env;
+
+const isProduction = NODE_ENV === 'production';
+const isStaging = NODE_ENV === 'development';
+
+Sentry.init({
+  tracesSampleRate: 1.0,
+  environment: NODE_ENV,
+  dsn: REACT_APP_SENTRY_URL,
+  integrations: [new Integrations.BrowserTracing()],
+  release: `${config.name}-${config.version}`,
+  beforeSend: event => (isProduction || isStaging ? event : null)
+});
 
 ReactDOM.render(
   <ApolloProvider client={client}>
@@ -20,10 +38,6 @@ ReactDOM.render(
   </ApolloProvider>,
   document.getElementById('root')
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 
 serviceWorker.register({
   onUpdate: (registration: ServiceWorkerRegistration) => {

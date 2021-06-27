@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { ITheme } from 'shared/theme';
 
-export default createUseStyles<ITheme>(({ palette, spacing }) => ({
+export default createUseStyles(({ palette, spacing }: ITheme) => ({
   root: {
     '& .start-date-col': {
       margin: 'auto',

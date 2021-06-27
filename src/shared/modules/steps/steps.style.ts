@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 import { ITheme } from 'shared/theme';
 import { StepColor } from './steps.component';
 
-export default createUseStyles<ITheme>(({ palette }) => ({
+export default createUseStyles<string, { color: StepColor }, ITheme>(({ palette }) => ({
   root: ({ color }: { color: StepColor }) => ({
     '& .ant-steps-item-process .ant-steps-item-icon ': {
       borderColor: palette[color].main,
