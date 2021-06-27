@@ -27,8 +27,6 @@ const PlanDetail: FC = () => {
 
   const { user } = useContext(AuthContext);
 
-  const isClient = user?.type === UserType.Customer;
-
   const where = { uuid };
   const redirect = history.push;
 
@@ -41,7 +39,7 @@ const PlanDetail: FC = () => {
   const plan = data?.payload;
   const notFound = !plan && !loading;
 
-  const { info, owner, members, iconCards } = format(isClient, plan);
+  const { info, owner, members, iconCards } = format(user?.type, plan);
 
   const planActions = [];
   const today = new Date();

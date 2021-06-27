@@ -2,7 +2,7 @@ import { IIconCard } from 'shared/modules/icon-card/icon-card.component';
 
 import { DateService, PlanService } from 'shared/services';
 import { ADD, DETAIL, DIETS, EDIT, WORKOUT_ROUTINES } from 'shared/routes';
-import { Currency, PlanStatus, Scope } from 'shared/generated';
+import { Currency, PlanStatus, Scope, UserType } from 'shared/generated';
 import { DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT } from 'shared/constants';
 import {
   FROM_TEXT,
@@ -61,10 +61,11 @@ interface IPlanIconCard extends IIconCard {
   url?: string;
 }
 
-export const format = (isClient: boolean, plan?: IPlanDetail) => {
+export const format = (userType?: UserType, plan?: IPlanDetail) => {
   const today = new Date();
   const owner = plan?.owner;
   const members = owner ? [owner] : [];
+  const isClient = userType === UserType.Customer;
 
   const totalDays =
     plan && plan.startAt && plan.expireAt ? DateService.difference(plan.expireAt, plan.startAt, 'days') : undefined;
