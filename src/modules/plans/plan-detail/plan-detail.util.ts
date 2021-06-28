@@ -114,9 +114,7 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
       title: EXERCISES_TEXT,
       buttonText: LOOK_TEXT,
       url: plan?.workoutRoutine
-        ? isClient
-          ? `${WORKOUT_ROUTINES}/${DETAIL}/${plan.workoutRoutine.uuid}`
-          : `${WORKOUT_ROUTINES}/${EDIT}/${plan.workoutRoutine.uuid}`
+        ? `${WORKOUT_ROUTINES}/${isClient ? DETAIL : EDIT}/${plan.workoutRoutine.uuid}`
         : `${WORKOUT_ROUTINES}/${ADD}`,
       icon: 'reconciliation',
       isDisabled: !plan?.workoutRoutine

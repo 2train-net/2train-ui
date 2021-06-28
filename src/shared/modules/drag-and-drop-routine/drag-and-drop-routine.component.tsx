@@ -365,7 +365,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
                 onClick={
                   data
                     ? () => {
-                        if (onSubmit)
+                        onSubmit &&
                           onSubmit(parseColumnsToData(updatePositionsAndColumns(columns ? columns : []), data));
                       }
                     : () => {}
