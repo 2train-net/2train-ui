@@ -1,8 +1,8 @@
 import { IIconCard } from 'shared/modules/icon-card/icon-card.component';
 
 import { DateService, PlanService } from 'shared/services';
-import { ADD, DIETS, EDIT, WORKOUT_ROUTINES } from 'shared/routes';
-import { Currency, PlanStatus, Scope } from 'shared/generated';
+import { ADD, DETAIL, DIETS, EDIT, WORKOUT_ROUTINES } from 'shared/routes';
+import { Currency, PlanStatus, Scope, UserType } from 'shared/generated';
 import { DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT } from 'shared/constants';
 import {
   FROM_TEXT,
@@ -61,10 +61,11 @@ interface IPlanIconCard extends IIconCard {
   url?: string;
 }
 
-export const format = (plan?: IPlanDetail) => {
+export const format = (userType?: UserType, plan?: IPlanDetail) => {
   const today = new Date();
   const owner = plan?.owner;
   const members = owner ? [owner] : [];
+  const isClient = userType === UserType.Customer;
 
   const totalDays =
     plan && plan.startAt && plan.expireAt ? DateService.difference(plan.expireAt, plan.startAt, 'days') : undefined;
@@ -113,7 +114,7 @@ export const format = (plan?: IPlanDetail) => {
       title: EXERCISES_TEXT,
       buttonText: LOOK_TEXT,
       url: plan?.workoutRoutine
-        ? `${WORKOUT_ROUTINES}/${EDIT}/${plan.workoutRoutine.uuid}`
+        ? `${WORKOUT_ROUTINES}/${isClient ? DETAIL : EDIT}/${plan.workoutRoutine.uuid}`
         : `${WORKOUT_ROUTINES}/${ADD}`,
       icon: 'reconciliation',
       isDisabled: !plan?.workoutRoutine

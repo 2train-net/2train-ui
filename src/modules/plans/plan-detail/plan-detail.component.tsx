@@ -24,6 +24,7 @@ const PlanDetail: FC = () => {
     params: { uuid }
   } = useRouteMatch<{ uuid: string }>();
   const history = useHistory();
+
   const { user } = useContext(AuthContext);
 
   const where = { uuid };
@@ -38,7 +39,7 @@ const PlanDetail: FC = () => {
   const plan = data?.payload;
   const notFound = !plan && !loading;
 
-  const { info, owner, members, iconCards } = format(plan);
+  const { info, owner, members, iconCards } = format(user?.type, plan);
 
   const planActions = [];
   const today = new Date();
