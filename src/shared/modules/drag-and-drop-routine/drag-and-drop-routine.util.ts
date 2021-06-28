@@ -28,24 +28,18 @@ export const parseColumnsToData = (columns: ColumnItem[][], data: ColumnItem[]) 
   };
 };
 
-export const compareColumns = (initialData: ColumnItem[][], newData: ColumnItem[][] | undefined) => {
+export const compareColumns = (initialData: ColumnItem[][], newData?: ColumnItem[][]) => {
+  const flattenInitialData = _.flatten(initialData);
+  const flattenNewData = _.flatten(newData);
   let ban = false;
-  if (newData) {
-    if (initialData.length === newData.length) {
-      initialData.forEach((column, i) => {
-        if (column.length === newData[i].length) {
-          column.forEach((item, j) => {
-            if (Object.keys(objectDifferences(item.data, newData[i][j].data)).length) {
-              ban = true;
-            }
-          });
-        } else {
-          ban = true;
-        }
-      });
-    } else {
-      ban = true;
-    }
+  if (flattenInitialData.length === flattenNewData.length) {
+    flattenInitialData.forEach((item, i) => {
+      if (Object.keys(objectDifferences(item.data, flattenNewData[i].data)).length) {
+        ban = true;
+      }
+    });
+  } else {
+    ban = true;
   }
   return ban;
 };

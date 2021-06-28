@@ -220,7 +220,12 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   };
   const handleColumnsChange = (name: string, value: number) => {
     if (columns && value < columns?.length) {
-      displayReduceDayModal(value);
+      const verify = columns.slice(0, value);
+      if (_.isEqual(_.flatten(columns), _.flatten(verify))) {
+        modifyColumns(value);
+      } else {
+        displayReduceDayModal(value);
+      }
     } else {
       modifyColumns(value);
     }
