@@ -2,16 +2,18 @@ import React, { FC, ReactNode } from 'react';
 
 import { Button, Typography } from 'antd';
 
-import { Icon } from 'shared/modules';
+import Icon, { IconType } from 'shared/modules/icon/icon.component';
 
 import useStyles from './list-item.style';
 
 export interface IListItem {
+  icon?: IconType;
   title: string;
-  description: string;
+  description?: string;
   actions?: ReactNode[];
   emptyActions?: boolean;
   isDetailActionEnabled?: boolean;
+  isDetailButtonDisabled?: boolean;
   isEditActionEnabled?: boolean;
   isDeleteActionEnabled?: boolean;
   onEdit?: () => any;
@@ -22,10 +24,12 @@ export interface IListItem {
 const { Text } = Typography;
 
 const ListItem: FC<IListItem> = ({
+  icon,
   title,
   description,
   emptyActions = false,
   actions = [],
+  isDetailButtonDisabled = false,
   isDetailActionEnabled = true,
   isEditActionEnabled = false,
   isDeleteActionEnabled = false,
@@ -33,7 +37,9 @@ const ListItem: FC<IListItem> = ({
   onDetail,
   onDelete
 }) => {
-  const classes = useStyles();
+  const centerContent = !description;
+
+  const classes = useStyles({ centerContent });
 
   const itemActions: ReactNode[] = actions;
 
@@ -47,7 +53,14 @@ const ListItem: FC<IListItem> = ({
     }
 
     if (isDetailActionEnabled) {
-      itemActions.push(<Button shape="circle" icon={<Icon type="view" />} onClick={onDetail} />);
+      itemActions.push(
+        <Button
+          shape="circle"
+          icon={<Icon type={isDetailButtonDisabled ? 'unableView' : 'view'} />}
+          onClick={onDetail}
+          disabled={isDetailButtonDisabled}
+        />
+      );
     }
   }
 
@@ -55,8 +68,9 @@ const ListItem: FC<IListItem> = ({
     <div className={classes.root}>
       <div className="list-item-content">
         <div className="list-item-text">
+          {icon && <Icon type={icon} className="icon" />}
           <Text strong>{title}</Text>
-          <Text type="secondary">{description}</Text>
+          {description && <Text type="secondary">{description}</Text>}
         </div>
         <div className="list-item-actions">
           {itemActions.map((action, index) => (

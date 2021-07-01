@@ -38,7 +38,8 @@ import {
   CheckOutlined,
   UpOutlined,
   DownOutlined,
-  WarningOutlined
+  WarningOutlined,
+  EyeInvisibleOutlined
 } from '@ant-design/icons';
 
 export type IconType =
@@ -79,7 +80,8 @@ export type IconType =
   | 'check'
   | 'up'
   | 'down'
-  | 'warning';
+  | 'warning'
+  | 'unableView';
 
 interface IIcon {
   key?: string;
@@ -126,7 +128,8 @@ const outlinedIconDictionary = {
   check: CheckOutlined,
   up: UpOutlined,
   down: DownOutlined,
-  warning: WarningOutlined
+  warning: WarningOutlined,
+  unableView: EyeInvisibleOutlined
 };
 
 const Icon: FC<IIcon> = ({ key, type, className, onClick }) => {
