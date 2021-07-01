@@ -2,8 +2,6 @@ import React, { FC } from 'react';
 
 import { Route, Redirect, useLocation, Switch } from 'react-router-dom';
 
-import { ThemeProvider } from 'react-jss';
-
 import Navigation from 'modules/navigation/navigation.module';
 import Home from 'modules/home/home.module';
 import Auth from 'modules/auth/auth.module';
@@ -18,9 +16,8 @@ import Workouts from 'modules/workouts/workouts.module';
 import Meals from 'modules/meals/meals.module';
 import Training from 'modules/training/training.module';
 
-import { NotFoundErrorPage, ErrorBoundary } from 'shared/modules';
+import { NotFoundErrorPage } from 'shared/modules';
 import { AuthProvider, ModalProvider } from 'shared/contexts';
-import { LIGHT_THEME } from 'shared/theme';
 import {
   ROOT,
   HOME,
@@ -42,34 +39,30 @@ const App: FC = () => {
   const { pathname } = useLocation();
 
   return (
-    <ThemeProvider theme={LIGHT_THEME}>
-      <ErrorBoundary>
-        <AuthProvider>
-          <ModalProvider>
-            <Route path={ROOT} component={Auth} />
-            <Navigation>
-              <Switch>
-                <Route exact path={ROOT} component={Home} />
-                <Route exact path={HOME} component={Home} />
-                <Route exact path={PROFILE} component={Profile} />
-                <Route path={WORKOUT_ROUTINES} component={WorkoutRoutines} />
-                <Route path={PLANS} component={Plans} />
-                <Route path={PLAN_INVITATIONS} component={PlanInvitations} />
-                <Route path={EXERCISES} component={Exercises} />
-                <Route path={BODY_MEASURES} component={BodyMeasure} />
-                <Route path={CLIENTS} component={Clients} />
-                <Route path={WORKOUTS} component={Workouts} />
-                <Route path={MEALS} component={Meals} />
-                <Route path={TRAINING} component={Training} />
+    <AuthProvider>
+      <ModalProvider>
+        <Route path={ROOT} component={Auth} />
+        <Navigation>
+          <Switch>
+            <Route exact path={ROOT} component={Home} />
+            <Route exact path={HOME} component={Home} />
+            <Route exact path={PROFILE} component={Profile} />
+            <Route path={WORKOUT_ROUTINES} component={WorkoutRoutines} />
+            <Route path={PLANS} component={Plans} />
+            <Route path={PLAN_INVITATIONS} component={PlanInvitations} />
+            <Route path={EXERCISES} component={Exercises} />
+            <Route path={BODY_MEASURES} component={BodyMeasure} />
+            <Route path={CLIENTS} component={Clients} />
+            <Route path={WORKOUTS} component={Workouts} />
+            <Route path={MEALS} component={Meals} />
+            <Route path={TRAINING} component={Training} />
 
-                <Route component={NotFoundErrorPage} />
-                <Redirect to={pathname} />
-              </Switch>
-            </Navigation>
-          </ModalProvider>
-        </AuthProvider>
-      </ErrorBoundary>
-    </ThemeProvider>
+            <Route component={NotFoundErrorPage} />
+            <Redirect to={pathname} />
+          </Switch>
+        </Navigation>
+      </ModalProvider>
+    </AuthProvider>
   );
 };
 
