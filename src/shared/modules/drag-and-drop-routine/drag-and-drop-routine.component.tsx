@@ -10,6 +10,7 @@ import _ from 'lodash';
 
 import Droppable from 'shared/modules/droppable/droppable.component';
 
+import { getIsMobile } from 'shared/util';
 import { ModalContext } from 'shared/contexts';
 import { Select, Field } from 'shared/modules/form';
 import { Modal } from 'shared/contexts/modal.context';
@@ -38,7 +39,7 @@ import {
   updatePositionsAndColumns
 } from './drag-and-drop-routine.util';
 
-import { ColumnItem, FormData, ICard, Option, OptionFormData } from './shared/model';
+import { ColumnItem, DetailData, FormData, ICard, Option, OptionFormData } from './shared/model';
 
 import {
   OPTION_NOT_EXISTS_TEXT,
@@ -55,7 +56,8 @@ interface IDragAndDropRoutineValues {
   options?: Option[];
   renderColumnCard: FC<ICard>;
   renderOptionCard: FC<ICard>;
-  renderForm: FC<FormData>;
+  renderForm?: FC<FormData>;
+  renderDetail?: FC<DetailData>;
   createOptionsRenderForm?: FC<OptionFormData>;
   formModal: Modal;
   isEditModeEnabled?: boolean;
@@ -78,6 +80,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   renderColumnCard: ColumnCard,
   renderOptionCard: OptionCard,
   renderForm: Form,
+  renderDetail: Detail,
   createOptionsRenderForm: OptionForm,
   formModal,
   isEditModeEnabled = true,
@@ -181,7 +184,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
     modalProvider.show({
       ...formModal,
       title: element?.option.name!,
-      contentRender: (
+      contentRender: Form ? (
         <Form
           initialValues={element?.data}
           onSubmit={(formData: FormData) => {
@@ -191,6 +194,8 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
           }}
           formRef={itemFormRef}
         />
+      ) : (
+        undefined
       ),
       onConfirm: () => {
         itemFormRef?.current?.dispatchEvent(new Event('submit'));
@@ -198,6 +203,19 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
       onCancel: goBack,
       isSubmitButtonAvailable: isEditModeEnabled,
       cancelText: isEditModeEnabled ? CANCEL_TEXT : EXIT_TEXT
+    });
+  };
+
+  const displayDetailModal = (uuid: string) => {
+    const element = findElement(uuid, columns ? columns : []);
+    modalProvider.show({
+      ...formModal,
+      title: element?.option.name!,
+      contentRender: Detail ? <Detail values={element?.data} /> : undefined,
+      onCancel: goBack,
+      isSubmitButtonAvailable: false,
+      isCancelButtonAvailable: true,
+      cancelText: EXIT_TEXT
     });
   };
 
@@ -258,7 +276,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
         if ((!findElementInColumn(sourceOptionsSelectedItemId, destItems) && !acceptsRepeated) || acceptsRepeated) {
           modalProvider.show({
             ...formModal,
-            contentRender: (
+            contentRender: Form ? (
               <Form
                 initialValues={undefined}
                 onSubmit={(data: FormData) => {
@@ -274,6 +292,8 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
                 }}
                 formRef={itemFormRef}
               />
+            ) : (
+              undefined
             ),
             onConfirm: () => {
               itemFormRef?.current?.dispatchEvent(new Event('submit'));
@@ -322,7 +342,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
       } else if (action === EDIT) {
         displayEditModal(uuid);
       } else if (action === DETAIL) {
-        displayEditModal(uuid);
+        displayDetailModal(uuid);
       }
     }
   }, [location]);
@@ -340,8 +360,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   }, [options]);
 
   useEffect(() => {
-    if (columns && columns.length !== visible.length)
-      setVisible(Array(columns.length).fill(window.screen.width >= 960 ? true : false));
+    if (columns && columns.length !== visible.length) setVisible(Array(columns.length).fill(!getIsMobile()));
   }, [columns]);
 
   const [visible, setVisible] = useState<boolean[]>([]);
