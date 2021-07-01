@@ -26,6 +26,10 @@ export interface FormData {
   formRef: RefObject<HTMLFormElement>;
 }
 
+export interface DetailData {
+  values?: any;
+}
+
 export interface OptionFormData {
   searchInput: string;
   onFinishAction: () => void;

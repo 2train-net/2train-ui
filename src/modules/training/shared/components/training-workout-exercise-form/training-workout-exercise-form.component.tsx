@@ -4,19 +4,20 @@ import { useFormik } from 'formik';
 
 import { Col, Row, Button as AButton } from 'antd';
 
-import { Field, RadioGroup, TextAreaField } from 'shared/modules/form';
-
 import {
   TrainingWorkoutExerciseFocus,
   ITrainingWorkoutExerciseFormValues,
   TRAINING_WORKOUT_EXERCISE_FORM_SCHEMA,
   INITIAL_TRAINING_WORKOUT_EXERCISE_FORM_VALUES
 } from './training-workout-exercise-form.util';
-import { Icon } from 'shared/modules';
-
-import useStyles from './training-workout-exercise-form.style';
 
 import { SETS_TITLE, REPS_TITLE, WEIGHT_TITLE, COMMENTS_TITLE } from 'modules/workout-routines/workout-routines.module';
+
+import { Icon } from 'shared/modules';
+import { LBS_TEXT } from 'shared/constants';
+import { Field, RadioGroup, TextAreaField } from 'shared/modules/form';
+
+import useStyles from './training-workout-exercise-form.style';
 
 interface ITrainingWorkoutExerciseForm {
   initialValues?: ITrainingWorkoutExerciseFormValues;
@@ -118,7 +119,7 @@ const TrainingWorkoutExerciseForm: FC<ITrainingWorkoutExerciseForm> = ({
             <>
               <Field
                 name="weight"
-                suffix="lbs"
+                suffix={LBS_TEXT}
                 type="number"
                 value={values.workoutExercise.weight}
                 error={errors.workoutExercise?.weight}

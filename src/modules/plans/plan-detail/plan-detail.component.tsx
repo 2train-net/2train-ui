@@ -1,17 +1,18 @@
-import React, { FC, useContext, useEffect } from 'react';
+import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 
 import { Redirect } from 'react-router';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
-import { Col, PageHeader, Row } from 'antd';
+import { Card, Col, PageHeader, Row } from 'antd';
 
 import { RENEW_PLAN_TEXT, PLAN_MEMBERS_TEXT } from 'modules/plans/plans.module';
 
-import { Avatar, Button, IconCard, InfoItem, Message, Skeleton } from 'shared/modules';
-import { CLIENTS, DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
-import { DateService, UserService } from 'shared/services';
+import { getIsMobile } from 'shared/util';
 import { AuthContext } from 'shared/contexts';
+import { DateService, UserService } from 'shared/services';
+import { CLIENTS, DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
 import { PlanStatus, useGetPlanDetailQuery, UserType } from 'shared/generated';
+import { Avatar, Button, IconCard, InfoItem, ListItem, Message, Skeleton } from 'shared/modules';
 
 import { format } from './plan-detail.util';
 
@@ -36,6 +37,10 @@ const PlanDetail: FC = () => {
     }
   });
 
+  const [isMobile, _setIsMobile] = useState(getIsMobile());
+
+  const isMobileRef = useRef(isMobile);
+
   const plan = data?.payload;
   const notFound = !plan && !loading;
 
@@ -46,6 +51,34 @@ const PlanDetail: FC = () => {
   const isActivePlan = plan?.status === PlanStatus.Active;
   const pendingDays = plan && isActivePlan && DateService.difference(plan.expireAt, today, 'days');
   const isRenovateButtonEnabled = pendingDays ? pendingDays <= 5 : false;
+  const onBackUrl =
+    owner && user?.type === UserType.PersonalTrainer ? `${CLIENTS}/${DETAIL}/${owner.uuid}` : `${PLANS}`;
+
+  const setIsMobile = (value: boolean) => {
+    isMobileRef.current = value;
+    _setIsMobile(value);
+  };
+
+  const handleResize = () => {
+    const isMobileMatch = getIsMobile();
+
+    if ((!isMobileRef.current && isMobileMatch) || (isMobileRef.current && !isMobileMatch)) {
+      setIsMobile(isMobileMatch);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize, false);
+    return () => {
+      window.removeEventListener('resize', handleResize, false);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (error) {
+      Message.error(error.graphQLErrors[0].message);
+    }
+  }, [error]);
 
   const ownerFullName = (
     <Skeleton isLoading={loading} type="input" size="small">
@@ -60,15 +93,6 @@ const PlanDetail: FC = () => {
       </Button>
     );
   }
-
-  const onBackUrl =
-    owner && user?.type === UserType.PersonalTrainer ? `${CLIENTS}/${DETAIL}/${owner.uuid}` : `${PLANS}`;
-
-  useEffect(() => {
-    if (error) {
-      Message.error(error.graphQLErrors[0].message);
-    }
-  }, [error]);
 
   return notFound || plan?.scope === 'PUBLIC' ? (
     <Redirect to={NOT_FOUND} />
@@ -111,13 +135,33 @@ const PlanDetail: FC = () => {
         </Row>
       </PageHeader>
 
-      <Row gutter={24} justify="center" align="middle">
-        {iconCards.map(({ url, ...iconCard }, index) => (
-          <Col className="icon-card-col" key={`icon-card-col-${index}`} xs={24} sm={12} md={8} lg={6}>
-            <IconCard {...iconCard} onClick={plan ? () => redirect(url || NOT_FOUND) : undefined} />
-          </Col>
-        ))}
-      </Row>
+      {!isMobileRef.current ? (
+        <Row className="icon-cards" gutter={24} justify="center" align="middle">
+          {iconCards.map(({ url, ...iconCard }, index) => (
+            <Col className="icon-card-col" key={`icon-card-col-${index}`} xs={24} sm={12} md={8} lg={6}>
+              <IconCard {...iconCard} onClick={plan ? () => redirect(url || NOT_FOUND) : undefined} />
+            </Col>
+          ))}
+        </Row>
+      ) : (
+        <Card
+          className="list-items"
+          style={{ height: '100%', marginTop: 24 }}
+          bodyStyle={{ paddingLeft: 0, paddingRight: 0, paddingTop: 0 }}
+        >
+          {iconCards.map(({ url, ...iconCard }, index) => (
+            <Col key={`icon-card-col-${index}`}>
+              <ListItem
+                icon={iconCard.icon}
+                title={iconCard.title}
+                isDetailActionEnabled
+                isDetailButtonDisabled={iconCard.isDisabled}
+                onDetail={plan ? () => redirect(url || NOT_FOUND) : undefined}
+              />
+            </Col>
+          ))}
+        </Card>
+      )}
     </div>
   );
 };
