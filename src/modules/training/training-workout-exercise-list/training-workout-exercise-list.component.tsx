@@ -17,7 +17,7 @@ import { Button, Icon, ListItem } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
 import { TrainingService, WorkoutRoutineService } from 'shared/services';
 import { useGetTrainingQuery, useCreateWorkoutMutation } from 'shared/generated';
-import { COMPLETE_TEXT, DAY_TEXT, FINALIZE_TEXT, UNCOMPLETE_TEXT } from 'shared/constants';
+import { COMPLETE_TEXT, DAY_TEXT, FINALIZE_TEXT, LBS_TEXT, SECONDS_TEXT, UNCOMPLETE_TEXT } from 'shared/constants';
 
 const { parseToTrainingWorkoutExercise, parseToWorkoutExercises } = TrainingService;
 
@@ -147,7 +147,9 @@ const TrainingWorkoutExerciseList: FC = () => {
           <Col key={`${index}-${item.uuid}`} span={24}>
             <ListItem
               title={item.exercise.name}
-              description={`${item.sets} x ${item.reps ? item.reps : item.seconds + 'seconds'} | ${item.weight} lbs`}
+              description={`${item.sets} x ${item.reps ? item.reps : item.seconds + SECONDS_TEXT} | ${
+                item.weight
+              } ${LBS_TEXT}`}
               key={item.uuid}
               isDetailActionEnabled={!item.completed}
               onDetail={() => displayUpdateModal(item, index)}

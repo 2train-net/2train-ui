@@ -4,6 +4,7 @@ import { Col, Row } from 'antd';
 
 import { useFormik } from 'formik';
 
+import { LBS_TEXT } from 'shared/constants';
 import { Field, RadioGroup, TextAreaField } from 'shared/modules/form';
 
 import {
@@ -71,7 +72,7 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
         <br />
         <br />
 
-        <Col span={12}>
+        <Col span={8}>
           <Field
             label={SETS_TITLE}
             labelTop={true}
@@ -85,7 +86,7 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
           />{' '}
         </Col>
         {values.focus === WorkoutExerciseFocus.REPS ? (
-          <Col span={12}>
+          <Col span={8}>
             <Field
               label={REPS_TITLE}
               labelTop={true}
@@ -99,7 +100,7 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
             />
           </Col>
         ) : (
-          <Col span={12}>
+          <Col span={8}>
             <Field
               label={SECONDS_TITLE}
               labelTop={true}
@@ -113,7 +114,7 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
             />
           </Col>
         )}
-        <Col span={24}>
+        <Col span={8}>
           <Field
             name="weight"
             type="number"
@@ -124,7 +125,7 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
             onChange={handleChange}
             hasBeenTouched={touched.weight}
             labelTop={true}
-            suffix="lbs"
+            suffix={LBS_TEXT}
           />
         </Col>
 

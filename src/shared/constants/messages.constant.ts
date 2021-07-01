@@ -82,6 +82,9 @@ export const NAME_TEXT = 'Nombre',
   DESCRIPTION_TEXT = 'Descripción',
   DETAIL_TEXT = 'Detalle';
 
+export const SECONDS_TEXT = 'segundos',
+  LBS_TEXT = 'lbs';
+
 export const REQUIRED_EXCEPTION_TEXT = 'Requerido',
   INVALID_EMAIL_EXCEPTION_TEXT = `${EMAIL_TEXT} invalido`,
   TOO_SHORT_EXCEPTION_TEXT = 'Se necesitan más caracteres',

@@ -7,7 +7,7 @@ import { useGetWorkoutRoutineQuery } from 'shared/generated';
 import {
   ExerciseItemCard,
   WorkoutExerciseItemCard,
-  WorkoutExerciseForm,
+  WorkoutExerciseDetail,
   WORKOUT_EXERCISE_MODAL,
   parseWorkoutExerciseToItem
 } from 'modules/workout-routines/workout-routines.module';
@@ -49,7 +49,7 @@ const WorkoutRoutineDetail: FC = () => {
       data={parseWorkoutExerciseToItem(workoutRoutine.data?.payload.workoutExercises)}
       renderColumnCard={WorkoutExerciseItemCard}
       renderOptionCard={ExerciseItemCard}
-      renderForm={WorkoutExerciseForm}
+      renderDetail={WorkoutExerciseDetail}
       formModal={WORKOUT_EXERCISE_MODAL}
       isEditModeEnabled={false}
       isLoading={workoutRoutine.loading}

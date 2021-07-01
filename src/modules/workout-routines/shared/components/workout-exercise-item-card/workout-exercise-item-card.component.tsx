@@ -6,10 +6,11 @@ import ListCard from 'shared/modules/list-card/list-card.component';
 
 import { parseItemToWorkoutExerciseCard } from 'modules/workout-routines/workout-routines.module';
 
-import { ColumnItem } from 'shared/modules/drag-and-drop-routine/shared/model/column-items.interface';
-import { ACTION, DELETE, DETAIL, EDIT } from 'shared/routes';
-import { AuthContext } from 'shared/contexts';
 import { UserType } from 'shared/generated';
+import { AuthContext } from 'shared/contexts';
+import { LBS_TEXT, SECONDS_TEXT } from 'shared/constants';
+import { ACTION, DELETE, DETAIL, EDIT } from 'shared/routes';
+import { ColumnItem } from 'shared/modules/drag-and-drop-routine/shared/model/column-items.interface';
 
 interface IWorkoutExerciseItemCardValues {
   data: ColumnItem;
@@ -31,10 +32,10 @@ const WorkoutExerciseItemCard: FC<IWorkoutExerciseItemCardValues> = ({ data }) =
       uuid={uuid}
       title={exercise.name}
       description={`
-        ${'Sets: ' + sets}
+        ${sets}
         ${reps && reps > 0 ? ' x ' + reps : ''} 
-        ${seconds && seconds > 0 ? ' x ' + seconds + ' seconds' : ''} 
-        ${weight ? ' | Weight: ' + weight + 'lbs ' : ''}  
+        ${seconds && seconds > 0 ? ' x ' + seconds + ' ' + SECONDS_TEXT : ''} 
+        ${weight ? ' | ' + weight + ' ' + LBS_TEXT + ' ' : ''}  
       `}
       onEdit={() => redirect(`?&${ACTION}=${EDIT}&uuid=${uuid}`)}
       onDelete={() => redirect(`?&${ACTION}=${DELETE}&uuid=${uuid}`)}

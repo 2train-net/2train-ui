@@ -7,7 +7,7 @@ import { Card, Col, Row, Typography } from 'antd';
 import { WORKOUTS } from 'shared/routes';
 import { Button, ListItem } from 'shared/modules';
 import { useGetWorkoutQuery } from 'shared/generated';
-import { READY_TEXT } from 'shared/constants';
+import { LBS_TEXT, READY_TEXT, SECONDS_TEXT } from 'shared/constants';
 import { COMPLETED_EXERCISES_TITLE } from '../shared/constants';
 
 const { Title } = Typography;
@@ -41,9 +41,9 @@ const TrainingWorkoutDetail: FC = () => {
               <Col key={`${index}-${item.uuid}`} span={24}>
                 <ListItem
                   title={item.exercise.name}
-                  description={`${item.sets} x ${item.reps ? item.reps : item.seconds + 'seconds'} | ${
+                  description={`${item.sets} x ${item.reps ? item.reps : item.seconds + SECONDS_TEXT} | ${
                     item.weight
-                  } lbs`}
+                  } ${LBS_TEXT}`}
                   key={item.uuid}
                   emptyActions
                 />
