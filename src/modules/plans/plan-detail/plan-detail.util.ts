@@ -1,7 +1,7 @@
 import { IIconCard } from 'shared/modules/icon-card/icon-card.component';
 
 import { DateService, PlanService } from 'shared/services';
-import { ADD, DETAIL, DIETS, EDIT, WORKOUT_ROUTINES } from 'shared/routes';
+import { ADD, DETAIL, DIETS, EDIT, TRAINING, WORKOUT_ROUTINES } from 'shared/routes';
 import { Currency, PlanStatus, Scope, UserType } from 'shared/generated';
 import { DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT } from 'shared/constants';
 import {
@@ -128,10 +128,18 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
       isDisabled: true
     },
     { icon: 'heart', title: BODY_MEASURES_TEXT, buttonText: LOOK_TEXT, isDisabled: true },
-    { icon: 'thunderbolt', title: TRAINING_TEXT, buttonText: LOOK_TEXT, isDisabled: true },
     { icon: 'lineChart', title: STATISTICS_TEXT, buttonText: LOOK_TEXT, isDisabled: true },
     { icon: 'chat', title: CHAT_TEXT, buttonText: LOOK_TEXT, isDisabled: true }
   ];
+
+  isClient &&
+    iconCards.unshift({
+      icon: 'thunderbolt',
+      title: TRAINING_TEXT,
+      buttonText: LOOK_TEXT,
+      url: `${TRAINING}`,
+      isDisabled: !plan?.workoutRoutine
+    });
 
   return {
     info,
