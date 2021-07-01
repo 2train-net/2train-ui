@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { ITheme } from 'shared/theme';
 
-export default createUseStyles<ITheme>(({ palette, spacing }): any => ({
+export default createUseStyles<string, { centerContent: boolean }, ITheme>(({ palette, spacing }): any => ({
   root: ({ centerContent }: { centerContent: boolean }) => ({
     borderLeftColor: palette.secondary,
     borderLeftStyle: 'solid',
