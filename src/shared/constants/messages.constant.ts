@@ -60,6 +60,8 @@ export const PERSONAL_TRAINER_TEXT = 'Entrenador personal',
 
 export const EMAIL_TEXT = 'Correo electrónico',
   PASSWORD_TEXT = 'Contraseña',
+  NEW_PASSWORD_TEXT = 'Contraseña nueva',
+  OLD_PASSWORD_TEXT = 'Contraseña antigua',
   CONFIRM_PASSWORD_TEXT = 'Confirmar contraseña';
 
 export const DAY_TEXT = 'Día',
