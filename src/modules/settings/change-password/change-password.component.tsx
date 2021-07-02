@@ -5,6 +5,7 @@ import { Col, Form, Row, Typography } from 'antd';
 
 import {
   CHANGE_PASSWORD_TEXT,
+  CONFIRM_NEW_PASSWORD_TEXT,
   WRONG_OLD_PASSWORD_TEXT,
   YOUR_PASSWORD_WAS_CHANGED_TEXT
 } from 'modules/settings/settings.module';
@@ -18,7 +19,7 @@ import {
 import { Field } from 'shared/modules/form';
 import { AuthService } from 'shared/services';
 import { Button, Icon, Message } from 'shared/modules';
-import { CONFIRM_PASSWORD_TEXT, NEW_PASSWORD_TEXT, OLD_PASSWORD_TEXT, SAVE_TEXT } from 'shared/constants';
+import { NEW_PASSWORD_TEXT, OLD_PASSWORD_TEXT, SAVE_TEXT } from 'shared/constants';
 
 const { Item } = Form;
 const { Title } = Typography;
@@ -32,9 +33,10 @@ const ChangePassword: FC = () => {
         setIsLoading(true);
         await AuthService.changePassword(data.oldPassword, data.password);
         resetForm();
-        Message.info(YOUR_PASSWORD_WAS_CHANGED_TEXT);
+        Message.success(YOUR_PASSWORD_WAS_CHANGED_TEXT);
       }
     } catch (error) {
+      console.log(error);
       Message.error(WRONG_OLD_PASSWORD_TEXT);
     }
     setIsLoading(false);
@@ -83,7 +85,7 @@ const ChangePassword: FC = () => {
             icon={<Icon type="lock" />}
             name="confirmPassword"
             type="password"
-            label={CONFIRM_PASSWORD_TEXT}
+            label={CONFIRM_NEW_PASSWORD_TEXT}
             labelTop
             autoComplete="new-password"
             value={values.confirmPassword}
