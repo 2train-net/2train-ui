@@ -3,7 +3,9 @@ export const LOGIN_TEXT = 'Iniciar sesión',
   REGISTER_ME = 'Registrarme';
 
 export const REGISTER_TEXT = 'Registrar',
-  ALREADY_HAVE_AN_ACCOUNT_TEXT = 'Ya tengo mi cuenta';
+  ALREADY_HAVE_AN_ACCOUNT_TEXT = 'Ya tengo mi cuenta',
+  USERNAME_ALREADY_EXISTS_EXCEPTION_TEXT = 'Este nombre de usuario ya existe',
+  UNEXPECTED_VALIDATION_ERROR_EXCEPTION_TEXT = 'Algo salió mal al validar sus datos, intenta más tarde';
 
 export const FORGOT_PASSWORD_TITLE = '¿Olvidaste la contraseña?',
   FORGOT_PASSWORD_DESCRIPTION =

@@ -608,6 +608,17 @@ export type PlanWhereUniqueInput = {
   uuid?: Maybe<Scalars['String']>;
 };
 
+export type PublicUser = {
+  __typename?: 'PublicUser';
+  email: Scalars['String'];
+  username: Scalars['String'];
+};
+
+export type PublicUserWhereUniqueInput = {
+  email?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   user: User;
@@ -632,6 +643,7 @@ export type Query = {
   workout: Workout;
   workouts: Array<Workout>;
   training?: Maybe<Training>;
+  publicUser?: Maybe<PublicUser>;
 };
 
 export type QueryUserArgs = {
@@ -760,6 +772,10 @@ export type QueryWorkoutsArgs = {
 
 export type QueryTrainingArgs = {
   where: TrainingWhereInput;
+};
+
+export type QueryPublicUserArgs = {
+  where: PublicUserWhereUniqueInput;
 };
 
 export enum Scope {
@@ -1372,6 +1388,14 @@ export type GetWorkoutsQuery = { __typename?: 'Query' } & {
         workoutExercises: Array<{ __typename?: 'WorkoutExercise' } & Pick<WorkoutExercise, 'uuid'>>;
       }
   >;
+};
+
+export type PublicUserQueryVariables = Exact<{
+  where: PublicUserWhereUniqueInput;
+}>;
+
+export type PublicUserQuery = { __typename?: 'Query' } & {
+  payload?: Maybe<{ __typename?: 'PublicUser' } & Pick<PublicUser, 'email' | 'username'>>;
 };
 
 export type UserProfileQueryVariables = Exact<{
@@ -2867,6 +2891,44 @@ export function useGetWorkoutsLazyQuery(
 export type GetWorkoutsQueryHookResult = ReturnType<typeof useGetWorkoutsQuery>;
 export type GetWorkoutsLazyQueryHookResult = ReturnType<typeof useGetWorkoutsLazyQuery>;
 export type GetWorkoutsQueryResult = ApolloReactCommon.QueryResult<GetWorkoutsQuery, GetWorkoutsQueryVariables>;
+export const PublicUserDocument = gql`
+  query publicUser($where: PublicUserWhereUniqueInput!) {
+    payload: publicUser(where: $where) {
+      email
+      username
+    }
+  }
+`;
+
+/**
+ * __usePublicUserQuery__
+ *
+ * To run a query within a React component, call `usePublicUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePublicUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePublicUserQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function usePublicUserQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<PublicUserQuery, PublicUserQueryVariables>
+) {
+  return ApolloReactHooks.useQuery<PublicUserQuery, PublicUserQueryVariables>(PublicUserDocument, baseOptions);
+}
+export function usePublicUserLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PublicUserQuery, PublicUserQueryVariables>
+) {
+  return ApolloReactHooks.useLazyQuery<PublicUserQuery, PublicUserQueryVariables>(PublicUserDocument, baseOptions);
+}
+export type PublicUserQueryHookResult = ReturnType<typeof usePublicUserQuery>;
+export type PublicUserLazyQueryHookResult = ReturnType<typeof usePublicUserLazyQuery>;
+export type PublicUserQueryResult = ApolloReactCommon.QueryResult<PublicUserQuery, PublicUserQueryVariables>;
 export const UserProfileDocument = gql`
   query userProfile($where: UserWhereUniqueInput!) {
     user(where: $where) {

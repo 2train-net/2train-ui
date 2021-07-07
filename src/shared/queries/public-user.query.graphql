@@ -1,0 +1,6 @@
+query publicUser($where: PublicUserWhereUniqueInput!) {
+  payload: publicUser(where: $where) {
+    email
+    username
+  }
+}

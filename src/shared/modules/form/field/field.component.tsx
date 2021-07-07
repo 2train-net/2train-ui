@@ -16,7 +16,7 @@ interface IField {
   error?: string;
   type?: FieldType;
   icon?: ReactElement;
-  suffix?: string;
+  suffix?: any;
   allowsNegative?: boolean;
   placeholder?: string;
   autoComplete?: string;

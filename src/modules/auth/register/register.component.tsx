@@ -1,10 +1,16 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { debounce } from 'lodash';
 
 import { useFormik } from 'formik';
 import { Form, Card, Typography, Divider } from 'antd';
 
-import { REGISTER_TEXT, ALREADY_HAVE_AN_ACCOUNT_TEXT } from 'modules/auth/auth.module';
+import {
+  REGISTER_TEXT,
+  ALREADY_HAVE_AN_ACCOUNT_TEXT,
+  USERNAME_ALREADY_EXISTS_EXCEPTION_TEXT,
+  UNEXPECTED_VALIDATION_ERROR_EXCEPTION_TEXT
+} from 'modules/auth/auth.module';
 
 import { Icon, Button } from 'shared/modules';
 import { LOGIN } from 'shared/routes';
@@ -18,10 +24,11 @@ import {
   USER_TYPE_TEXT,
   EMAIL_TEXT,
   PASSWORD_TEXT,
-  CONFIRM_PASSWORD_TEXT
+  CONFIRM_PASSWORD_TEXT,
+  EMAIL_ALREADY_EXITS_EXCEPTION_TEXT
 } from 'shared/constants';
 import { CreateAccount, ICreateAccountFormValues } from 'modules/auth/shared/model';
-import { UserType, useCreateUserMutation } from 'shared/generated';
+import { UserType, useCreateUserMutation, usePublicUserLazyQuery } from 'shared/generated';
 
 import LOGO from 'shared/assets/images/logo/logo-horizontal-full-color.png';
 
@@ -32,17 +39,48 @@ import userStyles from './register.style';
 const { Item } = Form;
 const { Text } = Typography;
 
+const DEBOUNCE_TIMEOUT = 2000;
+
 const Register: FC = () => {
   const classes = userStyles();
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   const [createUser] = useCreateUserMutation();
 
+  const [getUserByEmail, emailValidationPayload] = usePublicUserLazyQuery({ fetchPolicy: 'network-only' });
+  const [getUserByUsername, usernameValidationPayload] = usePublicUserLazyQuery({ fetchPolicy: 'network-only' });
+
+  const validationErrors = !!(
+    emailValidationPayload.error?.graphQLErrors.length || usernameValidationPayload.error?.graphQLErrors.length
+  );
+
+  const checkEmailExists = useCallback(
+    debounce(async (email: string) => {
+      try {
+        if (email.length) {
+          await getUserByEmail({ variables: { where: { email } } });
+        }
+      } catch (error) {}
+    }, DEBOUNCE_TIMEOUT),
+    []
+  );
+
+  const checkUsernameExists = useCallback(
+    debounce(async (username: string) => {
+      try {
+        if (username.length) {
+          await getUserByUsername({ variables: { where: { username } } });
+        }
+      } catch (error) {}
+    }, DEBOUNCE_TIMEOUT),
+    []
+  );
+
   const onSubmit = async (data: ICreateAccountFormValues) => {
     try {
-      if (!isLoading) {
+      if (!isLoading && !validationErrors) {
         setIsLoading(true);
-        // TODO WE SHOULD CHECK FOR THE USERNAMES ON THE APP, JUST TO DOUBLE CHECK USERNAME DOES EXIST
+
         const profile = new CreateAccount(data);
         const { email, password } = profile.credentials;
 
@@ -55,18 +93,73 @@ const Register: FC = () => {
 
         history.push(LOGIN);
       }
-    } catch (error) {
-      // TODO WE SHOULD DO SOME ERROR HANDLER TO NOTIFY USER SOMETHING WENT WRONG
-    }
+    } catch (error) {}
 
     setIsLoading(false);
   };
 
-  const { handleSubmit, handleChange, setFieldValue, values, errors, touched } = useFormik<ICreateAccountFormValues>({
+  const validate = () => {
+    const validation: { email?: string; username?: string } = {};
+
+    if (values.email && values.email.length > 1 && !errors.email) {
+      const emailValidationError = getEmailValidationError();
+
+      if (emailValidationError) {
+        validation.email = emailValidationError;
+      }
+    }
+
+    if (values.username && values.username.length > 1 && !errors.username) {
+      const usernameValidationError = getUsernameValidationError();
+
+      if (usernameValidationError) {
+        validation.username = usernameValidationError;
+      }
+    }
+
+    return validation;
+  };
+
+  const { handleSubmit, handleChange, setFieldValue, setFieldError, values, errors, touched } = useFormik<
+    ICreateAccountFormValues
+  >({
     onSubmit,
-    initialValues: INITIAL_REGISTER_FORM_VALUES,
-    validationSchema: REGISTER_FORM_SCHEMA
+    validate,
+    validationSchema: REGISTER_FORM_SCHEMA,
+    initialValues: INITIAL_REGISTER_FORM_VALUES
   });
+
+  const getEmailValidationError = (): string | undefined => {
+    const existingEmailError = emailValidationPayload.data?.payload ? EMAIL_ALREADY_EXITS_EXCEPTION_TEXT : undefined;
+
+    return values?.email?.length > 1 && !errors.email ? existingEmailError : errors.email;
+  };
+
+  const getUsernameValidationError = (): string | undefined => {
+    const existingUsernameError = usernameValidationPayload.data?.payload
+      ? USERNAME_ALREADY_EXISTS_EXCEPTION_TEXT
+      : undefined;
+
+    return values?.username?.length > 1 && !errors.username ? existingUsernameError : errors.username;
+  };
+
+  useEffect(() => {
+    checkEmailExists.cancel();
+    checkEmailExists(values.email);
+  }, [values.email]);
+
+  useEffect(() => {
+    checkUsernameExists.cancel();
+    checkUsernameExists(values.username);
+  }, [values.username]);
+
+  useEffect(() => {
+    setFieldError('email', getEmailValidationError());
+  }, [emailValidationPayload.data?.payload]);
+
+  useEffect(() => {
+    setFieldError('username', getUsernameValidationError());
+  }, [usernameValidationPayload.data?.payload]);
 
   return (
     <Card className={classes.root} bordered>
@@ -76,6 +169,7 @@ const Register: FC = () => {
         </Item>
 
         <Field
+          clearable
           icon={<Icon type="user" />}
           name="username"
           placeholder={USERNAME_TEXT}
@@ -83,7 +177,8 @@ const Register: FC = () => {
           error={errors.username}
           onChange={handleChange}
           isDisabled={isLoading}
-          hasBeenTouched={touched.username}
+          hasBeenTouched={touched.username || errors.username === USERNAME_ALREADY_EXISTS_EXCEPTION_TEXT}
+          suffix={usernameValidationPayload.loading && <Icon type="loading" />}
         />
 
         <Field
@@ -136,6 +231,7 @@ const Register: FC = () => {
         <Divider />
 
         <Field
+          clearable
           icon={<Icon type="mail" />}
           name="email"
           placeholder={EMAIL_TEXT}
@@ -144,7 +240,8 @@ const Register: FC = () => {
           error={errors.email}
           onChange={handleChange}
           isDisabled={isLoading}
-          hasBeenTouched={touched.email}
+          hasBeenTouched={touched.email || errors.email === EMAIL_ALREADY_EXITS_EXCEPTION_TEXT}
+          suffix={emailValidationPayload.loading && <Icon type="loading" />}
         />
 
         <Field
@@ -173,8 +270,14 @@ const Register: FC = () => {
           hasBeenTouched={touched.confirmPassword}
         />
 
+        {validationErrors && (
+          <Item>
+            <Typography.Text className="unexpected-error">{UNEXPECTED_VALIDATION_ERROR_EXCEPTION_TEXT}</Typography.Text>
+          </Item>
+        )}
+
         <Item className="submit-button">
-          <Button type="submit" loading={isLoading} fullWidth>
+          <Button type="submit" loading={isLoading} disabled={!!validationErrors} fullWidth>
             {REGISTER_TEXT}
           </Button>
         </Item>

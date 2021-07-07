@@ -24,6 +24,9 @@ export default createUseStyles(({ spacing }: ITheme) => ({
       margin: {
         top: spacing(8)
       }
+    },
+    '& .unexpected-error': {
+      color: 'red'
     }
   }
 }));
