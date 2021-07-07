@@ -61,7 +61,7 @@ export const PERSONAL_TRAINER_TEXT = 'Entrenador personal',
 export const EMAIL_TEXT = 'Correo electrónico',
   PASSWORD_TEXT = 'Contraseña',
   NEW_PASSWORD_TEXT = 'Contraseña nueva',
-  OLD_PASSWORD_TEXT = 'Contraseña antigua',
+  CURRENT_PASSWORD_TEXT = 'Contraseña actual',
   CONFIRM_PASSWORD_TEXT = 'Confirmar contraseña';
 
 export const DAY_TEXT = 'Día',
@@ -96,7 +96,8 @@ export const REQUIRED_EXCEPTION_TEXT = 'Requerido',
   LOWER_CASE_LETTER_EXCEPTION_TEXT = 'Se necesita un carácter en minúscula',
   UPPER_CASE_LETTER_EXCEPTION_TEXT = 'Se necesita un carácter en mayúscula',
   CONFIRM_PASSWORD_EXCEPTION_TEXT = 'Las contraseñas deben coincidir',
-  PHONE_NUMBER_EXCEPTION_TEXT = `${PHONE_TEXT} invalido`;
+  PHONE_NUMBER_EXCEPTION_TEXT = `${PHONE_TEXT} invalido`,
+  SOMETHING_WENT_WRONG_EXCEPTION_TEXT = 'Oops! Algo salio mal, intentalo más tarde';
 
 export const WRONG_CREDENTIALS_ERROR_TEXT = `${EMAIL_TEXT} ó ${PASSWORD_TEXT.toLowerCase()} incorrectos`;
 
