@@ -23,7 +23,7 @@ interface IField {
   isDisabled?: boolean;
   hasBeenTouched?: boolean;
   clearable?: boolean;
-  onChange: (eventOrPath: React.ChangeEvent<any>) => void;
+  onChange?: (eventOrPath: React.ChangeEvent<any>) => void;
 }
 
 const fieldByType = {
@@ -55,10 +55,10 @@ const Field: FC<IField> = ({
       const value = event.target.value;
       const check = allowsNegative ? ONLY_NUMBERS_REGEX.test(value) : POSITIVE_NUMBER_REGEX.test(value);
       if (event.target.value === '' || check) {
-        onChange(event);
+        onChange && onChange(event);
       }
     } else {
-      onChange(event);
+      onChange && onChange(event);
     }
   };
 

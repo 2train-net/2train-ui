@@ -15,6 +15,7 @@ import Clients from 'modules/clients/clients.module';
 import Workouts from 'modules/workouts/workouts.module';
 import Meals from 'modules/meals/meals.module';
 import Training from 'modules/training/training.module';
+import Settings from 'modules/settings/settings.module';
 
 import { NotFoundErrorPage } from 'shared/modules';
 import { AuthProvider, ModalProvider } from 'shared/contexts';
@@ -30,7 +31,8 @@ import {
   CLIENTS,
   WORKOUTS,
   MEALS,
-  TRAINING
+  TRAINING,
+  SETTINGS
 } from 'shared/routes';
 
 import './app.css';
@@ -56,6 +58,7 @@ const App: FC = () => {
             <Route path={WORKOUTS} component={Workouts} />
             <Route path={MEALS} component={Meals} />
             <Route path={TRAINING} component={Training} />
+            <Route path={SETTINGS} component={Settings} />
 
             <Route component={NotFoundErrorPage} />
             <Redirect to={pathname} />

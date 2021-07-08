@@ -71,6 +71,15 @@ export class AuthService {
     }
   }
 
+  public async changePassword(oldPassword: string, newPassword: string) {
+    try {
+      const user = await this.getAuthenticatedUser();
+      return Auth.changePassword(user, oldPassword, newPassword);
+    } catch (error) {
+      throw new AuthError();
+    }
+  }
+
   public async getJWToken() {
     try {
       const clientToken = await this.getClientToken();
