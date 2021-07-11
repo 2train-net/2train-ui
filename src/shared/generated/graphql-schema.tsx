@@ -156,7 +156,8 @@ export type ExerciseWhereUniqueInput = {
 
 export enum Gender {
   Male = 'MALE',
-  Female = 'FEMALE'
+  Female = 'FEMALE',
+  NotSpecified = 'NOT_SPECIFIED'
 }
 
 export type Ingredient = {

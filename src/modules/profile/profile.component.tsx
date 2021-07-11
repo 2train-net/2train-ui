@@ -24,7 +24,6 @@ import {
   FIRST_NAME_TEXT,
   GENDER_TEXT,
   LAST_NAME_TEXT,
-  OTHER_TEXT,
   PHONE_TEXT,
   PROFILE_TEXT,
   PROFILE_VISIBILITY,
@@ -199,7 +198,7 @@ const Profile: FC = () => {
               options={[
                 { label: UserService.parseGender(Gender.Male), value: Gender.Male },
                 { label: UserService.parseGender(Gender.Female), value: Gender.Female },
-                { label: OTHER_TEXT, value: null }
+                { label: UserService.parseGender(Gender.NotSpecified), value: Gender.NotSpecified }
               ]}
               error={errors.gender}
               isDisabled={loading}

@@ -42,7 +42,8 @@ export const CREATE_TEXT = 'Crear',
   DURATION_TEXT = 'Duración',
   INTERVAL_TEXT = 'Intervalo',
   IMAGE_TEXT = 'Imagen',
-  NONE_TEXT = 'Ninguna';
+  NONE_TEXT = 'Ninguna',
+  PREFER_NOT_TO_SAY_GENDER_TEXT = 'Identidad de género no especificada';
 
 export const FIRST_NAME_TEXT = 'Nombre',
   LAST_NAME_TEXT = 'Apellido(s)',

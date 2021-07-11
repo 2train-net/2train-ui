@@ -16,7 +16,7 @@ export const PROFILE_FORM_SCHEMA = Yup.object().shape<IUserProfileForm>({
     .matches(PHONE_REGEX, PHONE_NUMBER_EXCEPTION_TEXT)
     .required(REQUIRED_EXCEPTION_TEXT),
   birthday: Yup.string().required(REQUIRED_EXCEPTION_TEXT),
-  gender: Yup.mixed<Gender | null>().oneOf([Gender.Male, Gender.Female, null]),
+  gender: Yup.mixed<Gender>().oneOf([Gender.Male, Gender.Female, Gender.NotSpecified]),
   scope: Yup.mixed<Scope>()
     .oneOf([Scope.Private, Scope.Public])
     .required(REQUIRED_EXCEPTION_TEXT)
