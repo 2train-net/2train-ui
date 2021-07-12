@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react';
 
 import { Card, Typography, Divider } from 'antd';
 
-import { Icon } from 'shared/modules';
+import { Icon, Skeleton } from 'shared/modules';
 
 import useStyles from './profile-detail.style';
 
@@ -17,6 +17,7 @@ interface IProfileDetail<T> {
   title?: string;
   description?: string;
   avatar?: string | null;
+  isLoading?: boolean;
   itemList?: IItemList<T>[];
 }
 
@@ -27,7 +28,8 @@ const ProfileDetail = <T,>({
   avatar,
   title = '',
   description = '',
-  itemList = []
+  itemList = [],
+  isLoading = false
 }: PropsWithChildren<IProfileDetail<T>>) => {
   const classes = useStyles();
 
@@ -42,10 +44,12 @@ const ProfileDetail = <T,>({
           </div>
         )}
         <div className="profile-name">
-          <Title level={5}>{title}</Title>
-          <Text strong type="secondary">
-            {description}
-          </Text>
+          <Skeleton isLoading={isLoading} type="input" size="small">
+            <Title level={5}>{title}</Title>
+            <Text strong type="secondary">
+              {description}
+            </Text>
+          </Skeleton>
         </div>
       </div>
       <Divider />
@@ -54,10 +58,12 @@ const ProfileDetail = <T,>({
         <div className="profile-detail-content">
           {itemList.map(({ label, key, formatter }) => (
             <div className="profile-detail-item" key={key}>
-              <Text strong type="secondary">
-                {label}
-              </Text>
-              <Text>{data ? (formatter ? formatter(data[key]) : data[key]) : ''}</Text>
+              <Skeleton isLoading={isLoading} type="input" size="large" fullWidth>
+                <Text strong type="secondary">
+                  {label}
+                </Text>
+                <Text>{data ? (formatter ? formatter(data[key]) : data[key]) : ''}</Text>
+              </Skeleton>
             </div>
           ))}
         </div>

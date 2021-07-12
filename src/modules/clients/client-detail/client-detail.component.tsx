@@ -20,7 +20,10 @@ import {
 } from 'shared/constants';
 import { useGetClientQuery } from 'shared/generated';
 
+import useStyles from './client-detail.style';
+
 const ClientDetail: FC = () => {
+  const classes = useStyles();
   const {
     params: { uuid }
   } = useRouteMatch<{ uuid: string }>();
@@ -48,10 +51,11 @@ const ClientDetail: FC = () => {
   return notFound ? (
     <Redirect to={NOT_FOUND} />
   ) : (
-    <Row gutter={24}>
+    <Row gutter={24} className={classes.root}>
       <Col xs={24} md={8}>
         <ProfileDetail
           data={client}
+          isLoading={loading}
           avatar={client?.avatar}
           title={client ? `${client.firstName} ${client.lastName}` : ''}
           description={client ? `@${client.username}` : ''}

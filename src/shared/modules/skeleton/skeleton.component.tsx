@@ -3,7 +3,10 @@ import React, { CSSProperties, FC } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import { Skeleton as ADSkeleton } from 'antd';
+
 import { spacing } from 'shared/theme';
+
+import useStyles from './skeleton.style';
 
 type SkeletonType = 'avatar' | 'input' | 'card';
 type SkeletonSize = 'small' | 'large' | 'default';
@@ -15,6 +18,7 @@ interface ISkeleton {
   size?: SkeletonSize;
   multiple?: number;
   spaceBetween?: number;
+  fullWidth?: boolean;
 }
 
 interface ISkeletonRender {
@@ -46,8 +50,10 @@ const Skeleton: FC<ISkeleton> = ({
   spaceBetween = 1,
   isLoading = true,
   isActive = true,
-  size = 'default'
+  size = 'default',
+  fullWidth = false
 }) => {
+  const classes = useStyles({ fullWidth });
   const { render = null, props = {} } = type ? skeletonDictionary[type] : {};
   const Component = render && isLoading ? render : ADSkeleton;
 
@@ -63,6 +69,7 @@ const Skeleton: FC<ISkeleton> = ({
               loading={isLoading}
               active={isActive}
               size={size}
+              className={classes.root}
               style={{ marginRight: spacing(spaceBetween), ...props?.style }}
             />
           ))
