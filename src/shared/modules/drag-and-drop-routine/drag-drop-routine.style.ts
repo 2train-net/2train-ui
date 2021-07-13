@@ -118,6 +118,14 @@ export default createUseStyles<string, unknown, ITheme>(({ palette, breakpoints,
       color: 'white',
       flexDirection: 'row',
       width: 'auto'
+    },
+    '& .skeleton-item': {
+      marginBottom: spacing(2),
+      marginLeft: spacing(0.5),
+      height: `${spacing(5.25)}px !important`,
+      [breakpoints.up('sm')]: {
+        height: `${spacing(56.25)}px !important`
+      }
     }
   }
 }));

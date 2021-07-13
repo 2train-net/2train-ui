@@ -23,7 +23,6 @@ import {
   EXIT_TEXT,
   SAVE_TEXT,
   DAY_TEXT,
-  DAYS_TEXT,
   CREATE_TEXT
 } from 'shared/constants';
 import { DELETE, DETAIL, EDIT } from 'shared/routes';
@@ -50,7 +49,6 @@ import {
 } from './shared/constants';
 
 import useStyles from './drag-drop-routine.style';
-
 interface IDragAndDropRoutineValues {
   data?: ColumnItem[];
   options?: Option[];
@@ -408,9 +406,8 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
       <DragDropContext onDragEnd={isEditModeEnabled ? result => onDragEnd(result) : () => {}}>
         <Row className="columns">
           <Col span={24}>
-            {isLoading && <Title level={5}>{DAYS_TEXT}</Title>}
-            <Skeleton isLoading={isLoading}>
-              <Row gutter={16} justify="center" align="middle">
+            <Row gutter={16} justify="space-between" align="middle">
+              <Skeleton isLoading={isLoading} type="card" multiple={3}>
                 {columns
                   ? columns.map((items, columnIndex) => (
                       <Col
@@ -443,8 +440,8 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
                       </Col>
                     ))
                   : []}
-              </Row>
-            </Skeleton>
+              </Skeleton>
+            </Row>
           </Col>
         </Row>
 
@@ -462,28 +459,26 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
                 <Icon type={areOptionsVisible ? 'up' : 'down'} />
               </AButton>
             </div>
-            <Skeleton isLoading={isLoading}>
-              {filterOptions?.length ? (
-                <Droppable
-                  id="OPTIONS"
-                  direction="horizontal"
-                  items={filterOptions || []}
-                  renderCard={OptionCard}
-                  isDropDisabled
-                  isVisible={areOptionsVisible}
-                />
-              ) : (
-                <div
-                  className="create-options-container"
-                  style={filterOptions?.length || !areOptionsVisible ? { display: 'none' } : {}}
-                >
-                  <Text type="secondary">{optionNotExistsText}</Text>
-                  <Button size="small" onClick={displayCreateOptionsModal}>
-                    {CREATE_TEXT}
-                  </Button>
-                </div>
-              )}
-            </Skeleton>
+            {filterOptions?.length ? (
+              <Droppable
+                id="OPTIONS"
+                direction="horizontal"
+                items={filterOptions || []}
+                renderCard={OptionCard}
+                isDropDisabled
+                isVisible={areOptionsVisible}
+              />
+            ) : (
+              <div
+                className="create-options-container"
+                style={filterOptions?.length || !areOptionsVisible ? { display: 'none' } : {}}
+              >
+                <Text type="secondary">{optionNotExistsText}</Text>
+                <Button size="small" onClick={displayCreateOptionsModal}>
+                  {CREATE_TEXT}
+                </Button>
+              </div>
+            )}
           </Card>
         ) : (
           ''

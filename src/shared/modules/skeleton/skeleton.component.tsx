@@ -69,7 +69,7 @@ const Skeleton: FC<ISkeleton> = ({
               loading={isLoading}
               active={isActive}
               size={size}
-              className={classes.root}
+              className={`skeleton-item ${classes.root}`}
               style={{ marginRight: spacing(spaceBetween), ...props?.style }}
             />
           ))
