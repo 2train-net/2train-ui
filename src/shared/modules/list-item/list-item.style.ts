@@ -2,15 +2,18 @@ import { createUseStyles } from 'react-jss';
 
 import { ITheme } from 'shared/theme';
 
+const BORDER_LEFT_LINE = 3;
+
 export default createUseStyles<string, { centerContent: boolean }, ITheme>(({ palette, spacing }): any => ({
   root: ({ centerContent }: { centerContent: boolean }) => ({
     borderLeftColor: palette.secondary,
     borderLeftStyle: 'solid',
+    borderLeftSize: BORDER_LEFT_LINE,
     marginTop: spacing(4),
     minHeight: spacing(6),
     padding: {
       right: spacing(3),
-      left: spacing(3)
+      left: spacing(3) - BORDER_LEFT_LINE
     },
 
     '& .list-item-content': {

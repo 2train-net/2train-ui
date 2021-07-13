@@ -13,11 +13,13 @@ import {
 } from 'modules/training/training.module';
 
 import { DETAIL, NOT_FOUND, TRAINING } from 'shared/routes';
-import { Button, Icon, ListItem } from 'shared/modules';
+import { Button, Icon, ListItem, Skeleton } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
 import { TrainingService, WorkoutRoutineService } from 'shared/services';
 import { useGetTrainingQuery, useCreateWorkoutMutation } from 'shared/generated';
 import { COMPLETE_TEXT, DAY_TEXT, FINALIZE_TEXT, LBS_TEXT, SECONDS_TEXT, UNCOMPLETE_TEXT } from 'shared/constants';
+
+import useStyles from './training-workout-exercise-list.style';
 
 const { parseToTrainingWorkoutExercise, parseToWorkoutExercises } = TrainingService;
 
@@ -30,6 +32,8 @@ interface ITrainingWorkoutExercisesFormValues {
 }
 
 const TrainingWorkoutExerciseList: FC = () => {
+  const classes = useStyles();
+
   const { user } = useContext(AuthContext);
 
   const { hasWorkoutExerciseListChange, setHasWorkoutExerciseListChange } = useContext(TrainingContext);
@@ -57,6 +61,7 @@ const TrainingWorkoutExerciseList: FC = () => {
 
   const displayUpdateModal = (workoutExercise: ITrainingWorkoutExercise, index: number) => {
     const { completed } = values.workoutExercises[index];
+
     modalProvider.show({
       type: 'secondary',
       title: workoutExercise.exercise.name,
@@ -86,6 +91,7 @@ const TrainingWorkoutExerciseList: FC = () => {
 
   const onFinalize = async () => {
     const create = parseToWorkoutExercises(values.workoutExercises);
+
     if (!loading) {
       if (create.length) {
         const workout = await createWorkout({
@@ -137,38 +143,42 @@ const TrainingWorkoutExerciseList: FC = () => {
   }
 
   return (
-    <Card style={{ height: '100%', marginTop: 24 }} bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}>
+    <Card className={classes.root} bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}>
       <Row>
-        <Title style={{ marginLeft: 15 }} level={5}>
-          {DAY_TEXT} {day + 1}:{' '}
-        </Title>
+        <Col span={24}>
+          <Title className="title" level={5}>
+            {DAY_TEXT} {day + 1}:{' '}
+          </Title>
+        </Col>
 
-        {values.workoutExercises.map((item, index) => (
-          <Col key={`${index}-${item.uuid}`} span={24}>
-            <ListItem
-              title={item.exercise.name}
-              description={`${item.sets} x ${item.reps ? item.reps : item.seconds + SECONDS_TEXT} | ${
-                item.weight
-              } ${LBS_TEXT}`}
-              key={item.uuid}
-              isDetailActionEnabled={!item.completed}
-              onDetail={() => displayUpdateModal(item, index)}
-              actions={
-                item.completed
-                  ? [
-                      <AButton
-                        shape="circle"
-                        icon={<Icon type="check" />}
-                        onClick={() => displayUpdateModal(item, index)}
-                      ></AButton>
-                    ]
-                  : []
-              }
-            />
-          </Col>
-        ))}
+        <Skeleton isLoading={training.loading} type="input" multiple={3} fullWidth>
+          {values.workoutExercises.map((item, index) => (
+            <Col key={`${index}-${item.uuid}`} span={24}>
+              <ListItem
+                title={item.exercise.name}
+                description={`${item.sets} x ${item.reps ? item.reps : item.seconds + SECONDS_TEXT} | ${
+                  item.weight
+                } ${LBS_TEXT}`}
+                key={item.uuid}
+                isDetailActionEnabled={!item.completed}
+                onDetail={() => displayUpdateModal(item, index)}
+                actions={
+                  item.completed
+                    ? [
+                        <AButton
+                          shape="circle"
+                          icon={<Icon type="check" />}
+                          onClick={() => displayUpdateModal(item, index)}
+                        />
+                      ]
+                    : []
+                }
+              />
+            </Col>
+          ))}
+        </Skeleton>
 
-        <Col span={24} style={{ marginTop: 40, justifyContent: 'center', paddingRight: 30, paddingLeft: 30 }}>
+        <Col span={24} className="submit-button">
           <Button
             size="medium"
             color="secondary"
