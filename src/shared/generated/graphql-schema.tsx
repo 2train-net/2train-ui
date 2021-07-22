@@ -1471,10 +1471,33 @@ export type GetWorkoutQuery = { __typename?: 'Query' } & {
   };
 };
 
+export type CreateWorkoutRoutineMutationVariables = Exact<{
+  data: WorkoutRoutineCreateInput;
+}>;
+
+export type CreateWorkoutRoutineMutation = { __typename?: 'Mutation' } & {
+  payload: { __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid'>;
+};
+
 export type GetAllExercisesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAllExercisesQuery = { __typename?: 'Query' } & {
   payload: Array<{ __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'>>;
+};
+
+export type GetAllWorkoutRoutinesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAllWorkoutRoutinesQuery = { __typename?: 'Query' } & {
+  payload: Array<
+    { __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid' | 'name'> & {
+        workoutExercises: Array<
+          { __typename?: 'WorkoutExercise' } & Pick<
+            WorkoutExercise,
+            'uuid' | 'sets' | 'reps' | 'weight' | 'seconds' | 'day' | 'comments' | 'order'
+          > & { exercise: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'> }
+        >;
+      }
+  >;
 };
 
 export type GetWorkoutRoutineQueryVariables = Exact<{
@@ -1482,7 +1505,7 @@ export type GetWorkoutRoutineQueryVariables = Exact<{
 }>;
 
 export type GetWorkoutRoutineQuery = { __typename?: 'Query' } & {
-  payload: { __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid'> & {
+  payload: { __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid' | 'isTemplate'> & {
       workoutExercises: Array<
         { __typename?: 'WorkoutExercise' } & Pick<
           WorkoutExercise,
@@ -1490,6 +1513,16 @@ export type GetWorkoutRoutineQuery = { __typename?: 'Query' } & {
         > & { exercise: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'> }
       >;
     };
+};
+
+export type GetWorkoutRoutinesQueryVariables = Exact<{
+  skip: Scalars['Int'];
+  take: Scalars['Int'];
+  order: WorkoutRoutineOrderByInput;
+}>;
+
+export type GetWorkoutRoutinesQuery = { __typename?: 'Query' } & {
+  payload: Array<{ __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid' | 'name'>>;
 };
 
 export type UpdateWorkoutRoutineMutationVariables = Exact<{
@@ -3015,6 +3048,52 @@ export function useGetWorkoutLazyQuery(
 export type GetWorkoutQueryHookResult = ReturnType<typeof useGetWorkoutQuery>;
 export type GetWorkoutLazyQueryHookResult = ReturnType<typeof useGetWorkoutLazyQuery>;
 export type GetWorkoutQueryResult = ApolloReactCommon.QueryResult<GetWorkoutQuery, GetWorkoutQueryVariables>;
+export const CreateWorkoutRoutineDocument = gql`
+  mutation createWorkoutRoutine($data: WorkoutRoutineCreateInput!) {
+    payload: createWorkoutRoutine(data: $data) {
+      uuid
+    }
+  }
+`;
+export type CreateWorkoutRoutineMutationFn = ApolloReactCommon.MutationFunction<
+  CreateWorkoutRoutineMutation,
+  CreateWorkoutRoutineMutationVariables
+>;
+
+/**
+ * __useCreateWorkoutRoutineMutation__
+ *
+ * To run a mutation, you first call `useCreateWorkoutRoutineMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateWorkoutRoutineMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createWorkoutRoutineMutation, { data, loading, error }] = useCreateWorkoutRoutineMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateWorkoutRoutineMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    CreateWorkoutRoutineMutation,
+    CreateWorkoutRoutineMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<CreateWorkoutRoutineMutation, CreateWorkoutRoutineMutationVariables>(
+    CreateWorkoutRoutineDocument,
+    baseOptions
+  );
+}
+export type CreateWorkoutRoutineMutationHookResult = ReturnType<typeof useCreateWorkoutRoutineMutation>;
+export type CreateWorkoutRoutineMutationResult = ApolloReactCommon.MutationResult<CreateWorkoutRoutineMutation>;
+export type CreateWorkoutRoutineMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  CreateWorkoutRoutineMutation,
+  CreateWorkoutRoutineMutationVariables
+>;
 export const GetAllExercisesDocument = gql`
   query getAllExercises {
     payload: exercises(orderBy: { createdAt: DESC }) {
@@ -3062,10 +3141,72 @@ export type GetAllExercisesQueryResult = ApolloReactCommon.QueryResult<
   GetAllExercisesQuery,
   GetAllExercisesQueryVariables
 >;
+export const GetAllWorkoutRoutinesDocument = gql`
+  query getAllWorkoutRoutines {
+    payload: workoutRoutines(orderBy: { createdAt: DESC }) {
+      uuid
+      name
+      workoutExercises {
+        uuid
+        sets
+        reps
+        weight
+        seconds
+        day
+        comments
+        order
+        exercise {
+          uuid
+          name
+          description
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetAllWorkoutRoutinesQuery__
+ *
+ * To run a query within a React component, call `useGetAllWorkoutRoutinesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllWorkoutRoutinesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllWorkoutRoutinesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllWorkoutRoutinesQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<GetAllWorkoutRoutinesQuery, GetAllWorkoutRoutinesQueryVariables>
+) {
+  return ApolloReactHooks.useQuery<GetAllWorkoutRoutinesQuery, GetAllWorkoutRoutinesQueryVariables>(
+    GetAllWorkoutRoutinesDocument,
+    baseOptions
+  );
+}
+export function useGetAllWorkoutRoutinesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetAllWorkoutRoutinesQuery, GetAllWorkoutRoutinesQueryVariables>
+) {
+  return ApolloReactHooks.useLazyQuery<GetAllWorkoutRoutinesQuery, GetAllWorkoutRoutinesQueryVariables>(
+    GetAllWorkoutRoutinesDocument,
+    baseOptions
+  );
+}
+export type GetAllWorkoutRoutinesQueryHookResult = ReturnType<typeof useGetAllWorkoutRoutinesQuery>;
+export type GetAllWorkoutRoutinesLazyQueryHookResult = ReturnType<typeof useGetAllWorkoutRoutinesLazyQuery>;
+export type GetAllWorkoutRoutinesQueryResult = ApolloReactCommon.QueryResult<
+  GetAllWorkoutRoutinesQuery,
+  GetAllWorkoutRoutinesQueryVariables
+>;
 export const GetWorkoutRoutineDocument = gql`
   query getWorkoutRoutine($where: WorkoutRoutineWhereUniqueInput!) {
     payload: workoutRoutine(where: $where) {
       uuid
+      isTemplate
       workoutExercises {
         uuid
         sets
@@ -3122,6 +3263,55 @@ export type GetWorkoutRoutineLazyQueryHookResult = ReturnType<typeof useGetWorko
 export type GetWorkoutRoutineQueryResult = ApolloReactCommon.QueryResult<
   GetWorkoutRoutineQuery,
   GetWorkoutRoutineQueryVariables
+>;
+export const GetWorkoutRoutinesDocument = gql`
+  query getWorkoutRoutines($skip: Int!, $take: Int!, $order: WorkoutRoutineOrderByInput!) {
+    payload: workoutRoutines(skip: $skip, take: $take, orderBy: $order) {
+      uuid
+      name
+    }
+  }
+`;
+
+/**
+ * __useGetWorkoutRoutinesQuery__
+ *
+ * To run a query within a React component, call `useGetWorkoutRoutinesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWorkoutRoutinesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWorkoutRoutinesQuery({
+ *   variables: {
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *      order: // value for 'order'
+ *   },
+ * });
+ */
+export function useGetWorkoutRoutinesQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<GetWorkoutRoutinesQuery, GetWorkoutRoutinesQueryVariables>
+) {
+  return ApolloReactHooks.useQuery<GetWorkoutRoutinesQuery, GetWorkoutRoutinesQueryVariables>(
+    GetWorkoutRoutinesDocument,
+    baseOptions
+  );
+}
+export function useGetWorkoutRoutinesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetWorkoutRoutinesQuery, GetWorkoutRoutinesQueryVariables>
+) {
+  return ApolloReactHooks.useLazyQuery<GetWorkoutRoutinesQuery, GetWorkoutRoutinesQueryVariables>(
+    GetWorkoutRoutinesDocument,
+    baseOptions
+  );
+}
+export type GetWorkoutRoutinesQueryHookResult = ReturnType<typeof useGetWorkoutRoutinesQuery>;
+export type GetWorkoutRoutinesLazyQueryHookResult = ReturnType<typeof useGetWorkoutRoutinesLazyQuery>;
+export type GetWorkoutRoutinesQueryResult = ApolloReactCommon.QueryResult<
+  GetWorkoutRoutinesQuery,
+  GetWorkoutRoutinesQueryVariables
 >;
 export const UpdateWorkoutRoutineDocument = gql`
   mutation updateWorkoutRoutine($data: WorkoutRoutineUpdateInput!, $where: WorkoutRoutineWhereUniqueInput!) {
