@@ -105,6 +105,7 @@ const WorkoutRoutineUpdate: FC = () => {
   const templateRoutinesModal = {
     ...TEMPLATE_ROUTINES_MODAL,
     contentRender: (
+<<<<<<< HEAD
       <div style={{ height: 240, overflowY: 'scroll' }}>
         {templateRoutines.data?.payload.map(item => (
           <ListItem
@@ -117,17 +118,29 @@ const WorkoutRoutineUpdate: FC = () => {
               cursor: 'pointer',
               borderBottom: '1px solid #b3b2b226'
             }}
+=======
+      <div>
+        {templateRoutines.data?.payload.map(item => (
+          <ListItem
+            key={item.uuid}
+            title={item.name ? item.name : ''}
+            isDetailActionEnabled={false}
+>>>>>>> feat(workout-routine-update): add new feature to import templates
             actions={[
               <Button
                 shape="circle"
                 icon={<Icon type="select" />}
                 onClick={() => {
+<<<<<<< HEAD
                   if (!workoutExercises?.length) {
                     setWorkoutExercises(item.workoutExercises);
                     modalProvider.close();
                   } else {
                     displayImportTemplateModal(item.workoutExercises);
                   }
+=======
+                  displayImportTemplateModal(item.workoutExercises);
+>>>>>>> feat(workout-routine-update): add new feature to import templates
                 }}
               />
             ]}
