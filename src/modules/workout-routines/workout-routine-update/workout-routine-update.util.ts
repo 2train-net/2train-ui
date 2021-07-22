@@ -47,7 +47,7 @@ export const parseUpdate = (items: ColumnItem[]) => {
 };
 
 export const parseCreate = (items: ColumnItem[]) => {
-  return items.map(({ position, column, option, data: { focus, ...data } }) => ({
+  return items.map(({ position, column, option, data: { focus, uuid, ...data } }) => ({
     ...data,
     order: position,
     day: parseNumberToDay(column),
