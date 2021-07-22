@@ -85,20 +85,17 @@ const WorkoutRoutineUpdate: FC = () => {
         delete: parseDelete(data.delete)
       }
     };
-
     const response = await updateWorkoutRoutine({
       variables: {
         where,
         data: payload
       }
     });
-
     if (workoutRoutine.data?.payload.isTemplate) {
       redirect(WORKOUT_ROUTINES);
     } else {
       redirect(`${PLANS}/${DETAIL}/${response.data?.payload.plan?.uuid}`);
     }
-    
   };
 
   const templateRoutinesModal = {
