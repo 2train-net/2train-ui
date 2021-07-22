@@ -19,8 +19,8 @@ const WorkoutCard: FC<IWorkoutCard> = ({ data }) => {
 
   const profile =
     user?.type === UserType.Customer
-      ? data.workoutRoutine?.plan?.planAssociations[0].user
-      : data.workoutRoutine?.plan?.owner;
+      ? data.workoutRoutine.plan?.planAssociations[0].user
+      : data.workoutRoutine.plan?.owner;
 
   return (
     <ListCard
