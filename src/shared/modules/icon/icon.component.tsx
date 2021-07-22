@@ -45,7 +45,10 @@ import {
   PaperClipOutlined,
   FileTextOutlined,
   FileDoneOutlined,
-  NotificationOutlined
+  NotificationOutlined,
+  MoreOutlined,
+  SelectOutlined,
+  QuestionOutlined
 } from '@ant-design/icons';
 
 export type IconType =
@@ -93,7 +96,10 @@ export type IconType =
   | 'paperClip'
   | 'fileText'
   | 'fileDone'
-  | 'megaphone';
+  | 'megaphone'
+  | 'more'
+  | 'select'
+  | 'question';
 
 interface IIcon {
   key?: string;
@@ -147,7 +153,10 @@ const outlinedIconDictionary = {
   paperClip: PaperClipOutlined,
   fileText: FileTextOutlined,
   fileDone: FileDoneOutlined,
-  megaphone: NotificationOutlined
+  megaphone: NotificationOutlined,
+  more: MoreOutlined,
+  select: SelectOutlined,
+  question: QuestionOutlined
 };
 
 const Icon: FC<IIcon> = ({ key, type, className, onClick }) => {
