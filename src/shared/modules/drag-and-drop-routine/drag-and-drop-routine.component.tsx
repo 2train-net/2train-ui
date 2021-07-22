@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
-import { Col, PageHeader, Row, Typography, Button as AButton, Card } from 'antd';
+import { Col, PageHeader, Row, Typography, Button as AButton, Card, Dropdown, Menu } from 'antd';
 
 import _ from 'lodash';
 
@@ -31,6 +31,7 @@ import { move, copy, reorder } from './drag-and-drop-routine.actions';
 import {
   compareColumns,
   dayOptions,
+  dropdownMenuOptions,
   findElement,
   findElementInColumn,
   parseColumnsToData,
@@ -60,14 +61,16 @@ interface IDragAndDropRoutineValues {
   formModal: Modal;
   isEditModeEnabled?: boolean;
   isLoading?: boolean;
-  onSubmit?: (data: any) => any;
-  maxColumn: number;
+  onSubmit?: (data: any, createData?: FormData) => any;
+  maxColumn?: number;
   acceptsRepeated?: boolean;
   routineTitle: string;
   optionsTitle?: string;
   searchOptionText?: string;
   optionNotExistsText?: string;
   notRepeatOptionsText?: string;
+  importTemplateModal?: Modal;
+  renderCreateForm?: FC<FormData>;
 }
 
 const { Title, Text } = Typography;
@@ -83,14 +86,16 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   formModal,
   isEditModeEnabled = true,
   isLoading = true,
-  maxColumn,
+  maxColumn = -1,
   acceptsRepeated = true,
   onSubmit,
   routineTitle,
   optionsTitle = OPTIONS_TEXT,
   searchOptionText = SEARCH_OPTION_TEXT,
   optionNotExistsText = OPTION_NOT_EXISTS_TEXT,
-  notRepeatOptionsText = NOT_REPEAT_ELEMENTS_EXCEPTION
+  notRepeatOptionsText = NOT_REPEAT_ELEMENTS_EXCEPTION,
+  importTemplateModal,
+  renderCreateForm: RoutineForm
 }) => {
   const classes = useStyles();
 
@@ -100,6 +105,16 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
 
   const [searchBar, setSearchBar] = useState('');
 
+  const [firstData, setFirstData] = useState<ColumnItem[]>();
+
+  const [visible, setVisible] = useState<boolean[]>([]);
+
+  const [areOptionsVisible, setAreOptionsVisible] = useState(false);
+
+  const [routine, setRoutine] = useState<FormData>();
+
+  const [disabled, setDisabled] = useState(true);
+
   const location = useLocation();
 
   const history = useHistory();
@@ -107,6 +122,8 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   const modalProvider = useContext(ModalContext);
 
   const itemFormRef = useRef<HTMLFormElement>(null);
+
+  const createRoutineFormRef = useRef<HTMLFormElement>(null);
 
   const { goBack } = history;
 
@@ -251,6 +268,13 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
     setSearchBar(e.target.value);
   };
 
+  const handleDropdownClick = (e: any) => {
+    if (!importTemplateModal) return;
+    if (e.key === '1') {
+      modalProvider.show(importTemplateModal);
+    }
+  };
+
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
@@ -348,6 +372,10 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   useEffect(() => {
     if (!columns && data) {
       setColumns(parseDataToColumns(data, maxColumn));
+      setFirstData(data);
+    } else if (columns && data && !isLoading) {
+      setColumns(parseDataToColumns(data, maxColumn));
+      setDisabled(false);
     }
   }, [data]);
 
@@ -361,10 +389,16 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
     if (columns && columns.length !== visible.length) setVisible(Array(columns.length).fill(!getIsMobile()));
   }, [columns]);
 
-  const [visible, setVisible] = useState<boolean[]>([]);
-  const [areOptionsVisible, setAreOptionsVisible] = useState(false);
+  useEffect(() => {
+    routine &&
+      firstData &&
+      onSubmit &&
+      onSubmit(parseColumnsToData(updatePositionsAndColumns(columns ? columns : []), firstData), routine);
+  }, [routine]);
 
-  const haveValuesChanged = data ? compareColumns(parseDataToColumns(data, maxColumn), columns) : false;
+  const haveValuesChanged = data
+    ? compareColumns(updatePositionsAndColumns(parseDataToColumns(data, maxColumn)), columns)
+    : false;
 
   return (
     <div className={classes.root}>
@@ -385,24 +419,49 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
             {isEditModeEnabled && (
               <Button
                 onClick={
-                  data
+                  firstData
                     ? () => {
-                        onSubmit &&
-                          onSubmit(parseColumnsToData(updatePositionsAndColumns(columns ? columns : []), data));
+                        if (RoutineForm) createRoutineFormRef?.current?.dispatchEvent(new Event('submit'));
+
+                        if (!RoutineForm)
+                          onSubmit &&
+                            onSubmit(parseColumnsToData(updatePositionsAndColumns(columns ? columns : []), firstData));
                       }
                     : () => {}
                 }
                 type="button"
                 size="small"
-                disabled={!haveValuesChanged}
+                disabled={!haveValuesChanged && !RoutineForm && disabled}
                 loading={isLoading}
               >
                 {SAVE_TEXT}
               </Button>
             )}
+            {importTemplateModal && (
+              <Dropdown.Button
+                overlay={
+                  <Menu onClick={handleDropdownClick}>
+                    {dropdownMenuOptions.map(item => (
+                      <Menu.Item key={item.value}>{item.label}</Menu.Item>
+                    ))}
+                  </Menu>
+                }
+                placement="bottomCenter"
+                icon={<Icon type="more" />}
+              ></Dropdown.Button>
+            )}
           </div>
         ]}
-      />
+      >
+        {RoutineForm && (
+          <RoutineForm
+            onSubmit={(data: FormData) => {
+              setRoutine(data);
+            }}
+            formRef={createRoutineFormRef}
+          />
+        )}
+      </PageHeader>
       <DragDropContext onDragEnd={isEditModeEnabled ? result => onDragEnd(result) : () => {}}>
         <Row className="columns">
           <Col span={24}>
@@ -488,4 +547,12 @@ const DragAndDropRoutine: FC<IDragAndDropRoutineValues> = ({
   );
 };
 
-export default DragAndDropRoutine;
+const areEqual = (prevProps: IDragAndDropRoutineValues, nextProps: IDragAndDropRoutineValues) => {
+  return (
+    _.isEqual(prevProps.data, nextProps.data) &&
+    prevProps.isLoading === nextProps.isLoading &&
+    prevProps.maxColumn === nextProps.maxColumn
+  );
+};
+
+export default React.memo(DragAndDropRoutine, areEqual);

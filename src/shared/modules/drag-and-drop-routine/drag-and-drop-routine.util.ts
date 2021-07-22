@@ -36,6 +36,8 @@ export const compareColumns = (initialData: ColumnItem[][], newData?: ColumnItem
     flattenInitialData.forEach((item, i) => {
       if (Object.keys(objectDifferences(item.data, flattenNewData[i].data)).length) {
         ban = true;
+      } else if (Object.keys(objectDifferences(item, flattenNewData[i])).length) {
+        ban = true;
       }
     });
   } else {
@@ -88,3 +90,5 @@ export const dayOptions = [
   { value: 6, label: '6 Días' },
   { value: 7, label: '7 Días' }
 ];
+
+export const dropdownMenuOptions = [{ value: 1, label: 'Importar' }];
