@@ -1,7 +1,7 @@
-query getWorkoutRoutine($where: WorkoutRoutineWhereUniqueInput!) {
-  payload: workoutRoutine(where: $where) {
+query getAllWorkoutRoutines {
+  payload: workoutRoutines(orderBy: { createdAt: DESC }) {
     uuid
-    isTemplate
+    name
     workoutExercises {
       uuid
       sets

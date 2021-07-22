@@ -1,0 +1,5 @@
+mutation createWorkoutRoutine($data: WorkoutRoutineCreateInput!) {
+  payload: createWorkoutRoutine(data: $data) {
+    uuid
+  }
+}
