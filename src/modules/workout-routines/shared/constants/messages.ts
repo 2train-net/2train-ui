@@ -1,12 +1,11 @@
-export const SETS_TITLE = 'Sets';
-
-export const REPS_TITLE = 'Reps';
-
-export const SECONDS_TITLE = 'Segundos';
-
-export const WEIGHT_TITLE = 'Peso';
-
-export const COMMENTS_TITLE = 'Comentarios';
+export const SINGULAR_ROUTINE_TITLE = 'Rutina',
+  PLURAL_ROUTINE_TITLE = 'Rutinas',
+  SETS_TITLE = 'Sets',
+  REPS_TITLE = 'Reps',
+  SECONDS_TITLE = 'Segundos',
+  WEIGHT_TITLE = 'Peso',
+  COMMENTS_TITLE = 'Comentarios',
+  NAME_TITLE = 'Nombre';
 
 export const SEARCH_EXERCISE_TEXT = 'Buscar ejercicios',
   EXERCISE_NOT_EXISTS_TEXT = 'Al parecer el ejercicio no existe';
