@@ -1,0 +1,5 @@
+mutation updatePlanActivity($where: PlanActivityWhereUniqueInput!, $data: PlanActivityUpdateInput!) {
+  payload: updatePlanActivity(where: $where, data: $data) {
+    uuid
+  }
+}

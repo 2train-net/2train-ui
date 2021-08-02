@@ -73,7 +73,7 @@ const WorkoutRoutineUpdate: FC = () => {
       }
     });
 
-    redirect(`${PLANS}/${DETAIL}/${response.data?.payload.plan.uuid}`);
+    redirect(`${PLANS}/${DETAIL}/${response.data?.payload?.plan?.uuid}`);
   };
 
   useEffect(() => {

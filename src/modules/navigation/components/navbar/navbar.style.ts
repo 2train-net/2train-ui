@@ -16,6 +16,12 @@ export default createUseStyles(({ palette, spacing, breakpoints }: ITheme) => ({
     [breakpoints.up('md')]: {
       '& .menu-icon': {
         display: 'none'
+      },
+
+      '& .notification-badge': {
+        '& sup': {
+          background: `${palette.primary.main} !important`
+        }
       }
     },
     '& .nav-item': {
@@ -27,8 +33,31 @@ export default createUseStyles(({ palette, spacing, breakpoints }: ITheme) => ({
       backgroundColor: palette.secondary.main,
       fontWeight: 'bold'
     },
-    '& sup': {
-      background: palette.secondary.main
+
+    '& .notification-badge': {
+      '& sup': {
+        background: palette.secondary.main
+      }
+    }
+  },
+  notificationsCard: {
+    '& .ant-popover-title': {
+      top: 0,
+      position: 'sticky',
+      padding: spacing(2),
+      backgroundColor: 'white'
+    },
+
+    '& .ant-popover-inner-content': {
+      padding: spacing(0)
+    }
+  },
+  notificationMiniBadge: {
+    '& .ant-badge-count': {
+      minWidth: spacing(1.5),
+      height: spacing(1.5),
+      marginRight: spacing(0.25),
+      marginTop: spacing(0.5)
     }
   }
 }));

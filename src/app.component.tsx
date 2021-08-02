@@ -18,7 +18,7 @@ import Training from 'modules/training/training.module';
 import Settings from 'modules/settings/settings.module';
 
 import { NotFoundErrorPage } from 'shared/modules';
-import { AuthProvider, ModalProvider } from 'shared/contexts';
+import { AuthProvider, ModalProvider, NotificationProvider } from 'shared/contexts';
 import {
   ROOT,
   HOME,
@@ -42,29 +42,31 @@ const App: FC = () => {
 
   return (
     <AuthProvider>
-      <ModalProvider>
-        <Route path={ROOT} component={Auth} />
-        <Navigation>
-          <Switch>
-            <Route exact path={ROOT} component={Home} />
-            <Route exact path={HOME} component={Home} />
-            <Route exact path={PROFILE} component={Profile} />
-            <Route path={WORKOUT_ROUTINES} component={WorkoutRoutines} />
-            <Route path={PLANS} component={Plans} />
-            <Route path={PLAN_INVITATIONS} component={PlanInvitations} />
-            <Route path={EXERCISES} component={Exercises} />
-            <Route path={BODY_MEASURES} component={BodyMeasure} />
-            <Route path={CLIENTS} component={Clients} />
-            <Route path={WORKOUTS} component={Workouts} />
-            <Route path={MEALS} component={Meals} />
-            <Route path={TRAINING} component={Training} />
-            <Route path={SETTINGS} component={Settings} />
+      <NotificationProvider>
+        <ModalProvider>
+          <Route path={ROOT} component={Auth} />
+          <Navigation>
+            <Switch>
+              <Route exact path={ROOT} component={Home} />
+              <Route exact path={HOME} component={Home} />
+              <Route exact path={PROFILE} component={Profile} />
+              <Route path={WORKOUT_ROUTINES} component={WorkoutRoutines} />
+              <Route path={PLANS} component={Plans} />
+              <Route path={PLAN_INVITATIONS} component={PlanInvitations} />
+              <Route path={EXERCISES} component={Exercises} />
+              <Route path={BODY_MEASURES} component={BodyMeasure} />
+              <Route path={CLIENTS} component={Clients} />
+              <Route path={WORKOUTS} component={Workouts} />
+              <Route path={MEALS} component={Meals} />
+              <Route path={TRAINING} component={Training} />
+              <Route path={SETTINGS} component={Settings} />
 
-            <Route component={NotFoundErrorPage} />
-            <Redirect to={pathname} />
-          </Switch>
-        </Navigation>
-      </ModalProvider>
+              <Route component={NotFoundErrorPage} />
+              <Redirect to={pathname} />
+            </Switch>
+          </Navigation>
+        </ModalProvider>
+      </NotificationProvider>
     </AuthProvider>
   );
 };

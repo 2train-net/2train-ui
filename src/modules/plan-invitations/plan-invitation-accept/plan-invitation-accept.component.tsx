@@ -100,13 +100,15 @@ const PlanInvitationList: FC = () => {
         onCancel: redirectToPlanInvitations
       });
     }
+  }, [data, loading, acceptInvitationPayload.loading]);
 
+  useEffect(() => {
     if (error || acceptInvitationPayload.error) {
       const errorMessage = error?.message || acceptInvitationPayload.error?.graphQLErrors[0].message;
 
       Message.error(errorMessage);
     }
-  }, [data, error, loading, acceptInvitationPayload]);
+  }, [error, acceptInvitationPayload.error]);
 
   useEffect(() => {
     modalProvider.show({

@@ -39,7 +39,13 @@ import {
   UpOutlined,
   DownOutlined,
   WarningOutlined,
-  EyeInvisibleOutlined
+  EyeInvisibleOutlined,
+  BellFilled,
+  TrophyFilled,
+  PaperClipOutlined,
+  FileTextOutlined,
+  FileDoneOutlined,
+  NotificationOutlined
 } from '@ant-design/icons';
 
 export type IconType =
@@ -81,7 +87,13 @@ export type IconType =
   | 'up'
   | 'down'
   | 'warning'
-  | 'unableView';
+  | 'unableView'
+  | 'bell'
+  | 'trophy'
+  | 'paperClip'
+  | 'fileText'
+  | 'fileDone'
+  | 'megaphone';
 
 interface IIcon {
   key?: string;
@@ -129,7 +141,13 @@ const outlinedIconDictionary = {
   up: UpOutlined,
   down: DownOutlined,
   warning: WarningOutlined,
-  unableView: EyeInvisibleOutlined
+  unableView: EyeInvisibleOutlined,
+  bell: BellFilled,
+  trophy: TrophyFilled,
+  paperClip: PaperClipOutlined,
+  fileText: FileTextOutlined,
+  fileDone: FileDoneOutlined,
+  megaphone: NotificationOutlined
 };
 
 const Icon: FC<IIcon> = ({ key, type, className, onClick }) => {

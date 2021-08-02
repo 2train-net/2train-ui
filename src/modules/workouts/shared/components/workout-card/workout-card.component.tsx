@@ -19,20 +19,20 @@ const WorkoutCard: FC<IWorkoutCard> = ({ data }) => {
 
   const profile =
     user?.type === UserType.Customer
-      ? data.workoutRoutine.plan.planAssociations[0].user
-      : data.workoutRoutine.plan.owner;
+      ? data.workoutRoutine?.plan?.planAssociations[0].user
+      : data.workoutRoutine?.plan?.owner;
 
   return (
     <ListCard
       leftContent={
         <Avatar
           size="large"
-          url={profile.avatar}
-          letter={UserService.getAvatarLetters(profile.firstName, profile.lastName)}
+          url={profile?.avatar}
+          letter={profile && UserService.getAvatarLetters(profile.firstName, profile.lastName)}
         />
       }
       uuid={data.uuid}
-      title={data.workoutRoutine.plan.name}
+      title={`${profile?.firstName} ${profile?.lastName}`}
       description={`${DateService.format(data.createdAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)} | ${
         data.workoutExercises.length
       } ejercicio${data.workoutExercises.length > 1 ? 's' : ''}`}

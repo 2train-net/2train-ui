@@ -1,0 +1,28 @@
+query getPlanActivities($take: Int!, $skip: Int!) {
+  payload: planActivities(take: $take, skip: $skip) {
+    uuid
+    type
+    seen
+    isNew
+    plan {
+      uuid
+      name
+      owner {
+        uuid
+        firstName
+        lastName
+      }
+      workoutRoutine {
+        uuid
+      }
+      planAssociations {
+        association
+        user {
+          firstName
+          lastName
+        }
+      }
+    }
+    createdAt
+  }
+}
