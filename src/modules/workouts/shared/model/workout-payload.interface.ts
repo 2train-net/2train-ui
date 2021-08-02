@@ -2,7 +2,7 @@ export interface IWorkoutPayload {
   uuid: string;
   workoutRoutine: {
     uuid: string;
-    plan: {
+    plan?: {
       name: string;
       planAssociations: {
         user: {
@@ -16,7 +16,7 @@ export interface IWorkoutPayload {
         firstName: string;
         lastName: string;
       };
-    };
+    } | null;
   };
   workoutExercises: {
     uuid: string;
