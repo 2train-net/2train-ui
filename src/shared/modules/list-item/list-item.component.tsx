@@ -19,6 +19,7 @@ export interface IListItem {
   onEdit?: () => any;
   onDetail?: () => any;
   onDelete?: () => any;
+  hideLeftLine?: boolean;
 }
 
 const { Text } = Typography;
@@ -35,11 +36,12 @@ const ListItem: FC<IListItem> = ({
   isDeleteActionEnabled = false,
   onEdit,
   onDetail,
-  onDelete
+  onDelete,
+  hideLeftLine = false
 }) => {
   const centerContent = !description;
 
-  const classes = useStyles({ centerContent });
+  const classes = useStyles({ centerContent, hideLeftLine });
 
   const itemActions: ReactNode[] = actions;
 
