@@ -101,18 +101,29 @@ const WorkoutRoutineUpdate: FC = () => {
   const templateRoutinesModal = {
     ...TEMPLATE_ROUTINES_MODAL,
     contentRender: (
-      <div>
+      <div style={{ height: 240, overflowY: 'scroll' }}>
         {templateRoutines.data?.payload.map(item => (
           <ListItem
             key={item.uuid}
-            title={item.name ? item.name : ''}
+            title={item.name || ''}
+            isLeftBorderVisible={false}
             isDetailActionEnabled={false}
+            style={{
+              padding: 16,
+              cursor: 'pointer',
+              borderBottom: '1px solid #b3b2b226'
+            }}
             actions={[
               <Button
                 shape="circle"
                 icon={<Icon type="select" />}
                 onClick={() => {
-                  displayImportTemplateModal(item.workoutExercises);
+                  if (!workoutExercises?.length) {
+                    setWorkoutExercises(item.workoutExercises);
+                    modalProvider.close();
+                  } else {
+                    displayImportTemplateModal(item.workoutExercises);
+                  }
                 }}
               />
             ]}

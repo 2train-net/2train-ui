@@ -12,6 +12,8 @@ export interface IListItem {
   description?: string;
   actions?: ReactNode[];
   emptyActions?: boolean;
+  style?: React.CSSProperties;
+  isLeftBorderVisible?: boolean;
   isDetailActionEnabled?: boolean;
   isDetailButtonDisabled?: boolean;
   isEditActionEnabled?: boolean;
@@ -19,7 +21,6 @@ export interface IListItem {
   onEdit?: () => any;
   onDetail?: () => any;
   onDelete?: () => any;
-  hideLeftLine?: boolean;
 }
 
 const { Text } = Typography;
@@ -27,21 +28,22 @@ const { Text } = Typography;
 const ListItem: FC<IListItem> = ({
   icon,
   title,
+  style,
   description,
   emptyActions = false,
   actions = [],
-  isDetailButtonDisabled = false,
+  isLeftBorderVisible = true,
   isDetailActionEnabled = true,
   isEditActionEnabled = false,
+  isDetailButtonDisabled = false,
   isDeleteActionEnabled = false,
   onEdit,
   onDetail,
-  onDelete,
-  hideLeftLine = false
+  onDelete
 }) => {
   const centerContent = !description;
 
-  const classes = useStyles({ centerContent, hideLeftLine });
+  const classes = useStyles({ centerContent, isLeftBorderVisible });
 
   const itemActions: ReactNode[] = actions;
 
@@ -67,7 +69,7 @@ const ListItem: FC<IListItem> = ({
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={style}>
       <div className="list-item-content">
         <div className="list-item-text">
           {icon && <Icon type={icon} className="icon" />}
