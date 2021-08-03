@@ -4,7 +4,7 @@ import { ITheme } from 'shared/theme';
 
 export default createUseStyles(({ palette, spacing }: ITheme) => ({
   root: {
-    '& .avatar': {
+    '& .avatar-tooltip': {
       marginRight: spacing(1)
     },
     '& .icon-card': {
@@ -15,6 +15,9 @@ export default createUseStyles(({ palette, spacing }: ITheme) => ({
     },
     '& .icon-card-col': {
       marginTop: spacing(3)
+    },
+    '& .client-name-link': {
+      color: palette.secondary.main
     }
   }
 }));

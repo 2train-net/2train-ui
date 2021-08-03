@@ -13,7 +13,14 @@ import {
   WORKOUT_EXERCISE_FEEDBACK_NOTIFICATION_TEXT
 } from 'modules/notifications/shared/constants';
 
-import { UUID, NOT_FOUND, CLIENT_DETAIL, PLAN_DETAIL, PLAN_INVITATIONS, WORKOUT_ROUTINE_DETAIL } from 'shared/routes';
+import {
+  NOT_FOUND,
+  CLIENT_DETAIL,
+  PLAN_DETAIL,
+  PLAN_INVITATIONS,
+  WORKOUT_ROUTINE_DETAIL,
+  UUID_PARAM
+} from 'shared/routes';
 import { PlanActivityType, UserType, DocumentAssociation } from 'shared/generated';
 import { INotificationItem } from 'modules/notifications/shared/components/notification-item/notification-item.component';
 
@@ -29,19 +36,6 @@ interface INotificationMessage {
 interface INotificationPropTypes {
   [key: string]: INotificationMessage;
 }
-
-const routeParam = `:${UUID}`;
-
-console.log(
-  NEW_CLIENT_NOTIFICATION_TEXT,
-  PLAN_PURCHASE_NOTIFICATION_TEXT,
-  PLAN_RENOVATION_NOTIFICATION_TEXT,
-  PLAN_INVITATION_CREATE_NOTIFICATION_TEXT,
-  PLAN_INVITATION_ACCEPT_NOTIFICATION_TEXT,
-  WORKOUT_ROUTINE_CREATE_NOTIFICATION_TEXT,
-  WORKOUT_ROUTINE_UPDATE_NOTIFICATION_TEXT,
-  WORKOUT_EXERCISE_FEEDBACK_NOTIFICATION_TEXT
-);
 
 export const NOTIFICATION_TYPES: INotificationPropTypes = {
   [PlanActivityType.NewClient]: {
@@ -132,7 +126,7 @@ export const getNotificationProps = (type: PlanActivityType, activity: IPlanActi
     ...notification,
     key: activity.uuid,
     isDotVisible: !activity.seen,
-    url: url.includes(routeParam) ? (uuid ? url.replace(routeParam, uuid) : NOT_FOUND) : url,
+    url: url.includes(UUID_PARAM) ? (uuid ? url.replace(UUID_PARAM, uuid) : NOT_FOUND) : url,
     label: `${user?.firstName} ${user?.lastName} `,
     description: `${notification.description} ${activity.plan?.name}`
   };

@@ -9,6 +9,7 @@ export const DETAIL = 'detail';
 export const INVITE = 'invite';
 export const ACTION = 'action';
 export const WORKOUT = 'workout';
+export const UUID_PARAM = `:${UUID}`;
 
 export const NOT_FOUND = '/not-found';
 

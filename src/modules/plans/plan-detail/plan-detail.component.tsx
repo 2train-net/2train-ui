@@ -1,16 +1,16 @@
 import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 
 import { Redirect } from 'react-router';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 
-import { Card, Col, PageHeader, Row } from 'antd';
+import { Card, Col, PageHeader, Row, Tooltip } from 'antd';
 
 import { RENEW_PLAN_TEXT, PLAN_MEMBERS_TEXT } from 'modules/plans/plans.module';
 
 import { getIsMobile } from 'shared/util';
 import { AuthContext } from 'shared/contexts';
 import { DateService, UserService } from 'shared/services';
-import { CLIENTS, DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
+import { UUID_PARAM, CLIENT_DETAIL, NOT_FOUND, PLANS, PROFILE } from 'shared/routes';
 import { PlanStatus, useGetPlanDetailQuery, UserType } from 'shared/generated';
 import { Avatar, Button, IconCard, InfoItem, ListItem, Message, Skeleton } from 'shared/modules';
 
@@ -51,8 +51,11 @@ const PlanDetail: FC = () => {
   const isActivePlan = plan?.status === PlanStatus.Active;
   const pendingDays = plan && isActivePlan && DateService.difference(plan.expireAt, today, 'days');
   const isRenovateButtonEnabled = pendingDays ? pendingDays <= 5 : false;
+
   const onBackUrl =
-    owner && user?.type === UserType.PersonalTrainer ? `${CLIENTS}/${DETAIL}/${owner.uuid}` : `${PLANS}`;
+    owner && user?.type === UserType.PersonalTrainer ? CLIENT_DETAIL.replace(UUID_PARAM, owner.uuid) : PLANS;
+  const onProfileUrl =
+    owner && user?.type === UserType.PersonalTrainer ? CLIENT_DETAIL.replace(UUID_PARAM, owner.uuid) : PROFILE;
 
   const setIsMobile = (value: boolean) => {
     isMobileRef.current = value;
@@ -80,9 +83,9 @@ const PlanDetail: FC = () => {
     }
   }, [error]);
 
-  const ownerFullName = (
+  const ownerFullName = owner && (
     <Skeleton isLoading={loading} type="input" size="small">
-      {`${owner?.firstName} ${owner?.lastName}`}
+      <Link to={onProfileUrl} className="client-name-link">{`${owner?.firstName} ${owner?.lastName}`}</Link>
     </Skeleton>
   );
 
@@ -113,12 +116,18 @@ const PlanDetail: FC = () => {
                 <Skeleton isLoading={loading} type="avatar" multiple={3}>
                   {members &&
                     members.map(({ uuid, avatar, firstName, lastName }) => (
-                      <Avatar
-                        size="default"
+                      <Tooltip
                         key={uuid}
-                        url={avatar}
-                        letter={UserService.getAvatarLetters(firstName, lastName)}
-                      />
+                        className="avatar-tooltip"
+                        placement="bottom"
+                        title={`${firstName} ${lastName}`}
+                      >
+                        <Avatar
+                          size="default"
+                          url={avatar}
+                          letter={UserService.getAvatarLetters(firstName, lastName)}
+                        />
+                      </Tooltip>
                     ))}
                 </Skeleton>
               )}
