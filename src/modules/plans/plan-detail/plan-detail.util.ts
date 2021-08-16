@@ -145,6 +145,7 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
     info,
     owner,
     members,
-    iconCards
+    iconCards,
+    isClient
   };
 };

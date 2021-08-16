@@ -361,6 +361,7 @@ export type Mutation = {
   updatePlan: Plan;
   deletePlan: Plan;
   buyPlan: Plan;
+  renovatePlan: Plan;
   createExercise: Exercise;
   updateExercise: Exercise;
   createPlanInvitation: PlanInvitation;
@@ -446,6 +447,11 @@ export type MutationBuyPlanArgs = {
   data: PlanBuyInput;
 };
 
+export type MutationRenovatePlanArgs = {
+  where: PlanWhereUniqueInput;
+  data: PlanBuyInput;
+};
+
 export type MutationCreateExerciseArgs = {
   data: ExerciseCreateInput;
 };
@@ -506,6 +512,8 @@ export type Plan = {
   dietPlan?: Maybe<DietPlan>;
   workoutRoutine?: Maybe<WorkoutRoutine>;
   planAssociations: Array<PlanAssociation>;
+  purchasedPlans: Array<Plan>;
+  purchasePlan?: Maybe<Plan>;
   owner: User;
   createdAt: Scalars['DateTime'];
   finishedAt?: Maybe<Scalars['DateTime']>;
@@ -1248,7 +1256,7 @@ export type GetPlanActivitiesQueryVariables = Exact<{
 export type GetPlanActivitiesQuery = { __typename?: 'Query' } & {
   payload: Array<
     { __typename?: 'PlanActivity' } & Pick<PlanActivity, 'uuid' | 'type' | 'seen' | 'isNew' | 'createdAt'> & {
-        plan: { __typename?: 'Plan' } & Pick<Plan, 'uuid' | 'name'> & {
+        plan: { __typename?: 'Plan' } & Pick<Plan, 'uuid' | 'name' | 'price' | 'currency'> & {
             owner: { __typename?: 'User' } & Pick<User, 'uuid' | 'firstName' | 'lastName'>;
             workoutRoutine?: Maybe<{ __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid'>>;
             planAssociations: Array<
@@ -1357,6 +1365,7 @@ export type GetPlanDetailQuery = { __typename?: 'Query' } & {
     | 'expireAt'
   > & {
       owner: { __typename?: 'User' } & Pick<User, 'uuid' | 'avatar' | 'firstName' | 'lastName'>;
+      purchasePlan?: Maybe<{ __typename?: 'Plan' } & Pick<Plan, 'uuid' | 'status'>>;
       dietPlan?: Maybe<{ __typename?: 'DietPlan' } & Pick<DietPlan, 'uuid'>>;
       workoutRoutine?: Maybe<{ __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid'>>;
       planAssociations: Array<
@@ -1399,6 +1408,15 @@ export type GetPlansQuery = { __typename?: 'Query' } & {
       'uuid' | 'name' | 'price' | 'currency' | 'intervalCount' | 'intervalPlan' | 'status'
     >
   >;
+};
+
+export type RenovatePlanMutationVariables = Exact<{
+  data: PlanBuyInput;
+  where: PlanWhereUniqueInput;
+}>;
+
+export type RenovatePlanMutation = { __typename?: 'Mutation' } & {
+  payload: { __typename?: 'Plan' } & Pick<Plan, 'uuid'>;
 };
 
 export type UpdatePlanMutationVariables = Exact<{
@@ -2220,6 +2238,8 @@ export const GetPlanActivitiesDocument = gql`
       plan {
         uuid
         name
+        price
+        currency
         owner {
           uuid
           firstName
@@ -2680,6 +2700,10 @@ export const GetPlanDetailDocument = gql`
         firstName
         lastName
       }
+      purchasePlan {
+        uuid
+        status
+      }
       dietPlan {
         uuid
       }
@@ -2819,6 +2843,50 @@ export function useGetPlansLazyQuery(
 export type GetPlansQueryHookResult = ReturnType<typeof useGetPlansQuery>;
 export type GetPlansLazyQueryHookResult = ReturnType<typeof useGetPlansLazyQuery>;
 export type GetPlansQueryResult = ApolloReactCommon.QueryResult<GetPlansQuery, GetPlansQueryVariables>;
+export const RenovatePlanDocument = gql`
+  mutation renovatePlan($data: PlanBuyInput!, $where: PlanWhereUniqueInput!) {
+    payload: renovatePlan(data: $data, where: $where) {
+      uuid
+    }
+  }
+`;
+export type RenovatePlanMutationFn = ApolloReactCommon.MutationFunction<
+  RenovatePlanMutation,
+  RenovatePlanMutationVariables
+>;
+
+/**
+ * __useRenovatePlanMutation__
+ *
+ * To run a mutation, you first call `useRenovatePlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRenovatePlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [renovatePlanMutation, { data, loading, error }] = useRenovatePlanMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useRenovatePlanMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<RenovatePlanMutation, RenovatePlanMutationVariables>
+) {
+  return ApolloReactHooks.useMutation<RenovatePlanMutation, RenovatePlanMutationVariables>(
+    RenovatePlanDocument,
+    baseOptions
+  );
+}
+export type RenovatePlanMutationHookResult = ReturnType<typeof useRenovatePlanMutation>;
+export type RenovatePlanMutationResult = ApolloReactCommon.MutationResult<RenovatePlanMutation>;
+export type RenovatePlanMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  RenovatePlanMutation,
+  RenovatePlanMutationVariables
+>;
 export const UpdatePlanDocument = gql`
   mutation updatePlan($data: PlanUpdateInput!, $where: PlanWhereUniqueInput!) {
     payload: updatePlan(data: $data, where: $where) {

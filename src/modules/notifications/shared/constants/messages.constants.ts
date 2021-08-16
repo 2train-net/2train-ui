@@ -1,5 +1,5 @@
 export const NEW_CLIENT_NOTIFICATION_TEXT = 'es ahora un nuevo cliente',
-  PLAN_PURCHASE_NOTIFICATION_TEXT = 'compró el plan personalizado',
+  PLAN_PURCHASE_NOTIFICATION_TEXT = 'depositó el monto de',
   PLAN_RENOVATION_NOTIFICATION_TEXT = 'renovó el plan personalizado',
   PLAN_INVITATION_CREATE_NOTIFICATION_TEXT = 'te envió una invitación al plan',
   PLAN_INVITATION_ACCEPT_NOTIFICATION_TEXT = 'aceptó la invitación al plan',

@@ -5,18 +5,27 @@ import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 
 import { Card, Col, PageHeader, Row, Tooltip } from 'antd';
 
-import { RENEW_PLAN_TEXT, PLAN_MEMBERS_TEXT } from 'modules/plans/plans.module';
+import {
+  RENEW_PLAN_TEXT,
+  PLAN_MEMBERS_TEXT,
+  PLAN_RENOVATION_MODAL,
+  PLAN_RENOVATION_SUCCESSFULLY,
+  PlanPurchaseForm,
+  IPlanPurchaseFormValues
+} from 'modules/plans/plans.module';
 
 import { getIsMobile } from 'shared/util';
-import { AuthContext } from 'shared/contexts';
+import { AuthContext, ModalContext } from 'shared/contexts';
 import { DateService, UserService } from 'shared/services';
-import { UUID_PARAM, CLIENT_DETAIL, NOT_FOUND, PLANS, PROFILE } from 'shared/routes';
-import { PlanStatus, useGetPlanDetailQuery, UserType } from 'shared/generated';
+import { UUID_PARAM, CLIENT_DETAIL, NOT_FOUND, PLANS, PROFILE, PLAN_DETAIL } from 'shared/routes';
+import { PlanStatus, UserType, useGetPlanDetailQuery, useRenovatePlanMutation } from 'shared/generated';
 import { Avatar, Button, IconCard, InfoItem, ListItem, Message, Skeleton } from 'shared/modules';
 
 import { format } from './plan-detail.util';
 
 import useStyles from './plan-detail.style';
+
+const RENOVATION_COUNTDOWN_DAYS = 5;
 
 const PlanDetail: FC = () => {
   const classes = useStyles();
@@ -27,9 +36,12 @@ const PlanDetail: FC = () => {
   const history = useHistory();
 
   const { user } = useContext(AuthContext);
+  const modalProvider = useContext(ModalContext);
 
   const where = { uuid };
   const redirect = history.push;
+
+  const [renovatePlan, renovatePlanPayload] = useRenovatePlanMutation();
 
   const { data, loading, error } = useGetPlanDetailQuery({
     variables: {
@@ -40,17 +52,20 @@ const PlanDetail: FC = () => {
   const [isMobile, _setIsMobile] = useState(getIsMobile());
 
   const isMobileRef = useRef(isMobile);
+  const planPurchaseFormRef = useRef<HTMLFormElement>(null);
 
   const plan = data?.payload;
   const notFound = !plan && !loading;
 
-  const { info, owner, members, iconCards } = format(user?.type, plan);
+  const { info, owner, members, iconCards, isClient } = format(user?.type, plan);
 
   const planActions = [];
   const today = new Date();
-  const isActivePlan = plan?.status === PlanStatus.Active;
-  const pendingDays = plan && isActivePlan && DateService.difference(plan.expireAt, today, 'days');
-  const isRenovateButtonEnabled = pendingDays ? pendingDays <= 5 : false;
+  const pendingExpireDays = plan && DateService.difference(plan.expireAt, today, 'days');
+  const isRenovateButtonEnabled =
+    isClient &&
+    plan?.purchasePlan?.status === PlanStatus.Active &&
+    pendingExpireDays && pendingExpireDays <= RENOVATION_COUNTDOWN_DAYS;
 
   const onBackUrl =
     owner && user?.type === UserType.PersonalTrainer ? CLIENT_DETAIL.replace(UUID_PARAM, owner.uuid) : PLANS;
@@ -68,6 +83,61 @@ const PlanDetail: FC = () => {
     if ((!isMobileRef.current && isMobileMatch) || (isMobileRef.current && !isMobileMatch)) {
       setIsMobile(isMobileMatch);
     }
+  };
+
+  const confirmPurchasePlan = async () => {
+    planPurchaseFormRef?.current?.dispatchEvent(new Event('submit'));
+  };
+
+  const redirectToPlanDetail = (uuid: string) => {
+    redirect(PLAN_DETAIL.replace(UUID_PARAM, uuid));
+  };
+
+  const handlePlanRenovation = () => {
+    if (plan) {
+      modalProvider.show({
+        ...PLAN_RENOVATION_MODAL,
+        isLoading: false,
+        title: plan.name,
+        contentRender: (
+          <PlanPurchaseForm
+            plan={plan}
+            formRef={planPurchaseFormRef}
+            onSubmit={onPlanPurchaseSubmit}
+            currentActivePlan={user?.currentActivePlan}
+          />
+        ),
+        message: `
+          ${plan.currency} ${plan.price} |
+          ${plan.intervalCount} ${plan.intervalPlan}
+        `,
+        onConfirm: confirmPurchasePlan,
+        onCancel: () => {}
+      });
+    }
+  };
+
+  const onPlanPurchaseSubmit = async ({ startAt }: IPlanPurchaseFormValues) => {
+    try {
+      const newPlan = await renovatePlan({
+        variables: {
+          data: {
+            startAt
+          },
+          where: {
+            uuid: plan?.uuid
+          }
+        }
+      });
+
+      const { uuid } = newPlan?.data?.payload || {};
+
+      Message.success(PLAN_RENOVATION_SUCCESSFULLY);
+
+      modalProvider.close();
+
+      uuid && redirectToPlanDetail(uuid);
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -91,7 +161,7 @@ const PlanDetail: FC = () => {
 
   if (isRenovateButtonEnabled) {
     planActions.push(
-      <Button key="renew" size="small">
+      <Button key="renew" size="small" onClick={handlePlanRenovation}>
         {RENEW_PLAN_TEXT}
       </Button>
     );

@@ -3,11 +3,11 @@ import React, { FC, useContext, useEffect, useRef } from 'react';
 import { useHistory, useRouteMatch } from 'react-router';
 
 import {
-  PlanAcceptInviteForm,
-  IPlanAcceptInviteFormValues,
   PLAN_INVITATION_ACCEPT_MODAL,
   PLAN_INVITATION_ACCEPTED_SUCCESSFULLY
 } from 'modules/plan-invitations/plan-invitations.module';
+
+import { PlanPurchaseForm, IPlanPurchaseFormValues } from 'modules/plans/plans.module';
 
 import { Message } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
@@ -48,7 +48,7 @@ const PlanInvitationList: FC = () => {
     history.push(PLAN_INVITATIONS);
   };
 
-  const onSubmit = async ({ startAt }: IPlanAcceptInviteFormValues) => {
+  const onSubmit = async ({ startAt }: IPlanPurchaseFormValues) => {
     try {
       const planInvitation = await acceptPlanInvitation({
         variables: {
@@ -85,10 +85,10 @@ const PlanInvitationList: FC = () => {
         isLoading: false,
         title: planInvitation.plan.name,
         contentRender: (
-          <PlanAcceptInviteForm
+          <PlanPurchaseForm
             onSubmit={onSubmit}
             formRef={inviteFormRef}
-            planInvitation={data.payload.plan}
+            plan={data.payload.plan}
             currentActivePlan={user?.currentActivePlan}
           />
         ),

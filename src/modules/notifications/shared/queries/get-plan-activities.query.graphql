@@ -7,6 +7,8 @@ query getPlanActivities($take: Int!, $skip: Int!) {
     plan {
       uuid
       name
+      price
+      currency
       owner {
         uuid
         firstName

@@ -25,12 +25,13 @@ import { PlanActivityType, UserType, DocumentAssociation } from 'shared/generate
 import { INotificationItem } from 'modules/notifications/shared/components/notification-item/notification-item.component';
 
 interface INotificationMessage {
-  icon: IconType;
-  color: string;
-  description: string;
-  userType: UserType;
-  isPlanNameVisible: boolean;
   url: string;
+  color: string;
+  icon: IconType;
+  userType: UserType;
+  description: string;
+  isPlanNameVisible: boolean;
+  isPlanPriceVisible?: boolean;
 }
 
 interface INotificationPropTypes {
@@ -51,7 +52,8 @@ export const NOTIFICATION_TYPES: INotificationPropTypes = {
     color: '#00C851',
     description: PLAN_PURCHASE_NOTIFICATION_TEXT,
     userType: UserType.Customer,
-    isPlanNameVisible: true,
+    isPlanNameVisible: false,
+    isPlanPriceVisible: true,
     url: PLAN_DETAIL
   },
   [PlanActivityType.PlanRenovation]: {
@@ -106,7 +108,7 @@ export const NOTIFICATION_TYPES: INotificationPropTypes = {
 };
 
 export const getNotificationProps = (type: PlanActivityType, activity: IPlanActivity): INotificationItem => {
-  const { userType, isPlanNameVisible, url, ...notification } = NOTIFICATION_TYPES[type];
+  const { userType, isPlanNameVisible, isPlanPriceVisible, url, ...notification } = NOTIFICATION_TYPES[type];
 
   const user =
     userType === UserType.Customer
@@ -122,12 +124,18 @@ export const getNotificationProps = (type: PlanActivityType, activity: IPlanActi
       ? activity.plan?.owner?.uuid
       : null;
 
+  const additionalText = isPlanNameVisible
+    ? activity.plan?.name
+    : isPlanPriceVisible
+    ? `${activity.plan?.currency} ${activity.plan?.price}`
+    : '';
+
   return {
     ...notification,
     key: activity.uuid,
     isDotVisible: !activity.seen,
     url: url.includes(UUID_PARAM) ? (uuid ? url.replace(UUID_PARAM, uuid) : NOT_FOUND) : url,
     label: `${user?.firstName} ${user?.lastName} `,
-    description: `${notification.description} ${activity.plan?.name}`
+    description: `${notification.description} ${additionalText}`
   };
 };

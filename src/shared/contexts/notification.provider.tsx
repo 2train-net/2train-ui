@@ -2,6 +2,8 @@ import React, { FC, useState, useEffect, useContext } from 'react';
 
 import NotificationContext from './notification.context';
 
+import { AuthContext } from '.';
+
 import {
   GetPlanActivitiesDocument,
   useGetPlanActivitiesLazyQuery,
@@ -9,7 +11,6 @@ import {
   useCleanNewPlanActivitiesMutation,
   useUpdatePlanActivityMutation
 } from 'shared/generated';
-import { AuthContext } from '.';
 
 const take = 50;
 
@@ -23,6 +24,7 @@ const NotificationProvider: FC = ({ children }) => {
 
   const [getNotifications, { data, loading, refetch }] = useGetPlanActivitiesLazyQuery({
     variables: { take, skip: 0 },
+    fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true
   });
 

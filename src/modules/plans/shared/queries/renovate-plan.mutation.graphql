@@ -1,0 +1,5 @@
+mutation renovatePlan($data: PlanBuyInput!, $where: PlanWhereUniqueInput!) {
+  payload: renovatePlan(data: $data, where: $where) {
+    uuid
+  }
+}

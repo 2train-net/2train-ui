@@ -1,4 +1,4 @@
-import { PlanActivityType, DocumentAssociation } from 'shared/generated';
+import { PlanActivityType, DocumentAssociation, Currency } from 'shared/generated';
 
 export interface IPlanActivity {
   uuid: string;
@@ -8,6 +8,8 @@ export interface IPlanActivity {
   plan: {
     uuid: string;
     name: string;
+    price: number;
+    currency: Currency;
     owner?: {
       uuid: string;
       firstName: string;

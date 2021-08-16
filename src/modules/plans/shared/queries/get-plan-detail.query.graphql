@@ -21,6 +21,10 @@ query getPlanDetail($where: PlanWhereUniqueInput!) {
       firstName
       lastName
     }
+    purchasePlan {
+      uuid
+      status
+    }
     dietPlan {
       uuid
     }

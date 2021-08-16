@@ -16,13 +16,13 @@ import { DateService } from 'shared/services';
 import { Currency, IntervalPlan } from 'shared/generated';
 import { DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT } from 'shared/constants';
 
-import useStyles from './plan-accept-invite-form.style';
+import useStyles from './plan-purchase-form.style';
 
-import { IPlanAcceptInviteFormValues, PLAN_ACCEPT_INVITE_FORM_SCHEMA } from './plan-accept-invite-form.util';
+import { IPlanPurchaseFormValues, PLAN_PURCHASE_FORM_SCHEMA } from './plan-purchase-form.util';
 
-interface IPlanInviteForm {
-  onSubmit: (values: IPlanAcceptInviteFormValues) => any;
-  planInvitation: {
+interface IPlanPurchaseForm {
+  onSubmit: (values: IPlanPurchaseFormValues) => any;
+  plan: {
     name: string;
     price: number;
     currency: Currency;
@@ -35,10 +35,10 @@ interface IPlanInviteForm {
 
 const { Title, Text } = Typography;
 
-const PlanForm: FC<IPlanInviteForm> = ({ onSubmit, formRef, planInvitation, currentActivePlan }) => {
+const PlanForm: FC<IPlanPurchaseForm> = ({ onSubmit, formRef, plan, currentActivePlan }) => {
   const classes = useStyles();
 
-  const { price, currency, intervalPlan, intervalCount } = planInvitation;
+  const { price, currency, intervalPlan, intervalCount } = plan;
 
   const validStartDate = currentActivePlan
     ? DateService.format(currentActivePlan?.expireAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)
@@ -47,10 +47,10 @@ const PlanForm: FC<IPlanInviteForm> = ({ onSubmit, formRef, planInvitation, curr
   // TODO FIX THE DATETIME ISSUE BASED ON THE TIME ZONE, FOR NOW WE WILL INCREASE DAY IN 2
   const validStartDateFormatted = DateService.add(validStartDate, currentActivePlan ? 2 : 0, 'days');
 
-  const { handleSubmit, setFieldValue, values, errors, touched } = useFormik<IPlanAcceptInviteFormValues>({
+  const { handleSubmit, setFieldValue, values, errors, touched } = useFormik<IPlanPurchaseFormValues>({
     onSubmit,
     initialValues: { startAt: validStartDateFormatted },
-    validationSchema: PLAN_ACCEPT_INVITE_FORM_SCHEMA,
+    validationSchema: PLAN_PURCHASE_FORM_SCHEMA,
     enableReinitialize: true
   });
 
