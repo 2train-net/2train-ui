@@ -1,0 +1,6 @@
+mutation updateDietPlan($data: DietPlanUpdateInput!, $where: DietPlanWhereUniqueInput!) {
+  payload: updateDietPlan(data: $data, where: $where) {
+    uuid
+    file
+  }
+}

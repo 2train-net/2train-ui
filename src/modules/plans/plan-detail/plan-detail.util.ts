@@ -1,7 +1,7 @@
 import { IIconCard } from 'shared/modules/icon-card/icon-card.component';
 
 import { DateService, PlanService } from 'shared/services';
-import { ADD, DETAIL, DIETS, EDIT, TRAINING, WORKOUT_ROUTINES } from 'shared/routes';
+import { ADD, DETAIL, DIET_PLANS, EDIT, TRAINING, WORKOUT_ROUTINES } from 'shared/routes';
 import { Currency, PlanStatus, Scope, UserType } from 'shared/generated';
 import { DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT } from 'shared/constants';
 import {
@@ -42,6 +42,7 @@ interface IPlanDetail {
   };
   dietPlan?: {
     uuid: string;
+    file?: string | null;
   } | null;
   workoutRoutine?: {
     uuid: string;
@@ -58,7 +59,8 @@ interface IPlanDetail {
 }
 
 interface IPlanIconCard extends IIconCard {
-  url?: string;
+  url?: string | null;
+  isNewTabRedirection: boolean;
 }
 
 export const format = (userType?: UserType, plan?: IPlanDetail) => {
@@ -66,6 +68,8 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
   const owner = plan?.owner;
   const members = owner ? [owner] : [];
   const isClient = userType === UserType.Customer;
+  const isPersonalTrainer = userType === UserType.PersonalTrainer;
+  const isDietFileEnabled = isClient && !!plan?.dietPlan?.file;
 
   const totalDays =
     plan && plan.startAt && plan.expireAt ? DateService.difference(plan.expireAt, plan.startAt, 'days') : undefined;
@@ -117,19 +121,20 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
         ? `${WORKOUT_ROUTINES}/${isClient ? DETAIL : EDIT}/${plan.workoutRoutine.uuid}`
         : `${WORKOUT_ROUTINES}/${ADD}`,
       icon: 'reconciliation',
-      isDisabled: !plan?.workoutRoutine
+      isDisabled: !plan?.workoutRoutine,
+      isNewTabRedirection: false
     },
     {
       title: DIET_TEXT,
       buttonText: LOOK_TEXT,
-      url: plan?.dietPlan ? `${DIETS}/${EDIT}/${plan.dietPlan.uuid}` : `${DIETS}/${ADD}`,
+      url: plan && isDietFileEnabled ? plan.dietPlan?.file : `${DIET_PLANS}/${EDIT}/${plan?.dietPlan?.uuid}`,
       icon: 'read',
-      // isDisabled: !plan?.dietPlan
-      isDisabled: true
+      isDisabled: isPersonalTrainer ? !plan?.dietPlan : !isDietFileEnabled,
+      isNewTabRedirection: isClient
     },
-    { icon: 'heart', title: BODY_MEASURES_TEXT, buttonText: LOOK_TEXT, isDisabled: true },
-    { icon: 'lineChart', title: STATISTICS_TEXT, buttonText: LOOK_TEXT, isDisabled: true },
-    { icon: 'chat', title: CHAT_TEXT, buttonText: LOOK_TEXT, isDisabled: true }
+    { icon: 'heart', title: BODY_MEASURES_TEXT, buttonText: LOOK_TEXT, isDisabled: true, isNewTabRedirection: false },
+    { icon: 'lineChart', title: STATISTICS_TEXT, buttonText: LOOK_TEXT, isDisabled: true, isNewTabRedirection: false },
+    { icon: 'chat', title: CHAT_TEXT, buttonText: LOOK_TEXT, isDisabled: true, isNewTabRedirection: false }
   ];
 
   isClient &&
@@ -138,7 +143,8 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
       title: TRAINING_TEXT,
       buttonText: LOOK_TEXT,
       url: `${TRAINING}`,
-      isDisabled: !plan?.workoutRoutine
+      isDisabled: !plan?.workoutRoutine,
+      isNewTabRedirection: false
     });
 
   return {

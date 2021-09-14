@@ -71,6 +71,7 @@ export type DietPlan = {
   __typename?: 'DietPlan';
   id: Scalars['Int'];
   uuid: Scalars['String'];
+  file?: Maybe<Scalars['String']>;
   meals: Array<Meal>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
@@ -85,6 +86,10 @@ export type DietPlanOrderByInput = {
   uuid?: Maybe<OrderByArg>;
   createdAt?: Maybe<OrderByArg>;
   updatedAt?: Maybe<OrderByArg>;
+};
+
+export type DietPlanUpdateInput = {
+  fileBase64: Scalars['String'];
 };
 
 export type DietPlanWhereInput = {
@@ -357,6 +362,7 @@ export type Mutation = {
   updateMealIngredient: MealIngredient;
   deleteMealIngredient: MealIngredient;
   creatDietPlan: DietPlan;
+  updateDietPlan: DietPlan;
   createPlan: Plan;
   updatePlan: Plan;
   deletePlan: Plan;
@@ -427,6 +433,11 @@ export type MutationDeleteMealIngredientArgs = {
 
 export type MutationCreatDietPlanArgs = {
   data: DietPlanCreateInput;
+};
+
+export type MutationUpdateDietPlanArgs = {
+  where: DietPlanWhereUniqueInput;
+  data: DietPlanUpdateInput;
 };
 
 export type MutationCreatePlanArgs = {
@@ -543,6 +554,8 @@ export enum PlanActivityType {
   PlanInvitationCreate = 'PLAN_INVITATION_CREATE',
   WorkoutRoutineCreate = 'WORKOUT_ROUTINE_CREATE',
   WorkoutRoutineUpdate = 'WORKOUT_ROUTINE_UPDATE',
+  DietPlanFileCreate = 'DIET_PLAN_FILE_CREATE',
+  DietPlanFileUpdate = 'DIET_PLAN_FILE_UPDATE',
   WorkoutExerciseFeedback = 'WORKOUT_EXERCISE_FEEDBACK'
 }
 
@@ -1150,6 +1163,23 @@ export type GetClientsQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type GetDietPlanQueryVariables = Exact<{
+  where: DietPlanWhereUniqueInput;
+}>;
+
+export type GetDietPlanQuery = { __typename?: 'Query' } & {
+  payload: { __typename?: 'DietPlan' } & Pick<DietPlan, 'uuid' | 'file'>;
+};
+
+export type UpdateDietPlanMutationVariables = Exact<{
+  data: DietPlanUpdateInput;
+  where: DietPlanWhereUniqueInput;
+}>;
+
+export type UpdateDietPlanMutation = { __typename?: 'Mutation' } & {
+  payload: { __typename?: 'DietPlan' } & Pick<DietPlan, 'uuid' | 'file'>;
+};
+
 export type CreateExerciseMutationVariables = Exact<{
   data: ExerciseCreateInput;
 }>;
@@ -1366,7 +1396,7 @@ export type GetPlanDetailQuery = { __typename?: 'Query' } & {
   > & {
       owner: { __typename?: 'User' } & Pick<User, 'uuid' | 'avatar' | 'firstName' | 'lastName'>;
       purchasePlan?: Maybe<{ __typename?: 'Plan' } & Pick<Plan, 'uuid' | 'status'>>;
-      dietPlan?: Maybe<{ __typename?: 'DietPlan' } & Pick<DietPlan, 'uuid'>>;
+      dietPlan?: Maybe<{ __typename?: 'DietPlan' } & Pick<DietPlan, 'uuid' | 'file'>>;
       workoutRoutine?: Maybe<{ __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid'>>;
       planAssociations: Array<
         { __typename?: 'PlanAssociation' } & Pick<PlanAssociation, 'association'> & {
@@ -1762,6 +1792,89 @@ export function useGetClientsLazyQuery(
 export type GetClientsQueryHookResult = ReturnType<typeof useGetClientsQuery>;
 export type GetClientsLazyQueryHookResult = ReturnType<typeof useGetClientsLazyQuery>;
 export type GetClientsQueryResult = ApolloReactCommon.QueryResult<GetClientsQuery, GetClientsQueryVariables>;
+export const GetDietPlanDocument = gql`
+  query getDietPlan($where: DietPlanWhereUniqueInput!) {
+    payload: dietPlan(where: $where) {
+      uuid
+      file
+    }
+  }
+`;
+
+/**
+ * __useGetDietPlanQuery__
+ *
+ * To run a query within a React component, call `useGetDietPlanQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDietPlanQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDietPlanQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useGetDietPlanQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<GetDietPlanQuery, GetDietPlanQueryVariables>
+) {
+  return ApolloReactHooks.useQuery<GetDietPlanQuery, GetDietPlanQueryVariables>(GetDietPlanDocument, baseOptions);
+}
+export function useGetDietPlanLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetDietPlanQuery, GetDietPlanQueryVariables>
+) {
+  return ApolloReactHooks.useLazyQuery<GetDietPlanQuery, GetDietPlanQueryVariables>(GetDietPlanDocument, baseOptions);
+}
+export type GetDietPlanQueryHookResult = ReturnType<typeof useGetDietPlanQuery>;
+export type GetDietPlanLazyQueryHookResult = ReturnType<typeof useGetDietPlanLazyQuery>;
+export type GetDietPlanQueryResult = ApolloReactCommon.QueryResult<GetDietPlanQuery, GetDietPlanQueryVariables>;
+export const UpdateDietPlanDocument = gql`
+  mutation updateDietPlan($data: DietPlanUpdateInput!, $where: DietPlanWhereUniqueInput!) {
+    payload: updateDietPlan(data: $data, where: $where) {
+      uuid
+      file
+    }
+  }
+`;
+export type UpdateDietPlanMutationFn = ApolloReactCommon.MutationFunction<
+  UpdateDietPlanMutation,
+  UpdateDietPlanMutationVariables
+>;
+
+/**
+ * __useUpdateDietPlanMutation__
+ *
+ * To run a mutation, you first call `useUpdateDietPlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateDietPlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateDietPlanMutation, { data, loading, error }] = useUpdateDietPlanMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useUpdateDietPlanMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateDietPlanMutation, UpdateDietPlanMutationVariables>
+) {
+  return ApolloReactHooks.useMutation<UpdateDietPlanMutation, UpdateDietPlanMutationVariables>(
+    UpdateDietPlanDocument,
+    baseOptions
+  );
+}
+export type UpdateDietPlanMutationHookResult = ReturnType<typeof useUpdateDietPlanMutation>;
+export type UpdateDietPlanMutationResult = ApolloReactCommon.MutationResult<UpdateDietPlanMutation>;
+export type UpdateDietPlanMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  UpdateDietPlanMutation,
+  UpdateDietPlanMutationVariables
+>;
 export const CreateExerciseDocument = gql`
   mutation createExercise($data: ExerciseCreateInput!) {
     payload: createExercise(data: $data) {
@@ -2706,6 +2819,7 @@ export const GetPlanDetailDocument = gql`
       }
       dietPlan {
         uuid
+        file
       }
       workoutRoutine {
         uuid

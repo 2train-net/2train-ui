@@ -1,0 +1,6 @@
+query getDietPlan($where: DietPlanWhereUniqueInput!) {
+  payload: dietPlan(where: $where) {
+    uuid
+    file
+  }
+}

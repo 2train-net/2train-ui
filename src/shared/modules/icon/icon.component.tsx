@@ -48,7 +48,8 @@ import {
   NotificationOutlined,
   MoreOutlined,
   SelectOutlined,
-  QuestionOutlined
+  QuestionOutlined,
+  InboxOutlined
 } from '@ant-design/icons';
 
 export type IconType =
@@ -99,7 +100,8 @@ export type IconType =
   | 'megaphone'
   | 'more'
   | 'select'
-  | 'question';
+  | 'question'
+  | 'inbox';
 
 interface IIcon {
   key?: string;
@@ -156,7 +158,8 @@ const outlinedIconDictionary = {
   megaphone: NotificationOutlined,
   more: MoreOutlined,
   select: SelectOutlined,
-  question: QuestionOutlined
+  question: QuestionOutlined,
+  inbox: InboxOutlined
 };
 
 const Icon: FC<IIcon> = ({ key, type, className, onClick }) => {

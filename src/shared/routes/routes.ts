@@ -62,13 +62,13 @@ export const WORKOUT_ROUTINE_EDIT = `${WORKOUT_ROUTINES}/${EDIT}/:${UUID}`;
 export const WORKOUT_ROUTINE_DELETE = `${WORKOUT_ROUTINES}/${DELETE}/:${UUID}`;
 export const WORKOUT_ROUTINE_DETAIL = `${WORKOUT_ROUTINES}/${DETAIL}/:${UUID}`;
 
+export const DIET_PLANS = '/diet-plans';
+export const DIET_PLAN_EDIT = `${DIET_PLANS}/${EDIT}/:${UUID}`;
+
 export const MEALS = '/meals';
 export const MEAL_ADD = `${MEALS}/${ADD}`;
 export const MEAL_EDIT = `${MEALS}/${EDIT}/:${UUID}`;
 export const MEAL_DELETE = `${MEALS}/${DELETE}/:${UUID}`;
-
-export const DIETS = '/diet';
-export const DIET_EDIT = `${DIETS}/${EDIT}/:${UUID}`;
 
 export const TRAINING = '/training';
 export const TRAINING_WORKOUT = `${TRAINING}/${WORKOUT}/:${DAY}`;

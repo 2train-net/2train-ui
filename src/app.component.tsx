@@ -9,6 +9,7 @@ import Profile from 'modules/profile/profile.module';
 import Plans from 'modules/plans/plans.module';
 import BodyMeasure from 'modules/body-measure/body-measure.module';
 import Exercises from 'modules/exercises/exercises.module';
+import DietPlans from 'modules/diet-plans/diet-plans.module';
 import WorkoutRoutines from 'modules/workout-routines/workout-routines.module';
 import PlanInvitations from 'modules/plan-invitations/plan-invitations.module';
 import Clients from 'modules/clients/clients.module';
@@ -32,7 +33,8 @@ import {
   WORKOUTS,
   MEALS,
   TRAINING,
-  SETTINGS
+  SETTINGS,
+  DIET_PLANS
 } from 'shared/routes';
 
 import './app.css';
@@ -51,6 +53,7 @@ const App: FC = () => {
               <Route exact path={HOME} component={Home} />
               <Route exact path={PROFILE} component={Profile} />
               <Route path={WORKOUT_ROUTINES} component={WorkoutRoutines} />
+              <Route path={DIET_PLANS} component={DietPlans} />
               <Route path={PLANS} component={Plans} />
               <Route path={PLAN_INVITATIONS} component={PlanInvitations} />
               <Route path={EXERCISES} component={Exercises} />

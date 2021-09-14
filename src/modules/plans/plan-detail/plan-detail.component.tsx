@@ -65,7 +65,8 @@ const PlanDetail: FC = () => {
   const isRenovateButtonEnabled =
     isClient &&
     plan?.purchasePlan?.status === PlanStatus.Active &&
-    pendingExpireDays && pendingExpireDays <= RENOVATION_COUNTDOWN_DAYS;
+    pendingExpireDays &&
+    pendingExpireDays <= RENOVATION_COUNTDOWN_DAYS;
 
   const onBackUrl =
     owner && user?.type === UserType.PersonalTrainer ? CLIENT_DETAIL.replace(UUID_PARAM, owner.uuid) : PLANS;
@@ -75,6 +76,10 @@ const PlanDetail: FC = () => {
   const setIsMobile = (value: boolean) => {
     isMobileRef.current = value;
     _setIsMobile(value);
+  };
+
+  const redirectTo = (url: string, isNewTabRedirection: boolean) => {
+    return isNewTabRedirection ? window.open(url, '_blank') : redirect(url);
   };
 
   const handleResize = () => {
@@ -216,9 +221,14 @@ const PlanDetail: FC = () => {
 
       {!isMobileRef.current ? (
         <Row className="icon-cards" gutter={24} justify="center" align="middle">
-          {iconCards.map(({ url, ...iconCard }, index) => (
+          {iconCards.map(({ url, isNewTabRedirection, ...iconCard }, index) => (
             <Col className="icon-card-col" key={`icon-card-col-${index}`} xs={24} sm={12} md={8} lg={6}>
-              <IconCard {...iconCard} onClick={plan ? () => redirect(url || NOT_FOUND) : undefined} />
+              <IconCard
+                {...iconCard}
+                onClick={
+                  plan && !iconCard.isDisabled ? () => redirectTo(url || NOT_FOUND, isNewTabRedirection) : undefined
+                }
+              />
             </Col>
           ))}
         </Row>

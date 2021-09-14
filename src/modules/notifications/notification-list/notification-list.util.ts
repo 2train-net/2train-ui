@@ -10,7 +10,9 @@ import {
   PLAN_INVITATION_ACCEPT_NOTIFICATION_TEXT,
   WORKOUT_ROUTINE_CREATE_NOTIFICATION_TEXT,
   WORKOUT_ROUTINE_UPDATE_NOTIFICATION_TEXT,
-  WORKOUT_EXERCISE_FEEDBACK_NOTIFICATION_TEXT
+  WORKOUT_EXERCISE_FEEDBACK_NOTIFICATION_TEXT,
+  DIET_PLAN_FILE_CREATE_NOTIFICATION_TEXT,
+  DIET_PLAN_FILE_UPDATE_NOTIFICATION_TEXT
 } from 'modules/notifications/shared/constants';
 
 import {
@@ -95,6 +97,22 @@ export const NOTIFICATION_TYPES: INotificationPropTypes = {
     userType: UserType.PersonalTrainer,
     isPlanNameVisible: false,
     url: WORKOUT_ROUTINE_DETAIL
+  },
+  [PlanActivityType.DietPlanFileCreate]: {
+    icon: 'paperClip',
+    color: '#2980B9',
+    description: DIET_PLAN_FILE_CREATE_NOTIFICATION_TEXT,
+    userType: UserType.PersonalTrainer,
+    isPlanNameVisible: false,
+    url: PLAN_DETAIL
+  },
+  [PlanActivityType.DietPlanFileUpdate]: {
+    icon: 'paperClip',
+    color: '#2980B9',
+    description: DIET_PLAN_FILE_UPDATE_NOTIFICATION_TEXT,
+    userType: UserType.PersonalTrainer,
+    isPlanNameVisible: false,
+    url: PLAN_DETAIL
   },
   [PlanActivityType.WorkoutExerciseFeedback]: {
     // TODO NOT IMPLEMENTED YET ON API

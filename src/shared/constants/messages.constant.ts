@@ -89,6 +89,7 @@ export const SECONDS_TEXT = 'segundos',
   LBS_TEXT = 'lbs';
 
 export const REQUIRED_EXCEPTION_TEXT = 'Requerido',
+  INVALID_VALUE_TEXT = 'Valor no valido',
   INVALID_EMAIL_EXCEPTION_TEXT = `${EMAIL_TEXT} invalido`,
   TOO_SHORT_EXCEPTION_TEXT = 'Se necesitan más caracteres',
   TOO_LONG_EXCEPTION_TEXT = 'Se necesitan menos caracteres',
@@ -104,3 +105,6 @@ export const REQUIRED_EXCEPTION_TEXT = 'Requerido',
 export const WRONG_CREDENTIALS_ERROR_TEXT = `${EMAIL_TEXT} ó ${PASSWORD_TEXT.toLowerCase()} incorrectos`;
 
 export const COPY_ON_CLIPBOARD_SUCCESSFULLY_TEXT = 'Copiado en el portapapeles correctamente';
+
+export const DRAG_FILE_TO_THIS_AREA_TEXT = 'Haga click o arrastre el archivo a esta área';
+export const FILE_EXTENSION_REQUIREMENT_TEXT = 'Actualmente solo se aceptan archivos de formato:';
