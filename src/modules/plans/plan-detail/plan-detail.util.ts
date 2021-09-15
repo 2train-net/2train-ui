@@ -70,6 +70,7 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
   const isClient = userType === UserType.Customer;
   const isPersonalTrainer = userType === UserType.PersonalTrainer;
   const isDietFileEnabled = isClient && !!plan?.dietPlan?.file;
+  const isAvailable = plan?.startAt && plan?.expireAt && DateService.isBetween(today, plan.startAt, plan.expireAt);
 
   const totalDays =
     plan && plan.startAt && plan.expireAt ? DateService.difference(plan.expireAt, plan.startAt, 'days') : undefined;
@@ -142,8 +143,8 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
       icon: 'thunderbolt',
       title: TRAINING_TEXT,
       buttonText: LOOK_TEXT,
-      url: `${TRAINING}`,
-      isDisabled: !plan?.workoutRoutine,
+      url: TRAINING,
+      isDisabled: !plan?.workoutRoutine || !isAvailable,
       isNewTabRedirection: false
     });
 

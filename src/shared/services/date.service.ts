@@ -32,6 +32,10 @@ export class DateService {
   parseDuration = (type: IntervalPlan): moment.unitOfTime.Diff => {
     return durationDictionary[type] as moment.unitOfTime.Diff;
   };
+
+  isBetween = (current: Date | string, start: Date | string, finish: Date | string) => {
+    return moment(current).isBetween(moment(start), moment(finish));
+  };
 }
 
 const instance = new DateService();
