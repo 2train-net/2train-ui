@@ -1,0 +1,12 @@
+mutation createBodyMeasure($data: BodyMeasureCreateInput!) {
+  payload: createBodyMeasure(data: $data) {
+    uuid
+    height
+    weight
+    frontBodyImage
+    backBodyImage
+    rightSideBodyImage
+    leftSideBodyImage
+    createdAt
+  }
+}

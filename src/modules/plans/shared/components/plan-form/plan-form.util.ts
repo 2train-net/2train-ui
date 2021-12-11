@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import { REQUIRED_EXCEPTION_TEXT } from 'shared/constants';
+import { NUMBER_TYPE_EXCEPTION_TEXT, REQUIRED_EXCEPTION_TEXT } from 'shared/constants';
 import { Currency, IntervalPlan, PlanStatus } from 'shared/generated';
 
 export enum PlanFocus {
@@ -25,11 +25,15 @@ export interface IPlanFormValues {
 export const PLAN_FORM_SCHEMA = Yup.object().shape({
   name: Yup.string().required(REQUIRED_EXCEPTION_TEXT),
   description: Yup.string().required(REQUIRED_EXCEPTION_TEXT),
-  price: Yup.number().required(REQUIRED_EXCEPTION_TEXT),
+  price: Yup.number()
+    .typeError(NUMBER_TYPE_EXCEPTION_TEXT)
+    .required(REQUIRED_EXCEPTION_TEXT),
   currency: Yup.mixed<Currency>()
     .oneOf([Currency.Crc, Currency.Us])
     .required(REQUIRED_EXCEPTION_TEXT),
-  intervalCount: Yup.number().required(REQUIRED_EXCEPTION_TEXT),
+  intervalCount: Yup.number()
+    .typeError(NUMBER_TYPE_EXCEPTION_TEXT)
+    .required(REQUIRED_EXCEPTION_TEXT),
   intervalPlan: Yup.mixed<IntervalPlan>()
     .oneOf([IntervalPlan.Day, IntervalPlan.Week, IntervalPlan.Month, IntervalPlan.Year])
     .required(REQUIRED_EXCEPTION_TEXT),

@@ -2,6 +2,8 @@ import React, { FC } from 'react';
 
 import { Button as ADButton } from 'antd';
 
+import { FormId } from 'shared/model';
+
 import useStyles from './button.style';
 
 export type ButtonColor = 'primary' | 'secondary' | 'danger' | 'warning' | 'success' | 'info' | 'default';
@@ -11,6 +13,7 @@ export type ButtonType = 'submit' | 'button' | 'reset';
 
 interface IButton {
   children: any;
+  form?: FormId;
   color?: ButtonColor;
   variant?: ButtonVariant;
   fullWidth?: boolean;
@@ -23,6 +26,7 @@ interface IButton {
 
 const Button: FC<IButton> = ({
   children,
+  form,
   type = 'submit',
   color = 'primary',
   variant = 'contained',
@@ -42,6 +46,7 @@ const Button: FC<IButton> = ({
       block={fullWidth}
       disabled={disabled}
       loading={loading}
+      form={form}
     >
       {loading ? '' : children}
     </ADButton>

@@ -84,8 +84,10 @@ const DietPlanUpdate: FC = () => {
       ]}
     >
       <Row gutter={24} className="form-content">
-        <Col span={12}>{dietPlanFile && <iframe src={dietPlanFile} />}</Col>
-        <Col span={12}>
+        <Col xs={24} md={12}>
+          {dietPlanFile && <iframe src={dietPlanFile} />}
+        </Col>
+        <Col xs={24} md={12}>
           <UploadDragger
             name="fileBase64"
             error={errors.fileBase64}

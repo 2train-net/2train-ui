@@ -26,7 +26,7 @@ export const PROFILE = '/profile';
 export const SETTINGS = '/settings';
 
 export const CLIENTS = '/clients';
-export const CLIENT_DETAIL = `${CLIENTS}/${DETAIL}/:${UUID}`;
+export const CLIENT_DETAIL = `${CLIENTS}/${DETAIL}/${UUID_PARAM}`;
 
 export const TRANSACTIONS = '/transactions';
 
@@ -34,42 +34,42 @@ export const SUPPLIES = '/supplies';
 
 export const PLANS = '/plans';
 export const PLAN_ADD = `${PLANS}/${ADD}`;
-export const PLAN_EDIT = `${PLANS}/${EDIT}/:${UUID}`;
-export const PLAN_DETAIL = `${PLANS}/${DETAIL}/:${UUID}`;
-export const PLAN_DELETE = `${PLANS}/${DELETE}/:${UUID}`;
-export const PLAN_INVITE = `${PLANS}/${INVITE}/:${UUID}`;
+export const PLAN_EDIT = `${PLANS}/${EDIT}/${UUID_PARAM}`;
+export const PLAN_DETAIL = `${PLANS}/${DETAIL}/${UUID_PARAM}`;
+export const PLAN_DELETE = `${PLANS}/${DELETE}/${UUID_PARAM}`;
+export const PLAN_INVITE = `${PLANS}/${INVITE}/${UUID_PARAM}`;
 
 export const PLAN_INVITATIONS = '/plan-invitations';
-export const PLAN_INVITATION_ACCEPT = `${PLAN_INVITATIONS}/${INVITE}/:${UUID}`;
+export const PLAN_INVITATION_ACCEPT = `${PLAN_INVITATIONS}/${INVITE}/${UUID_PARAM}`;
 
 export const EXERCISES = '/exercises';
 export const EXERCISE_ADD = `${EXERCISES}/${ADD}`;
-export const EXERCISE_EDIT = `${EXERCISES}/${EDIT}/:${UUID}`;
-export const EXERCISE_DETAIL = `${EXERCISES}/${DETAIL}/:${UUID}`;
-export const EXERCISE_DELETE = `${EXERCISES}/${DELETE}/:${UUID}`;
+export const EXERCISE_EDIT = `${EXERCISES}/${EDIT}/${UUID_PARAM}`;
+export const EXERCISE_DETAIL = `${EXERCISES}/${DETAIL}/${UUID_PARAM}`;
+export const EXERCISE_DELETE = `${EXERCISES}/${DELETE}/${UUID_PARAM}`;
 
 export const BODY_MEASURES = '/body-measures';
 export const BODY_MEASURE_ADD = `${BODY_MEASURES}/${ADD}`;
-export const BODY_MEASURE_EDIT = `${BODY_MEASURES}/${EDIT}/:${UUID}`;
-export const BODY_MEASURE_DETAIL = `${BODY_MEASURES}/${DETAIL}/:${UUID}`;
+export const BODY_MEASURES_BY_PLAN = `${BODY_MEASURES}?&${UUID}=${UUID_PARAM}`;
+export const BODY_MEASURE_ADD_BY_PLAN = `${BODY_MEASURE_ADD}?&${UUID}=${UUID_PARAM}`;
 
 export const WORKOUTS = '/workouts';
 export const WORKOUT_ADD = `${WORKOUTS}/${ADD}`;
 
 export const WORKOUT_ROUTINES = '/workout-routines';
 export const WORKOUT_ROUTINE_ADD = `${WORKOUT_ROUTINES}/${ADD}`;
-export const WORKOUT_ROUTINE_EDIT = `${WORKOUT_ROUTINES}/${EDIT}/:${UUID}`;
-export const WORKOUT_ROUTINE_DELETE = `${WORKOUT_ROUTINES}/${DELETE}/:${UUID}`;
-export const WORKOUT_ROUTINE_DETAIL = `${WORKOUT_ROUTINES}/${DETAIL}/:${UUID}`;
+export const WORKOUT_ROUTINE_EDIT = `${WORKOUT_ROUTINES}/${EDIT}/${UUID_PARAM}`;
+export const WORKOUT_ROUTINE_DELETE = `${WORKOUT_ROUTINES}/${DELETE}/${UUID_PARAM}`;
+export const WORKOUT_ROUTINE_DETAIL = `${WORKOUT_ROUTINES}/${DETAIL}/${UUID_PARAM}`;
 
 export const DIET_PLANS = '/diet-plans';
-export const DIET_PLAN_EDIT = `${DIET_PLANS}/${EDIT}/:${UUID}`;
+export const DIET_PLAN_EDIT = `${DIET_PLANS}/${EDIT}/${UUID_PARAM}`;
 
 export const MEALS = '/meals';
 export const MEAL_ADD = `${MEALS}/${ADD}`;
-export const MEAL_EDIT = `${MEALS}/${EDIT}/:${UUID}`;
-export const MEAL_DELETE = `${MEALS}/${DELETE}/:${UUID}`;
+export const MEAL_EDIT = `${MEALS}/${EDIT}/${UUID_PARAM}`;
+export const MEAL_DELETE = `${MEALS}/${DELETE}/${UUID_PARAM}`;
 
 export const TRAINING = '/training';
 export const TRAINING_WORKOUT = `${TRAINING}/${WORKOUT}/:${DAY}`;
-export const TRAINING_DETAIL = `${TRAINING}/${DETAIL}/:${UUID}`;
+export const TRAINING_DETAIL = `${TRAINING}/${DETAIL}/${UUID_PARAM}`;

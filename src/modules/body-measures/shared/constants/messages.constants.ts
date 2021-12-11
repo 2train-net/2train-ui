@@ -1,0 +1,9 @@
+export const BODY_MEASURE_LIST_TITLE = 'Imagenes corporales';
+export const HEIGHT_TEXT = 'Altura';
+export const WEIGHT_TEXT = 'Peso';
+export const HEIGHT_MEASURE_TEXT = 'cm';
+export const WEIGHT_MEASURE_TEXT = 'Kg';
+export const FRONT_BODY_IMAGE_TEXT = 'Frontal';
+export const BACK_BODY_IMAGE_TEXT = 'Reverso';
+export const RIGHT_SIDE_IMAGE_TEXT = 'Lateral derecho';
+export const LEFT_SIDE_IMAGE_TEXT = 'Lateral izquierdo';

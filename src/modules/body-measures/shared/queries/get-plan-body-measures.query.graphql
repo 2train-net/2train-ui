@@ -1,0 +1,12 @@
+query getPlanBodyMeasures($where: BodyMeasureWhereInput!) {
+  payload: bodyMeasures(where: $where, orderBy: { createdAt: DESC }) {
+    uuid
+    height
+    weight
+    frontBodyImage
+    backBodyImage
+    rightSideBodyImage
+    leftSideBodyImage
+    createdAt
+  }
+}

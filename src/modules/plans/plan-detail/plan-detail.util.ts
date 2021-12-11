@@ -1,7 +1,16 @@
 import { IIconCard } from 'shared/modules/icon-card/icon-card.component';
 
 import { DateService, PlanService } from 'shared/services';
-import { ADD, DETAIL, DIET_PLANS, EDIT, TRAINING, WORKOUT_ROUTINES } from 'shared/routes';
+import {
+  ADD,
+  DETAIL,
+  UUID_PARAM,
+  DIET_PLANS,
+  EDIT,
+  TRAINING,
+  WORKOUT_ROUTINES,
+  BODY_MEASURES_BY_PLAN
+} from 'shared/routes';
 import { Currency, PlanStatus, Scope, UserType } from 'shared/generated';
 import { DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT } from 'shared/constants';
 import {
@@ -70,7 +79,7 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
   const isClient = userType === UserType.Customer;
   const isPersonalTrainer = userType === UserType.PersonalTrainer;
   const isDietFileEnabled = isClient && !!plan?.dietPlan?.file;
-  const isAvailable = plan?.startAt && plan?.expireAt && DateService.isBetween(today, plan.startAt, plan.expireAt);
+  const isAvailable = !!(plan?.startAt && plan?.expireAt && DateService.isBetween(today, plan.startAt, plan.expireAt));
 
   const totalDays =
     plan && plan.startAt && plan.expireAt ? DateService.difference(plan.expireAt, plan.startAt, 'days') : undefined;
@@ -133,7 +142,14 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
       isDisabled: isPersonalTrainer ? !plan?.dietPlan : !isDietFileEnabled,
       isNewTabRedirection: isClient
     },
-    { icon: 'heart', title: BODY_MEASURES_TEXT, buttonText: LOOK_TEXT, isDisabled: true, isNewTabRedirection: false },
+    {
+      icon: 'heart',
+      title: BODY_MEASURES_TEXT,
+      url: plan && BODY_MEASURES_BY_PLAN.replace(UUID_PARAM, plan?.uuid),
+      buttonText: LOOK_TEXT,
+      isDisabled: !plan,
+      isNewTabRedirection: false
+    },
     { icon: 'lineChart', title: STATISTICS_TEXT, buttonText: LOOK_TEXT, isDisabled: true, isNewTabRedirection: false },
     { icon: 'chat', title: CHAT_TEXT, buttonText: LOOK_TEXT, isDisabled: true, isNewTabRedirection: false }
   ];

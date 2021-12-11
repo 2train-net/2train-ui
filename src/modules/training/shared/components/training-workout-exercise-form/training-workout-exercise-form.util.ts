@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { REQUIRED_EXCEPTION_TEXT } from 'shared/constants';
+import { NUMBER_TYPE_EXCEPTION_TEXT, REQUIRED_EXCEPTION_TEXT } from 'shared/constants';
 
 export enum TrainingWorkoutExerciseFocus {
   SETS,
@@ -19,11 +19,19 @@ export interface ITrainingWorkoutExerciseFormValues {
 
 export const TRAINING_WORKOUT_EXERCISE_FORM_SCHEMA = Yup.object().shape({
   workoutExercise: Yup.object().shape({
-    sets: Yup.number().required(REQUIRED_EXCEPTION_TEXT),
-    reps: Yup.number().required(REQUIRED_EXCEPTION_TEXT),
-    weight: Yup.number().required(REQUIRED_EXCEPTION_TEXT)
+    sets: Yup.number()
+      .typeError(NUMBER_TYPE_EXCEPTION_TEXT)
+      .required(REQUIRED_EXCEPTION_TEXT),
+    reps: Yup.number()
+      .typeError(NUMBER_TYPE_EXCEPTION_TEXT)
+      .required(REQUIRED_EXCEPTION_TEXT),
+    weight: Yup.number()
+      .typeError(NUMBER_TYPE_EXCEPTION_TEXT)
+      .required(REQUIRED_EXCEPTION_TEXT)
   }),
-  focus: Yup.number().required('Required')
+  focus: Yup.number()
+    .typeError(NUMBER_TYPE_EXCEPTION_TEXT)
+    .required('Required')
 });
 
 export const INITIAL_TRAINING_WORKOUT_EXERCISE_FORM_VALUES: ITrainingWorkoutExerciseFormValues = {

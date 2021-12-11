@@ -20,6 +20,7 @@ interface IField {
   allowsNegative?: boolean;
   placeholder?: string;
   autoComplete?: string;
+  isRequired?: boolean;
   isDisabled?: boolean;
   hasBeenTouched?: boolean;
   clearable?: boolean;
@@ -44,6 +45,7 @@ const Field: FC<IField> = ({
   placeholder,
   autoComplete,
   isDisabled,
+  isRequired,
   hasBeenTouched,
   clearable = false,
   onChange
@@ -70,6 +72,7 @@ const Field: FC<IField> = ({
       help={!!error && hasBeenTouched ? error : null}
       hasFeedback={hasBeenTouched}
       className="field-item"
+      required={isRequired}
     >
       <SelectedInput
         allowClear={clearable}

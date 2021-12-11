@@ -43,7 +43,6 @@ export const OPTIONS: IOption[] = [
   { route: CLIENTS, title: CLIENTS_TEXT, icon: 'team' },
   { route: TRANSACTIONS, title: TRANSACTIONS_TEXT, icon: 'dollar' },
   { route: WORKOUT_ROUTINES, title: WORKOUT_ROUTINES_TEXT, icon: 'file' },
-  { route: BODY_MEASURES, title: BODY_MEASURES_TEXT, icon: 'heart' },
   { route: MEALS, title: MEALS_TEXT, icon: 'read' },
   { route: EXERCISES, title: EXERCISES_TEXT, icon: 'rise' },
   { route: PLAN_INVITATIONS, title: PLAN_INVITATIONS_TEXT, icon: 'mail' },

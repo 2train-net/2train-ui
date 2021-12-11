@@ -16,6 +16,52 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type BodyMeasure = {
+  __typename?: 'BodyMeasure';
+  id: Scalars['Int'];
+  uuid: Scalars['String'];
+  planId: Scalars['Int'];
+  height: Scalars['Int'];
+  weight: Scalars['Int'];
+  frontBodyImage?: Maybe<Scalars['String']>;
+  backBodyImage?: Maybe<Scalars['String']>;
+  rightSideBodyImage?: Maybe<Scalars['String']>;
+  leftSideBodyImage?: Maybe<Scalars['String']>;
+  plan: Plan;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type BodyMeasureCreateInput = {
+  height: Scalars['Int'];
+  weight: Scalars['Int'];
+  frontBodyBase64?: Maybe<Scalars['String']>;
+  backBodyBase64?: Maybe<Scalars['String']>;
+  rightSideBodyBase64?: Maybe<Scalars['String']>;
+  leftSideBodyBase64?: Maybe<Scalars['String']>;
+  plan: PlanCreateOneWithoutBodyMeasureInput;
+};
+
+export type BodyMeasureOrderByInput = {
+  id?: Maybe<OrderByArg>;
+  uuid?: Maybe<OrderByArg>;
+  createdAt?: Maybe<OrderByArg>;
+  updatedAt?: Maybe<OrderByArg>;
+};
+
+export type BodyMeasureWhereInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  plan?: Maybe<PlanWhereInput>;
+};
+
+export type BodyMeasureWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+};
+
 export type Client = {
   __typename?: 'Client';
   id: Scalars['Int'];
@@ -378,6 +424,7 @@ export type Mutation = {
   updatePlanActivity: PlanActivity;
   cleanNewPlanActivities: Array<PlanActivity>;
   readAllPlanActivities: Array<PlanActivity>;
+  createBodyMeasure: BodyMeasure;
 };
 
 export type MutationCreateUserArgs = {
@@ -498,6 +545,10 @@ export type MutationUpdatePlanActivityArgs = {
   data: PlanActivityUpdateInput;
 };
 
+export type MutationCreateBodyMeasureArgs = {
+  data: BodyMeasureCreateInput;
+};
+
 export enum OrderByArg {
   Asc = 'ASC',
   Desc = 'DESC'
@@ -524,6 +575,7 @@ export type Plan = {
   workoutRoutine?: Maybe<WorkoutRoutine>;
   planAssociations: Array<PlanAssociation>;
   purchasedPlans: Array<Plan>;
+  bodyMeasures: Array<BodyMeasure>;
   purchasePlan?: Maybe<Plan>;
   owner: User;
   createdAt: Scalars['DateTime'];
@@ -556,7 +608,7 @@ export enum PlanActivityType {
   WorkoutRoutineUpdate = 'WORKOUT_ROUTINE_UPDATE',
   DietPlanFileCreate = 'DIET_PLAN_FILE_CREATE',
   DietPlanFileUpdate = 'DIET_PLAN_FILE_UPDATE',
-  WorkoutExerciseFeedback = 'WORKOUT_EXERCISE_FEEDBACK'
+  BodyMeasureCreate = 'BODY_MEASURE_CREATE'
 }
 
 export type PlanActivityUpdateInput = {
@@ -599,6 +651,10 @@ export type PlanCreateInput = {
   status: PlanStatus;
   isDietPlanEnabled: Scalars['Boolean'];
   isExercisesPlanEnabled: Scalars['Boolean'];
+};
+
+export type PlanCreateOneWithoutBodyMeasureInput = {
+  connect: PlanWhereUniqueInput;
 };
 
 export type PlanCreateOneWithoutPlanInvitationInput = {
@@ -722,6 +778,8 @@ export type Query = {
   training?: Maybe<Training>;
   publicUser?: Maybe<PublicUser>;
   planActivities: Array<PlanActivity>;
+  bodyMeasure: BodyMeasure;
+  bodyMeasures: Array<BodyMeasure>;
 };
 
 export type QueryUserArgs = {
@@ -869,6 +927,18 @@ export type QueryPlanActivitiesArgs = {
   take?: Maybe<Scalars['Int']>;
   cursor?: Maybe<PlanActivityWhereUniqueInput>;
   where?: Maybe<PlanActivityWhereInput>;
+};
+
+export type QueryBodyMeasureArgs = {
+  where: BodyMeasureWhereUniqueInput;
+};
+
+export type QueryBodyMeasuresArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<BodyMeasureWhereUniqueInput>;
+  orderBy?: Maybe<BodyMeasureOrderByInput>;
+  where?: Maybe<BodyMeasureWhereInput>;
 };
 
 export enum Scope {
@@ -1131,6 +1201,44 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation' } & {
   createUser: { __typename?: 'User' } & Pick<User, 'id'>;
+};
+
+export type CreateBodyMeasureMutationVariables = Exact<{
+  data: BodyMeasureCreateInput;
+}>;
+
+export type CreateBodyMeasureMutation = { __typename?: 'Mutation' } & {
+  payload: { __typename?: 'BodyMeasure' } & Pick<
+    BodyMeasure,
+    | 'uuid'
+    | 'height'
+    | 'weight'
+    | 'frontBodyImage'
+    | 'backBodyImage'
+    | 'rightSideBodyImage'
+    | 'leftSideBodyImage'
+    | 'createdAt'
+  >;
+};
+
+export type GetPlanBodyMeasuresQueryVariables = Exact<{
+  where: BodyMeasureWhereInput;
+}>;
+
+export type GetPlanBodyMeasuresQuery = { __typename?: 'Query' } & {
+  payload: Array<
+    { __typename?: 'BodyMeasure' } & Pick<
+      BodyMeasure,
+      | 'uuid'
+      | 'height'
+      | 'weight'
+      | 'frontBodyImage'
+      | 'backBodyImage'
+      | 'rightSideBodyImage'
+      | 'leftSideBodyImage'
+      | 'createdAt'
+    >
+  >;
 };
 
 export type GetClientQueryVariables = Exact<{
@@ -1691,6 +1799,109 @@ export type CreateUserMutationResult = ApolloReactCommon.MutationResult<CreateUs
 export type CreateUserMutationOptions = ApolloReactCommon.BaseMutationOptions<
   CreateUserMutation,
   CreateUserMutationVariables
+>;
+export const CreateBodyMeasureDocument = gql`
+  mutation createBodyMeasure($data: BodyMeasureCreateInput!) {
+    payload: createBodyMeasure(data: $data) {
+      uuid
+      height
+      weight
+      frontBodyImage
+      backBodyImage
+      rightSideBodyImage
+      leftSideBodyImage
+      createdAt
+    }
+  }
+`;
+export type CreateBodyMeasureMutationFn = ApolloReactCommon.MutationFunction<
+  CreateBodyMeasureMutation,
+  CreateBodyMeasureMutationVariables
+>;
+
+/**
+ * __useCreateBodyMeasureMutation__
+ *
+ * To run a mutation, you first call `useCreateBodyMeasureMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateBodyMeasureMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createBodyMeasureMutation, { data, loading, error }] = useCreateBodyMeasureMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateBodyMeasureMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<CreateBodyMeasureMutation, CreateBodyMeasureMutationVariables>
+) {
+  return ApolloReactHooks.useMutation<CreateBodyMeasureMutation, CreateBodyMeasureMutationVariables>(
+    CreateBodyMeasureDocument,
+    baseOptions
+  );
+}
+export type CreateBodyMeasureMutationHookResult = ReturnType<typeof useCreateBodyMeasureMutation>;
+export type CreateBodyMeasureMutationResult = ApolloReactCommon.MutationResult<CreateBodyMeasureMutation>;
+export type CreateBodyMeasureMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  CreateBodyMeasureMutation,
+  CreateBodyMeasureMutationVariables
+>;
+export const GetPlanBodyMeasuresDocument = gql`
+  query getPlanBodyMeasures($where: BodyMeasureWhereInput!) {
+    payload: bodyMeasures(where: $where, orderBy: { createdAt: DESC }) {
+      uuid
+      height
+      weight
+      frontBodyImage
+      backBodyImage
+      rightSideBodyImage
+      leftSideBodyImage
+      createdAt
+    }
+  }
+`;
+
+/**
+ * __useGetPlanBodyMeasuresQuery__
+ *
+ * To run a query within a React component, call `useGetPlanBodyMeasuresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPlanBodyMeasuresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPlanBodyMeasuresQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useGetPlanBodyMeasuresQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<GetPlanBodyMeasuresQuery, GetPlanBodyMeasuresQueryVariables>
+) {
+  return ApolloReactHooks.useQuery<GetPlanBodyMeasuresQuery, GetPlanBodyMeasuresQueryVariables>(
+    GetPlanBodyMeasuresDocument,
+    baseOptions
+  );
+}
+export function useGetPlanBodyMeasuresLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetPlanBodyMeasuresQuery, GetPlanBodyMeasuresQueryVariables>
+) {
+  return ApolloReactHooks.useLazyQuery<GetPlanBodyMeasuresQuery, GetPlanBodyMeasuresQueryVariables>(
+    GetPlanBodyMeasuresDocument,
+    baseOptions
+  );
+}
+export type GetPlanBodyMeasuresQueryHookResult = ReturnType<typeof useGetPlanBodyMeasuresQuery>;
+export type GetPlanBodyMeasuresLazyQueryHookResult = ReturnType<typeof useGetPlanBodyMeasuresLazyQuery>;
+export type GetPlanBodyMeasuresQueryResult = ApolloReactCommon.QueryResult<
+  GetPlanBodyMeasuresQuery,
+  GetPlanBodyMeasuresQueryVariables
 >;
 export const GetClientDocument = gql`
   query getClient($where: ClientWhereUniqueInput!) {

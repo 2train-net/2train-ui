@@ -7,7 +7,7 @@ import Home from 'modules/home/home.module';
 import Auth from 'modules/auth/auth.module';
 import Profile from 'modules/profile/profile.module';
 import Plans from 'modules/plans/plans.module';
-import BodyMeasure from 'modules/body-measure/body-measure.module';
+import BodyMeasures from 'modules/body-measures/body-measures.module';
 import Exercises from 'modules/exercises/exercises.module';
 import DietPlans from 'modules/diet-plans/diet-plans.module';
 import WorkoutRoutines from 'modules/workout-routines/workout-routines.module';
@@ -57,7 +57,7 @@ const App: FC = () => {
               <Route path={PLANS} component={Plans} />
               <Route path={PLAN_INVITATIONS} component={PlanInvitations} />
               <Route path={EXERCISES} component={Exercises} />
-              <Route path={BODY_MEASURES} component={BodyMeasure} />
+              <Route path={BODY_MEASURES} component={BodyMeasures} />
               <Route path={CLIENTS} component={Clients} />
               <Route path={WORKOUTS} component={Workouts} />
               <Route path={MEALS} component={Meals} />

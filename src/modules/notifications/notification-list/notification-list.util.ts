@@ -10,18 +10,19 @@ import {
   PLAN_INVITATION_ACCEPT_NOTIFICATION_TEXT,
   WORKOUT_ROUTINE_CREATE_NOTIFICATION_TEXT,
   WORKOUT_ROUTINE_UPDATE_NOTIFICATION_TEXT,
-  WORKOUT_EXERCISE_FEEDBACK_NOTIFICATION_TEXT,
   DIET_PLAN_FILE_CREATE_NOTIFICATION_TEXT,
-  DIET_PLAN_FILE_UPDATE_NOTIFICATION_TEXT
+  DIET_PLAN_FILE_UPDATE_NOTIFICATION_TEXT,
+  BODY_MEASURE_CREATE_NOTIFICATION_TEXT
 } from 'modules/notifications/shared/constants';
 
 import {
   NOT_FOUND,
+  UUID_PARAM,
   CLIENT_DETAIL,
   PLAN_DETAIL,
   PLAN_INVITATIONS,
   WORKOUT_ROUTINE_DETAIL,
-  UUID_PARAM
+  BODY_MEASURES_BY_PLAN
 } from 'shared/routes';
 import { PlanActivityType, UserType, DocumentAssociation } from 'shared/generated';
 import { INotificationItem } from 'modules/notifications/shared/components/notification-item/notification-item.component';
@@ -114,14 +115,13 @@ export const NOTIFICATION_TYPES: INotificationPropTypes = {
     isPlanNameVisible: false,
     url: PLAN_DETAIL
   },
-  [PlanActivityType.WorkoutExerciseFeedback]: {
-    // TODO NOT IMPLEMENTED YET ON API
-    icon: 'megaphone',
-    color: '#8E44AD',
-    description: WORKOUT_EXERCISE_FEEDBACK_NOTIFICATION_TEXT,
+  [PlanActivityType.BodyMeasureCreate]: {
+    icon: 'heart',
+    color: '#B92938',
+    description: BODY_MEASURE_CREATE_NOTIFICATION_TEXT,
     userType: UserType.Customer,
     isPlanNameVisible: false,
-    url: '/'
+    url: BODY_MEASURES_BY_PLAN
   }
 };
 
@@ -134,7 +134,7 @@ export const getNotificationProps = (type: PlanActivityType, activity: IPlanActi
       : activity.plan?.planAssociations?.find(({ association }) => association === DocumentAssociation.Manager)?.user;
 
   const uuid =
-    url === PLAN_DETAIL
+    url === PLAN_DETAIL || url === BODY_MEASURES_BY_PLAN
       ? activity.plan.uuid
       : url === WORKOUT_ROUTINE_DETAIL
       ? activity.plan.workoutRoutine?.uuid

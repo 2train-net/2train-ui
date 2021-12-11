@@ -4,7 +4,8 @@ import { Form } from 'antd';
 import Dragger from 'antd/lib/upload/Dragger';
 
 import { Icon } from 'shared/modules';
-import { DRAG_FILE_TO_THIS_AREA_TEXT, FILE_EXTENSION_REQUIREMENT_TEXT } from 'shared/constants';
+import { PDF_FORMAT, DRAG_FILE_TO_THIS_AREA_TEXT, FILE_EXTENSION_REQUIREMENT_TEXT } from 'shared/constants';
+import { IconType } from 'shared/modules/icon/icon.component';
 
 import useStyles from './upload-dragger.style';
 
@@ -14,6 +15,9 @@ const MAX_COUNT_OF_ATTACHED_FILES = 1;
 
 interface IUploadDragger {
   name: string;
+  icon?: IconType;
+  title?: string;
+  description?: string;
   error?: string;
   format?: string;
   className?: string;
@@ -24,7 +28,10 @@ interface IUploadDragger {
 
 const UploadDragger: FC<IUploadDragger> = ({
   name,
-  format = '.pdf',
+  icon = 'inbox',
+  format = PDF_FORMAT,
+  title = DRAG_FILE_TO_THIS_AREA_TEXT,
+  description = `${FILE_EXTENSION_REQUIREMENT_TEXT} ${format}`,
   error,
   className,
   isDisabled,
@@ -66,10 +73,10 @@ const UploadDragger: FC<IUploadDragger> = ({
         maxCount={MAX_COUNT_OF_ATTACHED_FILES}
       >
         <p className="ant-upload-drag-icon">
-          <Icon type="inbox" />
+          <Icon type={icon} />
         </p>
-        <p className="ant-upload-text">{DRAG_FILE_TO_THIS_AREA_TEXT}</p>
-        <p className="ant-upload-hint">{`${FILE_EXTENSION_REQUIREMENT_TEXT} ${format}`}</p>
+        <p className="ant-upload-text">{title}</p>
+        <p className="ant-upload-hint">{description}</p>
       </Dragger>
     </Item>
   );
