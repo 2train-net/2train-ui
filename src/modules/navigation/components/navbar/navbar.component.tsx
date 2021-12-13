@@ -25,11 +25,15 @@ const Navbar: FC<INavbar> = ({ handleOpenDrawer }) => {
   );
 
   const notificationHeader = <NotificationHeader readAllNotifications={readAllNotifications} />;
-  const notificationButton = <Button shape="circle" icon={<Icon type="bell" />} onClick={clearNewNotifications} />;
+  const notificationButton = (
+    <Button shape="circle" className="nav-item" icon={<Icon type="bell" />} onClick={clearNewNotifications} />
+  );
 
   return (
     <div className={classes.root}>
       <Icon type="menu" className="menu-icon" onClick={handleOpenDrawer} />
+
+      <Button shape="circle" className="nav-item" icon={<Icon type="chat" />} disabled />
 
       <Popover
         visible={isOpen}

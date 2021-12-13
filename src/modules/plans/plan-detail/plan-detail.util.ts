@@ -23,8 +23,7 @@ import {
   DIET_TEXT,
   BODY_MEASURES_TEXT,
   TRAINING_TEXT,
-  STATISTICS_TEXT,
-  CHAT_TEXT
+  STATISTICS_TEXT
 } from 'shared/constants';
 
 interface IPlanDetail {
@@ -150,8 +149,7 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
       isDisabled: !plan,
       isNewTabRedirection: false
     },
-    { icon: 'lineChart', title: STATISTICS_TEXT, buttonText: LOOK_TEXT, isDisabled: true, isNewTabRedirection: false },
-    { icon: 'chat', title: CHAT_TEXT, buttonText: LOOK_TEXT, isDisabled: true, isNewTabRedirection: false }
+    { icon: 'lineChart', title: STATISTICS_TEXT, buttonText: LOOK_TEXT, isDisabled: true, isNewTabRedirection: false }
   ];
 
   isClient &&
