@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -9,7 +9,8 @@ import ExerciseForm from 'modules/exercises/shared/components/exercise-form/exer
 import { IExerciseFormValues } from 'modules/exercises/shared/components/exercise-form/exercise-form.util';
 
 import { EXERCISES } from 'shared/routes';
-import { FormPage, Message } from 'shared/modules';
+import { FormPage } from 'shared/modules';
+import { useErrorHandler } from 'shared/hooks';
 import {
   GetAllExercisesDocument,
   GetAllExercisesQuery,
@@ -20,6 +21,8 @@ const ExerciseCreate: FC = () => {
   const history = useHistory();
 
   const [createExercise, { loading, error }] = useCreateExerciseMutation();
+
+  useErrorHandler(error);
 
   const redirectToExercises = () => {
     history.push(EXERCISES);
@@ -46,12 +49,6 @@ const ExerciseCreate: FC = () => {
       }
     } catch (error) {}
   };
-
-  useEffect(() => {
-    if (error) {
-      Message.error(error.graphQLErrors[0].message);
-    }
-  }, [error]);
 
   return (
     <FormPage title={CREATE_EXERCISE_TITLE}>

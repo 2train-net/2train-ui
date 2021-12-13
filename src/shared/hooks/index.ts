@@ -1,3 +1,3 @@
-import useDidUpdateEffect from './use-did-update-effect.hook';
+import useErrorHandler from './apollo-error-handler.hook';
 
-export { useDidUpdateEffect };
+export { useErrorHandler };

@@ -15,6 +15,7 @@ import {
 } from 'modules/plans/plans.module';
 
 import { getIsMobile } from 'shared/util';
+import { useErrorHandler } from 'shared/hooks';
 import { AuthContext, ModalContext } from 'shared/contexts';
 import { DateService, UserService } from 'shared/services';
 import { UUID_PARAM, CLIENT_DETAIL, NOT_FOUND, PLANS, PROFILE, PLAN_DETAIL } from 'shared/routes';
@@ -48,6 +49,8 @@ const PlanDetail: FC = () => {
       where
     }
   });
+
+  useErrorHandler(error);
 
   const [isMobile, _setIsMobile] = useState(getIsMobile());
 
@@ -151,12 +154,6 @@ const PlanDetail: FC = () => {
       window.removeEventListener('resize', handleResize, false);
     };
   }, []);
-
-  useEffect(() => {
-    if (error) {
-      Message.error(error.graphQLErrors[0].message);
-    }
-  }, [error]);
 
   const ownerFullName = owner && (
     <Skeleton isLoading={loading} type="input" size="small">

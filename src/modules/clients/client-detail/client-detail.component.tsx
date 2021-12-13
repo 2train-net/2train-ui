@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
 import { Redirect, useHistory, useRouteMatch } from 'react-router-dom';
 
@@ -6,8 +6,9 @@ import { Row, Col, Card } from 'antd';
 
 import { ProfileDetail } from 'modules/profile/profile.module';
 
+import { ItemListTab } from 'shared/modules';
+import { useErrorHandler } from 'shared/hooks';
 import { DETAIL, NOT_FOUND, PLANS } from 'shared/routes';
-import { ItemListTab, Message } from 'shared/modules';
 import { UserService, DateService } from 'shared/services';
 import {
   BIRTHDAY_TEXT,
@@ -42,11 +43,7 @@ const ClientDetail: FC = () => {
   const client = data?.payload;
   const notFound = !data?.payload && !loading;
 
-  useEffect(() => {
-    if (error) {
-      Message.error(error.graphQLErrors[0].message);
-    }
-  }, [error]);
+  useErrorHandler(error);
 
   return notFound ? (
     <Redirect to={NOT_FOUND} />

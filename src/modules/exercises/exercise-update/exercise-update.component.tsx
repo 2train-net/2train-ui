@@ -1,14 +1,15 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
 import { Redirect } from 'react-router';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import { ExerciseForm, IExerciseFormValues, UPDATE_EXERCISE_TITLE } from 'modules/exercises/exercises.module';
 
-import { FormPage, Message } from 'shared/modules';
+import { FormPage } from 'shared/modules';
 import { EXERCISES, NOT_FOUND } from 'shared/routes';
-import { GetExerciseDocument, useUpdateExerciseMutation, useGetExerciseQuery } from 'shared/generated';
 import { objectDifferences } from 'shared/util';
+import { useErrorHandler } from 'shared/hooks';
+import { GetExerciseDocument, useUpdateExerciseMutation, useGetExerciseQuery } from 'shared/generated';
 
 const ExerciseUpdate: FC = () => {
   const history = useHistory();
@@ -25,6 +26,10 @@ const ExerciseUpdate: FC = () => {
       where
     }
   });
+
+  const { error } = exercisePayload || updateExercisePayload;
+
+  useErrorHandler(error);
 
   const notFound = !exercisePayload.data?.payload && !exercisePayload.loading;
 
@@ -57,14 +62,6 @@ const ExerciseUpdate: FC = () => {
       }
     } catch (error) {}
   };
-
-  useEffect(() => {
-    const { error } = exercisePayload || updateExercisePayload;
-
-    if (error) {
-      Message.error(error.graphQLErrors[0].message);
-    }
-  }, [exercisePayload.error, updateExercisePayload.error]);
 
   return notFound ? (
     <Redirect to={NOT_FOUND} />

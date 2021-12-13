@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -7,13 +7,16 @@ import { CREATE_PLAN_TITLE, PlanForm } from 'modules/plans/plans.module';
 import { IPlanFormValues, parsePlanFocusToFlags } from 'modules/plans/shared/components/plan-form/plan-form.util';
 
 import { PLANS } from 'shared/routes';
-import { FormPage, Message } from 'shared/modules';
+import { FormPage } from 'shared/modules';
+import { useErrorHandler } from 'shared/hooks';
 import { useCreatePlanMutation } from 'shared/generated';
 
 const PlanCreate: FC = () => {
   const history = useHistory();
 
   const [createPlan, { loading, error }] = useCreatePlanMutation();
+
+  useErrorHandler(error);
 
   const redirectToPlans = () => {
     history.push(PLANS);
@@ -35,12 +38,6 @@ const PlanCreate: FC = () => {
       }
     } catch (error) {}
   };
-
-  useEffect(() => {
-    if (error) {
-      Message.error(error.graphQLErrors[0].message);
-    }
-  }, [error]);
 
   return (
     <FormPage title={CREATE_PLAN_TITLE}>

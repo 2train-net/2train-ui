@@ -13,6 +13,7 @@ import {
   PLAN_INVITATION_LINK_MODAL
 } from 'modules/plans/plans.module';
 
+import { useErrorHandler } from 'shared/hooks';
 import { MasterList, Message } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
 import { PLANS, INVITE, PLAN_INVITATIONS } from 'shared/routes';
@@ -33,6 +34,8 @@ const PlanList: FC = () => {
   const inviteFormRef = useRef<HTMLFormElement>(null);
 
   const [createPlanInvitation, planInvitationPayload] = useCreatePlanInvitationMutation();
+
+  useErrorHandler(planInvitationPayload.error);
 
   const isPersonalTrainer = user?.type === UserType.PersonalTrainer;
 
@@ -85,14 +88,6 @@ const PlanList: FC = () => {
       displayInviteModal();
     }
   }, [location]);
-
-  useEffect(() => {
-    const error = planInvitationPayload.error;
-
-    if (error) {
-      Message.error(error.graphQLErrors[0].message);
-    }
-  }, [planInvitationPayload.error]);
 
   return (
     <MasterList<IPlanPayload>

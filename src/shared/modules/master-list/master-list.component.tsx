@@ -6,8 +6,9 @@ import { Row, Col, PageHeader, Typography, Empty } from 'antd';
 
 import { ADD, DELETE } from 'shared/routes';
 import { ModalContext } from 'shared/contexts';
+import { useErrorHandler } from 'shared/hooks';
 import { CREATE_TEXT, DELETE_MODAL, LOAD_MORE_TEXT, NO_DATA_TEXT, RELOAD_TEXT } from 'shared/constants';
-import { Button, Message, Skeleton } from 'shared/modules';
+import { Button, Skeleton } from 'shared/modules';
 import { OrderByArg } from 'shared/generated';
 
 import { IMasterList, Entity } from './master-list.util';
@@ -50,6 +51,8 @@ const MasterList = <T,>({
   const isEmpty = !data.payload.length && !loading;
 
   const headerName = typeof title === 'string' ? title : data.payload.length === 1 ? title[0] : title[1];
+
+  useErrorHandler(error);
 
   const loadMore = async () => {
     const nextSkip = skip + take;
@@ -114,12 +117,6 @@ const MasterList = <T,>({
       displayDeleteConfirmation();
     }
   }, [location]);
-
-  useEffect(() => {
-    if (error) {
-      Message.error(error.graphQLErrors[0].message);
-    }
-  }, [error]);
 
   return (
     <div className={`master-list ${classes.root}`}>

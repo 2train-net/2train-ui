@@ -1,11 +1,12 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
 import { CREATE_MEAL_TITLE, IMealFormValues, MealForm } from 'modules/meals/meals.module';
 
 import { MEALS } from 'shared/routes';
-import { FormPage, Message } from 'shared/modules';
+import { FormPage } from 'shared/modules';
+import { useErrorHandler } from 'shared/hooks';
 import { useGetAllIngredientsQuery, useCreateMealMutation } from 'shared/generated';
 
 const MealCreate: FC = () => {
@@ -16,6 +17,8 @@ const MealCreate: FC = () => {
   });
 
   const [createMeal, { loading, error }] = useCreateMealMutation();
+
+  useErrorHandler(error);
 
   const ingredients = data?.payload.map(({ uuid, name }) => ({ label: name, value: uuid }));
 
@@ -39,12 +42,6 @@ const MealCreate: FC = () => {
       }
     } catch (error) {}
   };
-
-  useEffect(() => {
-    if (error) {
-      Message.error(error.graphQLErrors[0].message);
-    }
-  }, [error]);
 
   return (
     <FormPage title={CREATE_MEAL_TITLE}>

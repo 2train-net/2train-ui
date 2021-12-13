@@ -28,10 +28,11 @@ import {
   IMPORT_TEMPLATE_MODAL
 } from 'modules/workout-routines/workout-routines.module';
 
-import { AuthContext, ModalContext } from 'shared/contexts';
+import { useErrorHandler } from 'shared/hooks';
 import { WorkoutRoutineService } from 'shared/services';
+import { AuthContext, ModalContext } from 'shared/contexts';
 import { DETAIL, NOT_FOUND, PLANS, WORKOUT_ROUTINES } from 'shared/routes';
-import { DragAndDropRoutine, Icon, ListItem, Message } from 'shared/modules';
+import { DragAndDropRoutine, Icon, ListItem } from 'shared/modules';
 import { EXERCISES_TEXT, WORKOUT_ROUTINE_TEXT } from 'shared/constants';
 import { IDragAndDropRoutineFormValues } from 'shared/modules/drag-and-drop-routine/shared/model/column-items.interface';
 
@@ -54,6 +55,9 @@ const WorkoutRoutineUpdate: FC = () => {
       where
     }
   });
+
+  useErrorHandler(workoutRoutine.error);
+
   const modalProvider = useContext(ModalContext);
 
   const exercises = useGetAllExercisesQuery();
@@ -132,12 +136,6 @@ const WorkoutRoutineUpdate: FC = () => {
       </div>
     )
   };
-
-  useEffect(() => {
-    if (workoutRoutine.error) {
-      Message.error(workoutRoutine.error.graphQLErrors[0].message);
-    }
-  }, [workoutRoutine.error]);
 
   useEffect(() => {
     if (!workoutExercises && workoutRoutine) setWorkoutExercises(workoutRoutine.data?.payload.workoutExercises);

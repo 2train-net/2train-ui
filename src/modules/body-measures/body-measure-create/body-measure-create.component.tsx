@@ -1,11 +1,12 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 
 import { IBodyMeasureFormValues, BodyMeasureForm } from 'modules/body-measures/body-measures.module';
 
 import { FormId } from 'shared/model';
-import { Button, FormPage, Message } from 'shared/modules';
+import { useErrorHandler } from 'shared/hooks';
+import { Button, FormPage } from 'shared/modules';
 import { BODY_MEASURES_TEXT, SAVE_TEXT } from 'shared/constants';
 import { NOT_FOUND, UUID_PARAM, BODY_MEASURES_BY_PLAN } from 'shared/routes';
 import { GetPlanBodyMeasuresDocument, GetPlanBodyMeasuresQuery, useCreateBodyMeasureMutation } from 'shared/generated';
@@ -22,6 +23,8 @@ const BodyMeasureCreate: FC = () => {
   const [, uuid] = planSearch.split('=');
 
   const [createBodyMeasure, { loading, error }] = useCreateBodyMeasureMutation();
+
+  useErrorHandler(error);
 
   const onSubmit = async (values: IBodyMeasureFormValues) => {
     try {
@@ -66,12 +69,6 @@ const BodyMeasureCreate: FC = () => {
       redirect(BODY_MEASURES_BY_PLAN.replace(UUID_PARAM, uuid));
     } catch (error) {}
   };
-
-  useEffect(() => {
-    if (error) {
-      Message.error(error.graphQLErrors[0].message);
-    }
-  }, [error]);
 
   return planSearch && uuid ? (
     <FormPage

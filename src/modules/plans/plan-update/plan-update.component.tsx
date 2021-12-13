@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
 import { Redirect } from 'react-router';
 import { useHistory, useRouteMatch } from 'react-router-dom';
@@ -11,7 +11,8 @@ import {
   UPDATE_PLAN_TITLE
 } from 'modules/plans/plans.module';
 
-import { FormPage, Message } from 'shared/modules';
+import { FormPage } from 'shared/modules';
+import { useErrorHandler } from 'shared/hooks';
 import { NOT_FOUND, PLANS } from 'shared/routes';
 import { GetPlanDocument, useGetPlanQuery, useUpdatePlanMutation } from 'shared/generated';
 
@@ -42,6 +43,10 @@ const PlanUpdate: FC = () => {
       : undefined;
 
   const [updatePlan, updatePlanPayload] = useUpdatePlanMutation();
+
+  const { error } = planPayload || updatePlanPayload;
+
+  useErrorHandler(error);
 
   const redirectToPlans = () => {
     history.push(PLANS);
@@ -74,14 +79,6 @@ const PlanUpdate: FC = () => {
       }
     } catch (error) {}
   };
-
-  useEffect(() => {
-    const { error } = planPayload || updatePlanPayload;
-
-    if (error) {
-      Message.error(error.graphQLErrors[0].message);
-    }
-  }, [planPayload.error || updatePlanPayload.error]);
 
   return notFound ? (
     <Redirect to={NOT_FOUND} />

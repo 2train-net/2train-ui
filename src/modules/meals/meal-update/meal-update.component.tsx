@@ -1,10 +1,11 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
 import { useRouteMatch } from 'react-router-dom';
 
 import { IMealFormValues, MealForm, UPDATE_MEAL_TITLE } from 'modules/meals/meals.module';
 
-import { FormPage, Message } from 'shared/modules';
+import { FormPage } from 'shared/modules';
+import { useErrorHandler } from 'shared/hooks';
 import { arrayDifferences, objectDifferences } from 'shared/util';
 import { useGetAllIngredientsQuery, useUpdateMealMutation, useGetMealQuery, GetMealDocument } from 'shared/generated';
 
@@ -26,6 +27,10 @@ const MealUpdate: FC = () => {
   });
 
   const [updateMeal, updateMealPayload] = useUpdateMealMutation();
+
+  const { error } = mealPayload || updateMealPayload;
+
+  useErrorHandler(error);
 
   const { mealIngredients = [], image, ...mealInfo } = mealPayload?.data?.payload! || {};
   const meal = {
@@ -66,14 +71,6 @@ const MealUpdate: FC = () => {
       }
     } catch (error) {}
   };
-
-  useEffect(() => {
-    const { error } = mealPayload || updateMealPayload;
-
-    if (error) {
-      Message.error(error.graphQLErrors[0].message);
-    }
-  }, [mealPayload.error, updateMealPayload.error]);
 
   return (
     <FormPage title={UPDATE_MEAL_TITLE}>

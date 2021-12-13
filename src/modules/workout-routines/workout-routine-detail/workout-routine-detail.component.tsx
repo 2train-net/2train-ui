@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
 import { Redirect, useRouteMatch } from 'react-router-dom';
 
@@ -13,9 +13,10 @@ import {
 } from 'modules/workout-routines/workout-routines.module';
 
 import { NOT_FOUND } from 'shared/routes';
+import { useErrorHandler } from 'shared/hooks';
 import { WorkoutRoutineService } from 'shared/services';
 import { WORKOUT_ROUTINE_TEXT } from 'shared/constants';
-import { DragAndDropRoutine, Message } from 'shared/modules';
+import { DragAndDropRoutine } from 'shared/modules';
 
 const WorkoutRoutineDetail: FC = () => {
   const { getMaxDay } = WorkoutRoutineService;
@@ -35,11 +36,7 @@ const WorkoutRoutineDetail: FC = () => {
 
   const notFound = !workoutRoutine.data?.payload && !workoutRoutine.loading;
 
-  useEffect(() => {
-    if (workoutRoutine.error) {
-      Message.error(workoutRoutine.error.graphQLErrors[0].message);
-    }
-  }, [workoutRoutine.error]);
+  useErrorHandler(workoutRoutine.error);
 
   return notFound ? (
     <Redirect to={NOT_FOUND} />
