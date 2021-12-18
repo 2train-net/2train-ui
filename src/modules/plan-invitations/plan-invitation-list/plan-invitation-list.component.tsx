@@ -10,15 +10,19 @@ import {
 } from 'modules/plan-invitations/plan-invitations.module';
 
 import { MasterList } from 'shared/modules';
-import { ModalContext } from 'shared/contexts';
 import { DELETE_MODAL } from 'shared/constants';
 import { DELETE, PLAN_INVITATIONS } from 'shared/routes';
-import { useGetPlanInvitationsQuery } from 'shared/generated';
+import { AuthContext, ModalContext } from 'shared/contexts';
+import { useGetPlanInvitationsQuery, UserType } from 'shared/generated';
 
 const PlanInvitationList: FC = () => {
   const history = useHistory();
   const location = useLocation();
+
+  const { user } = useContext(AuthContext);
   const modalProvider = useContext(ModalContext);
+
+  const isPersonalTrainer = user?.type === UserType.PersonalTrainer;
 
   const redirectToPlanInvitations = () => {
     history.push(PLAN_INVITATIONS);
@@ -44,7 +48,7 @@ const PlanInvitationList: FC = () => {
     <MasterList<IPlanInvitationPayload>
       title={[SINGULAR_PLAN_INVITATIONS_TITLE, PLURAL_PLAN_INVITATIONS_TITLE]}
       render={PlanInvitationCard}
-      isCreateButtonAvailable={false}
+      isCreateButtonAvailable={isPersonalTrainer}
       useQuery={useGetPlanInvitationsQuery}
     />
   );

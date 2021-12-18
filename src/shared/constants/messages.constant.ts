@@ -19,6 +19,7 @@ export const PROFILE_TEXT = 'Perfil',
 
 export const ADD_TEXT = 'Agregar',
   CREATE_TEXT = 'Crear',
+  CLOSE_TEXT = 'Cerrar',
   CANCEL_TEXT = 'Cancelar',
   CONTINUE_TEXT = 'Continuar',
   SEND_TEXT = 'Enviar',

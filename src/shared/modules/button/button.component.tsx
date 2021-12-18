@@ -21,12 +21,14 @@ interface IButton {
   loading?: boolean;
   type?: ButtonType;
   size?: ButtonSize;
+  className?: string;
   onClick?: () => any;
 }
 
 const Button: FC<IButton> = ({
   children,
   form,
+  className = '',
   type = 'submit',
   color = 'primary',
   variant = 'contained',
@@ -42,7 +44,7 @@ const Button: FC<IButton> = ({
     <ADButton
       onClick={onClick}
       htmlType={type}
-      className={classes.root}
+      className={`${classes.root} ${className}`}
       block={fullWidth}
       disabled={disabled}
       loading={loading}

@@ -1,0 +1,6 @@
+query getAllPlans {
+  payload: plans {
+    uuid
+    name
+  }
+}

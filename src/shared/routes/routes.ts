@@ -40,6 +40,7 @@ export const PLAN_DELETE = `${PLANS}/${DELETE}/${UUID_PARAM}`;
 export const PLAN_INVITE = `${PLANS}/${INVITE}/${UUID_PARAM}`;
 
 export const PLAN_INVITATIONS = '/plan-invitations';
+export const PLAN_INVITATION_ADD = `${PLAN_INVITATIONS}/${ADD}`;
 export const PLAN_INVITATION_ACCEPT = `${PLAN_INVITATIONS}/${INVITE}/${UUID_PARAM}`;
 
 export const EXERCISES = '/exercises';
