@@ -1,3 +1,4 @@
+import Fab from './fab/fab.component';
 import Icon from './icon/icon.component';
 import Avatar from './avatar/avatar.component';
 import Button from './button/button.component';
@@ -20,6 +21,7 @@ import { NotFoundErrorPage } from './error-page';
 
 export {
   MasterList,
+  Fab,
   Icon,
   Avatar,
   Button,

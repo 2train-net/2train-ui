@@ -49,7 +49,8 @@ import {
   MoreOutlined,
   SelectOutlined,
   QuestionOutlined,
-  InboxOutlined
+  InboxOutlined,
+  RocketOutlined
 } from '@ant-design/icons';
 
 export type IconType =
@@ -101,7 +102,8 @@ export type IconType =
   | 'more'
   | 'select'
   | 'question'
-  | 'inbox';
+  | 'inbox'
+  | 'rocket';
 
 interface IIcon {
   key?: string;
@@ -159,7 +161,8 @@ const outlinedIconDictionary = {
   more: MoreOutlined,
   select: SelectOutlined,
   question: QuestionOutlined,
-  inbox: InboxOutlined
+  inbox: InboxOutlined,
+  rocket: RocketOutlined
 };
 
 const Icon: FC<IIcon> = ({ key, type, className, onClick }) => {

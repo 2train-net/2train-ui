@@ -6,12 +6,14 @@ export const LIGHT_THEME: ITheme = {
     primary: {
       dark: '#D92439',
       main: '#EE4054',
-      light: '#F8818D'
+      light: '#F8818D',
+      contrastText: '#ffffff'
     },
     secondary: {
       dark: '#20233D',
       main: '#343756',
-      light: '#616377'
+      light: '#616377',
+      contrastText: '#ffffff'
     },
     danger: {
       main: '#ff4444',
