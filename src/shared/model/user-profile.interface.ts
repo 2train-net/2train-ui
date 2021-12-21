@@ -1,4 +1,4 @@
-import { Day, Gender, Scope, UserStatus, UserType } from 'shared/generated';
+import { Day, Gender, Scope, UserStatus, UserType, UserProgress } from 'shared/generated';
 
 export interface IWorkoutExercise {
   uuid: string;
@@ -18,6 +18,8 @@ export interface ICurrentActivePlan {
   expireAt: string;
 }
 
+export type IUserProgress = Omit<UserProgress, '__typename'>;
+
 export interface IUserProfile {
   uuid: string;
   email: string;
@@ -31,5 +33,6 @@ export interface IUserProfile {
   status: UserStatus;
   scope: Scope;
   type: UserType;
+  progress: IUserProgress;
   currentActivePlan?: ICurrentActivePlan;
 }

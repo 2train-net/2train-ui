@@ -12,6 +12,10 @@ query userProfile($where: UserWhereUniqueInput!) {
     scope
     birthday
     type
+    progress {
+      hasPlans
+      hasPlanInvitations
+    }
     currentActivePlan {
       uuid
       workoutRoutine {

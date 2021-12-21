@@ -847,8 +847,8 @@ export type QueryPlanArgs = {
 };
 
 export type QueryPlansArgs = {
-  skip: Scalars['Int'];
-  take: Scalars['Int'];
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
   cursor?: Maybe<PlanWhereUniqueInput>;
   orderBy?: Maybe<PlanOrderByInput>;
   where?: Maybe<PlanWhereInput>;
@@ -978,6 +978,7 @@ export type User = {
   ingredients: Array<Ingredient>;
   meals: Array<Meal>;
   currentActivePlan?: Maybe<Plan>;
+  progress?: Maybe<UserProgress>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };
@@ -1012,6 +1013,12 @@ export type UserOrderByInput = {
   gender?: Maybe<OrderByArg>;
   createdAt?: Maybe<OrderByArg>;
   updatedAt?: Maybe<OrderByArg>;
+};
+
+export type UserProgress = {
+  __typename?: 'UserProgress';
+  hasPlanInvitations: Scalars['Boolean'];
+  hasPlans: Scalars['Boolean'];
 };
 
 export enum UserStatus {
@@ -1479,6 +1486,12 @@ export type DeletePlanMutation = { __typename?: 'Mutation' } & {
   payload: { __typename?: 'Plan' } & Pick<Plan, 'uuid'>;
 };
 
+export type GetAllPlansQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAllPlansQuery = { __typename?: 'Query' } & {
+  payload: Array<{ __typename?: 'Plan' } & Pick<Plan, 'uuid' | 'name'>>;
+};
+
 export type GetPlanDetailQueryVariables = Exact<{
   where: PlanWhereUniqueInput;
 }>;
@@ -1746,6 +1759,7 @@ export type UserProfileQuery = { __typename?: 'Query' } & {
     | 'birthday'
     | 'type'
   > & {
+      progress?: Maybe<{ __typename?: 'UserProgress' } & Pick<UserProgress, 'hasPlans' | 'hasPlanInvitations'>>;
       currentActivePlan?: Maybe<
         { __typename?: 'Plan' } & Pick<Plan, 'uuid' | 'expireAt'> & {
             workoutRoutine?: Maybe<
@@ -3000,6 +3014,43 @@ export type DeletePlanMutationOptions = ApolloReactCommon.BaseMutationOptions<
   DeletePlanMutation,
   DeletePlanMutationVariables
 >;
+export const GetAllPlansDocument = gql`
+  query getAllPlans {
+    payload: plans {
+      uuid
+      name
+    }
+  }
+`;
+
+/**
+ * __useGetAllPlansQuery__
+ *
+ * To run a query within a React component, call `useGetAllPlansQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllPlansQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllPlansQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllPlansQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<GetAllPlansQuery, GetAllPlansQueryVariables>
+) {
+  return ApolloReactHooks.useQuery<GetAllPlansQuery, GetAllPlansQueryVariables>(GetAllPlansDocument, baseOptions);
+}
+export function useGetAllPlansLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetAllPlansQuery, GetAllPlansQueryVariables>
+) {
+  return ApolloReactHooks.useLazyQuery<GetAllPlansQuery, GetAllPlansQueryVariables>(GetAllPlansDocument, baseOptions);
+}
+export type GetAllPlansQueryHookResult = ReturnType<typeof useGetAllPlansQuery>;
+export type GetAllPlansLazyQueryHookResult = ReturnType<typeof useGetAllPlansLazyQuery>;
+export type GetAllPlansQueryResult = ApolloReactCommon.QueryResult<GetAllPlansQuery, GetAllPlansQueryVariables>;
 export const GetPlanDetailDocument = gql`
   query getPlanDetail($where: PlanWhereUniqueInput!) {
     payload: plan(where: $where) {
@@ -3870,6 +3921,10 @@ export const UserProfileDocument = gql`
       scope
       birthday
       type
+      progress {
+        hasPlans
+        hasPlanInvitations
+      }
       currentActivePlan {
         uuid
         workoutRoutine {

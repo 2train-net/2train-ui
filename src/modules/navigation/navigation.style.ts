@@ -47,6 +47,11 @@ export default createUseStyles(({ palette, breakpoints, spacing }: ITheme) => ({
       '& header': {
         background: `${palette.primary.main} !important`
       }
+    },
+    '& .user-guide-fab': {
+      right: 32,
+      bottom: 32,
+      position: 'fixed'
     }
   }),
   drawer: {

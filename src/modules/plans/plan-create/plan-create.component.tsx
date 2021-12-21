@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -8,11 +8,13 @@ import { IPlanFormValues, parsePlanFocusToFlags } from 'modules/plans/shared/com
 
 import { PLANS } from 'shared/routes';
 import { FormPage } from 'shared/modules';
+import { AuthContext } from 'shared/contexts';
 import { useErrorHandler } from 'shared/hooks';
 import { useCreatePlanMutation } from 'shared/generated';
 
 const PlanCreate: FC = () => {
   const history = useHistory();
+  const { user, refreshUser } = useContext(AuthContext);
 
   const [createPlan, { loading, error }] = useCreatePlanMutation();
 
@@ -33,6 +35,16 @@ const PlanCreate: FC = () => {
             }
           }
         });
+
+        if (!user?.progress.hasPlans) {
+          refreshUser({
+            ...user!,
+            progress: {
+              ...user?.progress!,
+              hasPlans: true
+            }
+          });
+        }
 
         redirectToPlans();
       }
