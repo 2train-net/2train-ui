@@ -8,6 +8,7 @@ import { Navbar, Sidebar, UserGuide, UserGuideProgress, USER_GUIDE_TEXT } from '
 import { Fab } from 'shared/modules';
 import { AuthContext } from 'shared/contexts';
 import { UserType } from 'shared/generated';
+import { PLAN_ADD, PLAN_INVITATION_ADD } from 'shared/routes';
 
 import useStyles from './navigation.style';
 
@@ -69,20 +70,37 @@ const Navigation: FC = ({ children }) => {
         </Header>
         <Content>{children}</Content>
       </Layout>
-      {isUserGuideEnabled && (
-        <>
-          <Fab icon="rocket" className="user-guide-fab" onClick={handleToggleUserGuide} />
-          <Drawer
-            title={USER_GUIDE_TEXT}
-            placement="right"
-            width={500}
-            onClose={handleToggleUserGuide}
-            visible={isUserGuideOpen}
-          >
-            <UserGuide userGuideProgress={userGuideProgress} onClose={handleToggleUserGuide} />
-          </Drawer>
-        </>
+      <Fab
+        icon="plus"
+        className="user-guide-fab"
+        actions={[
+          { icon: 'rocket', url: '#', onClick: handleToggleUserGuide },
+          { icon: 'book', url: PLAN_ADD },
+          { icon: 'mail', url: PLAN_INVITATION_ADD }
+        ]}
+      />
+      {isUserGuideEnabled ? (
+        <Fab icon="rocket" className="user-guide-fab" onClick={handleToggleUserGuide} />
+      ) : (
+        <Fab
+          icon="plus"
+          className="user-guide-fab"
+          actions={[
+            { icon: 'rocket', onClick: handleToggleUserGuide },
+            { icon: 'book', url: PLAN_ADD },
+            { icon: 'mail', url: PLAN_INVITATION_ADD }
+          ]}
+        />
       )}
+      <Drawer
+        title={USER_GUIDE_TEXT}
+        placement="right"
+        width={500}
+        onClose={handleToggleUserGuide}
+        visible={isUserGuideOpen}
+      >
+        <UserGuide userGuideProgress={userGuideProgress} onClose={handleToggleUserGuide} />
+      </Drawer>
     </Layout>
   ) : (
     <></>
