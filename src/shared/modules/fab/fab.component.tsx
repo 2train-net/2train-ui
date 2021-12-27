@@ -1,5 +1,8 @@
 import React, { FC, useState } from 'react';
+
 import { Link } from 'react-router-dom';
+
+import { Tooltip } from 'antd';
 
 import { Icon, Button } from 'shared/modules';
 import { IconType } from 'shared/modules/icon/icon.component';
@@ -7,8 +10,9 @@ import { IconType } from 'shared/modules/icon/icon.component';
 import useStyles from './fab.style';
 
 interface FabAction {
-  icon: IconType;
+  label: string;
   url?: string;
+  icon: IconType;
   onClick?: () => any;
 }
 
@@ -38,21 +42,23 @@ const FloatingActionButton: FC<IFloatingActionButton> = ({ icon = 'plus', classN
       {actions && (
         <ul>
           {actions.map((action, index) => (
-            <li
-              key={`action-${index}`}
-              onClick={action.onClick}
-              className={isActionListVisible ? 'fade-in' : 'fade-out'}
-            >
-              {action.url ? (
-                <Link to={action.url} className="action-link">
-                  <Icon type={action.icon} />
-                </Link>
-              ) : (
-                <span className="action-link">
-                  <Icon type={action.icon} />
-                </span>
-              )}
-            </li>
+            <Tooltip key={`tooltip-${index}`} placement="left" title={action.label}>
+              <li
+                key={`action-${index}`}
+                onClick={action.onClick}
+                className={isActionListVisible ? 'fade-in' : 'fade-out'}
+              >
+                {action.url ? (
+                  <Link to={action.url} className="action-link">
+                    <Icon type={action.icon} />
+                  </Link>
+                ) : (
+                  <span className="action-link">
+                    <Icon type={action.icon} />
+                  </span>
+                )}
+              </li>
+            </Tooltip>
           ))}
         </ul>
       )}

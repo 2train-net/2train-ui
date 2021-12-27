@@ -33,24 +33,35 @@ export interface MutationDeleteVariables {
   where: EntityWhereUniqueInput;
 }
 
-export interface QueryVariables {
+export interface QueryVariables<K> {
   take: number;
   skip: number;
   order: {
     createdAt?: OrderByArg | null;
   };
+  where?: K | null;
 }
 
-export interface IMasterList<T> {
-  take?: number;
+export interface IMasterList<T, K> {
   fetchPolicy?: WatchQueryFetchPolicy;
   title: string | string[];
   render: FC<IMasterComponent<T>>;
   isCreateButtonAvailable?: boolean;
+  filters?: Array<{ label: string; value: keyof K }>;
   useQuery: (
-    options: QueryHookOptions<QueryPayload<T>, QueryVariables>
-  ) => QueryResult<QueryPayload<T>, QueryVariables>;
+    options: QueryHookOptions<QueryPayload<T>, QueryVariables<K>>
+  ) => QueryResult<QueryPayload<T>, QueryVariables<K>>;
   useDeleteMutation?: (
     baseOptions?: MutationHookOptions<MutationDeletePayload, MutationDeleteVariables>
   ) => MutationTuple<MutationDeletePayload, MutationDeleteVariables>;
 }
+
+export interface ISearchForm<K> {
+  search: string;
+  filter: keyof K;
+  take: number;
+}
+
+export const DEBOUNCE_SEARCH_TIMEOUT = 1000;
+
+export const entriesPerPage = [10, 25, 50].map(entry => ({ label: `${entry}`, value: entry }));

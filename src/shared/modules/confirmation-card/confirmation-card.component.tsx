@@ -46,7 +46,7 @@ const ConfirmationCard: FC<IConfirmationCard> = ({
     <Card className={classes.root}>
       <Row>
         <Col span={24}>
-          <div className="icon">
+          <div className="icon-container">
             {isLoading ? (
               <Spin indicator={<LoadingOutlined className="loading-spinner" spin />} />
             ) : (

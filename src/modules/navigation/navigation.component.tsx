@@ -5,6 +5,9 @@ import { Layout, Drawer } from 'antd';
 
 import { Navbar, Sidebar, UserGuide, UserGuideProgress, USER_GUIDE_TEXT } from './navigation.module';
 
+import { CREATE_PLAN_TITLE } from 'modules/plans/plans.module';
+import { CREATE_PLAN_INVITATION_TITLE } from 'modules/plan-invitations/plan-invitations.module';
+
 import { Fab } from 'shared/modules';
 import { AuthContext } from 'shared/contexts';
 import { UserType } from 'shared/generated';
@@ -28,8 +31,8 @@ const Navigation: FC = ({ children }) => {
   const isPersonalTrainer = user?.type === UserType.PersonalTrainer;
 
   const userGuideProgress: UserGuideProgress = {
-    isCreatePlanStepCompleted: !!user?.progress.hasPlans,
-    isInviteClientStepCompleted: !!user?.progress.hasPlanInvitations
+    isCreatePlanStepCompleted: !!user?.progress?.hasPlans,
+    isInviteClientStepCompleted: !!user?.progress?.hasPlanInvitations
   };
 
   const isUserGuideCompleted = !Object.values(userGuideProgress).filter(isStepCompleted => !isStepCompleted).length;
@@ -70,15 +73,6 @@ const Navigation: FC = ({ children }) => {
         </Header>
         <Content>{children}</Content>
       </Layout>
-      <Fab
-        icon="plus"
-        className="user-guide-fab"
-        actions={[
-          { icon: 'rocket', url: '#', onClick: handleToggleUserGuide },
-          { icon: 'book', url: PLAN_ADD },
-          { icon: 'mail', url: PLAN_INVITATION_ADD }
-        ]}
-      />
       {isUserGuideEnabled ? (
         <Fab icon="rocket" className="user-guide-fab" onClick={handleToggleUserGuide} />
       ) : (
@@ -86,16 +80,16 @@ const Navigation: FC = ({ children }) => {
           icon="plus"
           className="user-guide-fab"
           actions={[
-            { icon: 'rocket', onClick: handleToggleUserGuide },
-            { icon: 'book', url: PLAN_ADD },
-            { icon: 'mail', url: PLAN_INVITATION_ADD }
+            { label: USER_GUIDE_TEXT, icon: 'rocket', onClick: handleToggleUserGuide },
+            { label: CREATE_PLAN_TITLE, icon: 'book', url: PLAN_ADD },
+            { label: CREATE_PLAN_INVITATION_TITLE, icon: 'mail', url: PLAN_INVITATION_ADD }
           ]}
         />
       )}
       <Drawer
         title={USER_GUIDE_TEXT}
         placement="right"
-        width={500}
+        className={classes.userGuide}
         onClose={handleToggleUserGuide}
         visible={isUserGuideOpen}
       >

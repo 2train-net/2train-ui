@@ -23,14 +23,14 @@ export default createUseStyles<string, unknown, ITheme>(({ palette, spacing }): 
       backgroundColor: palette.primary.main
     },
 
-    '& .icon': {
+    '& .icon-avatar': {
       minWidth: spacing(4),
       minHeight: spacing(4),
       borderRadius: '50%',
       color: 'white',
       display: 'flex',
 
-      '& span': {
+      '& .icon': {
         margin: 'auto',
         fontSize: spacing(2)
       }

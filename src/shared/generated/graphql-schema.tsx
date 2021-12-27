@@ -1270,6 +1270,7 @@ export type GetClientsQueryVariables = Exact<{
   skip: Scalars['Int'];
   take: Scalars['Int'];
   order: ClientOrderByInput;
+  where?: Maybe<ClientWhereInput>;
 }>;
 
 export type GetClientsQuery = { __typename?: 'Query' } & {
@@ -1974,8 +1975,8 @@ export type GetClientQueryHookResult = ReturnType<typeof useGetClientQuery>;
 export type GetClientLazyQueryHookResult = ReturnType<typeof useGetClientLazyQuery>;
 export type GetClientQueryResult = ApolloReactCommon.QueryResult<GetClientQuery, GetClientQueryVariables>;
 export const GetClientsDocument = gql`
-  query getClients($skip: Int!, $take: Int!, $order: ClientOrderByInput!) {
-    payload: clients(skip: $skip, take: $take, orderBy: $order) {
+  query getClients($skip: Int!, $take: Int!, $order: ClientOrderByInput!, $where: ClientWhereInput) {
+    payload: clients(skip: $skip, take: $take, orderBy: $order, where: $where) {
       uuid
       firstName
       lastName
@@ -2001,6 +2002,7 @@ export const GetClientsDocument = gql`
  *      skip: // value for 'skip'
  *      take: // value for 'take'
  *      order: // value for 'order'
+ *      where: // value for 'where'
  *   },
  * });
  */

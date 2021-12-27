@@ -22,7 +22,7 @@ const NotificationItem: FC<INotificationItem> = ({ url, icon, color, label, desc
 
   return (
     <div className={`notification-item ${classes.root}`} onClick={onClick}>
-      <div className="icon" style={{ backgroundColor: color }}>
+      <div className="icon-avatar" style={{ backgroundColor: color }}>
         <Icon type={icon} />
       </div>
       <div style={{ marginLeft: 8 }}>

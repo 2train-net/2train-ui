@@ -18,12 +18,12 @@ export default createUseStyles<string, { color: string }, ITheme>(({ palette, br
     [breakpoints.down('sm')]: {
       width: '100%',
       margin: 0,
-      '& .icon': {
+      '& .icon-container': {
         display: 'none'
       }
     },
 
-    '& .icon': {
+    '& .icon-container': {
       position: 'relative',
       top: spacing(-9),
       height: spacing(11),

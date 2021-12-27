@@ -1,31 +1,34 @@
-import React, { PropsWithChildren, useContext, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react';
 
 import { Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 
+import { debounce } from 'lodash';
+import { useFormik } from 'formik';
 import { Row, Col, PageHeader, Typography, Empty } from 'antd';
 
 import { ADD, DELETE } from 'shared/routes';
+import { OrderByArg } from 'shared/generated';
 import { ModalContext } from 'shared/contexts';
 import { useErrorHandler } from 'shared/hooks';
-import { CREATE_TEXT, DELETE_MODAL, LOAD_MORE_TEXT, NO_DATA_TEXT, RELOAD_TEXT } from 'shared/constants';
 import { Button, Skeleton } from 'shared/modules';
-import { OrderByArg } from 'shared/generated';
+import { Field, Select } from 'shared/modules/form';
+import { CREATE_TEXT, SEARCH_TEXT, DELETE_MODAL, LOAD_MORE_TEXT, NO_DATA_TEXT, RELOAD_TEXT } from 'shared/constants';
 
-import { IMasterList, Entity } from './master-list.util';
+import { IMasterList, Entity, ISearchForm, entriesPerPage, DEBOUNCE_SEARCH_TIMEOUT } from './master-list.util';
 
 import useStyles from './master-list.style';
 
 const { Text } = Typography;
 
-const MasterList = <T,>({
-  take = 10,
-  fetchPolicy = 'cache-and-network',
+const MasterList = <T, K = unknown>({
   title,
+  filters = [],
   render: Component,
   isCreateButtonAvailable = true,
+  fetchPolicy = 'cache-and-network',
   useQuery,
   useDeleteMutation = () => [] as any
-}: PropsWithChildren<IMasterList<T>>) => {
+}: PropsWithChildren<IMasterList<T, K>>) => {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
@@ -36,15 +39,36 @@ const MasterList = <T,>({
 
   const modalProvider = useContext(ModalContext);
 
+  const [firstFilter] = filters;
+  const [firstTake] = entriesPerPage;
+
   const [skip, setSkip] = useState(0);
+  const [filterSearch, setFilterSearch] = useState('');
 
   const order = { createdAt: OrderByArg.Desc };
 
   const [deleteEntity, deleteEntityPayload] = useDeleteMutation();
 
+  const { values, setFieldValue, handleChange } = useFormik<ISearchForm<K>>({
+    onSubmit: () => {},
+    initialValues: {
+      search: '',
+      take: firstTake?.value,
+      filter: firstFilter?.value
+    }
+  });
+
+  const { take, filter, search } = values;
+
+  // TODO CURRENTLY WE ONLY SUPPORT STRING TYPE FILTERING, DOUBLE CHECK API REQUEST ARGS NOT USE OTHER TYPE LIKE INT OR BOOLEAN
+
+  const where: any = {
+    [filter]: filterSearch
+  };
+
   const { data = { payload: [] }, loading, error: queryError, fetchMore, refetch } = useQuery({
     fetchPolicy,
-    variables: { take, order, skip: 0 }
+    variables: { take, order, skip: 0, where: filterSearch ? where : undefined }
   });
 
   const error = queryError || deleteEntityPayload?.error;
@@ -100,6 +124,37 @@ const MasterList = <T,>({
 
   const pageHeaderActions = [];
 
+  const notifyFilterSearch = useCallback(debounce(setFilterSearch, DEBOUNCE_SEARCH_TIMEOUT), []);
+
+  useEffect(() => {
+    const { pathname } = location;
+
+    if (pathname.match(DELETE)) {
+      displayDeleteConfirmation();
+    }
+  }, [location]);
+
+  useEffect(() => {
+    notifyFilterSearch.cancel();
+    notifyFilterSearch(search);
+  }, [search]);
+
+  if (filters.length) {
+    pageHeaderActions.push(
+      <Row className="search-bar">
+        <Col xs={8} md={5}>
+          <Select name="take" setFieldValue={setFieldValue} options={entriesPerPage} value={take} />
+        </Col>
+        <Col xs={16} md={9}>
+          <Select name="filter" setFieldValue={setFieldValue} options={filters} value={filter} />
+        </Col>
+        <Col xs={24} md={10}>
+          <Field name="search" placeholder={SEARCH_TEXT} onChange={handleChange} value={search} clearable />
+        </Col>
+      </Row>
+    );
+  }
+
   if (isCreateButtonAvailable) {
     pageHeaderActions.push(
       <Link key="create-link" to={location => `${location.pathname}/${ADD}`}>
@@ -109,14 +164,6 @@ const MasterList = <T,>({
       </Link>
     );
   }
-
-  useEffect(() => {
-    const { pathname } = location;
-
-    if (pathname.match(DELETE)) {
-      displayDeleteConfirmation();
-    }
-  }, [location]);
 
   return (
     <div className={`master-list ${classes.root}`}>

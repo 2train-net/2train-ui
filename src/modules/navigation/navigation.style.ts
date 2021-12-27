@@ -5,10 +5,12 @@ import { ITheme } from 'shared/theme';
 export default createUseStyles(({ palette, breakpoints, spacing }: ITheme) => ({
   root: ({ isSidebarCollapsed }: { isSidebarCollapsed: boolean }) => ({
     minHeight: '100vh',
+
     '& .ant-layout, header': {
       background: palette.background.main,
       color: '#141414 !important'
     },
+
     '& header': {
       zIndex: 1,
       width: '100%',
@@ -21,6 +23,7 @@ export default createUseStyles(({ palette, breakpoints, spacing }: ITheme) => ({
         left: spacing(2)
       }
     },
+
     '& main': {
       overflow: 'initial',
       margin: {
@@ -34,6 +37,7 @@ export default createUseStyles(({ palette, breakpoints, spacing }: ITheme) => ({
         bottom: spacing(1)
       }
     },
+
     [breakpoints.down('sm')]: {
       '& main': {
         margin: {
@@ -49,6 +53,17 @@ export default createUseStyles(({ palette, breakpoints, spacing }: ITheme) => ({
       }
     }
   }),
+
+  userGuide: {
+    '& .ant-drawer-content-wrapper': {
+      width: '100% !important',
+
+      [breakpoints.up('sm')]: {
+        width: '500px !important'
+      }
+    }
+  },
+
   drawer: {
     '& .ant-drawer-content-wrapper': {
       width: '200px !important'
