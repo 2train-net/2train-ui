@@ -5,10 +5,12 @@ import {
   MutationHookOptions,
   MutationTuple,
   QueryHookOptions,
-  QueryResult
+  QueryResult,
 } from '@apollo/client';
 
 import { OrderByArg } from 'shared/generated';
+
+import { Leaves } from 'shared/interfaces';
 
 export type Entity<T> = { uuid: string } & T;
 
@@ -47,7 +49,7 @@ export interface IMasterList<T, K> {
   title: string | string[];
   render: FC<IMasterComponent<T>>;
   isCreateButtonAvailable?: boolean;
-  filters?: Array<{ label: string; value: keyof K }>;
+  filters?: Array<{ label: string; value: Leaves<K, 3> }>;
   useQuery: (
     options: QueryHookOptions<QueryPayload<T>, QueryVariables<K>>
   ) => QueryResult<QueryPayload<T>, QueryVariables<K>>;
@@ -58,10 +60,10 @@ export interface IMasterList<T, K> {
 
 export interface ISearchForm<K> {
   search: string;
-  filter: keyof K;
+  filter: Leaves<K, 3>;
   take: number;
 }
 
 export const DEBOUNCE_SEARCH_TIMEOUT = 1000;
 
-export const entriesPerPage = [10, 25, 50].map(entry => ({ label: `${entry}`, value: entry }));
+export const entriesPerPage = [10, 25, 50].map((entry) => ({ label: `${entry}`, value: entry }));

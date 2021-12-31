@@ -1,5 +1,10 @@
-query getWorkoutRoutines($skip: Int!, $take: Int!, $order: WorkoutRoutineOrderByInput!) {
-  payload: workoutRoutines(skip: $skip, take: $take, orderBy: $order) {
+query getWorkoutRoutines(
+  $skip: Int!
+  $take: Int!
+  $order: WorkoutRoutineOrderByInput!
+  $where: WorkoutRoutineWhereInput
+) {
+  payload: workoutRoutines(skip: $skip, take: $take, orderBy: $order, where: $where) {
     uuid
     name
   }

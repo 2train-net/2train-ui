@@ -26,6 +26,7 @@ export const PROFILE = '/profile';
 export const SETTINGS = '/settings';
 
 export const CLIENTS = '/clients';
+export const CLIENT_ADD = `${CLIENTS}/${ADD}`;
 export const CLIENT_DETAIL = `${CLIENTS}/${DETAIL}/${UUID_PARAM}`;
 
 export const TRANSACTIONS = '/transactions';

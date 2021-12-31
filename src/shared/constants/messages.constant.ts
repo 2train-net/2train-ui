@@ -1,4 +1,5 @@
 export const PROFILE_TEXT = 'Perfil',
+  PLAN_TEXT = 'Plan',
   PLANS_TEXT = 'Planes',
   CLIENTS_TEXT = 'Clientes',
   TRANSACTIONS_TEXT = 'Transacciones',

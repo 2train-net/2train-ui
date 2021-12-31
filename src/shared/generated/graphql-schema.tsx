@@ -100,7 +100,7 @@ export type ClientWhereUniqueInput = {
 
 export enum Currency {
   Us = 'US',
-  Crc = 'CRC'
+  Crc = 'CRC',
 }
 
 export enum Day {
@@ -110,7 +110,7 @@ export enum Day {
   Day_4 = 'DAY_4',
   Day_5 = 'DAY_5',
   Day_6 = 'DAY_6',
-  Day_7 = 'DAY_7'
+  Day_7 = 'DAY_7',
 }
 
 export type DietPlan = {
@@ -152,7 +152,7 @@ export type DietPlanWhereUniqueInput = {
 
 export enum DocumentAssociation {
   Manager = 'MANAGER',
-  Visualizer = 'VISUALIZER'
+  Visualizer = 'VISUALIZER',
 }
 
 export type Exercise = {
@@ -208,7 +208,7 @@ export type ExerciseWhereUniqueInput = {
 export enum Gender {
   Male = 'MALE',
   Female = 'FEMALE',
-  NotSpecified = 'NOT_SPECIFIED'
+  NotSpecified = 'NOT_SPECIFIED',
 }
 
 export type Ingredient = {
@@ -270,7 +270,7 @@ export enum IntervalPlan {
   Day = 'DAY',
   Week = 'WEEK',
   Month = 'MONTH',
-  Year = 'YEAR'
+  Year = 'YEAR',
 }
 
 export type Meal = {
@@ -367,7 +367,7 @@ export enum MealType {
   Lunch = 'LUNCH',
   Dinner = 'DINNER',
   Snack = 'SNACK',
-  Other = 'OTHER'
+  Other = 'OTHER',
 }
 
 export type MealUpdateInput = {
@@ -551,7 +551,7 @@ export type MutationCreateBodyMeasureArgs = {
 
 export enum OrderByArg {
   Asc = 'ASC',
-  Desc = 'DESC'
+  Desc = 'DESC',
 }
 
 export type Plan = {
@@ -608,7 +608,7 @@ export enum PlanActivityType {
   WorkoutRoutineUpdate = 'WORKOUT_ROUTINE_UPDATE',
   DietPlanFileCreate = 'DIET_PLAN_FILE_CREATE',
   DietPlanFileUpdate = 'DIET_PLAN_FILE_UPDATE',
-  BodyMeasureCreate = 'BODY_MEASURE_CREATE'
+  BodyMeasureCreate = 'BODY_MEASURE_CREATE',
 }
 
 export type PlanActivityUpdateInput = {
@@ -692,6 +692,8 @@ export type PlanInvitationOrderByInput = {
 export type PlanInvitationWhereInput = {
   id?: Maybe<Scalars['Int']>;
   uuid?: Maybe<Scalars['String']>;
+  user?: Maybe<UserWhereInput>;
+  plan?: Maybe<PlanWhereInput>;
   template?: Maybe<Scalars['String']>;
 };
 
@@ -708,12 +710,12 @@ export type PlanOrderByInput = {
 
 export enum PlanStatus {
   Active = 'ACTIVE',
-  Inactive = 'INACTIVE'
+  Inactive = 'INACTIVE',
 }
 
 export enum PlanType {
   Custom = 'CUSTOM',
-  NonCustom = 'NON_CUSTOM'
+  NonCustom = 'NON_CUSTOM',
 }
 
 export type PlanUpdateInput = {
@@ -731,6 +733,7 @@ export type PlanUpdateInput = {
 export type PlanWhereInput = {
   id?: Maybe<Scalars['Int']>;
   uuid?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -943,7 +946,7 @@ export type QueryBodyMeasuresArgs = {
 
 export enum Scope {
   Public = 'PUBLIC',
-  Private = 'PRIVATE'
+  Private = 'PRIVATE',
 }
 
 export type Training = {
@@ -957,7 +960,7 @@ export type TrainingWhereInput = {
 
 export enum UnitMeasure {
   Gram = 'GRAM',
-  Liter = 'LITER'
+  Liter = 'LITER',
 }
 
 export type User = {
@@ -1025,12 +1028,12 @@ export enum UserStatus {
   Invited = 'INVITED',
   Registered = 'REGISTERED',
   Confirmed = 'CONFIRMED',
-  Blocked = 'BLOCKED'
+  Blocked = 'BLOCKED',
 }
 
 export enum UserType {
   Customer = 'CUSTOMER',
-  PersonalTrainer = 'PERSONAL_TRAINER'
+  PersonalTrainer = 'PERSONAL_TRAINER',
 }
 
 export type UserUpdateInput = {
@@ -1181,6 +1184,7 @@ export type WorkoutRoutineUpdateInput = {
 export type WorkoutRoutineWhereInput = {
   id?: Maybe<Scalars['Int']>;
   uuid?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -1193,6 +1197,7 @@ export type WorkoutRoutineWhereUniqueInput = {
 export type WorkoutWhereInput = {
   id?: Maybe<Scalars['Int']>;
   uuid?: Maybe<Scalars['String']>;
+  user?: Maybe<UserWhereInput>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -1460,6 +1465,7 @@ export type GetPlanInvitationsQueryVariables = Exact<{
   skip: Scalars['Int'];
   take: Scalars['Int'];
   order: PlanInvitationOrderByInput;
+  where?: Maybe<PlanInvitationWhereInput>;
 }>;
 
 export type GetPlanInvitationsQuery = { __typename?: 'Query' } & {
@@ -1551,6 +1557,7 @@ export type GetPlansQueryVariables = Exact<{
   take: Scalars['Int'];
   skip: Scalars['Int'];
   order: PlanOrderByInput;
+  where?: Maybe<PlanWhereInput>;
 }>;
 
 export type GetPlansQuery = { __typename?: 'Query' } & {
@@ -1689,6 +1696,7 @@ export type GetWorkoutRoutinesQueryVariables = Exact<{
   skip: Scalars['Int'];
   take: Scalars['Int'];
   order: WorkoutRoutineOrderByInput;
+  where?: Maybe<WorkoutRoutineWhereInput>;
 }>;
 
 export type GetWorkoutRoutinesQuery = { __typename?: 'Query' } & {
@@ -1710,6 +1718,7 @@ export type GetWorkoutsQueryVariables = Exact<{
   skip: Scalars['Int'];
   take: Scalars['Int'];
   order: WorkoutOrderByInput;
+  where?: Maybe<WorkoutWhereInput>;
 }>;
 
 export type GetWorkoutsQuery = { __typename?: 'Query' } & {
@@ -2875,8 +2884,13 @@ export type GetPlanInvitationQueryResult = ApolloReactCommon.QueryResult<
   GetPlanInvitationQueryVariables
 >;
 export const GetPlanInvitationsDocument = gql`
-  query getPlanInvitations($skip: Int!, $take: Int!, $order: PlanInvitationOrderByInput!) {
-    payload: planInvitations(skip: $skip, take: $take, orderBy: $order) {
+  query getPlanInvitations(
+    $skip: Int!
+    $take: Int!
+    $order: PlanInvitationOrderByInput!
+    $where: PlanInvitationWhereInput
+  ) {
+    payload: planInvitations(skip: $skip, take: $take, orderBy: $order, where: $where) {
       uuid
       link
       plan {
@@ -2917,6 +2931,7 @@ export const GetPlanInvitationsDocument = gql`
  *      skip: // value for 'skip'
  *      take: // value for 'take'
  *      order: // value for 'order'
+ *      where: // value for 'where'
  *   },
  * });
  */
@@ -3177,8 +3192,8 @@ export type GetPlanQueryHookResult = ReturnType<typeof useGetPlanQuery>;
 export type GetPlanLazyQueryHookResult = ReturnType<typeof useGetPlanLazyQuery>;
 export type GetPlanQueryResult = ApolloReactCommon.QueryResult<GetPlanQuery, GetPlanQueryVariables>;
 export const GetPlansDocument = gql`
-  query getPlans($take: Int!, $skip: Int!, $order: PlanOrderByInput!) {
-    payload: plans(take: $take, skip: $skip, orderBy: $order) {
+  query getPlans($take: Int!, $skip: Int!, $order: PlanOrderByInput!, $where: PlanWhereInput) {
+    payload: plans(take: $take, skip: $skip, orderBy: $order, where: $where) {
       uuid
       name
       price
@@ -3205,6 +3220,7 @@ export const GetPlansDocument = gql`
  *      take: // value for 'take'
  *      skip: // value for 'skip'
  *      order: // value for 'order'
+ *      where: // value for 'where'
  *   },
  * });
  */
@@ -3711,8 +3727,13 @@ export type GetWorkoutRoutineQueryResult = ApolloReactCommon.QueryResult<
   GetWorkoutRoutineQueryVariables
 >;
 export const GetWorkoutRoutinesDocument = gql`
-  query getWorkoutRoutines($skip: Int!, $take: Int!, $order: WorkoutRoutineOrderByInput!) {
-    payload: workoutRoutines(skip: $skip, take: $take, orderBy: $order) {
+  query getWorkoutRoutines(
+    $skip: Int!
+    $take: Int!
+    $order: WorkoutRoutineOrderByInput!
+    $where: WorkoutRoutineWhereInput
+  ) {
+    payload: workoutRoutines(skip: $skip, take: $take, orderBy: $order, where: $where) {
       uuid
       name
     }
@@ -3734,6 +3755,7 @@ export const GetWorkoutRoutinesDocument = gql`
  *      skip: // value for 'skip'
  *      take: // value for 'take'
  *      order: // value for 'order'
+ *      where: // value for 'where'
  *   },
  * });
  */
@@ -3810,8 +3832,8 @@ export type UpdateWorkoutRoutineMutationOptions = ApolloReactCommon.BaseMutation
   UpdateWorkoutRoutineMutationVariables
 >;
 export const GetWorkoutsDocument = gql`
-  query getWorkouts($skip: Int!, $take: Int!, $order: WorkoutOrderByInput!) {
-    payload: workouts(skip: $skip, take: $take, orderBy: $order) {
+  query getWorkouts($skip: Int!, $take: Int!, $order: WorkoutOrderByInput!, $where: WorkoutWhereInput) {
+    payload: workouts(skip: $skip, take: $take, orderBy: $order, where: $where) {
       uuid
       workoutRoutine {
         uuid
@@ -3854,6 +3876,7 @@ export const GetWorkoutsDocument = gql`
  *      skip: // value for 'skip'
  *      take: // value for 'take'
  *      order: // value for 'order'
+ *      where: // value for 'where'
  *   },
  * });
  */

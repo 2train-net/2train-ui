@@ -4,13 +4,14 @@ import {
   WorkoutCard,
   IWorkoutPayload,
   PLURAL_WORKOUTS_TITLE,
-  SINGULAR_WORKOUTS_TITLE
+  SINGULAR_WORKOUTS_TITLE,
 } from 'modules/workouts/workouts.module';
 
 import { MasterList } from 'shared/modules';
 import { AuthContext } from 'shared/contexts';
-import { useGetWorkoutsQuery, UserType } from 'shared/generated';
+import { useGetWorkoutsQuery, UserType, WorkoutWhereInput } from 'shared/generated';
 import { WorkoutRoutineService } from 'shared/services';
+import { EMAIL_TEXT, LAST_NAME_TEXT, NAME_TEXT } from 'shared/constants';
 
 const WorkoutList: FC = () => {
   const { user } = useContext(AuthContext);
@@ -20,11 +21,16 @@ const WorkoutList: FC = () => {
   const isCustomerAndHasRoutine = user?.type === UserType.Customer && !!workoutExercises?.length;
 
   return (
-    <MasterList<IWorkoutPayload>
+    <MasterList<IWorkoutPayload, WorkoutWhereInput>
       title={[SINGULAR_WORKOUTS_TITLE, PLURAL_WORKOUTS_TITLE]}
       render={WorkoutCard}
       useQuery={useGetWorkoutsQuery}
       isCreateButtonAvailable={isCustomerAndHasRoutine}
+      filters={[
+        { label: EMAIL_TEXT, value: 'user.email' },
+        { label: NAME_TEXT, value: 'user.firstName' },
+        { label: LAST_NAME_TEXT, value: 'user.lastName' },
+      ]}
     />
   );
 };

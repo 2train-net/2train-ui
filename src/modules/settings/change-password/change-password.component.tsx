@@ -8,13 +8,13 @@ import {
   CONFIRM_NEW_PASSWORD_TEXT,
   WRONG_OLD_PASSWORD_EXCEPTION_TEXT,
   LIMIT_EXCEEDED_EXCEPTION_TEXT,
-  YOUR_PASSWORD_WAS_CHANGED_TEXT
+  YOUR_PASSWORD_WAS_CHANGED_TEXT,
 } from 'modules/settings/settings.module';
 
 import {
   IConfirmPasswordFormValues,
   CHANGE_PASSWORD_FORM_SCHEMA,
-  INITIAL_CHANGE_PASSWORD_FORM_VALUES
+  INITIAL_CHANGE_PASSWORD_FORM_VALUES,
 } from './change-password.util';
 
 import { Field } from 'shared/modules/form';
@@ -25,7 +25,7 @@ import {
   NEW_PASSWORD_TEXT,
   CURRENT_PASSWORD_TEXT,
   SAVE_TEXT,
-  SOMETHING_WENT_WRONG_EXCEPTION_TEXT
+  SOMETHING_WENT_WRONG_EXCEPTION_TEXT,
 } from 'shared/constants';
 
 const { Item } = Form;
@@ -45,7 +45,7 @@ const ChangePassword: FC = () => {
       }
     } catch (error) {
       const errorMessage =
-        error.code === 'NotAuthorizedException'
+        error.code! === 'NotAuthorizedException'
           ? WRONG_OLD_PASSWORD_EXCEPTION_TEXT
           : error.code === 'LimitExceededException'
           ? LIMIT_EXCEEDED_EXCEPTION_TEXT
@@ -60,7 +60,7 @@ const ChangePassword: FC = () => {
   const { handleSubmit, handleChange, values, errors, touched, resetForm } = useFormik<IConfirmPasswordFormValues>({
     onSubmit,
     initialValues: INITIAL_CHANGE_PASSWORD_FORM_VALUES,
-    validationSchema: CHANGE_PASSWORD_FORM_SCHEMA
+    validationSchema: CHANGE_PASSWORD_FORM_SCHEMA,
   });
 
   return (

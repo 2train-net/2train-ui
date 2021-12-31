@@ -1,5 +1,10 @@
-query getPlanInvitations($skip: Int!, $take: Int!, $order: PlanInvitationOrderByInput!) {
-  payload: planInvitations(skip: $skip, take: $take, orderBy: $order) {
+query getPlanInvitations(
+  $skip: Int!
+  $take: Int!
+  $order: PlanInvitationOrderByInput!
+  $where: PlanInvitationWhereInput
+) {
+  payload: planInvitations(skip: $skip, take: $take, orderBy: $order, where: $where) {
     uuid
     link
     plan {

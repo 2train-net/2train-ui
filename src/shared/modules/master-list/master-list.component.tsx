@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useCallback, useContext, useEffect, useState 
 
 import { Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 
+import _ from 'lodash';
 import { debounce } from 'lodash';
 import { useFormik } from 'formik';
 import { Row, Col, PageHeader, Typography, Empty } from 'antd';
@@ -27,14 +28,14 @@ const MasterList = <T, K = unknown>({
   isCreateButtonAvailable = true,
   fetchPolicy = 'cache-and-network',
   useQuery,
-  useDeleteMutation = () => [] as any
+  useDeleteMutation = () => [] as any,
 }: PropsWithChildren<IMasterList<T, K>>) => {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
 
   const {
-    params: { uuid }
+    params: { uuid },
   } = useRouteMatch<{ uuid: string }>();
 
   const modalProvider = useContext(ModalContext);
@@ -54,21 +55,25 @@ const MasterList = <T, K = unknown>({
     initialValues: {
       search: '',
       take: firstTake?.value,
-      filter: firstFilter?.value
-    }
+      filter: firstFilter?.value,
+    },
   });
 
   const { take, filter, search } = values;
 
   // TODO CURRENTLY WE ONLY SUPPORT STRING TYPE FILTERING, DOUBLE CHECK API REQUEST ARGS NOT USE OTHER TYPE LIKE INT OR BOOLEAN
 
-  const where: any = {
-    [filter]: filterSearch
-  };
+  const where = _.set<K>({}, filter, filterSearch);
 
-  const { data = { payload: [] }, loading, error: queryError, fetchMore, refetch } = useQuery({
+  const {
+    data = { payload: [] },
+    loading,
+    error: queryError,
+    fetchMore,
+    refetch,
+  } = useQuery({
     fetchPolicy,
-    variables: { take, order, skip: 0, where: filterSearch ? where : undefined }
+    variables: { take, order, skip: 0, where: filterSearch ? where : undefined },
   });
 
   const error = queryError || deleteEntityPayload?.error;
@@ -84,15 +89,15 @@ const MasterList = <T, K = unknown>({
     await fetchMore({
       variables: {
         take,
-        skip: nextSkip
+        skip: nextSkip,
       },
       updateQuery: (prev: any, { fetchMoreResult }: any) => {
         if (!fetchMoreResult) return prev;
 
         return Object.assign({}, prev, {
-          payload: [...prev.payload, ...fetchMoreResult.payload]
+          payload: [...prev.payload, ...fetchMoreResult.payload],
         });
-      }
+      },
     });
 
     setSkip(nextSkip);
@@ -110,14 +115,14 @@ const MasterList = <T, K = unknown>({
         onConfirm: async () => {
           await deleteEntity({
             variables: {
-              where: { uuid }
-            }
+              where: { uuid },
+            },
           });
 
           reload();
 
           history.goBack();
-        }
+        },
       });
     }
   };
@@ -157,7 +162,7 @@ const MasterList = <T, K = unknown>({
 
   if (isCreateButtonAvailable) {
     pageHeaderActions.push(
-      <Link key="create-link" to={location => `${location.pathname}/${ADD}`}>
+      <Link key="create-link" to={(location) => `${location.pathname}/${ADD}`}>
         <Button type="button" color="primary" size="small">
           {CREATE_TEXT}
         </Button>

@@ -7,16 +7,16 @@ export default createUseStyles<string, unknown, ITheme>(({ spacing, breakpoints 
     '& .master-list-content': {
       justifyContent: 'center',
       margin: {
-        top: spacing(3)
-      }
+        top: spacing(3),
+      },
     },
     '& .master-list-loading': {
       textAlign: 'center',
       display: 'block',
       margin: {
         top: spacing(4),
-        bottom: spacing(4)
-      }
+        bottom: spacing(4),
+      },
     },
     '& .search-bar': {
       display: 'flex',
@@ -24,9 +24,12 @@ export default createUseStyles<string, unknown, ITheme>(({ spacing, breakpoints 
       [breakpoints.up('sm')]: {
         '& .ant-form-item': {
           marginLeft: spacing(2),
-          marginBottom: '0px !important'
-        }
-      }
-    }
-  }
+          marginBottom: '0px !important',
+        },
+      },
+    },
+    '& .ant-page-header-heading-extra': {
+      display: 'flex',
+    },
+  },
 }));

@@ -12,13 +12,12 @@ const ClientList: FC = () => {
     <MasterList<IClientPayload, ClientWhereInput>
       title={[SINGULAR_CLIENTS_TITLE, PLURAL_CLIENTS_TITLE]}
       render={ClientCard}
-      isCreateButtonAvailable={false}
       useQuery={useGetClientsQuery}
       filters={[
         { label: EMAIL_TEXT, value: 'email' },
         { label: LAST_NAME_TEXT, value: 'lastName' },
         { label: FIRST_NAME_TEXT, value: 'firstName' },
-        { label: PHONE_TEXT, value: 'phone' }
+        { label: PHONE_TEXT, value: 'phone' },
       ]}
     />
   );

@@ -6,14 +6,14 @@ import {
   WorkoutRoutineCard,
   IWorkoutRoutinePayload,
   SINGULAR_ROUTINE_TITLE,
-  PLURAL_ROUTINE_TITLE
+  PLURAL_ROUTINE_TITLE,
 } from 'modules/workout-routines/workout-routines.module';
 
 import { MasterList } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
-import { DELETE_MODAL } from 'shared/constants';
+import { DELETE_MODAL, NAME_TEXT } from 'shared/constants';
 import { DELETE, WORKOUT_ROUTINES } from 'shared/routes';
-import { useGetWorkoutRoutinesQuery, UserType } from 'shared/generated';
+import { useGetWorkoutRoutinesQuery, UserType, WorkoutRoutineWhereInput } from 'shared/generated';
 
 const ExerciseList: FC = () => {
   const history = useHistory();
@@ -34,7 +34,7 @@ const ExerciseList: FC = () => {
     modalProvider.show({
       ...DELETE_MODAL,
       onConfirm: deleteWorkoutRoutine,
-      onCancel: redirectToWorkoutRoutines
+      onCancel: redirectToWorkoutRoutines,
     });
   };
 
@@ -45,11 +45,12 @@ const ExerciseList: FC = () => {
   }, [location]);
 
   return (
-    <MasterList<IWorkoutRoutinePayload>
+    <MasterList<IWorkoutRoutinePayload, WorkoutRoutineWhereInput>
       title={[SINGULAR_ROUTINE_TITLE, PLURAL_ROUTINE_TITLE]}
       render={WorkoutRoutineCard}
       isCreateButtonAvailable={isPersonaTrainer}
       useQuery={useGetWorkoutRoutinesQuery}
+      filters={[{ label: NAME_TEXT, value: 'name' }]}
     />
   );
 };

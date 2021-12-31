@@ -10,22 +10,28 @@ import {
   PLAN_INVITATION_MODAL,
   SINGULAR_PLANS_TITLE,
   PLURAL_PLANS_TITLE,
-  PLAN_INVITATION_LINK_MODAL
+  PLAN_INVITATION_LINK_MODAL,
 } from 'modules/plans/plans.module';
 
 import { useErrorHandler } from 'shared/hooks';
 import { MasterList, Message } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
 import { PLANS, INVITE, PLAN_INVITATIONS } from 'shared/routes';
-import { COPY_ON_CLIPBOARD_SUCCESSFULLY_TEXT } from 'shared/constants';
-import { useCreatePlanInvitationMutation, useDeletePlanMutation, useGetPlansQuery, UserType } from 'shared/generated';
+import { COPY_ON_CLIPBOARD_SUCCESSFULLY_TEXT, NAME_TEXT } from 'shared/constants';
+import {
+  PlanWhereInput,
+  useCreatePlanInvitationMutation,
+  useDeletePlanMutation,
+  useGetPlansQuery,
+  UserType,
+} from 'shared/generated';
 
 const PlanList: FC = () => {
   const history = useHistory();
   const location = useLocation();
 
   const {
-    params: { uuid }
+    params: { uuid },
   } = useRouteMatch<{ uuid: string }>();
 
   const { user } = useContext(AuthContext);
@@ -49,8 +55,8 @@ const PlanList: FC = () => {
 
       const planInvitation = await createPlanInvitation({
         variables: {
-          data: { plan: { connect: { uuid } }, user: { connect: { email } } }
-        }
+          data: { plan: { connect: { uuid } }, user: { connect: { email } } },
+        },
       });
 
       const invitationLink = `${window.origin}${PLAN_INVITATIONS}/${INVITE}/${planInvitation.data?.payload.uuid}`;
@@ -63,7 +69,7 @@ const PlanList: FC = () => {
           navigator.clipboard.writeText(invitationLink);
           Message.success(COPY_ON_CLIPBOARD_SUCCESSFULLY_TEXT);
           redirectToPlans();
-        }
+        },
       });
     } catch (error) {
       modalProvider.refresh({ isLoading: false });
@@ -77,7 +83,7 @@ const PlanList: FC = () => {
       onConfirm: () => {
         inviteFormRef?.current?.dispatchEvent(new Event('submit'));
       },
-      onCancel: redirectToPlans
+      onCancel: redirectToPlans,
     });
   };
 
@@ -90,12 +96,13 @@ const PlanList: FC = () => {
   }, [location]);
 
   return (
-    <MasterList<IPlanPayload>
+    <MasterList<IPlanPayload, PlanWhereInput>
       title={[SINGULAR_PLANS_TITLE, PLURAL_PLANS_TITLE]}
       render={PlanCard}
       isCreateButtonAvailable={isPersonalTrainer}
       useQuery={useGetPlansQuery}
       useDeleteMutation={useDeletePlanMutation}
+      filters={[{ label: NAME_TEXT, value: 'name' }]}
     />
   );
 };
