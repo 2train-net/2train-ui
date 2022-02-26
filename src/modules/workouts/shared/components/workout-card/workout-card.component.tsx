@@ -28,19 +28,11 @@ const WorkoutCard: FC<IWorkoutCard> = ({ data }) => {
         <Avatar
           size="large"
           url={profile?.avatar}
-<<<<<<< HEAD
           letter={profile && UserService.getAvatarLetters(profile.firstName, profile.lastName)}
         />
       }
       uuid={data.uuid}
       title={`${profile?.firstName} ${profile?.lastName}`}
-=======
-          letter={UserService.getAvatarLetters(profile!.firstName, profile!.lastName)}
-        />
-      }
-      uuid={data.uuid}
-      title={data.workoutRoutine.plan?.name}
->>>>>>> feat(workout): support nullable plans on workout
       description={`${DateService.format(data.createdAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)} | ${
         data.workoutExercises.length
       } ejercicio${data.workoutExercises.length > 1 ? 's' : ''}`}

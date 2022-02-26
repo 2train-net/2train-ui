@@ -9,7 +9,7 @@ import {
   SETS_TITLE,
   WEIGHT_TITLE,
   INITIAL_WORKOUT_EXERCISE_FORM_VALUES,
-  IWorkoutExerciseFormValues
+  IWorkoutExercisePayload,
 } from 'modules/workout-routines/workout-routines.module';
 
 import { NONE_TEXT } from 'shared/constants';
@@ -17,7 +17,7 @@ import { NONE_TEXT } from 'shared/constants';
 const { Text } = Typography;
 
 interface IWorkoutExerciseForm {
-  values?: IWorkoutExerciseFormValues;
+  values?: IWorkoutExercisePayload;
 }
 
 const WorkoutExerciseDetail: FC<IWorkoutExerciseForm> = ({ values = INITIAL_WORKOUT_EXERCISE_FORM_VALUES }) => {

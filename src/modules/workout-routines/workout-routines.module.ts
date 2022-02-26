@@ -8,6 +8,7 @@ import WorkoutRoutineDetail from './workout-routine-detail/workout-routine-detai
 import ExerciseItemCard from './shared/components/exercise-item-card/exercise-item-card-component';
 import WorkoutRoutineCard from './shared/components/workout-routine-card/workout-routine-card.component';
 import WorkoutRoutineForm from './shared/components/workout-routine-form/workout-routine-form.component';
+import DragAndDropRoutine from './shared/components/drag-and-drop-routine/drag-and-drop-routine.component';
 import WorkoutExerciseForm from './shared/components/workout-exercise-form/workout-exercise-form.component';
 import ExerciseOptionCreate from './shared/components/exercise-option-create/exercise-option-create.component';
 import WorkoutExerciseDetail from './shared/components/workout-exercise-detail/workout-exercise-detail.component';
@@ -30,7 +31,8 @@ export {
   WorkoutRoutineForm,
   WorkoutExerciseItemCard,
   WorkoutExerciseForm,
-  WorkoutExerciseDetail
+  WorkoutExerciseDetail,
+  DragAndDropRoutine,
 };
 
 export default WorkoutRoutines;

@@ -4,16 +4,14 @@ import { useHistory } from 'react-router-dom';
 
 import ListCard from 'shared/modules/list-card/list-card.component';
 
-import { parseItemToWorkoutExerciseCard } from 'modules/workout-routines/workout-routines.module';
-
 import { UserType } from 'shared/generated';
 import { AuthContext } from 'shared/contexts';
 import { LBS_TEXT, SECONDS_TEXT } from 'shared/constants';
 import { ACTION, DELETE, DETAIL, EDIT, UUID } from 'shared/routes';
-import { ColumnItem } from 'shared/modules/drag-and-drop-routine/shared/model/column-items.interface';
+import { IWorkoutExercisePayload } from '../../model';
 
 interface IWorkoutExerciseItemCardValues {
-  data: ColumnItem;
+  data: IWorkoutExercisePayload;
 }
 
 const WorkoutExerciseItemCard: FC<IWorkoutExerciseItemCardValues> = ({ data }) => {
@@ -23,7 +21,7 @@ const WorkoutExerciseItemCard: FC<IWorkoutExerciseItemCardValues> = ({ data }) =
 
   const redirect = history.push;
 
-  const { uuid, exercise, sets, reps, weight, seconds } = parseItemToWorkoutExerciseCard(data);
+  const { uuid, exercise, sets, reps, weight, seconds } = data;
 
   const isClient = user?.type === UserType.Customer;
 

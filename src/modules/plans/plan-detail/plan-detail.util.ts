@@ -9,7 +9,7 @@ import {
   EDIT,
   TRAINING,
   WORKOUT_ROUTINES,
-  BODY_MEASURES_BY_PLAN
+  BODY_MEASURES_BY_PLAN,
 } from 'shared/routes';
 import { Currency, PlanStatus, Scope, UserType } from 'shared/generated';
 import { DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT } from 'shared/constants';
@@ -23,7 +23,7 @@ import {
   DIET_TEXT,
   BODY_MEASURES_TEXT,
   TRAINING_TEXT,
-  STATISTICS_TEXT
+  STATISTICS_TEXT,
 } from 'shared/constants';
 
 interface IPlanDetail {
@@ -54,6 +54,7 @@ interface IPlanDetail {
   } | null;
   workoutRoutine?: {
     uuid: string;
+    isDraft: boolean;
   } | null;
   planAssociations: {
     association: string;
@@ -99,23 +100,23 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
           label: FROM_TEXT,
           value: plan?.startAt
             ? DateService.format(plan.startAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)
-            : undefined
+            : undefined,
         },
         {
           label: TO_TEXT,
           value: plan?.expireAt
             ? DateService.format(plan.expireAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)
-            : undefined
-        }
-      ]
+            : undefined,
+        },
+      ],
     },
     {
       col: { xs: 24, md: 6 },
       items: [
         { label: STATUS_TEXT, value: plan?.status ? PlanService.parseStatus(plan.status) : undefined },
-        { label: DAYS_TEXT, value: currentDays && totalDays ? `${currentDays} / ${totalDays}` : undefined }
-      ]
-    }
+        { label: DAYS_TEXT, value: currentDays && totalDays ? `${currentDays} / ${totalDays}` : undefined },
+      ],
+    },
   ];
 
   if (plan?.planAssociations?.length) {
@@ -130,8 +131,8 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
         ? `${WORKOUT_ROUTINES}/${isClient ? DETAIL : EDIT}/${plan.workoutRoutine.uuid}`
         : `${WORKOUT_ROUTINES}/${ADD}`,
       icon: 'reconciliation',
-      isDisabled: !plan?.workoutRoutine,
-      isNewTabRedirection: false
+      isDisabled: !plan?.workoutRoutine || (plan?.workoutRoutine?.isDraft && isClient),
+      isNewTabRedirection: false,
     },
     {
       title: DIET_TEXT,
@@ -139,7 +140,7 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
       url: plan && isDietFileEnabled ? plan.dietPlan?.file : `${DIET_PLANS}/${EDIT}/${plan?.dietPlan?.uuid}`,
       icon: 'read',
       isDisabled: isPersonalTrainer ? !plan?.dietPlan : !isDietFileEnabled,
-      isNewTabRedirection: isClient
+      isNewTabRedirection: isClient,
     },
     {
       icon: 'heart',
@@ -147,9 +148,9 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
       url: plan && BODY_MEASURES_BY_PLAN.replace(UUID_PARAM, plan?.uuid),
       buttonText: LOOK_TEXT,
       isDisabled: !plan,
-      isNewTabRedirection: false
+      isNewTabRedirection: false,
     },
-    { icon: 'lineChart', title: STATISTICS_TEXT, buttonText: LOOK_TEXT, isDisabled: true, isNewTabRedirection: false }
+    { icon: 'lineChart', title: STATISTICS_TEXT, buttonText: LOOK_TEXT, isDisabled: true, isNewTabRedirection: false },
   ];
 
   isClient &&
@@ -159,7 +160,7 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
       buttonText: LOOK_TEXT,
       url: TRAINING,
       isDisabled: !plan?.workoutRoutine || !isAvailable,
-      isNewTabRedirection: false
+      isNewTabRedirection: false,
     });
 
   return {
@@ -167,6 +168,6 @@ export const format = (userType?: UserType, plan?: IPlanDetail) => {
     owner,
     members,
     iconCards,
-    isClient
+    isClient,
   };
 };

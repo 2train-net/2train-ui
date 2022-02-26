@@ -40,21 +40,18 @@ import {
   DownOutlined,
   WarningOutlined,
   EyeInvisibleOutlined,
-<<<<<<< HEAD
   BellFilled,
   TrophyFilled,
   PaperClipOutlined,
   FileTextOutlined,
   FileDoneOutlined,
   NotificationOutlined,
-=======
->>>>>>> feat(icon): add new icons
   MoreOutlined,
   SelectOutlined,
   QuestionOutlined,
   InboxOutlined,
   RocketOutlined,
-  FormOutlined
+  FormOutlined,
 } from '@ant-design/icons';
 
 export type IconType =
@@ -97,15 +94,12 @@ export type IconType =
   | 'down'
   | 'warning'
   | 'unableView'
-<<<<<<< HEAD
   | 'bell'
   | 'trophy'
   | 'paperClip'
   | 'fileText'
   | 'fileDone'
   | 'megaphone'
-=======
->>>>>>> feat(icon): add new icons
   | 'more'
   | 'select'
   | 'question'
@@ -160,21 +154,18 @@ const outlinedIconDictionary = {
   down: DownOutlined,
   warning: WarningOutlined,
   unableView: EyeInvisibleOutlined,
-<<<<<<< HEAD
   bell: BellFilled,
   trophy: TrophyFilled,
   paperClip: PaperClipOutlined,
   fileText: FileTextOutlined,
   fileDone: FileDoneOutlined,
   megaphone: NotificationOutlined,
-=======
->>>>>>> feat(icon): add new icons
   more: MoreOutlined,
   select: SelectOutlined,
   question: QuestionOutlined,
   inbox: InboxOutlined,
   rocket: RocketOutlined,
-  form: FormOutlined
+  form: FormOutlined,
 };
 
 const Icon: FC<IIcon> = ({ key, type, className, onClick }) => {

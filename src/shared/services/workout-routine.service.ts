@@ -12,7 +12,7 @@ const days = {
   [Day.Day_4]: 3,
   [Day.Day_5]: 4,
   [Day.Day_6]: 5,
-  [Day.Day_7]: 6
+  [Day.Day_7]: 6,
 };
 
 const numbers: { [key: number]: any } = {
@@ -22,7 +22,17 @@ const numbers: { [key: number]: any } = {
   3: Day.Day_4,
   4: Day.Day_5,
   5: Day.Day_6,
-  6: Day.Day_7
+  6: Day.Day_7,
+};
+
+const strings: { [key: string]: any } = {
+  DAY_1: 0,
+  DAY_2: 1,
+  DAY_3: 2,
+  DAY_4: 3,
+  DAY_5: 4,
+  DAY_6: 5,
+  DAY_7: 6,
 };
 
 export class WorkoutRoutineService {
@@ -31,6 +41,9 @@ export class WorkoutRoutineService {
   };
   parseNumberToDay = (number: number) => {
     return numbers[number];
+  };
+  parseStringToDayNumber = (string: string) => {
+    return strings[string];
   };
 
   getActiveWorkoutExercises = (workoutRoutine?: IWorkoutRoutine) => {

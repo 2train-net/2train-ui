@@ -11,18 +11,19 @@ import {
   WorkoutExerciseFocus,
   IWorkoutExerciseFormValues,
   WORKOUT_EXERCISE_FORM_SCHEMA,
-  INITIAL_WORKOUT_EXERCISE_FORM_VALUES
+  INITIAL_WORKOUT_EXERCISE_FORM_VALUES,
 } from './workout-exercise-form.util';
 import {
   COMMENTS_TITLE,
+  IWorkoutExercisePayload,
   REPS_TITLE,
   SECONDS_TITLE,
   SETS_TITLE,
-  WEIGHT_TITLE
+  WEIGHT_TITLE,
 } from 'modules/workout-routines/workout-routines.module';
 
 interface IWorkoutExerciseForm {
-  initialValues?: IWorkoutExerciseFormValues;
+  initialValues?: IWorkoutExercisePayload;
   onSubmit: (values: IWorkoutExerciseFormValues) => any;
   formRef: RefObject<HTMLFormElement>;
 }
@@ -30,7 +31,7 @@ interface IWorkoutExerciseForm {
 const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
   initialValues = INITIAL_WORKOUT_EXERCISE_FORM_VALUES,
   onSubmit,
-  formRef
+  formRef,
 }) => {
   const onPreviousSubmit = (values: IWorkoutExerciseFormValues) => {
     values.focus === WorkoutExerciseFocus.REPS ? (values.seconds = null) : (values.reps = null);
@@ -44,14 +45,13 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
       : { ...initialValues, focus: WorkoutExerciseFocus.REPS }
     : initialValues;
 
-  const { handleSubmit, handleChange, setFieldValue, values, errors, touched, resetForm } = useFormik<
-    IWorkoutExerciseFormValues
-  >({
-    onSubmit: onPreviousSubmit,
-    initialValues: parseInitialValues,
-    validationSchema: WORKOUT_EXERCISE_FORM_SCHEMA,
-    enableReinitialize: true
-  });
+  const { handleSubmit, handleChange, setFieldValue, values, errors, touched, resetForm } =
+    useFormik<IWorkoutExerciseFormValues>({
+      onSubmit: onPreviousSubmit,
+      initialValues: parseInitialValues,
+      validationSchema: WORKOUT_EXERCISE_FORM_SCHEMA,
+      enableReinitialize: true,
+    });
 
   return (
     <form onSubmitCapture={handleSubmit} ref={formRef}>
@@ -62,7 +62,7 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
             name="focus"
             options={[
               { label: 'Reps', value: WorkoutExerciseFocus.REPS },
-              { label: 'Sprint', value: WorkoutExerciseFocus.SPRINT }
+              { label: 'Sprint', value: WorkoutExerciseFocus.SPRINT },
             ]}
             error={errors.focus}
             setFieldValue={setFieldValue}

@@ -7,5 +7,6 @@ query getWorkoutRoutines(
   payload: workoutRoutines(skip: $skip, take: $take, orderBy: $order, where: $where) {
     uuid
     name
+    isDraft
   }
 }
