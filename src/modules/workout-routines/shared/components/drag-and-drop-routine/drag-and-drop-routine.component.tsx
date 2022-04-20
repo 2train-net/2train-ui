@@ -56,6 +56,7 @@ import { DELETE, DETAIL, EDIT } from 'shared/routes';
 import { getIsMobile } from 'shared/util';
 import { Field, Select } from 'shared/modules/form';
 import { Modal } from 'shared/contexts/modal.context';
+import { SINGULAR_ROUTINE_TEMPLATE_TITLE } from '../../constants';
 
 interface WorkoutExerciseSubmitValues {
   create: IWorkoutExercisePayload[];
@@ -112,7 +113,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutine> = ({
 
   const [hasImported, setHasImported] = useState(false);
 
-  const [orginalWotkoutRoutine, setOrgininalWorkoutRoutine] = useState<IWorkoutRoutinePayload | undefined>();
+  const [originalWorkoutRoutine, setOriginalWorkoutRoutine] = useState<IWorkoutRoutinePayload | undefined>();
 
   const handleDropdownClick = (e: any) => {
     if (!importTemplateModal) return;
@@ -364,10 +365,13 @@ const DragAndDropRoutine: FC<IDragAndDropRoutine> = ({
     if (isCreateRoutineForm) {
       createRoutineFormRef?.current?.dispatchEvent(new Event('submit'));
     } else {
-      orginalWotkoutRoutine?.workoutExercises &&
+      originalWorkoutRoutine?.workoutExercises &&
         onSubmit &&
         onSubmit(
-          parseColumnsToData(updatePositionsAndColumns(columns ? columns : []), orginalWotkoutRoutine?.workoutExercises)
+          parseColumnsToData(
+            updatePositionsAndColumns(columns ? columns : []),
+            originalWorkoutRoutine?.workoutExercises
+          )
         );
     }
   };
@@ -378,7 +382,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutine> = ({
     }
 
     if (columns && !columns.length) {
-      setOrgininalWorkoutRoutine(workoutRoutine);
+      setOriginalWorkoutRoutine(workoutRoutine);
     }
 
     setColumns(parseDataToColumns(workoutRoutine?.workoutExercises));
@@ -432,7 +436,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutine> = ({
     <div className={classes.root}>
       <PageHeader
         ghost={false}
-        title={SINGULAR_ROUTINE_TITLE}
+        title={workoutRoutine?.isTemplate ? SINGULAR_ROUTINE_TEMPLATE_TITLE : SINGULAR_ROUTINE_TITLE}
         onBack={haveValuesChanged ? () => displayGoBackModal() : goBack}
         extra={
           isEditAvailable

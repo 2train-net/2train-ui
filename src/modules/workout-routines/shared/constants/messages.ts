@@ -1,5 +1,7 @@
 export const SINGULAR_ROUTINE_TITLE = 'Rutina',
   PLURAL_ROUTINE_TITLE = 'Rutinas',
+  SINGULAR_ROUTINE_TEMPLATE_TITLE = 'Rutina Plantilla',
+  PLURAL_ROUTINE_TEMPLATE_TITLE = 'Rutina Plantillas',
   SETS_TITLE = 'Sets',
   REPS_TITLE = 'Reps',
   SECONDS_TITLE = 'Segundos',
