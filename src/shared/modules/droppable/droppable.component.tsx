@@ -4,14 +4,12 @@ import React, { FC } from 'react';
 
 import { Direction, Droppable as RBDroppable } from 'react-beautiful-dnd';
 
-import { Item } from 'shared/modules/drag-and-drop-routine/shared/model';
-
 import Draggable from 'shared/modules/draggable/draggable.component';
 
 interface IDroppableValues {
   id: string;
   direction?: Direction;
-  items: Item[];
+  items: { uuid: string }[];
   renderCard: FC<any>;
   isDropDisabled?: boolean;
   isDragDisabled?: boolean;
@@ -24,13 +22,14 @@ const Droppable: FC<IDroppableValues> = ({
   items,
   renderCard,
   isDropDisabled = false,
-  isDragDisabled = false
+  isDragDisabled = false,
 }) => {
   return (
     <RBDroppable droppableId={id} direction={direction} isDropDisabled={isDropDisabled}>
       {(provided, snapshot) => {
         return (
           <div
+            data-testid="droppable"
             ref={provided.innerRef}
             {...provided.droppableProps}
             className={
@@ -45,7 +44,7 @@ const Droppable: FC<IDroppableValues> = ({
                 : 'notVisible'
             }
           >
-            {items.map((item: Item, position: number) => (
+            {items.map((item: { uuid: string }, position: number) => (
               <Draggable
                 key={item.uuid}
                 id={item.uuid}

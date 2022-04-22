@@ -9,57 +9,60 @@ export default createUseStyles<string, unknown, ITheme>(({ palette, breakpoints,
       '& .select-item': {
         width: '100%',
         marginBottom: 0,
-        marginRight: spacing(1)
-      }
+        marginRight: spacing(1),
+      },
     },
     '& .ant-page-header-heading-extra': {
       width: '100%',
       marginTop: spacing(2),
       [breakpoints.up('sm')]: {
-        width: spacing(30),
-        marginTop: 0
-      }
+        width: spacing(45),
+        marginTop: 0,
+      },
+      '& button': {
+        marginLeft: spacing(1),
+      },
     },
 
     '& .column-header': {
       '& h5': {
-        marginLeft: spacing(2)
+        marginLeft: spacing(2),
       },
       '& button': {
-        margin: spacing(0.625)
+        margin: spacing(0.625),
       },
       display: 'flex',
       justifyContent: 'space-between',
       marginBottom: spacing(1),
       alignItems: 'baseline',
-      maxWidth: spacing(90)
+      maxWidth: spacing(90),
     },
     '& .columns': {
       marginBottom: spacing(2),
       marginTop: spacing(2),
       [breakpoints.down('sm')]: {
-        marginBottom: spacing(31.25)
+        marginBottom: spacing(31.25),
       },
       '& .ant-row': {
-        alignItems: 'baseline'
-      }
+        alignItems: 'baseline',
+      },
     },
     '& .footer': {
       bottom: 0,
       [breakpoints.down('sm')]: {
         position: 'fixed',
         left: 0,
-        width: '100%'
+        width: '100%',
       },
       '& .field-item': {
         width: '100%',
-        marginRight: spacing(1)
+        marginRight: spacing(1),
       },
       '& .search-container': {
         marginBottom: spacing(-2),
         display: 'flex',
-        justifyContent: 'space-between'
-      }
+        justifyContent: 'space-between',
+      },
     },
     '& .create-options-container': {
       display: 'flex',
@@ -68,11 +71,11 @@ export default createUseStyles<string, unknown, ITheme>(({ palette, breakpoints,
       margin: 'auto',
       '& > span': {
         marginTop: spacing(1),
-        marginBottom: spacing(2)
-      }
+        marginBottom: spacing(2),
+      },
     },
     '& .notVisible': {
-      display: 'none'
+      display: 'none',
     },
     '& .vertical-droppable, .vertical-droppable-dragging': {
       maxWidth: spacing(90),
@@ -86,12 +89,12 @@ export default createUseStyles<string, unknown, ITheme>(({ palette, breakpoints,
         marginTop: spacing(2),
         marginBottom: spacing(1),
         '& .ant-card': {
-          width: [['80%'], '!important']
-        }
-      }
+          width: [['80%'], '!important'],
+        },
+      },
     },
     '& .vertical-droppable-dragging': {
-      background: palette.secondary.light
+      background: palette.secondary.light,
     },
     '& .horizontal-droppable, .horizontal-droppable-dragging': {
       background: palette.default.light,
@@ -101,7 +104,7 @@ export default createUseStyles<string, unknown, ITheme>(({ palette, breakpoints,
       marginTop: spacing(2),
       overflowY: 'scroll',
       display: 'flex',
-      position: 'sticky'
+      position: 'sticky',
     },
     '& .draggable': {
       justifyContent: 'center',
@@ -109,23 +112,23 @@ export default createUseStyles<string, unknown, ITheme>(({ palette, breakpoints,
         justifyContent: 'center',
         '& .ant-card': {
           width: [['100%'], '!important'],
-          minWidth: spacing(25)
-        }
+          minWidth: spacing(25),
+        },
       },
       maxWidth: 400,
       userSelect: 'none',
       margin: spacing(1),
       color: 'white',
       flexDirection: 'row',
-      width: 'auto'
+      width: 'auto',
     },
     '& .skeleton-item': {
       marginBottom: spacing(2),
       marginLeft: spacing(0.5),
       height: `${spacing(5.25)}px !important`,
       [breakpoints.up('sm')]: {
-        height: `${spacing(56.25)}px !important`
-      }
-    }
-  }
+        height: `${spacing(56.25)}px !important`,
+      },
+    },
+  },
 }));

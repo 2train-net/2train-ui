@@ -1,0 +1,8 @@
+mutation sendWorkoutRoutine($where: WorkoutRoutineWhereUniqueInput!) {
+  payload: sendWorkoutRoutine(where: $where) {
+    uuid
+    plan {
+      uuid
+    }
+  }
+}

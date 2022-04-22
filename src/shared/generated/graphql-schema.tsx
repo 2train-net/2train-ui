@@ -418,6 +418,7 @@ export type Mutation = {
   updateExercise: Exercise;
   createPlanInvitation: PlanInvitation;
   acceptPlanInvitation: PlanInvitation;
+  sendWorkoutRoutine: WorkoutRoutine;
   updateWorkoutRoutine: WorkoutRoutine;
   createWorkoutRoutine: WorkoutRoutine;
   createWorkout: Workout;
@@ -525,6 +526,10 @@ export type MutationCreatePlanInvitationArgs = {
 
 export type MutationAcceptPlanInvitationArgs = {
   data: PlanInvitationAcceptInput;
+};
+
+export type MutationSendWorkoutRoutineArgs = {
+  where: WorkoutRoutineWhereUniqueInput;
 };
 
 export type MutationUpdateWorkoutRoutineArgs = {
@@ -1158,6 +1163,7 @@ export type WorkoutRoutine = {
   name?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['Int']>;
   isTemplate: Scalars['Boolean'];
+  isDraft: Scalars['Boolean'];
   user?: Maybe<User>;
   plan?: Maybe<Plan>;
   workoutExercises: Array<WorkoutExercise>;
@@ -1178,6 +1184,7 @@ export type WorkoutRoutineOrderByInput = {
 };
 
 export type WorkoutRoutineUpdateInput = {
+  name?: Maybe<Scalars['String']>;
   workoutExercises: WorkoutExerciseCreateManyWithoutWorkoutRoutineInput;
 };
 
@@ -1525,7 +1532,7 @@ export type GetPlanDetailQuery = { __typename?: 'Query' } & {
       owner: { __typename?: 'User' } & Pick<User, 'uuid' | 'avatar' | 'firstName' | 'lastName'>;
       purchasePlan?: Maybe<{ __typename?: 'Plan' } & Pick<Plan, 'uuid' | 'status'>>;
       dietPlan?: Maybe<{ __typename?: 'DietPlan' } & Pick<DietPlan, 'uuid' | 'file'>>;
-      workoutRoutine?: Maybe<{ __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid'>>;
+      workoutRoutine?: Maybe<{ __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid' | 'isDraft'>>;
       planAssociations: Array<
         { __typename?: 'PlanAssociation' } & Pick<PlanAssociation, 'association'> & {
             user: { __typename?: 'User' } & Pick<User, 'uuid' | 'firstName' | 'lastName' | 'avatar'>;
@@ -1682,7 +1689,7 @@ export type GetWorkoutRoutineQueryVariables = Exact<{
 }>;
 
 export type GetWorkoutRoutineQuery = { __typename?: 'Query' } & {
-  payload: { __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid' | 'isTemplate'> & {
+  payload: { __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid' | 'isTemplate' | 'name' | 'isDraft'> & {
       workoutExercises: Array<
         { __typename?: 'WorkoutExercise' } & Pick<
           WorkoutExercise,
@@ -1700,7 +1707,17 @@ export type GetWorkoutRoutinesQueryVariables = Exact<{
 }>;
 
 export type GetWorkoutRoutinesQuery = { __typename?: 'Query' } & {
-  payload: Array<{ __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid' | 'name'>>;
+  payload: Array<{ __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid' | 'name' | 'isDraft'>>;
+};
+
+export type SendWorkoutRoutineMutationVariables = Exact<{
+  where: WorkoutRoutineWhereUniqueInput;
+}>;
+
+export type SendWorkoutRoutineMutation = { __typename?: 'Mutation' } & {
+  payload: { __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid'> & {
+      plan?: Maybe<{ __typename?: 'Plan' } & Pick<Plan, 'uuid'>>;
+    };
 };
 
 export type UpdateWorkoutRoutineMutationVariables = Exact<{
@@ -1711,6 +1728,12 @@ export type UpdateWorkoutRoutineMutationVariables = Exact<{
 export type UpdateWorkoutRoutineMutation = { __typename?: 'Mutation' } & {
   payload: { __typename?: 'WorkoutRoutine' } & Pick<WorkoutRoutine, 'uuid'> & {
       plan?: Maybe<{ __typename?: 'Plan' } & Pick<Plan, 'uuid'>>;
+      workoutExercises: Array<
+        { __typename?: 'WorkoutExercise' } & Pick<
+          WorkoutExercise,
+          'uuid' | 'sets' | 'reps' | 'weight' | 'seconds' | 'day' | 'comments' | 'order'
+        > & { exercise: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'> }
+      >;
     };
 };
 
@@ -3102,6 +3125,7 @@ export const GetPlanDetailDocument = gql`
       }
       workoutRoutine {
         uuid
+        isDraft
       }
       planAssociations {
         association
@@ -3669,6 +3693,8 @@ export const GetWorkoutRoutineDocument = gql`
     payload: workoutRoutine(where: $where) {
       uuid
       isTemplate
+      name
+      isDraft
       workoutExercises {
         uuid
         sets
@@ -3736,6 +3762,7 @@ export const GetWorkoutRoutinesDocument = gql`
     payload: workoutRoutines(skip: $skip, take: $take, orderBy: $order, where: $where) {
       uuid
       name
+      isDraft
     }
   }
 `;
@@ -3781,12 +3808,73 @@ export type GetWorkoutRoutinesQueryResult = ApolloReactCommon.QueryResult<
   GetWorkoutRoutinesQuery,
   GetWorkoutRoutinesQueryVariables
 >;
+export const SendWorkoutRoutineDocument = gql`
+  mutation sendWorkoutRoutine($where: WorkoutRoutineWhereUniqueInput!) {
+    payload: sendWorkoutRoutine(where: $where) {
+      uuid
+      plan {
+        uuid
+      }
+    }
+  }
+`;
+export type SendWorkoutRoutineMutationFn = ApolloReactCommon.MutationFunction<
+  SendWorkoutRoutineMutation,
+  SendWorkoutRoutineMutationVariables
+>;
+
+/**
+ * __useSendWorkoutRoutineMutation__
+ *
+ * To run a mutation, you first call `useSendWorkoutRoutineMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendWorkoutRoutineMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendWorkoutRoutineMutation, { data, loading, error }] = useSendWorkoutRoutineMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useSendWorkoutRoutineMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<SendWorkoutRoutineMutation, SendWorkoutRoutineMutationVariables>
+) {
+  return ApolloReactHooks.useMutation<SendWorkoutRoutineMutation, SendWorkoutRoutineMutationVariables>(
+    SendWorkoutRoutineDocument,
+    baseOptions
+  );
+}
+export type SendWorkoutRoutineMutationHookResult = ReturnType<typeof useSendWorkoutRoutineMutation>;
+export type SendWorkoutRoutineMutationResult = ApolloReactCommon.MutationResult<SendWorkoutRoutineMutation>;
+export type SendWorkoutRoutineMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  SendWorkoutRoutineMutation,
+  SendWorkoutRoutineMutationVariables
+>;
 export const UpdateWorkoutRoutineDocument = gql`
   mutation updateWorkoutRoutine($data: WorkoutRoutineUpdateInput!, $where: WorkoutRoutineWhereUniqueInput!) {
     payload: updateWorkoutRoutine(data: $data, where: $where) {
       uuid
       plan {
         uuid
+      }
+      workoutExercises {
+        uuid
+        sets
+        reps
+        weight
+        seconds
+        day
+        comments
+        order
+        exercise {
+          uuid
+          name
+          description
+        }
       }
     }
   }

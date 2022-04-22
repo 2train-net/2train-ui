@@ -51,7 +51,7 @@ import {
   QuestionOutlined,
   InboxOutlined,
   RocketOutlined,
-  FormOutlined
+  FormOutlined,
 } from '@ant-design/icons';
 
 export type IconType =
@@ -165,7 +165,7 @@ const outlinedIconDictionary = {
   question: QuestionOutlined,
   inbox: InboxOutlined,
   rocket: RocketOutlined,
-  form: FormOutlined
+  form: FormOutlined,
 };
 
 const Icon: FC<IIcon> = ({ key, type, className, onClick }) => {

@@ -11,7 +11,6 @@ import InfoItem from './info-item/info-item.component';
 import ListCard from './list-card/list-card.component';
 import Status from './status/status.component';
 import Skeleton from './skeleton/skeleton.component';
-import DragAndDropRoutine from './drag-and-drop-routine/drag-and-drop-routine.component';
 import Steps from './steps/steps.component';
 import FormHeader from './form-header/form-header.component';
 import FormPage from './form-page/form-page.component';
@@ -34,9 +33,8 @@ export {
   ListCard,
   Status,
   Skeleton,
-  DragAndDropRoutine,
   Steps,
   FormHeader,
   FormPage,
-  ErrorBoundary
+  ErrorBoundary,
 };

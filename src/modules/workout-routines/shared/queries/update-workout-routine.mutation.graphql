@@ -4,5 +4,20 @@ mutation updateWorkoutRoutine($data: WorkoutRoutineUpdateInput!, $where: Workout
     plan {
       uuid
     }
+    workoutExercises {
+      uuid
+      sets
+      reps
+      weight
+      seconds
+      day
+      comments
+      order
+      exercise {
+        uuid
+        name
+        description
+      }
+    }
   }
 }

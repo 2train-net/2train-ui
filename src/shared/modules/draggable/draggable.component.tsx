@@ -4,13 +4,11 @@ import React, { FC } from 'react';
 
 import { Draggable as RBDraggable } from 'react-beautiful-dnd';
 
-import { ICard, Item } from 'shared/modules/drag-and-drop-routine/shared/model';
-
 interface IDraggableValues {
   position: number;
   id: string;
-  item: Item;
-  renderCard: FC<ICard>;
+  item: { uuid: string };
+  renderCard: FC<{ data: any }>;
   isDragDisabled?: boolean;
 }
 

@@ -2,6 +2,8 @@ query getWorkoutRoutine($where: WorkoutRoutineWhereUniqueInput!) {
   payload: workoutRoutine(where: $where) {
     uuid
     isTemplate
+    name
+    isDraft
     workoutExercises {
       uuid
       sets

@@ -4,25 +4,14 @@ import { Redirect, useRouteMatch } from 'react-router-dom';
 
 import { useGetWorkoutRoutineQuery } from 'shared/generated';
 
-import {
-  ExerciseItemCard,
-  WorkoutExerciseItemCard,
-  WorkoutExerciseDetail,
-  WORKOUT_EXERCISE_MODAL,
-  parseWorkoutExerciseToItem
-} from 'modules/workout-routines/workout-routines.module';
+import { DragAndDropRoutine } from 'modules/workout-routines/workout-routines.module';
 
 import { NOT_FOUND } from 'shared/routes';
 import { useErrorHandler } from 'shared/hooks';
-import { WorkoutRoutineService } from 'shared/services';
-import { WORKOUT_ROUTINE_TEXT } from 'shared/constants';
-import { DragAndDropRoutine } from 'shared/modules';
 
 const WorkoutRoutineDetail: FC = () => {
-  const { getMaxDay } = WorkoutRoutineService;
-
   const {
-    params: { uuid }
+    params: { uuid },
   } = useRouteMatch<{ uuid: string }>();
 
   const where = { uuid };
@@ -30,8 +19,8 @@ const WorkoutRoutineDetail: FC = () => {
   const workoutRoutine = useGetWorkoutRoutineQuery({
     fetchPolicy: 'network-only',
     variables: {
-      where
-    }
+      where,
+    },
   });
 
   const notFound = !workoutRoutine.data?.payload && !workoutRoutine.loading;
@@ -42,15 +31,9 @@ const WorkoutRoutineDetail: FC = () => {
     <Redirect to={NOT_FOUND} />
   ) : (
     <DragAndDropRoutine
-      routineTitle={WORKOUT_ROUTINE_TEXT}
-      data={parseWorkoutExerciseToItem(workoutRoutine.data?.payload.workoutExercises)}
-      renderColumnCard={WorkoutExerciseItemCard}
-      renderOptionCard={ExerciseItemCard}
-      renderDetail={WorkoutExerciseDetail}
-      formModal={WORKOUT_EXERCISE_MODAL}
-      isEditModeEnabled={false}
+      workoutRoutine={workoutRoutine.data?.payload}
+      isEditAvailable={false}
       isLoading={workoutRoutine.loading}
-      maxColumn={getMaxDay(workoutRoutine.data?.payload.workoutExercises)}
     />
   );
 };

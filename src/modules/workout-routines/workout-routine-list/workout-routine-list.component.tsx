@@ -5,8 +5,8 @@ import { useHistory, useLocation } from 'react-router';
 import {
   WorkoutRoutineCard,
   IWorkoutRoutinePayload,
-  SINGULAR_ROUTINE_TITLE,
-  PLURAL_ROUTINE_TITLE,
+  SINGULAR_ROUTINE_TEMPLATE_TITLE,
+  PLURAL_ROUTINE_TEMPLATE_TITLE,
 } from 'modules/workout-routines/workout-routines.module';
 
 import { MasterList } from 'shared/modules';
@@ -46,7 +46,7 @@ const ExerciseList: FC = () => {
 
   return (
     <MasterList<IWorkoutRoutinePayload, WorkoutRoutineWhereInput>
-      title={[SINGULAR_ROUTINE_TITLE, PLURAL_ROUTINE_TITLE]}
+      title={[SINGULAR_ROUTINE_TEMPLATE_TITLE, PLURAL_ROUTINE_TEMPLATE_TITLE]}
       render={WorkoutRoutineCard}
       isCreateButtonAvailable={isPersonaTrainer}
       useQuery={useGetWorkoutRoutinesQuery}
