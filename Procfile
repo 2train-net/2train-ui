@@ -1,1 +1,1 @@
-web: npm run start:deploy
+web: node src/index.tsx
