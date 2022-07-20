@@ -37,7 +37,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:deploy": "PORT=$PORT && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test-coverage-all": "react-scripts test --coverage --watchAll=false --collectCoverageFrom=src/**/*.component.tsx",
