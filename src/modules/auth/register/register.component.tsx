@@ -9,7 +9,7 @@ import {
   REGISTER_TEXT,
   ALREADY_HAVE_AN_ACCOUNT_TEXT,
   USERNAME_ALREADY_EXISTS_EXCEPTION_TEXT,
-  UNEXPECTED_VALIDATION_ERROR_EXCEPTION_TEXT
+  UNEXPECTED_VALIDATION_ERROR_EXCEPTION_TEXT,
 } from 'modules/auth/auth.module';
 
 import { Icon, Button } from 'shared/modules';
@@ -25,10 +25,10 @@ import {
   EMAIL_TEXT,
   PASSWORD_TEXT,
   CONFIRM_PASSWORD_TEXT,
-  EMAIL_ALREADY_EXITS_EXCEPTION_TEXT
+  EMAIL_ALREADY_EXITS_EXCEPTION_TEXT,
 } from 'shared/constants';
 import { CreateAccount, ICreateAccountFormValues } from 'modules/auth/shared/model';
-import { UserType, useCreateUserMutation, usePublicUserLazyQuery } from 'shared/generated';
+import { UserType, useCreateUserMutation, usePublicUserLazyQuery, PublicUserStatusFilter } from 'shared/generated';
 
 import LOGO from 'shared/assets/images/logo/logo-horizontal-full-color.png';
 
@@ -58,7 +58,9 @@ const Register: FC = () => {
     debounce(async (email: string) => {
       try {
         if (email.length) {
-          await getUserByEmail({ variables: { where: { email } } });
+          await getUserByEmail({
+            variables: { where: { email, status: PublicUserStatusFilter.ExcludeInvitedStatus } },
+          });
         }
       } catch (error) {}
     }, DEBOUNCE_TIMEOUT),
@@ -69,7 +71,9 @@ const Register: FC = () => {
     debounce(async (username: string) => {
       try {
         if (username.length) {
-          await getUserByUsername({ variables: { where: { username } } });
+          await getUserByUsername({
+            variables: { where: { username, status: PublicUserStatusFilter.ExcludeInvitedStatus } },
+          });
         }
       } catch (error) {}
     }, DEBOUNCE_TIMEOUT),
@@ -87,8 +91,8 @@ const Register: FC = () => {
         await AuthService.register(email, password);
         await createUser({
           variables: {
-            data: profile.data
-          }
+            data: profile.data,
+          },
         });
 
         history.push(LOGIN);
@@ -120,14 +124,13 @@ const Register: FC = () => {
     return validation;
   };
 
-  const { handleSubmit, handleChange, setFieldValue, setFieldError, values, errors, touched } = useFormik<
-    ICreateAccountFormValues
-  >({
-    onSubmit,
-    validate,
-    validationSchema: REGISTER_FORM_SCHEMA,
-    initialValues: INITIAL_REGISTER_FORM_VALUES
-  });
+  const { handleSubmit, handleChange, setFieldValue, setFieldError, values, errors, touched } =
+    useFormik<ICreateAccountFormValues>({
+      onSubmit,
+      validate,
+      validationSchema: REGISTER_FORM_SCHEMA,
+      initialValues: INITIAL_REGISTER_FORM_VALUES,
+    });
 
   const getEmailValidationError = (): string | undefined => {
     const existingEmailError = emailValidationPayload.data?.payload ? EMAIL_ALREADY_EXITS_EXCEPTION_TEXT : undefined;
@@ -218,10 +221,7 @@ const Register: FC = () => {
           value={values.type}
           name="type"
           placeholder={USER_TYPE_TEXT}
-          options={[
-            { label: UserService.parseUserType(UserType.PersonalTrainer), value: UserType.PersonalTrainer },
-            { label: UserService.parseUserType(UserType.Customer), value: UserType.Customer }
-          ]}
+          options={[{ label: UserService.parseUserType(UserType.PersonalTrainer), value: UserType.PersonalTrainer }]}
           error={errors.type}
           isDisabled={isLoading}
           setFieldValue={setFieldValue}

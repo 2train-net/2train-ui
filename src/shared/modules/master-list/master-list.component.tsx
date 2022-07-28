@@ -146,7 +146,7 @@ const MasterList = <T, K = unknown>({
 
   if (filters.length) {
     pageHeaderActions.push(
-      <Row className="search-bar">
+      <Row key="search-bar" className="search-bar">
         <Col xs={8} md={5}>
           <Select name="take" setFieldValue={setFieldValue} options={entriesPerPage} value={take} />
         </Col>

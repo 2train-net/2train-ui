@@ -18,7 +18,7 @@ interface ISelect {
   placeholder?: string;
   isDisabled?: boolean;
   hasBeenTouched?: boolean;
-  defaultValue?: number;
+  defaultValue?: any;
   isMultiple?: boolean;
   setFieldValue: (name: string, value: any, shouldValidate?: boolean) => void;
 }
@@ -33,7 +33,7 @@ const Field: FC<ISelect> = ({
   isMultiple,
   hasBeenTouched,
   defaultValue,
-  setFieldValue
+  setFieldValue,
 }) => {
   const props: SelectProps<any> = {};
 

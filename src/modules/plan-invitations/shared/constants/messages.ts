@@ -8,4 +8,5 @@ export const START_DATE_TEXT = 'Fecha de inicio',
   EXPIRE_AT_TEXT = 'Expira el',
   WHICH_EXPIRE_AT_TEXT = 'El cuál expira el',
   ALREADY_HAVE_AN_ACTIVE_PLAN_TEXT = 'Ya tienes un plan activo',
-  SELECT_PLAN_FOR_INVITATION_TEXT = 'Seleccione el plan al que se desea invitar';
+  SELECT_PLAN_FOR_INVITATION_TEXT = 'Seleccione el plan al que desea invitar',
+  SELECT_INVITATION_TYPE = 'Seleccione el tipo de invitación';

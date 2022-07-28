@@ -10,7 +10,7 @@ import { PLANS } from 'shared/routes';
 import { FormPage } from 'shared/modules';
 import { AuthContext } from 'shared/contexts';
 import { useErrorHandler } from 'shared/hooks';
-import { useCreatePlanMutation } from 'shared/generated';
+import { useCreatePlanMutation, GetAllPlansDocument, GetAllPlansQuery } from 'shared/generated';
 
 const PlanCreate: FC = () => {
   const history = useHistory();
@@ -31,9 +31,23 @@ const PlanCreate: FC = () => {
           variables: {
             data: {
               ...data,
-              ...parsePlanFocusToFlags[focus]
-            }
-          }
+              ...parsePlanFocusToFlags[focus],
+            },
+          },
+          update: (cache, { data }) => {
+            const query = cache.readQuery<GetAllPlansQuery>({
+              query: GetAllPlansDocument,
+            });
+
+            const plans = query?.payload || [];
+
+            cache.writeQuery({
+              query: GetAllPlansDocument,
+              data: {
+                payload: [data?.payload, ...plans],
+              },
+            });
+          },
         });
 
         if (!user?.progress.hasPlans) {
@@ -41,8 +55,8 @@ const PlanCreate: FC = () => {
             ...user!,
             progress: {
               ...user?.progress!,
-              hasPlans: true
-            }
+              hasPlans: true,
+            },
           });
         }
 

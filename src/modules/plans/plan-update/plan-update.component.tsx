@@ -8,26 +8,32 @@ import {
   IPlanFormValues,
   parseFlagsToPlanFocus,
   parsePlanFocusToFlags,
-  UPDATE_PLAN_TITLE
+  UPDATE_PLAN_TITLE,
 } from 'modules/plans/plans.module';
 
 import { FormPage } from 'shared/modules';
 import { useErrorHandler } from 'shared/hooks';
 import { NOT_FOUND, PLANS } from 'shared/routes';
-import { GetPlanDocument, useGetPlanQuery, useUpdatePlanMutation } from 'shared/generated';
+import {
+  GetAllPlansDocument,
+  GetAllPlansQuery,
+  GetPlanDocument,
+  useGetPlanQuery,
+  useUpdatePlanMutation,
+} from 'shared/generated';
 
 const PlanUpdate: FC = () => {
   const history = useHistory();
   const {
-    params: { uuid }
+    params: { uuid },
   } = useRouteMatch<{ uuid: string }>();
 
   const where = { uuid };
 
   const planPayload = useGetPlanQuery({
     variables: {
-      where
-    }
+      where,
+    },
   });
 
   const notFound = !planPayload.data?.payload && !planPayload.loading;
@@ -38,7 +44,7 @@ const PlanUpdate: FC = () => {
     planPayload.data?.payload && typeof isExercisesPlanEnabled === 'boolean' && typeof isDietPlanEnabled === 'boolean'
       ? {
           ...planPayload.data.payload,
-          focus: parseFlagsToPlanFocus(isExercisesPlanEnabled, isDietPlanEnabled)
+          focus: parseFlagsToPlanFocus(isExercisesPlanEnabled, isDietPlanEnabled),
         }
       : undefined;
 
@@ -61,18 +67,31 @@ const PlanUpdate: FC = () => {
             where,
             data: {
               ...data,
-              ...parsePlanFocusToFlags[focus]
-            }
+              ...parsePlanFocusToFlags[focus],
+            },
           },
           update: (cache, { data }) => {
             cache.writeQuery({
               data,
               query: GetPlanDocument,
               variables: {
-                where
-              }
+                where,
+              },
             });
-          }
+
+            const query = cache.readQuery<GetAllPlansQuery>({
+              query: GetAllPlansDocument,
+            });
+
+            const payload = query?.payload.map((plan) => (plan.uuid === data?.payload.uuid ? data.payload : plan));
+
+            cache.writeQuery({
+              query: GetAllPlansDocument,
+              data: {
+                payload,
+              },
+            });
+          },
         });
 
         redirectToPlans();

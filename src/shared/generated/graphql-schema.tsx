@@ -162,7 +162,10 @@ export type Exercise = {
   userId: Scalars['Int'];
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  video?: Maybe<Scalars['String']>;
   user: User;
+  muscleGroups: Array<MuscleGroup>;
   workoutExercises: Array<WorkoutExercise>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
@@ -271,6 +274,11 @@ export enum IntervalPlan {
   Week = 'WEEK',
   Month = 'MONTH',
   Year = 'YEAR',
+}
+
+export enum Language {
+  Spanish = 'SPANISH',
+  English = 'ENGLISH',
 }
 
 export type Meal = {
@@ -393,6 +401,24 @@ export type MealWhereUniqueInput = {
   uuid?: Maybe<Scalars['String']>;
 };
 
+export enum MuscleGroup {
+  Chest = 'CHEST',
+  Back = 'BACK',
+  Arms = 'ARMS',
+  Abs = 'ABS',
+  Legs = 'LEGS',
+  Shoulders = 'SHOULDERS',
+  Calves = 'CALVES',
+  Hamstrings = 'HAMSTRINGS',
+  Quadriceps = 'QUADRICEPS',
+  Glutes = 'GLUTES',
+  Biceps = 'BICEPS',
+  Triceps = 'TRICEPS',
+  Forearms = 'FOREARMS',
+  Trapezius = 'TRAPEZIUS',
+  Latissimus = 'LATISSIMUS',
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: User;
@@ -422,6 +448,7 @@ export type Mutation = {
   updateWorkoutRoutine: WorkoutRoutine;
   createWorkoutRoutine: WorkoutRoutine;
   createWorkout: Workout;
+  updateWorkout: Workout;
   updatePlanActivity: PlanActivity;
   cleanNewPlanActivities: Array<PlanActivity>;
   readAllPlanActivities: Array<PlanActivity>;
@@ -543,6 +570,11 @@ export type MutationCreateWorkoutRoutineArgs = {
 
 export type MutationCreateWorkoutArgs = {
   data: WorkoutCreateInput;
+};
+
+export type MutationUpdateWorkoutArgs = {
+  where: WorkoutWhereUniqueInput;
+  data: WorkoutUpdateInput;
 };
 
 export type MutationUpdatePlanActivityArgs = {
@@ -686,6 +718,7 @@ export type PlanInvitationAcceptInput = {
 export type PlanInvitationCreateInput = {
   plan: PlanCreateOneWithoutPlanInvitationInput;
   user: UserCreateOneWithoutPlanInvitationInput;
+  startAt?: Maybe<Scalars['String']>;
 };
 
 export type PlanInvitationOrderByInput = {
@@ -752,11 +785,18 @@ export type PublicUser = {
   __typename?: 'PublicUser';
   email: Scalars['String'];
   username: Scalars['String'];
+  type: UserType;
 };
+
+export enum PublicUserStatusFilter {
+  All = 'ALL',
+  ExcludeInvitedStatus = 'EXCLUDE_INVITED_STATUS',
+}
 
 export type PublicUserWhereUniqueInput = {
   email?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
+  status?: Maybe<PublicUserStatusFilter>;
 };
 
 export type Query = {
@@ -979,14 +1019,20 @@ export type User = {
   phone?: Maybe<Scalars['String']>;
   birthday?: Maybe<Scalars['String']>;
   avatar?: Maybe<Scalars['String']>;
+  plansCount: Scalars['Float'];
+  planInvitationsCount: Scalars['Float'];
+  workoutsCount: Scalars['Float'];
+  bodyMeasuresCount: Scalars['Float'];
   type: UserType;
   status: UserStatus;
+  language: Language;
   gender?: Maybe<Gender>;
   scope: Scope;
   ingredients: Array<Ingredient>;
   meals: Array<Meal>;
   currentActivePlan?: Maybe<Plan>;
   progress?: Maybe<UserProgress>;
+  isNotificationEnabled: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };
@@ -996,7 +1042,7 @@ export type UserCreateInput = {
   username: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
-  phone: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
   type: UserType;
 };
 
@@ -1005,7 +1051,14 @@ export type UserCreateOneWithoutIngredientInput = {
 };
 
 export type UserCreateOneWithoutPlanInvitationInput = {
-  connect: UserWhereUniqueInput;
+  connect?: Maybe<UserWhereUniqueInput>;
+  invite?: Maybe<UserInviteOneWithoutPlanInvitationInput>;
+};
+
+export type UserInviteOneWithoutPlanInvitationInput = {
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
 };
 
 export type UserOrderByInput = {
@@ -1027,6 +1080,7 @@ export type UserProgress = {
   __typename?: 'UserProgress';
   hasPlanInvitations: Scalars['Boolean'];
   hasPlans: Scalars['Boolean'];
+  weeklyWorkoutCount: Scalars['Int'];
 };
 
 export enum UserStatus {
@@ -1049,6 +1103,8 @@ export type UserUpdateInput = {
   birthday?: Maybe<Scalars['String']>;
   scope?: Maybe<Scope>;
   gender?: Maybe<Gender>;
+  language?: Maybe<Language>;
+  isNotificationEnabled?: Maybe<Scalars['Boolean']>;
 };
 
 export type UserWhereInput = {
@@ -1074,6 +1130,9 @@ export type Workout = {
   __typename?: 'Workout';
   id: Scalars['Int'];
   uuid: Scalars['String'];
+  duration?: Maybe<Scalars['Int']>;
+  difficultyLevel?: Maybe<Scalars['Int']>;
+  enjoymentLevel?: Maybe<Scalars['Int']>;
   workoutRoutine: WorkoutRoutine;
   workoutExercises: Array<WorkoutExercise>;
   createdAt: Scalars['DateTime'];
@@ -1081,6 +1140,7 @@ export type Workout = {
 };
 
 export type WorkoutCreateInput = {
+  duration?: Maybe<Scalars['Int']>;
   workoutRoutine: WorkoutRoutineWhereUniqueInput;
   workoutExercises: WorkoutExerciseCreateManyWithoutWorkoutInput;
 };
@@ -1092,6 +1152,7 @@ export type WorkoutExercise = {
   exerciseId: Scalars['Int'];
   workoutId?: Maybe<Scalars['Int']>;
   workoutRoutineId: Scalars['Int'];
+  break: Scalars['Int'];
   sets: Scalars['Int'];
   reps?: Maybe<Scalars['Int']>;
   weight?: Maybe<Scalars['Int']>;
@@ -1121,6 +1182,7 @@ export type WorkoutExerciseCreateWithoutWorkoutRoutineInput = {
   sets: Scalars['Int'];
   order: Scalars['Int'];
   day: Day;
+  break?: Maybe<Scalars['Int']>;
   reps?: Maybe<Scalars['Int']>;
   weight?: Maybe<Scalars['Int']>;
   seconds?: Maybe<Scalars['Int']>;
@@ -1135,6 +1197,7 @@ export type WorkoutExerciseUpdateManyWithWhereWithoutWorkoutRoutineInput = {
 
 export type WorkoutExerciseUpdateWithoutWorkoutRoutineInput = {
   sets?: Maybe<Scalars['Int']>;
+  break?: Maybe<Scalars['Int']>;
   order?: Maybe<Scalars['Int']>;
   day?: Maybe<Day>;
   reps?: Maybe<Scalars['Int']>;
@@ -1199,6 +1262,11 @@ export type WorkoutRoutineWhereInput = {
 export type WorkoutRoutineWhereUniqueInput = {
   id?: Maybe<Scalars['Int']>;
   uuid?: Maybe<Scalars['String']>;
+};
+
+export type WorkoutUpdateInput = {
+  difficultyLevel?: Maybe<Scalars['Int']>;
+  enjoymentLevel?: Maybe<Scalars['Int']>;
 };
 
 export type WorkoutWhereInput = {
@@ -1503,7 +1571,7 @@ export type DeletePlanMutation = { __typename?: 'Mutation' } & {
 export type GetAllPlansQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAllPlansQuery = { __typename?: 'Query' } & {
-  payload: Array<{ __typename?: 'Plan' } & Pick<Plan, 'uuid' | 'name'>>;
+  payload: Array<{ __typename?: 'Plan' } & Pick<Plan, 'uuid' | 'name' | 'status' | 'intervalCount' | 'intervalPlan'>>;
 };
 
 export type GetPlanDetailQueryVariables = Exact<{
@@ -1593,6 +1661,7 @@ export type UpdatePlanMutationVariables = Exact<{
 export type UpdatePlanMutation = { __typename?: 'Mutation' } & {
   payload: { __typename?: 'Plan' } & Pick<
     Plan,
+    | 'uuid'
     | 'name'
     | 'price'
     | 'currency'
@@ -1769,7 +1838,7 @@ export type PublicUserQueryVariables = Exact<{
 }>;
 
 export type PublicUserQuery = { __typename?: 'Query' } & {
-  payload?: Maybe<{ __typename?: 'PublicUser' } & Pick<PublicUser, 'email' | 'username'>>;
+  payload?: Maybe<{ __typename?: 'PublicUser' } & Pick<PublicUser, 'email' | 'username' | 'type'>>;
 };
 
 export type UserProfileQueryVariables = Exact<{
@@ -3059,6 +3128,9 @@ export const GetAllPlansDocument = gql`
     payload: plans {
       uuid
       name
+      status
+      intervalCount
+      intervalPlan
     }
   }
 `;
@@ -3308,6 +3380,7 @@ export type RenovatePlanMutationOptions = ApolloReactCommon.BaseMutationOptions<
 export const UpdatePlanDocument = gql`
   mutation updatePlan($data: PlanUpdateInput!, $where: PlanWhereUniqueInput!) {
     payload: updatePlan(data: $data, where: $where) {
+      uuid
       name
       price
       currency
@@ -3986,6 +4059,7 @@ export const PublicUserDocument = gql`
     payload: publicUser(where: $where) {
       email
       username
+      type
     }
   }
 `;
