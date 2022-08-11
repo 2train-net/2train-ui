@@ -1,0 +1,27 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+      - echo Installing source NPM dependencies...
+      - npm install
+  pre_build:
+    commands:
+      - echo Setting Environment
+      - aws --version
+      - npm run generate-env-file
+      - npm run generate-graphql-schema
+  build:
+    commands:
+      - echo Build started on `date`
+      - yarn build
+      - aws s3 rm s3://$S3_BUCKET --recursive --region $DEPLOY_REGION
+      - echo Deploying build `date`
+      - aws s3 cp build s3://$S3_BUCKET --recursive --region $DEPLOY_REGION --acl public-read
+      - aws s3 cp build/index.html s3://$S3_BUCKET/index.html --region $DEPLOY_REGION --cache-control no-cache
+      - aws cloudfront create-invalidation --distribution-id $DISTRIBUTION --paths "/*"
+      - echo Deploy completed on `date`
+cache:
+  paths:
+    - 'node_modules/**/*'
