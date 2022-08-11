@@ -8,8 +8,9 @@ phases:
       - npm install
   pre_build:
     commands:
-      - echo Setting Environment
       - aws --version
+      - echo Getting secrets
+      - SECRETS_VALUES=`aws secretsmanager get-secret-value --secret-id $SECRET_MANAGER_KEY_NAME --query SecretString --output text`
       - npm run generate-env-file
       - npm run generate-graphql-schema
   build:
