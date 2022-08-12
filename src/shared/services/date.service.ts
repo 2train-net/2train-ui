@@ -7,7 +7,7 @@ const durationDictionary = {
   [IntervalPlan.Day]: 'days',
   [IntervalPlan.Week]: 'weeks',
   [IntervalPlan.Month]: 'months',
-  [IntervalPlan.Year]: 'years'
+  [IntervalPlan.Year]: 'years',
 };
 
 export class DateService {
@@ -23,10 +23,8 @@ export class DateService {
     return moment(from).diff(moment(to), unit);
   };
 
-  add = (date: Date | string, amount: number, unit: moment.unitOfTime.Diff, format: string = DEFAULT_DATE_FORMAT) => {
-    return moment(date, DEFAULT_DATE_FORMAT)
-      .add(amount, unit)
-      .format(format);
+  add = (date: Date | string, amount?: number, unit?: moment.unitOfTime.Diff, format: string = DEFAULT_DATE_FORMAT) => {
+    return moment(date, DEFAULT_DATE_FORMAT).add(amount, unit).format(format);
   };
 
   parseDuration = (type: IntervalPlan): moment.unitOfTime.Diff => {

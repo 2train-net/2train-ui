@@ -52,7 +52,8 @@ export const ADD_TEXT = 'Agregar',
   NONE_TEXT = 'Ninguna',
   LOOK_IMAGES_TEXT = 'Ver imagenes',
   HIDE_IMAGES_TEXT = 'Ocultar imagenes',
-  PREFER_NOT_TO_SAY_GENDER_TEXT = 'Identidad de género no especificada';
+  PREFER_NOT_TO_SAY_GENDER_TEXT = 'Identidad de género no especificada',
+  PAID_PLAN_TEXT = 'Plan pagado';
 
 export const FIRST_NAME_TEXT = 'Nombre',
   LAST_NAME_TEXT = 'Apellido(s)',
@@ -104,6 +105,7 @@ export const REQUIRED_EXCEPTION_TEXT = 'Requerido',
   TOO_LONG_EXCEPTION_TEXT = 'Se necesitan menos caracteres',
   SPECIAL_CHARACTER_EXCEPTION_TEXT = 'Se necesita un carácter especial como: (!, #, $, %, &, *)',
   NUMERIC_DIGIT_EXCEPTION_TEXT = 'Se necesita un carácter numérico como: (0, 1, 2, 3, 4, 5, 7, 8, 9)',
+  MIN_NUMERIC_DIGIT_EXCEPTION_TEXT = 'Se necesita un mínimo de 8 dígitos',
   LOWER_CASE_LETTER_EXCEPTION_TEXT = 'Se necesita un carácter en minúscula',
   UPPER_CASE_LETTER_EXCEPTION_TEXT = 'Se necesita un carácter en mayúscula',
   NUMBER_TYPE_EXCEPTION_TEXT = 'Se necesita un valor de tipo numerico',

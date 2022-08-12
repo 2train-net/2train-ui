@@ -10,6 +10,7 @@ import { UserType } from 'shared/generated';
 import { PlanService } from 'shared/services';
 
 import { IMasterComponent } from 'shared/modules/master-list/master-list.util';
+import { PLAN_INVITATION_ADD } from 'shared/routes';
 
 interface IPlanCard extends IMasterComponent<IPlanPayload> {
   data: IPlanPayload;
@@ -25,7 +26,7 @@ const PlanCard: FC<IPlanCard> = ({ data }) => {
 
   const actions =
     user?.type === UserType.PersonalTrainer
-      ? [<Icon type="share" onClick={() => redirect(`${pathname}/invite/${data.uuid}`)} />]
+      ? [<Icon type="share" onClick={() => redirect(`${PLAN_INVITATION_ADD}?uuid=${data.uuid}`)} />]
       : [];
 
   const price = `${data.currency} ${data.price}`;

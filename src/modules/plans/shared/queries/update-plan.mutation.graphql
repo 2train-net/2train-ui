@@ -1,5 +1,6 @@
 mutation updatePlan($data: PlanUpdateInput!, $where: PlanWhereUniqueInput!) {
   payload: updatePlan(data: $data, where: $where) {
+    uuid
     name
     price
     currency

@@ -1,11 +1,12 @@
 import React, { FC, useContext } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import {
   PlanInvitationForm,
   IPlanInvitationFormValues,
-  CREATE_PLAN_INVITATION_TITLE
+  CREATE_PLAN_INVITATION_TITLE,
+  INITIAL_PLAN_INVITATION_FORM_VALUES,
 } from 'modules/plan-invitations/plan-invitations.module';
 
 import { FormPage } from 'shared/modules';
@@ -18,6 +19,10 @@ const PlanInvitationCreate: FC = () => {
   const history = useHistory();
   const { user, refreshUser } = useContext(AuthContext);
 
+  const { search } = useLocation();
+
+  const [, uuid] = search.split('=');
+
   const [createPlanInvitation, { loading, error }] = useCreatePlanInvitationMutation();
 
   useErrorHandler(error);
@@ -26,24 +31,33 @@ const PlanInvitationCreate: FC = () => {
     history.push(PLAN_INVITATIONS);
   };
 
-  const onSubmit = async ({ uuid, email }: IPlanInvitationFormValues) => {
+  const onSubmit = async ({ uuid, email, firstName, lastName, isNewUser, startAt }: IPlanInvitationFormValues) => {
     try {
       if (!loading) {
         await createPlanInvitation({
           variables: {
             data: {
-              user: {
-                connect: {
-                  email
-                }
-              },
+              user: isNewUser
+                ? {
+                    invite: {
+                      email,
+                      firstName,
+                      lastName,
+                    },
+                  }
+                : {
+                    connect: {
+                      email,
+                    },
+                  },
               plan: {
                 connect: {
-                  uuid
-                }
-              }
-            }
-          }
+                  uuid,
+                },
+              },
+              startAt,
+            },
+          },
         });
 
         if (!user?.progress.hasPlanInvitations) {
@@ -51,8 +65,8 @@ const PlanInvitationCreate: FC = () => {
             ...user!,
             progress: {
               ...user?.progress!,
-              hasPlanInvitations: true
-            }
+              hasPlanInvitations: true,
+            },
           });
         }
 
@@ -63,7 +77,11 @@ const PlanInvitationCreate: FC = () => {
 
   return (
     <FormPage title={CREATE_PLAN_INVITATION_TITLE}>
-      <PlanInvitationForm onSubmit={onSubmit} isLoading={loading} />
+      <PlanInvitationForm
+        onSubmit={onSubmit}
+        isLoading={loading}
+        initialValues={{ ...INITIAL_PLAN_INVITATION_FORM_VALUES, uuid }}
+      />
     </FormPage>
   );
 };
