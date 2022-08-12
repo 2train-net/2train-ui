@@ -40,7 +40,8 @@
     "test-coverage-modules": "react-scripts test --coverage --watchAll=false --collectCoverageFrom=src/modules/**/*.component.tsx",
     "test-coverage-shared": "react-scripts test --coverage --watchAll=false --collectCoverageFrom=src/shared/**/*.component.tsx",
     "eject": "react-scripts eject",
-    "generate-graphql-schema": "graphql-codegen --config codegen.yml -r dotenv/config"
+    "generate-graphql-schema": "graphql-codegen --config codegen.yml -r dotenv/config",
+    "generate-env-file": "node ./scripts/generate-env-file"
   },
   "eslintConfig": {
     "extends": "react-app"
