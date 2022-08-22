@@ -39,7 +39,7 @@ const ListCard: FC<IListCard> = ({
   leftContent,
   onEdit,
   onDetail,
-  onDelete
+  onDelete,
 }) => {
   const location = useLocation();
   const history = useHistory();
@@ -69,7 +69,7 @@ const ListCard: FC<IListCard> = ({
 
   return (
     <div style={{ display: 'flex' }}>
-      {image && <img style={{ width: 114, height: 114, marginRight: -1, zIndex: 1 }} src={image || ''} />}
+      {image && <img style={{ width: 114, height: 114, marginRight: -1, zIndex: 0 }} src={image || ''} />}
       <Card style={{ width: image ? 186 : 300 }} actions={cardActions} bordered={!image}>
         <div style={{ display: 'flex' }}>
           {leftContent && <div style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: 16 }}>{leftContent}</div>}

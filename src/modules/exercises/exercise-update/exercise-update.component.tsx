@@ -7,14 +7,14 @@ import { ExerciseForm, IExerciseFormValues, UPDATE_EXERCISE_TITLE } from 'module
 
 import { FormPage } from 'shared/modules';
 import { EXERCISES, NOT_FOUND } from 'shared/routes';
-import { objectDifferences } from 'shared/util';
+import { arrayDifferences, objectDifferences } from 'shared/util';
 import { useErrorHandler } from 'shared/hooks';
 import { GetExerciseDocument, useUpdateExerciseMutation, useGetExerciseQuery } from 'shared/generated';
 
 const ExerciseUpdate: FC = () => {
   const history = useHistory();
   const {
-    params: { uuid }
+    params: { uuid },
   } = useRouteMatch<{ uuid: string }>();
 
   const where = { uuid };
@@ -23,13 +23,19 @@ const ExerciseUpdate: FC = () => {
 
   const exercisePayload = useGetExerciseQuery({
     variables: {
-      where
-    }
+      where,
+    },
   });
 
   const { error } = exercisePayload || updateExercisePayload;
 
   useErrorHandler(error);
+
+  const { muscleGroups = [], ...exerciseInfo } = exercisePayload?.data?.payload! || {};
+  const exercise = {
+    ...exerciseInfo,
+    muscleGroups: muscleGroups.map((muscleGroup) => muscleGroup),
+  };
 
   const notFound = !exercisePayload.data?.payload && !exercisePayload.loading;
 
@@ -37,25 +43,32 @@ const ExerciseUpdate: FC = () => {
     history.push(EXERCISES);
   };
 
-  const onSubmit = async (values: IExerciseFormValues) => {
+  const onSubmit = async ({ muscleGroups: newMuscleGroups, ...values }: IExerciseFormValues) => {
     try {
       if (!updateExercisePayload.loading) {
-        const data = objectDifferences(values, exercisePayload.data?.payload);
+        const data = objectDifferences(values, { ...exerciseInfo });
+        const differences = arrayDifferences(exercise.muscleGroups, newMuscleGroups);
 
         await updateExercise({
           variables: {
-            data,
-            where
+            where,
+            data: {
+              ...data,
+              muscleGroups: {
+                create: differences.create.map((muscleGroup) => muscleGroup),
+                delete: differences.delete.map((muscleGroup) => muscleGroup),
+              },
+            },
           },
           update: (cache, { data }) => {
             cache.writeQuery({
               data,
               query: GetExerciseDocument,
               variables: {
-                where
-              }
+                where,
+              },
             });
-          }
+          },
         });
 
         redirectToExercises();

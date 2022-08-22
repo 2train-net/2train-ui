@@ -19,10 +19,11 @@ const ExerciseCard: FC<IExerciseCard> = ({ data }) => {
 
   return (
     <ListCard
+      image={data.image}
       uuid={data.uuid}
       title={data.name}
       description={data.description}
-      isDeleteActionEnabled={isPersonalTrainer}
+      isDeleteActionEnabled={!isPersonalTrainer}
       isEditActionEnabled={isPersonalTrainer}
       isDetailActionEnabled={false}
     />

@@ -14,7 +14,7 @@ import { useErrorHandler } from 'shared/hooks';
 import {
   GetAllExercisesDocument,
   GetAllExercisesQuery,
-  useCreateExerciseMutation
+  useCreateExerciseMutation,
 } from 'shared/generated/graphql-schema';
 
 const ExerciseCreate: FC = () => {
@@ -33,16 +33,16 @@ const ExerciseCreate: FC = () => {
       if (!loading) {
         await createExercise({
           variables: {
-            data
+            data,
           },
           update: (cache, { data }) => {
             const query = cache.readQuery<GetAllExercisesQuery>({ query: GetAllExercisesDocument });
-            const exercises = query?.payload!;
+            const exercises = query?.payload! || [];
             cache.writeQuery({
+              query: GetAllExercisesDocument,
               data: { payload: [data?.payload, ...exercises] },
-              query: GetAllExercisesDocument
             });
-          }
+          },
         });
 
         redirectToExercises();
