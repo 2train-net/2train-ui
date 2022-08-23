@@ -16,16 +16,16 @@ const ExerciseOptionCreate: FC<IExerciseOptionCreateValues> = ({ searchInput, on
       if (!loading) {
         await createExercise({
           variables: {
-            data
+            data,
           },
           update: (cache, { data }) => {
             const query = cache.readQuery<GetAllExercisesQuery>({ query: GetAllExercisesDocument });
-            const exercises = query?.payload!;
+            const exercises = query?.payload! || [];
             cache.writeQuery({
               data: { payload: [data?.payload, ...exercises] },
-              query: GetAllExercisesDocument
+              query: GetAllExercisesDocument,
             });
-          }
+          },
         });
         onFinishAction();
       }
@@ -36,7 +36,7 @@ const ExerciseOptionCreate: FC<IExerciseOptionCreateValues> = ({ searchInput, on
     <ExerciseForm
       fullWidth
       onSubmit={onSubmit}
-      initialValues={{ name: searchInput, description: '' }}
+      initialValues={{ name: searchInput, description: '', image: '', video: '', muscleGroups: [] }}
       isLoading={loading}
       enableSubmitButton
     />

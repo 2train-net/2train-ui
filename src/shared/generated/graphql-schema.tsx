@@ -174,6 +174,9 @@ export type Exercise = {
 export type ExerciseCreateInput = {
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  video?: Maybe<Scalars['String']>;
+  muscleGroups: Array<MuscleGroup>;
 };
 
 export type ExerciseCreateOneWithoutWorkoutExercisesInput = {
@@ -192,6 +195,9 @@ export type ExerciseOrderByInput = {
 export type ExerciseUpdateInput = {
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  video?: Maybe<Scalars['String']>;
+  muscleGroups: MuscleGroupUpdateManyInput;
 };
 
 export type ExerciseWhereInput = {
@@ -418,6 +424,11 @@ export enum MuscleGroup {
   Trapezius = 'TRAPEZIUS',
   Latissimus = 'LATISSIMUS',
 }
+
+export type MuscleGroupUpdateManyInput = {
+  create?: Maybe<Array<MuscleGroup>>;
+  delete?: Maybe<Array<MuscleGroup>>;
+};
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -1021,7 +1032,6 @@ export type User = {
   avatar?: Maybe<Scalars['String']>;
   plansCount: Scalars['Float'];
   planInvitationsCount: Scalars['Float'];
-  workoutsCount: Scalars['Float'];
   bodyMeasuresCount: Scalars['Float'];
   type: UserType;
   status: UserStatus;
@@ -1080,7 +1090,7 @@ export type UserProgress = {
   __typename?: 'UserProgress';
   hasPlanInvitations: Scalars['Boolean'];
   hasPlans: Scalars['Boolean'];
-  weeklyWorkoutCount: Scalars['Int'];
+  weeklyWorkouts: Array<Workout>;
 };
 
 export enum UserStatus {
@@ -1389,7 +1399,7 @@ export type GetExerciseQueryVariables = Exact<{
 }>;
 
 export type GetExerciseQuery = { __typename?: 'Query' } & {
-  payload: { __typename?: 'Exercise' } & Pick<Exercise, 'name' | 'description'>;
+  payload: { __typename?: 'Exercise' } & Pick<Exercise, 'name' | 'description' | 'image' | 'video' | 'muscleGroups'>;
 };
 
 export type GetExercisesQueryVariables = Exact<{
@@ -1399,7 +1409,7 @@ export type GetExercisesQueryVariables = Exact<{
 }>;
 
 export type GetExercisesQuery = { __typename?: 'Query' } & {
-  payload: Array<{ __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'>>;
+  payload: Array<{ __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description' | 'image'>>;
 };
 
 export type UpdateExerciseMutationVariables = Exact<{
@@ -2253,6 +2263,9 @@ export const GetExerciseDocument = gql`
     payload: exercise(where: $where) {
       name
       description
+      image
+      video
+      muscleGroups
     }
   }
 `;
@@ -2292,6 +2305,7 @@ export const GetExercisesDocument = gql`
       uuid
       name
       description
+      image
     }
   }
 `;

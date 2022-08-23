@@ -496,7 +496,7 @@ const DragAndDropRoutine: FC<IDragAndDropRoutine> = ({
       >
         {isCreateRoutineForm && (
           <WorkoutRoutineForm
-            initialValues={workoutRoutine?.name ? { name: workoutRoutine.name } : { name: 'name' }}
+            initialValues={workoutRoutine?.name ? { name: workoutRoutine.name } : { name: '' }}
             onSubmit={(data: { name: string }) => {
               onSubmit &&
                 onSubmit(

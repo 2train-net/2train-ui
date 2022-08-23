@@ -3,5 +3,6 @@ query getExercises($skip: Int!, $take: Int!, $order: ExerciseOrderByInput!) {
     uuid
     name
     description
+    image
   }
 }

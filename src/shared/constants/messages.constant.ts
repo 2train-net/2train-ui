@@ -84,6 +84,22 @@ export const DAY_TEXT = 'Día',
   YEAR_TEXT = 'Año',
   YEARS_TEXT = 'Años';
 
+export const CALVES_TEXT = 'Pantorrillas',
+  HAMSTRINGS_TEXT = 'Isquiotibiales',
+  QUADRICEPS_TEXT = 'Cuadríceps',
+  GLUTES_TEXT = 'Glúteos',
+  BICEPS_TEXT = 'Bíceps',
+  TRICEPS_TEXT = 'Tríceps',
+  FOREARMS_TEXT = 'Antebrazos',
+  TRAPEZIUS_TEXT = 'Trapecio',
+  LATISSIMUS_TEXT = 'Latísimo',
+  CHEST_TEXT = 'Pecho',
+  BACK_TEXT = 'Espalda',
+  ARMS_TEXT = 'Brazos',
+  ABS_TEXT = 'Abdominales',
+  LEGS_TEXT = 'Piernas',
+  SHOULDERS_TEXT = 'Hombros';
+
 export const PRICE_TEXT = 'Precio',
   CURRENCY_TEXT = 'Moneda',
   DOLLAR_TEXT = 'Dolar',
@@ -112,6 +128,7 @@ export const REQUIRED_EXCEPTION_TEXT = 'Requerido',
   CONFIRM_PASSWORD_EXCEPTION_TEXT = 'Las contraseñas deben coincidir',
   PHONE_NUMBER_EXCEPTION_TEXT = `${PHONE_TEXT} invalido`,
   SOMETHING_WENT_WRONG_EXCEPTION_TEXT = 'Oops! Algo salio mal, intentalo más tarde',
+  MINIMUM_ONE_MUSCLE_GROUP_EXCEPTION_TEXT = 'Se necesita mínimo un grupo muscular',
   EMAIL_ALREADY_EXITS_EXCEPTION_TEXT = `Este ${EMAIL_TEXT.toLowerCase()} ya fue asociado a una cuenta`;
 
 export const WRONG_CREDENTIALS_ERROR_TEXT = `${EMAIL_TEXT} ó ${PASSWORD_TEXT.toLowerCase()} incorrectos`;
