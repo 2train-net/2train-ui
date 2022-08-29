@@ -6,14 +6,14 @@ import {
   ExerciseCard,
   IExercisePayload,
   SINGULAR_EXERCISES_TITLE,
-  PLURAL_EXERCISES_TITLE
+  PLURAL_EXERCISES_TITLE,
 } from 'modules/exercises/exercises.module';
 
 import { MasterList } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
-import { DELETE_MODAL } from 'shared/constants';
+import { DELETE_MODAL, NAME_TEXT, DESCRIPTION_TEXT } from 'shared/constants';
 import { EXERCISES, DELETE } from 'shared/routes';
-import { useGetExercisesQuery, UserType } from 'shared/generated';
+import { ExerciseWhereInput, useGetExercisesQuery, UserType } from 'shared/generated';
 
 const ExerciseList: FC = () => {
   const history = useHistory();
@@ -34,7 +34,7 @@ const ExerciseList: FC = () => {
     modalProvider.show({
       ...DELETE_MODAL,
       onConfirm: deleteExercise,
-      onCancel: redirectToExercises
+      onCancel: redirectToExercises,
     });
   };
 
@@ -45,11 +45,15 @@ const ExerciseList: FC = () => {
   }, [location]);
 
   return (
-    <MasterList<IExercisePayload>
+    <MasterList<IExercisePayload, ExerciseWhereInput>
       title={[SINGULAR_EXERCISES_TITLE, PLURAL_EXERCISES_TITLE]}
       render={ExerciseCard}
       isCreateButtonAvailable={isPersonaTrainer}
       useQuery={useGetExercisesQuery}
+      filters={[
+        { label: NAME_TEXT, value: 'name' },
+        { label: DESCRIPTION_TEXT, value: 'description' },
+      ]}
     />
   );
 };

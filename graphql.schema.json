@@ -1539,19 +1539,15 @@
             "name": "muscleGroups",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "ENUM",
-                    "name": "MuscleGroup",
-                    "ofType": null
-                  }
+                  "kind": "ENUM",
+                  "name": "MuscleGroup",
+                  "ofType": null
                 }
               }
             },
@@ -8686,6 +8682,18 @@
           },
           {
             "name": "LITER",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "KILOGRAM",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "POUND",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
