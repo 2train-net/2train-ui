@@ -4,15 +4,15 @@ import { Col, Row } from 'antd';
 
 import { useFormik } from 'formik';
 
-import { LBS_TEXT } from 'shared/constants';
-import { Field, RadioGroup, TextAreaField } from 'shared/modules/form';
-
 import {
   WorkoutExerciseFocus,
   IWorkoutExerciseFormValues,
   WORKOUT_EXERCISE_FORM_SCHEMA,
   INITIAL_WORKOUT_EXERCISE_FORM_VALUES,
 } from './workout-exercise-form.util';
+
+import useStyles from './workout-exercise-form.style';
+
 import {
   COMMENTS_TITLE,
   IWorkoutExercisePayload,
@@ -21,6 +21,10 @@ import {
   SETS_TITLE,
   WEIGHT_TITLE,
 } from 'modules/workout-routines/workout-routines.module';
+
+import { WorkoutRoutineService } from 'shared/services';
+import { Field, RadioGroup, TextAreaField, Select } from 'shared/modules/form';
+import { UnitMeasure } from 'shared/generated';
 
 interface IWorkoutExerciseForm {
   initialValues?: IWorkoutExercisePayload;
@@ -33,6 +37,8 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
   onSubmit,
   formRef,
 }) => {
+  const classes = useStyles();
+
   const onPreviousSubmit = (values: IWorkoutExerciseFormValues) => {
     values.focus === WorkoutExerciseFocus.REPS ? (values.seconds = null) : (values.reps = null);
     onSubmit(values);
@@ -53,10 +59,14 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
       enableReinitialize: true,
     });
 
+  const unitMeasures = [...Object.values(UnitMeasure)]
+    .filter((unitMeasure) => unitMeasure === UnitMeasure.Pound || unitMeasure === UnitMeasure.Kilogram)
+    .reverse();
+
   return (
     <form onSubmitCapture={handleSubmit} ref={formRef}>
       <Row gutter={24}>
-        <Col span={24}>
+        <Col span={24} className={classes.inputContainer}>
           <RadioGroup
             value={values.focus}
             name="focus"
@@ -72,7 +82,7 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
         <br />
         <br />
 
-        <Col span={8}>
+        <Col span={6} className={classes.inputContainer}>
           <Field
             label={SETS_TITLE}
             labelTop={true}
@@ -86,7 +96,7 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
           />{' '}
         </Col>
         {values.focus === WorkoutExerciseFocus.REPS ? (
-          <Col span={8}>
+          <Col span={6} className={classes.inputContainer}>
             <Field
               label={REPS_TITLE}
               labelTop={true}
@@ -100,7 +110,7 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
             />
           </Col>
         ) : (
-          <Col span={8}>
+          <Col span={6} className={classes.inputContainer}>
             <Field
               label={SECONDS_TITLE}
               labelTop={true}
@@ -114,7 +124,7 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
             />
           </Col>
         )}
-        <Col span={8}>
+        <Col span={6} className={classes.inputContainer}>
           <Field
             name="weight"
             type="number"
@@ -125,11 +135,25 @@ const WorkoutExerciseForm: FC<IWorkoutExerciseForm> = ({
             onChange={handleChange}
             hasBeenTouched={touched.weight}
             labelTop={true}
-            suffix={LBS_TEXT}
           />
         </Col>
 
-        <Col span={24}>
+        <Col span={6} className={classes.unitMeasureContainer}>
+          <Select
+            name="unitMeasure"
+            value={values.unitMeasure ? values.unitMeasure : undefined}
+            error={errors.unitMeasure}
+            hasBeenTouched={touched.unitMeasure}
+            setFieldValue={setFieldValue}
+            defaultValue={UnitMeasure.Pound}
+            options={unitMeasures.map((unitMeasure) => ({
+              label: WorkoutRoutineService.parseUnitMeasure(unitMeasure),
+              value: unitMeasure,
+            }))}
+          />
+        </Col>
+
+        <Col span={24} className={classes.inputContainer}>
           <TextAreaField
             name="comments"
             label={COMMENTS_TITLE}

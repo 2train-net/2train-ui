@@ -1,4 +1,5 @@
-import { Day } from 'shared/generated';
+import { LBS_TEXT, KG_TEXT, GRAM_TEXT, LITER_TEXT } from 'shared/constants';
+import { Day, UnitMeasure } from 'shared/generated';
 import { IWorkoutRoutine } from 'shared/model';
 
 interface WorkoutExercise {
@@ -35,6 +36,13 @@ const strings: { [key: string]: any } = {
   DAY_7: 6,
 };
 
+const unitMeasures = {
+  [UnitMeasure.Kilogram]: KG_TEXT,
+  [UnitMeasure.Pound]: LBS_TEXT,
+  [UnitMeasure.Gram]: GRAM_TEXT,
+  [UnitMeasure.Liter]: LITER_TEXT,
+};
+
 export class WorkoutRoutineService {
   parseDayToNumber = (day: Day) => {
     return days[day];
@@ -44,6 +52,9 @@ export class WorkoutRoutineService {
   };
   parseStringToDayNumber = (string: string) => {
     return strings[string];
+  };
+  parseUnitMeasure = (unitMeasure: UnitMeasure) => {
+    return unitMeasures[unitMeasure] || unitMeasure;
   };
 
   getActiveWorkoutExercises = (workoutRoutine?: IWorkoutRoutine) => {

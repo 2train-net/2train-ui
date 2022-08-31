@@ -176,7 +176,7 @@ export type ExerciseCreateInput = {
   description?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
   video?: Maybe<Scalars['String']>;
-  muscleGroups: Array<MuscleGroup>;
+  muscleGroups?: Maybe<Array<MuscleGroup>>;
 };
 
 export type ExerciseCreateOneWithoutWorkoutExercisesInput = {
@@ -197,7 +197,12 @@ export type ExerciseUpdateInput = {
   description?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
   video?: Maybe<Scalars['String']>;
-  muscleGroups: MuscleGroupUpdateManyInput;
+  muscleGroups: ExerciseUpdateManyWithoutExerciseMuscleGroupInput;
+};
+
+export type ExerciseUpdateManyWithoutExerciseMuscleGroupInput = {
+  create?: Maybe<Array<MuscleGroup>>;
+  delete?: Maybe<Array<MuscleGroup>>;
 };
 
 export type ExerciseWhereInput = {
@@ -424,11 +429,6 @@ export enum MuscleGroup {
   Trapezius = 'TRAPEZIUS',
   Latissimus = 'LATISSIMUS',
 }
-
-export type MuscleGroupUpdateManyInput = {
-  create?: Maybe<Array<MuscleGroup>>;
-  delete?: Maybe<Array<MuscleGroup>>;
-};
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -1017,6 +1017,8 @@ export type TrainingWhereInput = {
 export enum UnitMeasure {
   Gram = 'GRAM',
   Liter = 'LITER',
+  Kilogram = 'KILOGRAM',
+  Pound = 'POUND',
 }
 
 export type User = {
@@ -1168,6 +1170,7 @@ export type WorkoutExercise = {
   weight?: Maybe<Scalars['Int']>;
   seconds?: Maybe<Scalars['Int']>;
   comments?: Maybe<Scalars['String']>;
+  unitMeasure?: Maybe<UnitMeasure>;
   order: Scalars['Int'];
   day: Day;
   workoutRoutine: WorkoutRoutine;
@@ -1197,6 +1200,7 @@ export type WorkoutExerciseCreateWithoutWorkoutRoutineInput = {
   weight?: Maybe<Scalars['Int']>;
   seconds?: Maybe<Scalars['Int']>;
   comments?: Maybe<Scalars['String']>;
+  unitMeasure?: Maybe<UnitMeasure>;
   exercise: ExerciseCreateOneWithoutWorkoutExercisesInput;
 };
 
@@ -1214,6 +1218,7 @@ export type WorkoutExerciseUpdateWithoutWorkoutRoutineInput = {
   weight?: Maybe<Scalars['Int']>;
   seconds?: Maybe<Scalars['Int']>;
   comments?: Maybe<Scalars['String']>;
+  unitMeasure?: Maybe<UnitMeasure>;
   exercise?: Maybe<ExerciseCreateOneWithoutWorkoutExercisesInput>;
 };
 
@@ -1756,7 +1761,7 @@ export type GetAllWorkoutRoutinesQuery = { __typename?: 'Query' } & {
         workoutExercises: Array<
           { __typename?: 'WorkoutExercise' } & Pick<
             WorkoutExercise,
-            'uuid' | 'sets' | 'reps' | 'weight' | 'seconds' | 'day' | 'comments' | 'order'
+            'uuid' | 'sets' | 'reps' | 'weight' | 'seconds' | 'day' | 'comments' | 'unitMeasure' | 'order'
           > & { exercise: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'> }
         >;
       }
@@ -1772,7 +1777,7 @@ export type GetWorkoutRoutineQuery = { __typename?: 'Query' } & {
       workoutExercises: Array<
         { __typename?: 'WorkoutExercise' } & Pick<
           WorkoutExercise,
-          'uuid' | 'sets' | 'reps' | 'weight' | 'seconds' | 'day' | 'comments' | 'order'
+          'uuid' | 'sets' | 'reps' | 'weight' | 'seconds' | 'day' | 'comments' | 'unitMeasure' | 'order'
         > & { exercise: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'> }
       >;
     };
@@ -3727,6 +3732,7 @@ export const GetAllWorkoutRoutinesDocument = gql`
         seconds
         day
         comments
+        unitMeasure
         order
         exercise {
           uuid
@@ -3790,6 +3796,7 @@ export const GetWorkoutRoutineDocument = gql`
         seconds
         day
         comments
+        unitMeasure
         order
         exercise {
           uuid

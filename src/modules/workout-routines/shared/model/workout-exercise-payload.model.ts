@@ -1,5 +1,5 @@
 import { IExercisePayload } from 'modules/exercises/shared/model';
-import { Day } from 'shared/generated';
+import { Day, UnitMeasure } from 'shared/generated';
 
 export interface IWorkoutExercisePayload {
   uuid: string;
@@ -9,6 +9,7 @@ export interface IWorkoutExercisePayload {
   weight?: number | null;
   seconds?: number | null;
   comments?: string | null;
+  unitMeasure?: UnitMeasure | null;
   order: number;
   day: Day;
 }

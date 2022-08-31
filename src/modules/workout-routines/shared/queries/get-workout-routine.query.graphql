@@ -12,6 +12,7 @@ query getWorkoutRoutine($where: WorkoutRoutineWhereUniqueInput!) {
       seconds
       day
       comments
+      unitMeasure
       order
       exercise {
         uuid

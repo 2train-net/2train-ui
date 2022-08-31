@@ -112,7 +112,10 @@ export const NAME_TEXT = 'Nombre',
   DETAIL_TEXT = 'Detalle';
 
 export const SECONDS_TEXT = 'segundos',
-  LBS_TEXT = 'lbs';
+  LBS_TEXT = 'lbs',
+  KG_TEXT = 'kg',
+  GRAM_TEXT = 'G',
+  LITER_TEXT = 'L';
 
 export const REQUIRED_EXCEPTION_TEXT = 'Requerido',
   INVALID_VALUE_TEXT = 'Valor no valido',
