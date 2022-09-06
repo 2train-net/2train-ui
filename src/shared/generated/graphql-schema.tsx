@@ -176,7 +176,7 @@ export type ExerciseCreateInput = {
   description?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
   video?: Maybe<Scalars['String']>;
-  muscleGroups: Array<MuscleGroup>;
+  muscleGroups?: Maybe<Array<MuscleGroup>>;
 };
 
 export type ExerciseCreateOneWithoutWorkoutExercisesInput = {
@@ -1017,6 +1017,8 @@ export type TrainingWhereInput = {
 export enum UnitMeasure {
   Gram = 'GRAM',
   Liter = 'LITER',
+  Kilogram = 'KILOGRAM',
+  Pound = 'POUND',
 }
 
 export type User = {
@@ -1406,6 +1408,7 @@ export type GetExercisesQueryVariables = Exact<{
   skip: Scalars['Int'];
   take: Scalars['Int'];
   order: ExerciseOrderByInput;
+  where?: Maybe<ExerciseWhereInput>;
 }>;
 
 export type GetExercisesQuery = { __typename?: 'Query' } & {
@@ -2300,8 +2303,8 @@ export type GetExerciseQueryHookResult = ReturnType<typeof useGetExerciseQuery>;
 export type GetExerciseLazyQueryHookResult = ReturnType<typeof useGetExerciseLazyQuery>;
 export type GetExerciseQueryResult = ApolloReactCommon.QueryResult<GetExerciseQuery, GetExerciseQueryVariables>;
 export const GetExercisesDocument = gql`
-  query getExercises($skip: Int!, $take: Int!, $order: ExerciseOrderByInput!) {
-    payload: exercises(skip: $skip, take: $take, orderBy: $order) {
+  query getExercises($skip: Int!, $take: Int!, $order: ExerciseOrderByInput!, $where: ExerciseWhereInput) {
+    payload: exercises(skip: $skip, take: $take, orderBy: $order, where: $where) {
       uuid
       name
       description
@@ -2325,6 +2328,7 @@ export const GetExercisesDocument = gql`
  *      skip: // value for 'skip'
  *      take: // value for 'take'
  *      order: // value for 'order'
+ *      where: // value for 'where'
  *   },
  * });
  */
