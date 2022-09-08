@@ -3,11 +3,12 @@ import { Redirect, useLocation, Switch } from 'react-router-dom';
 
 import { Login, Register, ForgotPassword, PreLoader, ResetPassword, ConfirmAccount } from './auth.module';
 
-import { LOGIN, REGISTER, FORGOT_PASSWORD, RESET_PASSWORD, CONFIRM_ACCOUNT } from 'shared/routes';
+import { LOGIN, REGISTER, FORGOT_PASSWORD, RESET_PASSWORD, CONFIRM_ACCOUNT, DOWNLOAD_APP } from 'shared/routes';
 import { PublicRoute } from 'shared/modules/route';
 import { AuthContext } from 'shared/contexts';
 
 import useStyles from './auth.style';
+import DownloadApp from 'modules/download-app/download-app.module';
 
 const Auth: FC = () => {
   const classes = useStyles();
@@ -28,6 +29,7 @@ const Auth: FC = () => {
             <PublicRoute exact path={FORGOT_PASSWORD} component={ForgotPassword} />
             <PublicRoute exact path={RESET_PASSWORD} component={ResetPassword} />
             <PublicRoute exact path={CONFIRM_ACCOUNT} component={ConfirmAccount} />
+            <PublicRoute exact path={DOWNLOAD_APP} component={DownloadApp} />
           </Switch>
           {!isLoading && !isAuthenticated && (
             <Redirect
@@ -35,7 +37,8 @@ const Auth: FC = () => {
                 COMING_ROUTE === REGISTER ||
                 COMING_ROUTE === FORGOT_PASSWORD ||
                 COMING_ROUTE === RESET_PASSWORD ||
-                COMING_ROUTE === CONFIRM_ACCOUNT
+                COMING_ROUTE === CONFIRM_ACCOUNT ||
+                COMING_ROUTE === DOWNLOAD_APP
                   ? COMING_ROUTE
                   : LOGIN
               }

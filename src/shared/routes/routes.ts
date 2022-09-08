@@ -33,6 +33,8 @@ export const TRANSACTIONS = '/transactions';
 
 export const SUPPLIES = '/supplies';
 
+export const DOWNLOAD_APP = '/download-app';
+
 export const PLANS = '/plans';
 export const PLAN_ADD = `${PLANS}/${ADD}`;
 export const PLAN_EDIT = `${PLANS}/${EDIT}/${UUID_PARAM}`;
