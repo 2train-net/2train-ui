@@ -11,7 +11,6 @@ import { MasterList } from 'shared/modules';
 import { AuthContext } from 'shared/contexts';
 import { useGetWorkoutsQuery, UserType, WorkoutWhereInput } from 'shared/generated';
 import { WorkoutRoutineService } from 'shared/services';
-import { EMAIL_TEXT, LAST_NAME_TEXT, NAME_TEXT } from 'shared/constants';
 
 const WorkoutList: FC = () => {
   const { user } = useContext(AuthContext);
@@ -26,11 +25,6 @@ const WorkoutList: FC = () => {
       render={WorkoutCard}
       useQuery={useGetWorkoutsQuery}
       isCreateButtonAvailable={isCustomerAndHasRoutine}
-      filters={[
-        { label: EMAIL_TEXT, value: 'user.email' },
-        { label: NAME_TEXT, value: 'user.firstName' },
-        { label: LAST_NAME_TEXT, value: 'user.lastName' },
-      ]}
     />
   );
 };

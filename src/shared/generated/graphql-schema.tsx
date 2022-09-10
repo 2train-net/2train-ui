@@ -98,6 +98,24 @@ export type ClientWhereUniqueInput = {
   uuid?: Maybe<Scalars['String']>;
 };
 
+export type Coach = {
+  __typename?: 'Coach';
+  uuid: Scalars['String'];
+  email: Scalars['String'];
+  username: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars['String']>;
+  gender?: Maybe<Gender>;
+};
+
+export type CoachWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+};
+
 export enum Currency {
   Us = 'US',
   Crc = 'CRC',
@@ -792,6 +810,17 @@ export type PlanWhereUniqueInput = {
   uuid?: Maybe<Scalars['String']>;
 };
 
+export type Program = {
+  __typename?: 'Program';
+  uuid: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type ProgramWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+  uuid?: Maybe<Scalars['String']>;
+};
+
 export type PublicUser = {
   __typename?: 'PublicUser';
   email: Scalars['String'];
@@ -814,6 +843,10 @@ export type Query = {
   __typename?: 'Query';
   user: User;
   users: Array<User>;
+  coaches: Array<Coach>;
+  coach: Coach;
+  program: Program;
+  programs: Array<Program>;
   ingredient: Ingredient;
   ingredients: Array<Ingredient>;
   meal: Meal;
@@ -851,6 +884,28 @@ export type QueryUsersArgs = {
   cursor?: Maybe<UserWhereUniqueInput>;
   orderBy?: Maybe<UserOrderByInput>;
   where?: Maybe<UserWhereInput>;
+};
+
+export type QueryCoachesArgs = {
+  skip: Scalars['Int'];
+  take: Scalars['Int'];
+  cursor?: Maybe<CoachWhereUniqueInput>;
+  search?: Maybe<SearchInput>;
+};
+
+export type QueryCoachArgs = {
+  where: CoachWhereUniqueInput;
+};
+
+export type QueryProgramArgs = {
+  where: ProgramWhereUniqueInput;
+};
+
+export type QueryProgramsArgs = {
+  skip: Scalars['Int'];
+  take: Scalars['Int'];
+  cursor?: Maybe<ProgramWhereUniqueInput>;
+  search?: Maybe<SearchInput>;
 };
 
 export type QueryIngredientArgs = {
@@ -911,6 +966,7 @@ export type QueryPlansArgs = {
   cursor?: Maybe<PlanWhereUniqueInput>;
   orderBy?: Maybe<PlanOrderByInput>;
   where?: Maybe<PlanWhereInput>;
+  search?: Maybe<SearchInput>;
 };
 
 export type QueryExerciseArgs = {
@@ -923,6 +979,7 @@ export type QueryExercisesArgs = {
   cursor?: Maybe<ExerciseWhereUniqueInput>;
   orderBy?: Maybe<ExerciseOrderByInput>;
   where?: Maybe<ExerciseWhereInput>;
+  search?: Maybe<SearchInput>;
 };
 
 export type QueryPlanInvitationArgs = {
@@ -935,6 +992,7 @@ export type QueryPlanInvitationsArgs = {
   cursor?: Maybe<PlanInvitationWhereUniqueInput>;
   orderBy?: Maybe<PlanInvitationOrderByInput>;
   where?: Maybe<PlanInvitationWhereInput>;
+  search?: Maybe<SearchInput>;
 };
 
 export type QueryClientArgs = {
@@ -947,6 +1005,7 @@ export type QueryClientsArgs = {
   cursor?: Maybe<ClientWhereUniqueInput>;
   orderBy?: Maybe<ClientOrderByInput>;
   where?: Maybe<ClientWhereInput>;
+  search?: Maybe<SearchInput>;
 };
 
 export type QueryWorkoutRoutineArgs = {
@@ -959,6 +1018,7 @@ export type QueryWorkoutRoutinesArgs = {
   cursor?: Maybe<WorkoutRoutineWhereUniqueInput>;
   orderBy?: Maybe<WorkoutRoutineOrderByInput>;
   where?: Maybe<WorkoutRoutineWhereInput>;
+  search?: Maybe<SearchInput>;
 };
 
 export type QueryWorkoutArgs = {
@@ -1004,6 +1064,10 @@ export enum Scope {
   Public = 'PUBLIC',
   Private = 'PRIVATE',
 }
+
+export type SearchInput = {
+  value: Scalars['String'];
+};
 
 export type Training = {
   __typename?: 'Training';
@@ -1366,6 +1430,7 @@ export type GetClientsQueryVariables = Exact<{
   take: Scalars['Int'];
   order: ClientOrderByInput;
   where?: Maybe<ClientWhereInput>;
+  search?: Maybe<SearchInput>;
 }>;
 
 export type GetClientsQuery = { __typename?: 'Query' } & {
@@ -1412,6 +1477,7 @@ export type GetExercisesQueryVariables = Exact<{
   take: Scalars['Int'];
   order: ExerciseOrderByInput;
   where?: Maybe<ExerciseWhereInput>;
+  search?: Maybe<SearchInput>;
 }>;
 
 export type GetExercisesQuery = { __typename?: 'Query' } & {
@@ -1557,6 +1623,7 @@ export type GetPlanInvitationsQueryVariables = Exact<{
   take: Scalars['Int'];
   order: PlanInvitationOrderByInput;
   where?: Maybe<PlanInvitationWhereInput>;
+  search?: Maybe<SearchInput>;
 }>;
 
 export type GetPlanInvitationsQuery = { __typename?: 'Query' } & {
@@ -1649,6 +1716,7 @@ export type GetPlansQueryVariables = Exact<{
   skip: Scalars['Int'];
   order: PlanOrderByInput;
   where?: Maybe<PlanWhereInput>;
+  search?: Maybe<SearchInput>;
 }>;
 
 export type GetPlansQuery = { __typename?: 'Query' } & {
@@ -1789,6 +1857,7 @@ export type GetWorkoutRoutinesQueryVariables = Exact<{
   take: Scalars['Int'];
   order: WorkoutRoutineOrderByInput;
   where?: Maybe<WorkoutRoutineWhereInput>;
+  search?: Maybe<SearchInput>;
 }>;
 
 export type GetWorkoutRoutinesQuery = { __typename?: 'Query' } & {
@@ -2092,8 +2161,14 @@ export type GetClientQueryHookResult = ReturnType<typeof useGetClientQuery>;
 export type GetClientLazyQueryHookResult = ReturnType<typeof useGetClientLazyQuery>;
 export type GetClientQueryResult = ApolloReactCommon.QueryResult<GetClientQuery, GetClientQueryVariables>;
 export const GetClientsDocument = gql`
-  query getClients($skip: Int!, $take: Int!, $order: ClientOrderByInput!, $where: ClientWhereInput) {
-    payload: clients(skip: $skip, take: $take, orderBy: $order, where: $where) {
+  query getClients(
+    $skip: Int!
+    $take: Int!
+    $order: ClientOrderByInput!
+    $where: ClientWhereInput
+    $search: SearchInput
+  ) {
+    payload: clients(skip: $skip, take: $take, orderBy: $order, where: $where, search: $search) {
       uuid
       firstName
       lastName
@@ -2120,6 +2195,7 @@ export const GetClientsDocument = gql`
  *      take: // value for 'take'
  *      order: // value for 'order'
  *      where: // value for 'where'
+ *      search: // value for 'search'
  *   },
  * });
  */
@@ -2306,8 +2382,14 @@ export type GetExerciseQueryHookResult = ReturnType<typeof useGetExerciseQuery>;
 export type GetExerciseLazyQueryHookResult = ReturnType<typeof useGetExerciseLazyQuery>;
 export type GetExerciseQueryResult = ApolloReactCommon.QueryResult<GetExerciseQuery, GetExerciseQueryVariables>;
 export const GetExercisesDocument = gql`
-  query getExercises($skip: Int!, $take: Int!, $order: ExerciseOrderByInput!, $where: ExerciseWhereInput) {
-    payload: exercises(skip: $skip, take: $take, orderBy: $order, where: $where) {
+  query getExercises(
+    $skip: Int!
+    $take: Int!
+    $order: ExerciseOrderByInput!
+    $where: ExerciseWhereInput
+    $search: SearchInput
+  ) {
+    payload: exercises(skip: $skip, take: $take, orderBy: $order, where: $where, search: $search) {
       uuid
       name
       description
@@ -2332,6 +2414,7 @@ export const GetExercisesDocument = gql`
  *      take: // value for 'take'
  *      order: // value for 'order'
  *      where: // value for 'where'
+ *      search: // value for 'search'
  *   },
  * });
  */
@@ -3002,8 +3085,9 @@ export const GetPlanInvitationsDocument = gql`
     $take: Int!
     $order: PlanInvitationOrderByInput!
     $where: PlanInvitationWhereInput
+    $search: SearchInput
   ) {
-    payload: planInvitations(skip: $skip, take: $take, orderBy: $order, where: $where) {
+    payload: planInvitations(skip: $skip, take: $take, orderBy: $order, where: $where, search: $search) {
       uuid
       link
       plan {
@@ -3045,6 +3129,7 @@ export const GetPlanInvitationsDocument = gql`
  *      take: // value for 'take'
  *      order: // value for 'order'
  *      where: // value for 'where'
+ *      search: // value for 'search'
  *   },
  * });
  */
@@ -3309,8 +3394,8 @@ export type GetPlanQueryHookResult = ReturnType<typeof useGetPlanQuery>;
 export type GetPlanLazyQueryHookResult = ReturnType<typeof useGetPlanLazyQuery>;
 export type GetPlanQueryResult = ApolloReactCommon.QueryResult<GetPlanQuery, GetPlanQueryVariables>;
 export const GetPlansDocument = gql`
-  query getPlans($take: Int!, $skip: Int!, $order: PlanOrderByInput!, $where: PlanWhereInput) {
-    payload: plans(take: $take, skip: $skip, orderBy: $order, where: $where) {
+  query getPlans($take: Int!, $skip: Int!, $order: PlanOrderByInput!, $where: PlanWhereInput, $search: SearchInput) {
+    payload: plans(take: $take, skip: $skip, orderBy: $order, where: $where, search: $search) {
       uuid
       name
       price
@@ -3338,6 +3423,7 @@ export const GetPlansDocument = gql`
  *      skip: // value for 'skip'
  *      order: // value for 'order'
  *      where: // value for 'where'
+ *      search: // value for 'search'
  *   },
  * });
  */
@@ -3854,8 +3940,9 @@ export const GetWorkoutRoutinesDocument = gql`
     $take: Int!
     $order: WorkoutRoutineOrderByInput!
     $where: WorkoutRoutineWhereInput
+    $search: SearchInput
   ) {
-    payload: workoutRoutines(skip: $skip, take: $take, orderBy: $order, where: $where) {
+    payload: workoutRoutines(skip: $skip, take: $take, orderBy: $order, where: $where, search: $search) {
       uuid
       name
       isDraft
@@ -3879,6 +3966,7 @@ export const GetWorkoutRoutinesDocument = gql`
  *      take: // value for 'take'
  *      order: // value for 'order'
  *      where: // value for 'where'
+ *      search: // value for 'search'
  *   },
  * });
  */

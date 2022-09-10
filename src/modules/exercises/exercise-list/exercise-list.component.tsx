@@ -11,7 +11,7 @@ import {
 
 import { MasterList } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
-import { DELETE_MODAL, NAME_TEXT, DESCRIPTION_TEXT } from 'shared/constants';
+import { DELETE_MODAL } from 'shared/constants';
 import { EXERCISES, DELETE } from 'shared/routes';
 import { ExerciseWhereInput, useGetExercisesQuery, UserType } from 'shared/generated';
 
@@ -50,10 +50,6 @@ const ExerciseList: FC = () => {
       render={ExerciseCard}
       isCreateButtonAvailable={isPersonaTrainer}
       useQuery={useGetExercisesQuery}
-      filters={[
-        { label: NAME_TEXT, value: 'name' },
-        { label: DESCRIPTION_TEXT, value: 'description' },
-      ]}
     />
   );
 };

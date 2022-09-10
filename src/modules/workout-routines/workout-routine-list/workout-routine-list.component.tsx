@@ -11,7 +11,7 @@ import {
 
 import { MasterList } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
-import { DELETE_MODAL, NAME_TEXT } from 'shared/constants';
+import { DELETE_MODAL } from 'shared/constants';
 import { DELETE, WORKOUT_ROUTINES } from 'shared/routes';
 import { useGetWorkoutRoutinesQuery, UserType, WorkoutRoutineWhereInput } from 'shared/generated';
 
@@ -50,7 +50,6 @@ const ExerciseList: FC = () => {
       render={WorkoutRoutineCard}
       isCreateButtonAvailable={isPersonaTrainer}
       useQuery={useGetWorkoutRoutinesQuery}
-      filters={[{ label: NAME_TEXT, value: 'name' }]}
     />
   );
 };

@@ -3,8 +3,9 @@ query getWorkoutRoutines(
   $take: Int!
   $order: WorkoutRoutineOrderByInput!
   $where: WorkoutRoutineWhereInput
+  $search: SearchInput
 ) {
-  payload: workoutRoutines(skip: $skip, take: $take, orderBy: $order, where: $where) {
+  payload: workoutRoutines(skip: $skip, take: $take, orderBy: $order, where: $where, search: $search) {
     uuid
     name
     isDraft

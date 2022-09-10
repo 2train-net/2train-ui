@@ -1,5 +1,11 @@
-query getExercises($skip: Int!, $take: Int!, $order: ExerciseOrderByInput!, $where: ExerciseWhereInput) {
-  payload: exercises(skip: $skip, take: $take, orderBy: $order, where: $where) {
+query getExercises(
+  $skip: Int!
+  $take: Int!
+  $order: ExerciseOrderByInput!
+  $where: ExerciseWhereInput
+  $search: SearchInput
+) {
+  payload: exercises(skip: $skip, take: $take, orderBy: $order, where: $where, search: $search) {
     uuid
     name
     description

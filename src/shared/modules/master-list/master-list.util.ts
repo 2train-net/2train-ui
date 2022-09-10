@@ -10,8 +10,6 @@ import {
 
 import { OrderByArg } from 'shared/generated';
 
-import { Leaves } from 'shared/interfaces';
-
 export type Entity<T> = { uuid: string } & T;
 
 export interface IMasterComponent<T> {
@@ -42,14 +40,15 @@ export interface QueryVariables<K> {
     createdAt?: OrderByArg | null;
   };
   where?: K | null;
+  search?: { value: string } | null;
 }
 
 export interface IMasterList<T, K> {
+  searchable?: boolean;
   fetchPolicy?: WatchQueryFetchPolicy;
   title: string | string[];
   render: FC<IMasterComponent<T>>;
   isCreateButtonAvailable?: boolean;
-  filters?: Array<{ label: string; value: Leaves<K, 3> }>;
   useQuery: (
     options: QueryHookOptions<QueryPayload<T>, QueryVariables<K>>
   ) => QueryResult<QueryPayload<T>, QueryVariables<K>>;
@@ -58,9 +57,8 @@ export interface IMasterList<T, K> {
   ) => MutationTuple<MutationDeletePayload, MutationDeleteVariables>;
 }
 
-export interface ISearchForm<K> {
+export interface ISearchForm {
   search: string;
-  filter: Leaves<K, 3>;
   take: number;
 }
 
