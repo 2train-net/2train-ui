@@ -3,5 +3,9 @@ query getAllExercises {
     uuid
     name
     description
+    muscleGroups
+    user {
+      uuid
+    }
   }
 }

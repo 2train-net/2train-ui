@@ -17,6 +17,10 @@ mutation updateWorkoutRoutine($data: WorkoutRoutineUpdateInput!, $where: Workout
         uuid
         name
         description
+        muscleGroups
+        user {
+          uuid
+        }
       }
     }
   }

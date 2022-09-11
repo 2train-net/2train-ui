@@ -17,7 +17,7 @@ import { useErrorHandler } from 'shared/hooks';
 import { MasterList, Message } from 'shared/modules';
 import { AuthContext, ModalContext } from 'shared/contexts';
 import { PLANS, INVITE, PLAN_INVITATIONS } from 'shared/routes';
-import { COPY_ON_CLIPBOARD_SUCCESSFULLY_TEXT, NAME_TEXT } from 'shared/constants';
+import { COPY_ON_CLIPBOARD_SUCCESSFULLY_TEXT } from 'shared/constants';
 import {
   PlanWhereInput,
   useCreatePlanInvitationMutation,
@@ -102,7 +102,6 @@ const PlanList: FC = () => {
       isCreateButtonAvailable={isPersonalTrainer}
       useQuery={useGetPlansQuery}
       useDeleteMutation={useDeletePlanMutation}
-      filters={[{ label: NAME_TEXT, value: 'name' }]}
     />
   );
 };

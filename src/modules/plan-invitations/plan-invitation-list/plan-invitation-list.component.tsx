@@ -12,7 +12,7 @@ import {
 import { MasterList } from 'shared/modules';
 import { DELETE, PLAN_INVITATIONS } from 'shared/routes';
 import { AuthContext, ModalContext } from 'shared/contexts';
-import { DELETE_MODAL, EMAIL_TEXT, NAME_TEXT, PLAN_TEXT } from 'shared/constants';
+import { DELETE_MODAL } from 'shared/constants';
 import { PlanInvitationWhereInput, useGetPlanInvitationsQuery, UserType } from 'shared/generated';
 
 const PlanInvitationList: FC = () => {
@@ -50,11 +50,6 @@ const PlanInvitationList: FC = () => {
       render={PlanInvitationCard}
       isCreateButtonAvailable={isPersonalTrainer}
       useQuery={useGetPlanInvitationsQuery}
-      filters={[
-        { label: EMAIL_TEXT, value: 'user.email' },
-        { label: NAME_TEXT, value: 'user.firstName' },
-        { label: PLAN_TEXT, value: 'plan.name' },
-      ]}
     />
   );
 };

@@ -69,8 +69,8 @@ const ListCard: FC<IListCard> = ({
 
   return (
     <div style={{ display: 'flex' }}>
-      {image && <img style={{ width: 114, height: 114, marginRight: -1, zIndex: 0 }} src={image || ''} />}
-      <Card style={{ width: image ? 186 : 300 }} actions={cardActions} bordered={!image}>
+      {image && <img style={{ width: 144, height: 144, marginRight: -1, zIndex: 0 }} src={image || ''} />}
+      <Card style={{ width: image ? 240 : 300 }} actions={cardActions} bordered={!image}>
         <div style={{ display: 'flex' }}>
           {leftContent && <div style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: 16 }}>{leftContent}</div>}
           <Meta title={title} description={description} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }} />

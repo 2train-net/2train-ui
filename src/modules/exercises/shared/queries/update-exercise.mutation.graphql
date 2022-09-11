@@ -2,5 +2,6 @@ mutation updateExercise($where: ExerciseWhereUniqueInput!, $data: ExerciseUpdate
   payload: updateExercise(where: $where, data: $data) {
     name
     description
+    muscleGroups
   }
 }

@@ -5,5 +5,8 @@ query getExercise($where: ExerciseWhereUniqueInput!) {
     image
     video
     muscleGroups
+    user {
+      uuid
+    }
   }
 }

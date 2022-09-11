@@ -113,7 +113,7 @@ const ChangePassword: FC = () => {
           />
 
           <Item className="submit-button" style={{ textAlign: 'center' }}>
-            <Button type="submit" size="medium" color="secondary" disabled={isLoading} loading={isLoading}>
+            <Button type="submit" disabled={isLoading} loading={isLoading}>
               {SAVE_TEXT}
             </Button>
           </Item>

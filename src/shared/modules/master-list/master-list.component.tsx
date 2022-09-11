@@ -23,8 +23,8 @@ const { Text } = Typography;
 
 const MasterList = <T, K = unknown>({
   title,
-  filters = [],
   render: Component,
+  searchable = true,
   isCreateButtonAvailable = true,
   fetchPolicy = 'cache-and-network',
   useQuery,
@@ -40,7 +40,6 @@ const MasterList = <T, K = unknown>({
 
   const modalProvider = useContext(ModalContext);
 
-  const [firstFilter] = filters;
   const [firstTake] = entriesPerPage;
 
   const [skip, setSkip] = useState(0);
@@ -50,20 +49,16 @@ const MasterList = <T, K = unknown>({
 
   const [deleteEntity, deleteEntityPayload] = useDeleteMutation();
 
-  const { values, setFieldValue, handleChange } = useFormik<ISearchForm<K>>({
+  const { values, setFieldValue, handleChange } = useFormik<ISearchForm>({
     onSubmit: () => {},
     initialValues: {
       search: '',
       take: firstTake?.value,
-      filter: firstFilter?.value,
     },
   });
 
-  const { take, filter, search } = values;
-
-  // TODO CURRENTLY WE ONLY SUPPORT STRING TYPE FILTERING, DOUBLE CHECK API REQUEST ARGS NOT USE OTHER TYPE LIKE INT OR BOOLEAN
-
-  const where = _.set<K>({}, filter, filterSearch);
+  const pageHeaderActions = [];
+  const { take, search } = values;
 
   const {
     data = { payload: [] },
@@ -73,7 +68,7 @@ const MasterList = <T, K = unknown>({
     refetch,
   } = useQuery({
     fetchPolicy,
-    variables: { take, order, skip: 0, where: filterSearch ? where : undefined },
+    variables: { take, order, skip: 0, search: filterSearch ? { value: filterSearch } : undefined },
   });
 
   const error = queryError || deleteEntityPayload?.error;
@@ -83,7 +78,9 @@ const MasterList = <T, K = unknown>({
 
   useErrorHandler(error);
 
-  const loadMore = async () => {
+  const notifyFilterSearch = useCallback(debounce(setFilterSearch, DEBOUNCE_SEARCH_TIMEOUT), []);
+
+  const loadMore = useCallback(async () => {
     const nextSkip = skip + take;
 
     await fetchMore({
@@ -101,13 +98,13 @@ const MasterList = <T, K = unknown>({
     });
 
     setSkip(nextSkip);
-  };
+  }, [skip, take, setSkip]);
 
-  const reload = () => {
+  const reload = useCallback(() => {
     refetch({ take, order, skip: 0 });
-  };
+  }, [take, order, refetch]);
 
-  const displayDeleteConfirmation = () => {
+  const displayDeleteConfirmation = useCallback(() => {
     if (deleteEntity) {
       modalProvider.show({
         ...DELETE_MODAL,
@@ -125,11 +122,7 @@ const MasterList = <T, K = unknown>({
         },
       });
     }
-  };
-
-  const pageHeaderActions = [];
-
-  const notifyFilterSearch = useCallback(debounce(setFilterSearch, DEBOUNCE_SEARCH_TIMEOUT), []);
+  }, [uuid, modalProvider, deleteEntity]);
 
   useEffect(() => {
     const { pathname } = location;
@@ -144,16 +137,13 @@ const MasterList = <T, K = unknown>({
     notifyFilterSearch(search);
   }, [search]);
 
-  if (filters.length) {
+  if (searchable) {
     pageHeaderActions.push(
       <Row key="search-bar" className="search-bar">
-        <Col xs={8} md={5}>
+        <Col xs={8}>
           <Select name="take" setFieldValue={setFieldValue} options={entriesPerPage} value={take} />
         </Col>
-        <Col xs={16} md={9}>
-          <Select name="filter" setFieldValue={setFieldValue} options={filters} value={filter} />
-        </Col>
-        <Col xs={24} md={10}>
+        <Col xs={16}>
           <Field name="search" placeholder={SEARCH_TEXT} onChange={handleChange} value={search} clearable />
         </Col>
       </Row>
