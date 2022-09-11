@@ -17,6 +17,7 @@ import { DESCRIPTION_TEXT, NAME_TEXT, SAVE_TEXT } from 'shared/constants';
 interface IExerciseForm {
   fullWidth?: boolean;
   isLoading: boolean;
+  isDisabled?: boolean;
   initialValues?: IExerciseFormValues;
   enableSubmitButton?: boolean;
   onSubmit: (data: IExerciseFormValues) => any;
@@ -25,6 +26,7 @@ interface IExerciseForm {
 const ExerciseForm: FC<IExerciseForm> = ({
   fullWidth = false,
   isLoading,
+  isDisabled,
   initialValues = INITIAL_EXERCISE_VALUES,
   onSubmit,
   enableSubmitButton = false,
@@ -36,6 +38,7 @@ const ExerciseForm: FC<IExerciseForm> = ({
     enableReinitialize: true,
   });
 
+  const disabled = isLoading || isDisabled;
   const muscleGroups = [...Object.values(MuscleGroup)];
 
   const haveValuesChanged = !Object.keys(objectDifferences(initialValues, values)).length;
@@ -51,7 +54,7 @@ const ExerciseForm: FC<IExerciseForm> = ({
             value={values.name}
             error={errors.name}
             placeholder={NAME_TEXT}
-            isDisabled={isLoading}
+            isDisabled={disabled}
             hasBeenTouched={touched.name}
             onChange={handleChange}
           />
@@ -60,7 +63,7 @@ const ExerciseForm: FC<IExerciseForm> = ({
             name="description"
             value={values.description}
             error={errors.description}
-            isDisabled={isLoading}
+            isDisabled={disabled}
             placeholder={DESCRIPTION_TEXT}
             hasBeenTouched={touched.description}
             onChange={handleChange}
@@ -71,7 +74,7 @@ const ExerciseForm: FC<IExerciseForm> = ({
             value={values.image}
             error={errors.image}
             placeholder={IMAGE_TEXT}
-            isDisabled={isLoading}
+            isDisabled={disabled}
             hasBeenTouched={touched.image}
             onChange={handleChange}
           />
@@ -81,7 +84,7 @@ const ExerciseForm: FC<IExerciseForm> = ({
             value={values.video}
             error={errors.video}
             placeholder={VIDEO_TEXT}
-            isDisabled={isLoading}
+            isDisabled={disabled}
             hasBeenTouched={touched.video}
             onChange={handleChange}
           />
@@ -95,18 +98,14 @@ const ExerciseForm: FC<IExerciseForm> = ({
             }))}
             value={values.muscleGroups}
             error={errors.muscleGroups as string}
-            isDisabled={isLoading}
+            isDisabled={disabled}
             placeholder={MUSCLE_GROUPS_TEXT}
             hasBeenTouched={touched.muscleGroups}
             setFieldValue={setFieldValue}
           />
 
           <Form.Item className="submit-button" style={{ textAlign: 'center' }}>
-            <Button
-              type="submit"
-              disabled={(haveValuesChanged || isLoading) && !enableSubmitButton}
-              loading={isLoading}
-            >
+            <Button type="submit" disabled={(haveValuesChanged || disabled) && !enableSubmitButton} loading={isLoading}>
               {SAVE_TEXT}
             </Button>
           </Form.Item>

@@ -5,6 +5,7 @@ import { Card, Typography, Divider } from 'antd';
 import { Icon, Skeleton } from 'shared/modules';
 
 import useStyles from './profile-detail.style';
+import { NONE_TEXT } from 'shared/constants';
 
 export interface IItemList<T> {
   label: string;
@@ -29,7 +30,7 @@ const ProfileDetail = <T,>({
   title = '',
   description = '',
   itemList = [],
-  isLoading = false
+  isLoading = false,
 }: PropsWithChildren<IProfileDetail<T>>) => {
   const classes = useStyles();
 
@@ -62,7 +63,7 @@ const ProfileDetail = <T,>({
                 <Text strong type="secondary">
                   {label}
                 </Text>
-                <Text>{data ? (formatter ? formatter(data[key]) : data[key]) : ''}</Text>
+                <Text>{data?.[key] ? (formatter ? formatter(data[key]) : data[key]) : NONE_TEXT}</Text>
               </Skeleton>
             </div>
           ))}

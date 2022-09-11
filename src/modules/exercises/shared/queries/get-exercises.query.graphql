@@ -10,5 +10,9 @@ query getExercises(
     name
     description
     image
+    muscleGroups
+    user {
+      uuid
+    }
   }
 }

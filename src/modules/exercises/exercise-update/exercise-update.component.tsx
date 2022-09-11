@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 
 import { Redirect } from 'react-router';
 import { useHistory, useRouteMatch } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 import { ExerciseForm, IExerciseFormValues, UPDATE_EXERCISE_TITLE } from 'modules/exercises/exercises.module';
 
 import { FormPage } from 'shared/modules';
+import { AuthContext } from 'shared/contexts';
 import { EXERCISES, NOT_FOUND } from 'shared/routes';
 import { arrayDifferences, objectDifferences } from 'shared/util';
 import { useErrorHandler } from 'shared/hooks';
@@ -16,6 +17,7 @@ const ExerciseUpdate: FC = () => {
   const {
     params: { uuid },
   } = useRouteMatch<{ uuid: string }>();
+  const { user } = useContext(AuthContext);
 
   const where = { uuid };
 
@@ -37,6 +39,7 @@ const ExerciseUpdate: FC = () => {
     muscleGroups: muscleGroups.map((muscleGroup) => muscleGroup),
   };
 
+  const isDisabled = user?.uuid !== exerciseInfo?.user?.uuid;
   const notFound = !exercisePayload.data?.payload && !exercisePayload.loading;
 
   const redirectToExercises = () => {
@@ -82,6 +85,7 @@ const ExerciseUpdate: FC = () => {
     <FormPage title={UPDATE_EXERCISE_TITLE}>
       <ExerciseForm
         onSubmit={onSubmit}
+        isDisabled={isDisabled}
         initialValues={exercisePayload.data?.payload}
         isLoading={exercisePayload.loading || updateExercisePayload.loading}
       />

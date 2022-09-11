@@ -17,10 +17,7 @@ const ClientCard: FC<IClientCard> = ({ data }) => {
     <ListCard
       uuid={data.uuid}
       title={`${data.firstName} ${data.lastName}`}
-      description={`
-        ${data.email}
-        ${data.phone}
-      `}
+      description={data.email}
       leftContent={
         <Avatar size="large" url={data.avatar} letter={UserService.getAvatarLetters(data.firstName, data.lastName)} />
       }

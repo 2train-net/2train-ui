@@ -3,5 +3,9 @@ mutation createExercise($data: ExerciseCreateInput!) {
     uuid
     name
     description
+    muscleGroups
+    user {
+      uuid
+    }
   }
 }

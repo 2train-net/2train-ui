@@ -1031,6 +1031,7 @@ export type QueryWorkoutsArgs = {
   cursor?: Maybe<WorkoutWhereUniqueInput>;
   orderBy?: Maybe<WorkoutOrderByInput>;
   where?: Maybe<WorkoutWhereInput>;
+  search?: Maybe<SearchInput>;
 };
 
 export type QueryTrainingArgs = {
@@ -1461,7 +1462,9 @@ export type CreateExerciseMutationVariables = Exact<{
 }>;
 
 export type CreateExerciseMutation = { __typename?: 'Mutation' } & {
-  payload: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'>;
+  payload: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description' | 'muscleGroups'> & {
+      user: { __typename?: 'User' } & Pick<User, 'uuid'>;
+    };
 };
 
 export type GetExerciseQueryVariables = Exact<{
@@ -1469,7 +1472,9 @@ export type GetExerciseQueryVariables = Exact<{
 }>;
 
 export type GetExerciseQuery = { __typename?: 'Query' } & {
-  payload: { __typename?: 'Exercise' } & Pick<Exercise, 'name' | 'description' | 'image' | 'video' | 'muscleGroups'>;
+  payload: { __typename?: 'Exercise' } & Pick<Exercise, 'name' | 'description' | 'image' | 'video' | 'muscleGroups'> & {
+      user: { __typename?: 'User' } & Pick<User, 'uuid'>;
+    };
 };
 
 export type GetExercisesQueryVariables = Exact<{
@@ -1481,7 +1486,11 @@ export type GetExercisesQueryVariables = Exact<{
 }>;
 
 export type GetExercisesQuery = { __typename?: 'Query' } & {
-  payload: Array<{ __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description' | 'image'>>;
+  payload: Array<
+    { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description' | 'image' | 'muscleGroups'> & {
+        user: { __typename?: 'User' } & Pick<User, 'uuid'>;
+      }
+  >;
 };
 
 export type UpdateExerciseMutationVariables = Exact<{
@@ -1490,7 +1499,7 @@ export type UpdateExerciseMutationVariables = Exact<{
 }>;
 
 export type UpdateExerciseMutation = { __typename?: 'Mutation' } & {
-  payload: { __typename?: 'Exercise' } & Pick<Exercise, 'name' | 'description'>;
+  payload: { __typename?: 'Exercise' } & Pick<Exercise, 'name' | 'description' | 'muscleGroups'>;
 };
 
 export type CreateMealMutationVariables = Exact<{
@@ -1819,7 +1828,11 @@ export type CreateWorkoutRoutineMutation = { __typename?: 'Mutation' } & {
 export type GetAllExercisesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAllExercisesQuery = { __typename?: 'Query' } & {
-  payload: Array<{ __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'>>;
+  payload: Array<
+    { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description' | 'muscleGroups'> & {
+        user: { __typename?: 'User' } & Pick<User, 'uuid'>;
+      }
+  >;
 };
 
 export type GetAllWorkoutRoutinesQueryVariables = Exact<{ [key: string]: never }>;
@@ -1831,7 +1844,12 @@ export type GetAllWorkoutRoutinesQuery = { __typename?: 'Query' } & {
           { __typename?: 'WorkoutExercise' } & Pick<
             WorkoutExercise,
             'uuid' | 'sets' | 'reps' | 'weight' | 'seconds' | 'day' | 'comments' | 'unitMeasure' | 'order'
-          > & { exercise: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'> }
+          > & {
+              exercise: { __typename?: 'Exercise' } & Pick<
+                Exercise,
+                'uuid' | 'name' | 'description' | 'muscleGroups'
+              > & { user: { __typename?: 'User' } & Pick<User, 'uuid'> };
+            }
         >;
       }
   >;
@@ -1847,7 +1865,11 @@ export type GetWorkoutRoutineQuery = { __typename?: 'Query' } & {
         { __typename?: 'WorkoutExercise' } & Pick<
           WorkoutExercise,
           'uuid' | 'sets' | 'reps' | 'weight' | 'seconds' | 'day' | 'comments' | 'unitMeasure' | 'order'
-        > & { exercise: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'> }
+        > & {
+            exercise: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description' | 'muscleGroups'> & {
+                user: { __typename?: 'User' } & Pick<User, 'uuid'>;
+              };
+          }
       >;
     };
 };
@@ -1886,7 +1908,11 @@ export type UpdateWorkoutRoutineMutation = { __typename?: 'Mutation' } & {
         { __typename?: 'WorkoutExercise' } & Pick<
           WorkoutExercise,
           'uuid' | 'sets' | 'reps' | 'weight' | 'seconds' | 'day' | 'comments' | 'order'
-        > & { exercise: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description'> }
+        > & {
+            exercise: { __typename?: 'Exercise' } & Pick<Exercise, 'uuid' | 'name' | 'description' | 'muscleGroups'> & {
+                user: { __typename?: 'User' } & Pick<User, 'uuid'>;
+              };
+          }
       >;
     };
 };
@@ -2301,6 +2327,10 @@ export const CreateExerciseDocument = gql`
       uuid
       name
       description
+      muscleGroups
+      user {
+        uuid
+      }
     }
   }
 `;
@@ -2348,6 +2378,9 @@ export const GetExerciseDocument = gql`
       image
       video
       muscleGroups
+      user {
+        uuid
+      }
     }
   }
 `;
@@ -2394,6 +2427,10 @@ export const GetExercisesDocument = gql`
       name
       description
       image
+      muscleGroups
+      user {
+        uuid
+      }
     }
   }
 `;
@@ -2439,6 +2476,7 @@ export const UpdateExerciseDocument = gql`
     payload: updateExercise(where: $where, data: $data) {
       name
       description
+      muscleGroups
     }
   }
 `;
@@ -3766,6 +3804,10 @@ export const GetAllExercisesDocument = gql`
       uuid
       name
       description
+      muscleGroups
+      user {
+        uuid
+      }
     }
   }
 `;
@@ -3826,6 +3868,10 @@ export const GetAllWorkoutRoutinesDocument = gql`
           uuid
           name
           description
+          muscleGroups
+          user {
+            uuid
+          }
         }
       }
     }
@@ -3890,6 +3936,10 @@ export const GetWorkoutRoutineDocument = gql`
           uuid
           name
           description
+          muscleGroups
+          user {
+            uuid
+          }
         }
       }
     }
@@ -4058,6 +4108,10 @@ export const UpdateWorkoutRoutineDocument = gql`
           uuid
           name
           description
+          muscleGroups
+          user {
+            uuid
+          }
         }
       }
     }

@@ -17,7 +17,8 @@ import {
   GENDER_TEXT,
   DEFAULT_SERVER_DATE_FORMAT,
   PHONE_TEXT,
-  PLANS_TEXT
+  PLANS_TEXT,
+  NONE_TEXT,
 } from 'shared/constants';
 import { useGetClientQuery } from 'shared/generated';
 
@@ -26,7 +27,7 @@ import useStyles from './client-detail.style';
 const ClientDetail: FC = () => {
   const classes = useStyles();
   const {
-    params: { uuid }
+    params: { uuid },
   } = useRouteMatch<{ uuid: string }>();
 
   const history = useHistory();
@@ -34,9 +35,9 @@ const ClientDetail: FC = () => {
   const { data, loading, error } = useGetClientQuery({
     variables: {
       where: {
-        uuid
-      }
-    }
+        uuid,
+      },
+    },
   });
 
   const redirect = history.push;
@@ -57,18 +58,18 @@ const ClientDetail: FC = () => {
           title={client ? `${client.firstName} ${client.lastName}` : ''}
           description={client ? `@${client.username}` : ''}
           itemList={[
-            { key: 'email', label: EMAIL_TEXT },
-            { key: 'phone', label: PHONE_TEXT },
+            { key: 'email', label: EMAIL_TEXT ?? NONE_TEXT },
+            { key: 'phone', label: PHONE_TEXT ?? NONE_TEXT },
             {
               key: 'birthday',
-              label: BIRTHDAY_TEXT,
-              formatter: date => DateService.format(date)
+              label: BIRTHDAY_TEXT ?? NONE_TEXT,
+              formatter: (date) => DateService.format(date),
             },
             {
               key: 'gender',
-              label: GENDER_TEXT,
-              formatter: UserService.parseGender
-            }
+              label: GENDER_TEXT ?? NONE_TEXT,
+              formatter: UserService.parseGender,
+            },
           ]}
         />
       </Col>
@@ -83,7 +84,7 @@ const ClientDetail: FC = () => {
               ${DateService.format(startAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)} -
               ${DateService.format(expireAt, DEFAULT_DATE_FORMAT, DEFAULT_SERVER_DATE_FORMAT)}
             `,
-              onDetail: () => redirect(`${PLANS}/${DETAIL}/${uuid}`)
+              onDetail: () => redirect(`${PLANS}/${DETAIL}/${uuid}`),
             }))}
             tabBarStyle={{ paddingLeft: 24, paddingRight: 24 }}
           />

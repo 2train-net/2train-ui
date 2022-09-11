@@ -18,6 +18,10 @@ query getWorkoutRoutine($where: WorkoutRoutineWhereUniqueInput!) {
         uuid
         name
         description
+        muscleGroups
+        user {
+          uuid
+        }
       }
     }
   }
